@@ -76,12 +76,14 @@ jobs:
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
 
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,public,framework,logs}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,framework,logs}
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/app/{public}
             mkdir -p ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-            chmod -R 0777 ${{ secrets.DROPLET_PATH }}/storage
-            chmod -R 0777 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/storage
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/storage
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/cache
 
   run-before-hooks:
     name: Before hook

@@ -27,6 +27,9 @@ jobs:
         php-version: 8.2
         extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom
 
+    - name: Install required PHP extensions
+      run: sudo apt-get install -y php8.2-xml
+
     - name: Composer install
       run: |
         composer install --no-dev --no-interaction --prefer-dist

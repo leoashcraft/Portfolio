@@ -74,11 +74,14 @@ jobs:
           script: |
             mkdir -p "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
-            rm -rf ${{ secrets.DROPLEt_PATH }}/releases/${GITHUB_SHA}/storage
+            rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
 
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,public,framework,logs}
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/app/{public}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/bootstrap/cache
             chmod -R 0777 ${{ secrets.DROPLET_PATH }}/storage
+            chmod -R 0777 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
 
   run-before-hooks:
     name: Before hook
@@ -100,7 +103,12 @@ jobs:
         port: ${{ secrets.DROPLET_PORT }}
         envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
         script: |
-          echo Before.
+          # Ensure composer dependencies are installed
+          cd $RELEASE_PATH
+          composer install --no-dev --no-interaction --prefer-dist
+          
+          # Run database migrations
+          php artisan migrate
 
   activate-release:
     name: Activate release

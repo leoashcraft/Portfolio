@@ -87,7 +87,7 @@
         </div>
 
 @include('layouts._footer')
-Test
+
     </div>
     <!-- App End -->
 

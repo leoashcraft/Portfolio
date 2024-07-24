@@ -106,8 +106,8 @@ jobs:
         envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
         script: |
           cd $RELEASE_PATH
-          sudo -u www-data composer install --no-dev --no-interaction --prefer-dist
-          sudo -u www-data php artisan migrate
+          sudo composer install --no-dev --no-interaction --prefer-dist
+          sudo php artisan migrate
 
   activate-release:
     name: Activate release

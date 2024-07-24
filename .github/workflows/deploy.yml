@@ -8,8 +8,6 @@ jobs:
   create-deployment-artifacts:
     name: Create deployment artifacts
     runs-on: ubuntu-latest
-    outputs:
-      DEPLOYMENT_MATRIX: ${{ steps.export-deployment-matrix.outputs.DEPLOYMENT_MATRIX }}
     steps:
     - uses: actions/checkout@v3
 
@@ -44,22 +42,10 @@ jobs:
         name: app-build
         path: ${{ github.sha }}.tar.gz
 
-    - name: Export deployment matrix
-      id: export-deployment-matrix
-      run: |
-        delimiter="$(openssl rand -hex 8)"
-        JSON="$(cat ./.github/workflows/servers.json)"
-        echo "DEPLOYMENT_MATRIX<<${delimiter}" >> "${GITHUB_OUTPUT}"
-        echo "$JSON" >> "${GITHUB_OUTPUT}"
-        echo "${delimiter}" >> "${GITHUB_OUTPUT}"
-
   prepare-release-on-servers:
-    name: "${{ matrix.server.name }}: Prepare release"
+    name: Prepare release on server
     runs-on: ubuntu-latest
     needs: create-deployment-artifacts
-    strategy:
-      matrix:
-        server: ${{ fromJson(needs.create-deployment-artifacts.outputs.DEPLOYMENT_MATRIX) }}
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -67,9 +53,119 @@ jobs:
       - name: Upload
         uses: appleboy/scp-action@master
         with:
-          host: ${{ matrix.server.ip }}
-          username: ${{ matrix.server.username }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ matrix.server.port }}
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          port: ${{ secrets.DROPLET_PORT }}
           source: ${{ github.sha }}.tar.gz
-          target: ${{ matrix.server.path }}/artifacts
+          target: ${{ secrets.DROPLET_PATH }}/artifacts
+      - name: Extract archive and create directories
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          port: ${{ secrets.DROPLET_PORT }}
+          envs: GITHUB_SHA
+          script: |
+            mkdir -p "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
+            tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
+            rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
+
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,public,framework,logs}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
+            chmod -R 0777 ${{ secrets.DROPLET_PATH }}/storage
+
+  run-before-hooks:
+    name: Before hook
+    runs-on: ubuntu-latest
+    needs: [ create-deployment-artifacts, prepare-release-on-servers ]
+    steps:
+    - name: Run before hooks
+      uses: appleboy/ssh-action@master
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+        RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/releases/${{ github.sha }}
+        ACTIVE_RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/current
+        STORAGE_PATH: ${{ secrets.DROPLET_PATH }}/storage
+        BASE_PATH: ${{ secrets.DROPLET_PATH }}
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USERNAME }}
+        password: ${{ secrets.DROPLET_PASSWORD }}
+        port: ${{ secrets.DROPLET_PORT }}
+        envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
+        script: |
+          chmod -R 0777 ${RELEASE_PATH}/storage
+          php artisan migrate
+
+  activate-release:
+    name: Activate release
+    runs-on: ubuntu-latest
+    needs: [ create-deployment-artifacts, prepare-release-on-servers, run-before-hooks ]
+    steps:
+      - name: Activate release
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/releases/${{ github.sha }}
+          ACTIVE_RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/current
+          STORAGE_PATH: ${{ secrets.DROPLET_PATH }}
+          BASE_PATH: ${{ secrets.DROPLET_PATH }}
+          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          port: ${{ secrets.DROPLET_PORT }}
+          envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH,LARAVEL_ENV
+          script: |
+            printf "%s" "$LARAVEL_ENV" > "${BASE_PATH}/.env"
+            ln -s -f ${BASE_PATH}/.env $RELEASE_PATH
+            ln -s -f $STORAGE_PATH $RELEASE_PATH
+            ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            service php8.2-fpm reload
+
+  run-after-hooks:
+    name: After hook
+    runs-on: ubuntu-latest
+    needs: [ create-deployment-artifacts, prepare-release-on-servers, run-before-hooks, activate-release ]
+    steps:
+      - name: Run after hooks
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/releases/${{ github.sha }}
+          ACTIVE_RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/current
+          STORAGE_PATH: ${{ secrets.DROPLET_PATH }}
+          BASE_PATH: ${{ secrets.DROPLET_PATH }}
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          port: ${{ secrets.DROPLET_PORT }}
+          envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
+          script: |
+            echo Done.
+
+  clean-up:
+    name: Clean up
+    runs-on: ubuntu-latest
+    needs: [ create-deployment-artifacts, prepare-release-on-servers, run-before-hooks, activate-release, run-after-hooks ]
+    steps:
+      - name: Clean up old releases
+        uses: appleboy/ssh-action@master
+        env:
+          RELEASES_PATH: ${{ secrets.DROPLET_PATH }}/releases
+          ARTIFACTS_PATH: ${{ secrets.DROPLET_PATH }}/artifacts
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          port: ${{ secrets.DROPLET_PORT }}
+          envs: RELEASES_PATH,ARTIFACTS_PATH
+          script: |
+            cd $RELEASES_PATH && ls -t -1 | tail -n +6 | xargs rm -rf
+            cd $ARTIFACTS_PATH && ls -t -1 | tail -n +6 | xargs rm -rf

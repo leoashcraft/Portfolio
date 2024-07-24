@@ -25,7 +25,7 @@ jobs:
       uses: shivammathur/setup-php@master
       with:
         php-version: 8.2
-        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom
 
     - name: Composer install
       run: |

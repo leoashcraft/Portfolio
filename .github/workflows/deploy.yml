@@ -59,6 +59,8 @@ jobs:
           port: ${{ secrets.DROPLET_PORT }}
           source: ${{ github.sha }}.tar.gz
           target: ${{ secrets.DROPLET_PATH }}/artifacts
+          timeout: 120s
+          command_timeout: 120s
       - name: Extract archive and create directories
         uses: appleboy/ssh-action@master
         env:
@@ -72,7 +74,7 @@ jobs:
           script: |
             mkdir -p "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
-            rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
+            rm -rf ${{ secrets.DROPLEt_PATH }}/releases/${GITHUB_SHA}/storage
 
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,public,framework,logs}
             mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}

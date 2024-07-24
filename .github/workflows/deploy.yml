@@ -2,7 +2,7 @@ name: Deploy Application
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   create-deployment-artifacts:
@@ -12,9 +12,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
     - name: Compile CSS and Javascript
       run: |
-        npm install
+        npm ci
         npm run prod
 
     - name: Configure PHP 8.2

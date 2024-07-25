@@ -111,6 +111,15 @@ jobs:
             ln -s -f $STORAGE_PATH $RELEASE_PATH
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             service php8.2-fpm reload
+            # Create necessary directories
+            mkdir -p /var/www/html/artifacts/current/storage/{app,framework,logs}
+            mkdir -p /var/www/html/artifacts/current/storage/framework/{cache,sessions,testing,views}
+            mkdir -p /var/www/html/artifacts/current/bootstrap/cache
+            chmod -R 775 /var/www/html/artifacts/current/storage
+            chmod -R 775 /var/www/html/artifacts/current/bootstrap/cache
+            chown -R www-data:www-data /var/www/html/artifacts/current/storage
+            chown -R www-data:www-data /var/www/html/artifacts/current/bootstrap/cache
+            composer install --no-dev --no-interaction --prefer-dist
 
   clean-up:
     name: Clean up

@@ -76,14 +76,6 @@ jobs:
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
 
-            mkdir -p /var/www/html/artifacts/current/storage/{app,framework,logs}
-            mkdir -p /var/www/html/artifacts/current/storage/framework/{cache,sessions,testing,views}
-            mkdir -p /var/www/html/artifacts/current/bootstrap/cache
-            chmod -R 775 /var/www/html/artifacts/current/storage
-            chmod -R 775 /var/www/html/artifacts/current/bootstrap/cache
-            chown -R www-data:www-data /var/www/html/artifacts/current/storage
-            chown -R www-data:www-data /var/www/html/artifacts/current/bootstrap/cache
-
   activate-release:
     name: Activate release
     runs-on: ubuntu-latest
@@ -110,6 +102,14 @@ jobs:
             ln -s -f $STORAGE_PATH $RELEASE_PATH
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             service php8.2-fpm reload
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,framework,logs}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/app/{public}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/bootstrap/cache
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/storage
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/storage
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/caches
 
   clean-up:
     name: Clean up

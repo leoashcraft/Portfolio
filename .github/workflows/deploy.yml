@@ -102,14 +102,14 @@ jobs:
             ln -s -f $STORAGE_PATH $RELEASE_PATH
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             service php8.2-fpm reload
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,framework,logs}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/app/{public}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-            chmod -R 775 ${{ secrets.DROPLET_PATH }}/storage
-            chmod -R 775 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/storage
-            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/cache
+            mkdir -p ${{ secrets.DROPLET_PATH }}/artifacts/storage/{app,framework,logs}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/artifacts/storage/framework/{cache,sessions,testing,views}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/artifacts/storage/app/{public}
+            mkdir -p ${{ secrets.DROPLET_PATH }}/artifacts/bootstrap/cache
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/artifacts/storage
+            chmod -R 775 ${{ secrets.DROPLET_PATH }}/artifacts/bootstrap/cache
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/artifacts/storage
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/artifacts/bootstrap/cache
 
   clean-up:
     name: Clean up

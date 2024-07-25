@@ -119,7 +119,6 @@ jobs:
             chmod -R 775 /var/www/html/artifacts/current/bootstrap/cache
             chown -R www-data:www-data /var/www/html/artifacts/current/storage
             chown -R www-data:www-data /var/www/html/artifacts/current/bootstrap/cache
-            composer install --no-dev --no-interaction --prefer-dist
 
   clean-up:
     name: Clean up

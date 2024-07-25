@@ -109,7 +109,7 @@ jobs:
             chmod -R 775 ${{ secrets.DROPLET_PATH }}/storage
             chmod -R 775 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
             chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/storage
-            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/caches
+            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/cache
 
   clean-up:
     name: Clean up

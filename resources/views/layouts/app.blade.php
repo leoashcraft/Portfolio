@@ -24,7 +24,15 @@
 
     <!-- Site Favicon
     ================================================== -->
-    <link rel="shortcut icon" href="{{ asset('img/pic.jpg') }}" sizes="any">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=1">
+    <link rel="manifest" href="/icons/site.webmanifest?v=1">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg?v=1" color="#222222">
+    <link rel="shortcut icon" href="/icons/favicon.ico?v=1">
+    <meta name="msapplication-TileColor" content="#222222">
+    <meta name="msapplication-config" content="/icons/browserconfig.xml?v=1">
+    <meta name="theme-color" content="#222222">
 
     <!-- Google Fonts
     ================================================== -->

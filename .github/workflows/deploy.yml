@@ -28,7 +28,7 @@ jobs:
       uses: shivammathur/setup-php@master
       with:
         php-version: 8.2
-        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring
+        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring, intl
 
     - name: Composer install
       run: |
@@ -93,28 +93,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ create-deployment-artifacts, prepare-release-on-servers ]
     steps:
-    - name: Ensure necessary directories and permissions
-      uses: appleboy/ssh-action@master
-      env:
-        RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/releases/${{ github.sha }}
-        STORAGE_PATH: ${{ secrets.DROPLET_PATH }}/storage
-        CACHE_PATH: ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-      with:
-        host: ${{ secrets.DROPLET_IP }}
-        username: ${{ secrets.DROPLET_USERNAME }}
-        password: ${{ secrets.DROPLET_PASSWORD }}
-        port: ${{ secrets.DROPLET_PORT }}
-        envs: RELEASE_PATH,STORAGE_PATH,CACHE_PATH
-        script: |
-          mkdir -p $STORAGE_PATH/{app,framework,logs}
-          mkdir -p $STORAGE_PATH/framework/{cache,sessions,testing,views}
-          mkdir -p $STORAGE_PATH/app/{public}
-          mkdir -p $CACHE_PATH
-          chmod -R 775 $STORAGE_PATH
-          chmod -R 775 $CACHE_PATH
-          chown -R www-data:www-data $STORAGE_PATH
-          chown -R www-data:www-data $CACHE_PATH
-
     - name: Run before hooks and install dependencies
       uses: appleboy/ssh-action@master
       env:

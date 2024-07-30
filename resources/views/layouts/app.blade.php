@@ -38,14 +38,10 @@
     ================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- All CSS Here
     ================================================== -->
-    <link rel="stylesheet" href="{{ asset('css/fontAwesome5Pro.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/cdheadline.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/all.css') }}">
 
 </head>
 
@@ -161,16 +157,7 @@ Test
 
     <!-- Js Library Start -->
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
-    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('js/waypoints.min.js') }}"></script>
-    <script src="{{ asset('js/tw-elements.umd.min.js') }}"></script>
-    <script src="{{ asset('js/cd-headline.js') }}"></script>
-    <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('js/scrollIt.min.js') }}"></script>
-    <script src="{{ asset('js/circle-progress.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
-    <script src="{{ asset('js/theme-mode.js') }}"></script>
+    <script src="{{ asset('js/all.js') }}"></script>
     <!-- Js Library End -->
 </body>
 

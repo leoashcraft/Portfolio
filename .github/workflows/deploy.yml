@@ -9,38 +9,38 @@ jobs:
     name: Create deployment artifacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-      - name: Compile CSS and Javascript
-        run: |
-          npm install
-          npm run build
+    - name: Install NPM dependencies
+      run: npm install
 
-      - name: Configure PHP 8.2
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: 8.2
-          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring, intl
+    - name: Compile CSS and Javascript
+      run: npm run build
 
-      - name: Composer install
-        run: |
-          composer install --no-dev --no-interaction --prefer-dist
+    - name: Configure PHP 8.2
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 8.2
+        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring
 
-      - name: Create deployment artifact
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-        run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
+    - name: Composer install
+      run: composer install --no-dev --no-interaction --prefer-dist
 
-      - name: Store artifact for distribution
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-build
-          path: ${{ github.sha }}.tar.gz
+    - name: Create deployment artifact
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+      run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
+
+    - name: Store artifact for distribution
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-build
+        path: ${{ github.sha }}.tar.gz
 
   prepare-release-on-servers:
     name: Prepare release on server
@@ -102,7 +102,7 @@ jobs:
             ln -s -f $STORAGE_PATH $RELEASE_PATH
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             service php8.2-fpm reload
-            # Create necessary directories and set permissions
+            # Create necessary directories
             mkdir -p /var/www/html/artifacts/current/storage/{app,framework,logs}
             mkdir -p /var/www/html/artifacts/current/storage/framework/{cache,sessions,testing,views}
             mkdir -p /var/www/html/artifacts/current/bootstrap/cache
@@ -110,11 +110,6 @@ jobs:
             chmod -R 775 /var/www/html/artifacts/current/bootstrap/cache
             chown -R www-data:www-data /var/www/html/artifacts/current/storage
             chown -R www-data:www-data /var/www/html/artifacts/current/bootstrap/cache
-            # Ensure composer dependencies are installed
-            cd $RELEASE_PATH
-            composer install --no-dev --no-interaction --prefer-dist
-            # Run database migrations
-            php artisan migrate
 
   clean-up:
     name: Clean up

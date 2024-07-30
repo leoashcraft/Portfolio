@@ -1,3 +1,5 @@
+const mix = require('laravel-mix');
+
 mix.setResourceRoot('https://static.leoashcraft.com')
    .styles([
        'resources/css/fontAwesome5Pro.css',

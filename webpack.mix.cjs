@@ -6,7 +6,6 @@ mix.setResourceRoot('https://static.leoashcraft.com')
        'resources/css/cdheadline.css',
        'resources/css/swiper-bundle.min.css',
        'resources/css/style.min.css',
-       'resources/css/font.css',
    ], 'public/css/all.css')
    .scripts([
        'resources/js/jquery-3.6.0.min.js',

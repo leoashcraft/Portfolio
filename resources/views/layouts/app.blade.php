@@ -24,14 +24,14 @@
 
     <!-- Site Favicon
     ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=1">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=1">
-    <link rel="manifest" href="/icons/site.webmanifest?v=1">
-    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg?v=1" color="#222222">
-    <link rel="shortcut icon" href="/icons/favicon.ico?v=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('app.static_url') }}/icons/apple-touch-icon.png?v=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('app.static_url') }}/icons/favicon-32x32.png?v=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('app.static_url') }}/icons/favicon-16x16.png?v=1">
+    <link rel="manifest" href="{{ config('app.static_url') }}/icons/site.webmanifest?v=1">
+    <link rel="mask-icon" href="{{ config('app.static_url') }}/icons/safari-pinned-tab.svg?v=1" color="#222222">
+    <link rel="shortcut icon" href="{{ config('app.static_url') }}/icons/favicon.ico?v=1">
     <meta name="msapplication-TileColor" content="#222222">
-    <meta name="msapplication-config" content="/icons/browserconfig.xml?v=1">
+    <meta name="msapplication-config" content="{{ config('app.static_url') }}/icons/browserconfig.xml?v=1">
     <meta name="theme-color" content="#222222">
 
     <!-- Google Fonts
@@ -41,7 +41,7 @@
 
     <!-- All CSS Here
     ================================================== -->
-    <link rel="stylesheet" href="{{ asset('css/all.css') }}">
+    <link rel="stylesheet" href="{{ config('app.static_url') }}/css/all.css">
 
 </head>
 
@@ -69,7 +69,7 @@
         <div class="loader_line"></div>
         <div
             class="absolute w-20 h-20 transition-all delay-300 -translate-x-1/2 -translate-y-1/2 logo top-1/2 left-1/2 flex-center">
-            <img src="{{ asset('img/intro-selfie.webp') }}" alt="Leo">
+            <img src="{{ config('app.static_url') }}/img/intro-selfie.webp" alt="Leo">
         </div>
     </div>
     <!-- App Preloader End -->
@@ -157,7 +157,7 @@ Test
 
     <!-- Js Library Start -->
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
-    <script src="{{ asset('js/all.js') }}"></script>
+    <script src="{{ config('app.static_url') }}/js/all.js"></script>
     <!-- Js Library End -->
 </body>
 

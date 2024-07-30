@@ -45,13 +45,13 @@
                             <div class="hero-image flex-[0_0_20.3rem] max-md:hidden">
                                 <!--
                                 <img 
-                                    src="{{ asset('img/hero-img-1.webp') }}" 
+                                    src="{{ config('app.static_url') }}/img/hero-img-1.webp" 
                                     class="dark:hidden" 
                                     class="hidden dark:block"
                                     alt="Hero Image - Light Mode">
                                 -->
                                 <img 
-                                    src="{{ asset('img/intro-selfie.webp') }}" 
+                                    src="{{ config('app.static_url') }}/img/intro-selfie.webp" 
                                     loading="lazy"
                                     alt="Hero Image - Dark Mode">
                             </div>
@@ -917,7 +917,7 @@
                                 <a href="https://github.com/leoashcraft/Personal-Family-Organizer" target="_blank"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/lists.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/lists.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -936,7 +936,7 @@
                                 <a href="https://github.com/leoashcraft/DOCX-Search-Replace-Python-Tool" target="_blank"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/docx-search-replace.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/docx-search-replace.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -955,7 +955,7 @@
                                 <a href="https://lindaleit.com" target="_blank"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/lindaleit.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/lindaleit.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -974,7 +974,7 @@
                                 <a href="https://github.com/leoashcraft/Home-Assistant" target="_blank"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/dashboard.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/dashboard.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -993,7 +993,7 @@
                                 <a href="https://bit.ly/radiodaddy-archive"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/radiodaddy.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/radiodaddy.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -1012,7 +1012,7 @@
                                 <a href="https://bit.ly/logobogo-archive"
                                     class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/logobogo.webp') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/logobogo.webp"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">
@@ -1029,7 +1029,7 @@
 
                             <div class="item md:col-span-2 group">
                                     <div class="img-wrapper">
-                                        <img src="{{ url('img/portfolio/amstel.gif') }}"
+                                        <img src="{{ config('app.static_url') }}/img/portfolio/amstel.gif"
                                             loading="lazy"
                                             class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                             alt="portfolio">

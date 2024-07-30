@@ -38,6 +38,8 @@
     ================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
 
     <!-- All CSS Here
     ================================================== -->
@@ -93,7 +95,7 @@
 @include('layouts._footer')
 Test
     </div>
-    <!-- App End -->
+    <!-- App End -->z
 
     <!-- Style Switcher Started
     <div class="style-switcher fixed right-0 top-1/2 -translate-y-1/2 translate-x-[15rem] w-[15rem] [&.active]:translate-x-0 transition z-[9999]">
@@ -123,8 +125,8 @@ Test
     Style Switcher End -->
 
     <!-- Js Library Start -->
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
     <script src="{{ config('app.static_url') }}/js/all.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
     <!-- Js Library End -->
 </body>
 

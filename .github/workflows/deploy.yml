@@ -9,41 +9,38 @@ jobs:
     name: Create deployment artifacts
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-    - name: Install dependencies
-      run: |
-        npm install
+      - name: Compile CSS and Javascript
+        run: |
+          npm install
+          npm run build
 
-    - name: Compile assets
-      run: |
-        npm run production
+      - name: Configure PHP 8.2
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 8.2
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring, intl
 
-    - name: Configure PHP 8.2
-      uses: shivammathur/setup-php@master
-      with:
-        php-version: 8.2
-        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom
+      - name: Composer install
+        run: |
+          composer install --no-dev --no-interaction --prefer-dist
 
-    - name: Composer install
-      run: |
-        composer install --no-dev --no-interaction --prefer-dist
+      - name: Create deployment artifact
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
 
-    - name: Create deployment artifact
-      env:
-        GITHUB_SHA: ${{ github.sha }}
-      run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
-
-    - name: Store artifact for distribution
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-build
-        path: ${{ github.sha }}.tar.gz
+      - name: Store artifact for distribution
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: ${{ github.sha }}.tar.gz
 
   prepare-release-on-servers:
     name: Prepare release on server
@@ -79,46 +76,10 @@ jobs:
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
 
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/{app,framework,logs}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/framework/{cache,sessions,testing,views}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/storage/app/{public}
-            mkdir -p ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-            chmod -R 775 ${{ secrets.DROPLET_PATH }}/storage
-            chmod -R 775 ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/storage
-            chown -R www-data:www-data ${{ secrets.DROPLET_PATH }}/bootstrap/cache
-
-  run-before-hooks:
-    name: Before hook
-    runs-on: ubuntu-latest
-    needs: [ create-deployment-artifacts, prepare-release-on-servers ]
-    steps:
-    - name: Run before hooks and install dependencies
-      uses: appleboy/ssh-action@master
-      env:
-        GITHUB_SHA: ${{ github.sha }}
-        RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/releases/${{ github.sha }}
-        ACTIVE_RELEASE_PATH: ${{ secrets.DROPLET_PATH }}/current
-        STORAGE_PATH: ${{ secrets.DROPLET_PATH }}/storage
-        BASE_PATH: ${{ secrets.DROPLET_PATH }}
-      with:
-        host: ${{ secrets.DROPLET_IP }}
-        username: ${{ secrets.DROPLET_USERNAME }}
-        password: ${{ secrets.DROPLET_PASSWORD }}
-        port: ${{ secrets.DROPLET_PORT }}
-        envs: GITHUB_SHA,RELEASE_PATH,ACTIVE_RELEASE_PATH,STORAGE_PATH,BASE_PATH
-        script: |
-          # Ensure composer dependencies are installed
-          cd $RELEASE_PATH
-          sudo -u www-data composer install --no-dev --no-interaction --prefer-dist
-          
-          # Run database migrations
-          php artisan migrate
-
   activate-release:
     name: Activate release
     runs-on: ubuntu-latest
-    needs: [ create-deployment-artifacts, prepare-release-on-servers, run-before-hooks ]
+    needs: [ create-deployment-artifacts, prepare-release-on-servers ]
     steps:
       - name: Activate release
         uses: appleboy/ssh-action@master
@@ -141,11 +102,24 @@ jobs:
             ln -s -f $STORAGE_PATH $RELEASE_PATH
             ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
             service php8.2-fpm reload
+            # Create necessary directories and set permissions
+            mkdir -p /var/www/html/artifacts/current/storage/{app,framework,logs}
+            mkdir -p /var/www/html/artifacts/current/storage/framework/{cache,sessions,testing,views}
+            mkdir -p /var/www/html/artifacts/current/bootstrap/cache
+            chmod -R 775 /var/www/html/artifacts/current/storage
+            chmod -R 775 /var/www/html/artifacts/current/bootstrap/cache
+            chown -R www-data:www-data /var/www/html/artifacts/current/storage
+            chown -R www-data:www-data /var/www/html/artifacts/current/bootstrap/cache
+            # Ensure composer dependencies are installed
+            cd $RELEASE_PATH
+            composer install --no-dev --no-interaction --prefer-dist
+            # Run database migrations
+            php artisan migrate
 
   clean-up:
     name: Clean up
     runs-on: ubuntu-latest
-    needs: [ create-deployment-artifacts, prepare-release-on-servers, run-before-hooks, activate-release ]
+    needs: [ create-deployment-artifacts, prepare-release-on-servers, activate-release ]
     steps:
       - name: Clean up old releases
         uses: appleboy/ssh-action@master

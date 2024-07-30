@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'static_url' => env('STATIC_ASSET_URL', 'https://static.leoashcraft.com'),
 
     /*
     |--------------------------------------------------------------------------

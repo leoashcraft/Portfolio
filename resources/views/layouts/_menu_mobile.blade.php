@@ -4,7 +4,7 @@
                 <!--
                 <div class="text-lg font-medium name">
                     <a href="index.html" class="flex items-center gap-2 text-black dark:text-white">
-                        <img src="{{ asset('img/site-logo.png') }}" alt="Minfo">
+                        <img src="{{ config('app.static_url') }}/img/site-logo.png" alt="Minfo">
                         <span>Minfo</span>
                     </a>
                 </div>

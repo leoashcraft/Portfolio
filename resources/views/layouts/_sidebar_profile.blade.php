@@ -2,10 +2,10 @@
             <div class="w-full mx-auto minfo__sidebar__wrapper xl:fixed xl:top-1/2 xl:left-4 2xl:left-14 xl:-translate-y-1/2 md:max-w-sidebar xl:max-2xl:max-w-xs z-999">
                 <div class="p-3 max-xl:mb-3 overflow-hidden minfo__sidebar bg-white dark:bg-nightBlack rounded-2xl">
                     <div class="mx-4 mt-12 text-center user-info lg:mx-6">
-                        <a href="index.html"
+                        <a href="#"
                             class="w-36 h-36 mb-2.5 block mx-auto border-6 border-platinum dark:border-[#2f2f2f] overflow-hidden rounded-full *:w-full *:h-full *:rounded-full">
                             <img 
-                                src="{{ asset('img/pic.webp') }}" 
+                                src="{{ config('app.static_url') }}/img/pic.webp" 
                                 alt="Leo Ashcraft">
                         </a>
                         <h6 class="mb-1 text-lg font-semibold text-black dark:text-white name">Leo Ashcraft</h6>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="mt-6">
-                            <a href="{{ asset('Ashcraft-Leo-Resume.pdf') }}" download target="_blank"
+                            <a href="{{ config('app.static_url') }}/Ashcraft-Leo-Resume.pdf" download target="_blank"
                                 class="text-center text-sm border border-theme bg-theme flex items-center justify-center gap-2 text-white rounded-4xl py-3.5 transition duration-300 text-[15px] font-semibold hover:bg-themeHover hover:border-themeHover">
                                 DOWNLOAD RESUME
                                 <span class="animate-bounce">

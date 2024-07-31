@@ -65,18 +65,6 @@
     </div>
     <!-- Custom Cursor End -->
 
-
-    <!-- App Preloader Start -->
-    <div id="preloader">
-        <div class="loader_line"></div>
-        <div
-            class="absolute w-20 h-20 transition-all delay-300 -translate-x-1/2 -translate-y-1/2 logo top-1/2 left-1/2 flex-center">
-            <img src="{{ config('app.static_url') }}/img/intro-selfie.webp" alt="Leo">
-        </div>
-    </div>
-    <!-- App Preloader End -->
-
-
     <!-- App Start -->
     <div class="relative pt-10 minfo__app max-xl:pt-20">
         <div

@@ -2,7 +2,7 @@
 <browserconfig>
     <msapplication>
         <tile>
-            <square150x150logo src="/icons/mstile-150x150.png?v=1"/>
+            <square150x150logo src="https://static.leoashcraft.com/icons/mstile-150x150.png?v=1"/>
             <TileColor>#222222</TileColor>
         </tile>
     </msapplication>

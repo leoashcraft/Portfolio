@@ -1,11 +1,17 @@
 const mix = require('laravel-mix');
+const rimraf = require('rimraf');
+
+mix.before(() => {
+    rimraf.sync('public/css/all.css');
+    rimraf.sync('public/js/all.js');
+});
 
 mix.setResourceRoot('https://static.leoashcraft.com')
    .styles([
-       'resources/css/fontAwesome5Pro.css',
        'resources/css/cdheadline.css',
        'resources/css/swiper-bundle.min.css',
        'resources/css/style.min.css',
+       'resources/css/custom-embedded.css'
    ], 'public/css/all.css')
    .scripts([
        'resources/js/jquery-3.6.0.min.js',
@@ -17,6 +23,6 @@ mix.setResourceRoot('https://static.leoashcraft.com')
        'resources/js/scrollIt.min.js',
        'resources/js/circle-progress.min.js',
        'resources/js/script.js',
-       'resources/js/theme-mode.js',
+       'resources/js/theme-mode.js'
    ], 'public/js/all.js')
    .version();

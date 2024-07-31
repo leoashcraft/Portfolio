@@ -52,7 +52,7 @@
     <div id="theme-toggle-con" class=".w-12 h-12  mt-2 mr-2 border rounded-full bg-white dark:bg-nightBlack border-platinum dark:border-greyBlack flex-center">
         <div class="flex justify-start">
             <button class="px-4 text-black rounded-md flex items-center" id="theme-toggle" title="Toggle Theme">
-                <i id="theme-icon" class="fal neonText"></i>
+                <i id="theme-icon"></i>
             </button>
         </div>
     </div>
@@ -93,9 +93,9 @@
         </div>
 
 @include('layouts._footer')
-Test
+
     </div>
-    <!-- App End -->z
+    <!-- App End -->
 
     <!-- Style Switcher Started
     <div class="style-switcher fixed right-0 top-1/2 -translate-y-1/2 translate-x-[15rem] w-[15rem] [&.active]:translate-x-0 transition z-[9999]">

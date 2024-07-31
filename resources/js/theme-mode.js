@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.classList.add("dark");
         document.getElementById("theme-toggle").title = "Toggle Light Mode";
         localStorage.theme = 'dark';
-        themeIcon.className = 'fal fa-sun text-white sun-drop';
+        themeIcon.className = 'icon-sun text-white sun-drop';
     }
 
     // Function to set the light theme
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.classList.remove("dark");
         document.getElementById("theme-toggle").title = "Toggle Dark Mode";
         localStorage.theme = 'light';
-        themeIcon.className = 'fal fa-moon text-black moon-rise';
+        themeIcon.className = 'icon-moon text-black moon-rise';
     }
 
     // Function to initialize the theme

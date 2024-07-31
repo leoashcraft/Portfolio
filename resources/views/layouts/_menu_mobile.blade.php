@@ -31,7 +31,7 @@
                 class="mobile-menu fixed top-0 -right-full w-full max-w-mobilemenu bg-flashWhite dark:bg-nightBlack z-999 h-full xl:hidden transition-all duration-300 [&.is-menu-open]:right-0 py-12 px-8 overflow-y-scroll">
                 <button
                     class="absolute flex items-center justify-center w-9 h-9 text-sm text-white rounded-full close-menu top-4 right-4 bg-greyBlack" aria-label="Close Menu">
-                    <i class="fal fa-times"></i>
+                    <i class="icon-cancel-circled"></i>
                 </button>
                 <div class="mb-6 text-lg font-medium text-black dark:text-white menu-title">
                     Menu
@@ -40,7 +40,7 @@
                     <li data-scroll-nav="0" class="relative group active">
                         <a href="#home" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-home"></i>
+                                <i class="icon-home"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 Home
@@ -50,7 +50,7 @@
                     <li data-scroll-nav="1" class="relative group">
                         <a href="#about" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-user"></i>
+                                <i class="icon-user"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 About
@@ -60,7 +60,7 @@
                     <li data-scroll-nav="2" class="relative group">
                         <a href="#" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-briefcase"></i>
+                                <i class="icon-briefcase"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 Service
@@ -79,20 +79,20 @@
                         </a>
                     </li>
                     -->
-                    <li data-scroll-nav="4" class="relative group">
+                    <li data-scroll-nav="3" class="relative group">
                         <a href="#resume" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-file-alt"></i>
+                                <i class="icon-folder-open"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 Resume
                             </span>
                         </a>
                     </li>
-                    <li data-scroll-nav="5" class="relative group">
+                    <li data-scroll-nav="4" class="relative group">
                         <a href="#portfolio" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-tasks-alt"></i>
+                                <i class="icon-tasks"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 Poftfolio
@@ -123,10 +123,10 @@
                         </a>
                     </li>
                     -->
-                    <li data-scroll-nav="8" class="relative group">
+                    <li data-scroll-nav="5" class="relative group">
                         <a href="#contact" class="flex items-center space-x-2 group">
                             <span class="w-5 text-black dark:text-white group-[&.active]:text-theme">
-                                <i class="fal fa-envelope"></i>
+                                <i class="icon-mail-alt"></i>
                             </span>
                             <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
                                 Contact
@@ -141,13 +141,13 @@
                 <!-- Social Share Icon Start  -->
                 <div class="flex items-center space-x-4 social-icons *:flex">
                     <a href="https://www.linkedin.com/in/leo3" title="Linkedin">
-                        <i class="fab fa-linkedin-in"></i>
+                        <i class="icon-linkedin-squared"></i>
                     </a>
                     <a href="https://github.com/leoashcraft" title="GitHub">
-                        <i class="fab fa-github"></i>
+                        <i class="icon-github-circled"></i>
                     </a>
                     <a href="https://www.facebook.com/leoashcraft" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
+                        <i class="icon-facebook-squared"></i>
                     </a>
                 </div>
                 <!-- Social Share Icon End  -->

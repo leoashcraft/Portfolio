@@ -9,7 +9,7 @@
                     <div class="hero-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-home text-theme"></i>
+                            <i class="text-theme icon-home"></i>
                             INTRODUCTION
                         </div>
                         <div class="items-center gap-6 hero-content md:flex xl:gap-10">
@@ -24,11 +24,11 @@
                                 </p>
                                 <ul class="flex items-center mt-4 -mx-3 lg:mt-5 *:flex *:items-center *:mx-3 *:text-regular">
                                     <li>
-                                        <i class="mr-2 fal fa-check-double text-theme"></i>
+                                        <i class="mr-2 text-theme icon-check"></i>
                                         Seeking W2 Role
                                     </li>
                                     <li>
-                                        <i class="mr-2 fal fa-check-double text-theme"></i>
+                                        <i class="mr-2 text-theme icon-check"></i>
                                         Accepting Freelance
                                     </li>
                                 </ul>
@@ -411,7 +411,7 @@
                     <div class="about-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-user text-theme"></i>
+                            <i class="text-theme icon-user"></i>
                             ABOUT ME
                         </div>
                         <div class="mt-7 md:mt-10 section-title">
@@ -521,7 +521,7 @@
                     <div class="service-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-briefcase text-theme"></i>
+                            <i class="text-theme icon-briefcase"></i>
                             SERVICES
                         </div>
                         <div class="mb-8 mt-7 md:my-10 section-title">
@@ -645,12 +645,12 @@
                 <!-- My Services Section End -->
 
                 <!-- My Resume Section Start -->
-                <div data-scroll-index="4" id="resume">
+                <div data-scroll-index="3" id="resume">
 
                     <div class="resume-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-folder-open text-theme"></i>
+                            <i class="text-theme icon-folder-open"></i>
                             RESUME
                         </div>
                         <div class="mb-8 mt-7 md:my-10 section-title">
@@ -897,12 +897,12 @@
 
 
                 <!-- Portfolio Section Start -->
-                <div data-scroll-index="5" id="portfolio">
+                <div data-scroll-index="4" id="portfolio">
 
                     <div class="portfolio-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-tasks-alt text-theme"></i>
+                            <i class="text-theme icon-tasks"></i>
                             PORTFOLIO
                         </div>
                         <div class="mt-5 mb-8 md:my-10 section-title">
@@ -1055,12 +1055,12 @@
                 <!-- Portfolio Section End -->
 
                 <!-- Contact Section Start -->
-                <div data-scroll-index="8" id="contact">
+                <div data-scroll-index="5" id="contact">
 
                     <div class="contact-section mt-8 px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
                         <div
                             class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                            <i class="fal fa-envelope-open text-theme"></i>
+                            <i class="text-theme icon-envelope-open-o"></i>
                             CONTACT
                         </div>
                         <div class="mb-10 mt-7 section-title">

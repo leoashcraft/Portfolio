@@ -63,7 +63,7 @@ class GoogleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect(url()->route('contact') . '#contact')
+            return redirect()->route('contact')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -98,11 +98,9 @@ class GoogleController extends Controller
 
         try {
             $gmail->users_messages->send('me', $message);
-            return redirect(url()->route('contact') . '#contact')
-                ->with('status', 'Email sent successfully!');
+            return back()->with('status', 'Email sent successfully!');
         } catch (\Exception $e) {
-            return redirect(url()->route('contact') . '#contact')
-                ->with('error', 'Error sending email: ' . $e->getMessage());
+            return back()->with('error', 'Error sending email: ' . $e->getMessage());
         }
     }
 

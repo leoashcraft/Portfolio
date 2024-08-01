@@ -49,6 +49,7 @@ module.exports = {
                 lightOrange: '#ffb657',
                 greyBlack: '#434445',
                 greyBlack200: '#333333',
+                successGreen: '#32CD32',
             },
             spacing: {
                 4.5: '1.125rem', // 18px

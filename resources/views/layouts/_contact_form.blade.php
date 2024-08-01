@@ -1,15 +1,14 @@
-   @if(session('status'))
+
     <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-8 col-md-8">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success ! </strong>  &nbsp; {{ session('status') }}
+                <strong class="text-successGreen">Success ! </strong>  &nbsp; {{ session('status') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         </div>
     </div>
-    @endif
 
     <form id="contact-form" method="POST" action="{{ route('send.mail') }}" enctype="multipart/form-data" class="space-y-4">
         @csrf

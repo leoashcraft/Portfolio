@@ -55,9 +55,9 @@
             </button>
         </div>
         <div class="form-group">
+            <input type="hidden" name="redirect_with_fragment" value="true">
             <input type="hidden" name="recaptcha_token" id="recaptcha_token">
             <p class="text-grey">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
-
         </div>
     </form>
 
@@ -65,6 +65,20 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('contact-form');
         const submitButton = form.querySelector('button[type="submit"]');
+
+        if (window.location.hash === '#contact' && sessionStorage.getItem('redirected')) {
+            // Clear the sessionStorage to avoid repeated redirects
+            sessionStorage.removeItem('redirected');
+        } else {
+            // Check if the form has been submitted
+            const formSubmitted = "{{ session('status') || session('error') }}";
+            if (formSubmitted) {
+                // Set a flag in sessionStorage to avoid repeated redirects
+                sessionStorage.setItem('redirected', true);
+                // Redirect with the hash
+                window.location.href = window.location.href.split('#')[0] + '#contact';
+            }
+        }
 
         form.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from submitting immediately

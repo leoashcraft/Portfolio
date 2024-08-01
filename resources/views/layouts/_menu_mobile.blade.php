@@ -88,20 +88,17 @@
             </a>
         </li>
     </ul>
-    <br><br>
+<br><br>
     <div class="mb-4 font-medium text-black dark:text-white menu-title text-md">
         External Links
     </div>
     <!-- External Icons Start  -->
     <div class="flex items-center space-x-4 social-icons *:flex">
-        <a href="https://www.linkedin.com/in/leo3" title="Linkedin">
+        <a href="https://www.linkedin.com/in/leo3" title="Linkedin" target="_new">
             <i class="icon-linkedin-squared"></i>
         </a>
-        <a href="https://github.com/leoashcraft" title="GitHub">
+        <a href="https://github.com/leoashcraft" title="GitHub" target="_new">
             <i class="icon-github-circled"></i>
-        </a>
-        <a href="https://www.facebook.com/leoashcraft" title="Facebook">
-            <i class="icon-facebook-squared"></i>
         </a>
     </div>
     <!-- External Icons End  -->

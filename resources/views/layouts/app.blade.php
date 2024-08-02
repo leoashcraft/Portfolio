@@ -36,7 +36,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- Vite CSS/JS
         ================================================== -->
-        <link rel="stylesheet" href="https://leoashcraft.com/build/assets/all.css" data-navigate-track="reload" />
+        <link rel="stylesheet" href="{{ config('app.static_url') }}/build/assets/all.css" />
     </head>
     <body class="relative custom_cursor">
         <!-- Theme Toggle Start -->
@@ -70,7 +70,7 @@
         </div>
         <!-- App End -->
         <!-- Js Library Start -->
-        <script src="https://leoashcraft.com/build/assets/all.js" data-navigate-track="reload"></script>
+        <script src="{{ config('app.static_url') }}/build/assets/all.js"></script>
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
         <!-- Js Library End -->
     </body>

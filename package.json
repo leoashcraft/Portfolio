@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run build\" \"php artisan serve\" \"vite\"",
+    "dev": "concurrently --kill-others \"php artisan serve\" \"vite\"",
     "build": "vite build",
     "watch": "vite build --watch",
     "hot": "vite build --watch --hot",

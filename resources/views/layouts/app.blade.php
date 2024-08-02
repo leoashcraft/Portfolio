@@ -38,7 +38,7 @@
         ================================================== -->
         @vite('resources/js/app.js')
     </head>
-    <body style="visibility: hidden;" class="relative custom_cursor">
+    <body class="relative custom_cursor">
         <!-- Theme Toggle Start -->
         <div id="theme-toggle-con" class=".w-12 h-12  mt-2 mr-2 border rounded-full bg-white dark:bg-nightBlack border-platinum dark:border-greyBlack flex-center">
             <div class="flex justify-start">

@@ -1,4 +1,5 @@
 
+@if(session('status'))
     <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-8 col-md-8">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -9,6 +10,7 @@
             </div>
         </div>
     </div>
+@endif
 
 <form id="contact-form" method="POST" action="{{ route('send.mail') }}" enctype="multipart/form-data" class="space-y-4">
     @csrf

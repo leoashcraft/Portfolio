@@ -1039,12 +1039,11 @@
                 </div><!--./portfolio-card-->
                 <div class="item md:col-span-2 group">
                         <div class="img-wrapper">
-                            <img src="{{ config('app.static_url') }}/img/portfolio/amstel.gif"
-                                width="960px"
-                                height="540px"
-                                loading="lazy"
-                                class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
-                                alt="portfolio">
+                            <video class="lazy" playsinline autoplay loop muted preload="metadata">
+                                <source data-src="{{ config('app.static_url') }}/img/portfolio/amstelplumbing.webm"
+                                    class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
+                                    alt="portfolio">
+                            </video>
                             <div
                                 class="absolute inset-0 transition-all duration-300 opacity-0 overlay bg-gradient-to-t from-white dark:from-black to-transparent rounded-xl group-hover:opacity-100">
                             </div>

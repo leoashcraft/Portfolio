@@ -23,7 +23,8 @@ mix.scripts([
     'resources/js/scrollIt.min.js',
     'resources/js/circle-progress.min.js',
     'resources/js/script.js',
-    'resources/js/theme-mode.js'
+    'resources/js/theme-mode.js',  
+    'resources/js/lazy-video.js'
 ], 'public/js/all.js');
 
 mix.minify('public/css/all.css')

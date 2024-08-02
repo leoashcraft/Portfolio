@@ -16,7 +16,6 @@ mix.styles([
 mix.scripts([
     'resources/js/jquery-3.6.0.min.js',
     'resources/js/waypoints.min.js',
-    'resources/js/tw-elements.umd.min.js',
     'resources/js/cd-headline.js',
     'resources/js/jquery.counterup.min.js',
     'resources/js/swiper-bundle.min.js',

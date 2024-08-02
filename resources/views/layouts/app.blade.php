@@ -36,9 +36,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- All CSS Here
         ================================================== -->
-        <link rel="stylesheet" href="{{ config('app.static_url') }}/css/all.min.css">
+        @vite('resources/js/app.js')
     </head>
-    <body class="relative custom_cursor">
+    <body style="visibility: hidden;" class="relative custom_cursor">
         <!-- Theme Toggle Start -->
         <div id="theme-toggle-con" class=".w-12 h-12  mt-2 mr-2 border rounded-full bg-white dark:bg-nightBlack border-platinum dark:border-greyBlack flex-center">
             <div class="flex justify-start">
@@ -79,7 +79,7 @@
         </div>
         <!-- App End -->
         <!-- Js Library Start -->
-        <script src="{{ config('app.static_url') }}/js/all.min.js"></script>
+        @vite('resources/js/app.js')
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
         <!-- Js Library End -->
     </body>

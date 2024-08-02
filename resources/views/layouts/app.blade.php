@@ -34,7 +34,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-        <!-- All CSS Here
+        <!-- Vite CSS/JS
         ================================================== -->
         @vite('resources/js/app.js')
     </head>
@@ -79,7 +79,6 @@
         </div>
         <!-- App End -->
         <!-- Js Library Start -->
-        @vite('resources/js/app.js')
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
         <!-- Js Library End -->
     </body>

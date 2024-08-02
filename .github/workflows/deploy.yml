@@ -9,38 +9,38 @@ jobs:
     name: Create deployment artifacts
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-    - name: Install NPM dependencies
-      run: npm install
+      - name: Install NPM dependencies
+        run: npm install
 
-    - name: Compile CSS and Javascript
-      run: npm run build
+      - name: Compile CSS and Javascript
+        run: npm run build
 
-    - name: Configure PHP 8.2
-      uses: shivammathur/setup-php@master
-      with:
-        php-version: 8.2
-        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring
+      - name: Configure PHP 8.2
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 8.2
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, dom, mbstring
 
-    - name: Composer install
-      run: composer install --no-dev --no-interaction --prefer-dist
+      - name: Composer install
+        run: composer install --no-dev --no-interaction --prefer-dist
 
-    - name: Create deployment artifact
-      env:
-        GITHUB_SHA: ${{ github.sha }}
-      run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
+      - name: Create deployment artifact
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
 
-    - name: Store artifact for distribution
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-build
-        path: ${{ github.sha }}.tar.gz
+      - name: Store artifact for distribution
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: ${{ github.sha }}.tar.gz
 
   prepare-release-on-servers:
     name: Prepare release on server
@@ -75,6 +75,8 @@ jobs:
             mkdir -p "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             tar xzf ${{ secrets.DROPLET_PATH }}/artifacts/${GITHUB_SHA}.tar.gz -C "${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}"
             rm -rf ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
+            ln -s ${{ secrets.DROPLET_PATH }}/storage ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/storage
+            ln -s ${{ secrets.DROPLET_PATH }}/.env ${{ secrets.DROPLET_PATH }}/releases/${GITHUB_SHA}/.env
 
   activate-release:
     name: Activate release

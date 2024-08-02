@@ -13,4 +13,3 @@ import './circle-progress.min.js';
 import './script.js';
 import './theme-mode.js';
 import './lazy-video.js';
-import './body-visibility.js';

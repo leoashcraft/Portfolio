@@ -36,7 +36,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- All CSS Here
         ================================================== -->
-        @vite('resources/js/app.js')
+        <link rel="preload" as="style" href="{{ config('app.static_url') }}/build/assets/all.css" />
     </head>
     <body class="relative custom_cursor">
         <!-- Theme Toggle Start -->
@@ -79,7 +79,7 @@
         </div>
         <!-- App End -->
         <!-- Js Library Start -->
-        @vite('resources/js/app.js')
+        <link rel="modulepreload" href="{{ config('app.static_url') }}/build/assets/all.js" />
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.key') }}" defer></script>
         <!-- Js Library End -->
     </body>

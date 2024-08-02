@@ -36,6 +36,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- Vite CSS/JS
         ================================================== -->
+        <style>html{visibility: hidden;opacity:0;}</style>
         @vite('resources/js/app.js')
     </head>
     <body class="relative custom_cursor">

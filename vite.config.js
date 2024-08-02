@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { resolve } from 'path';
 
 export default defineConfig({
     plugins: [
@@ -9,11 +8,6 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    resolve: {
-        alias: {
-            'jquery': 'jquery/dist/jquery.min.js',
-        },
-    },
     build: {
         rollupOptions: {
             output: {
@@ -25,4 +19,5 @@ export default defineConfig({
         },
         minify: 'esbuild',
     },
+    assetsInclude: ['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2'],
 });

@@ -2611,8 +2611,11 @@ html.dark input:-webkit-autofill,
 }
 
 @keyframes lineround {
-  transform {
-    height: translateY(200%);
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(200%);
   }
 }
 

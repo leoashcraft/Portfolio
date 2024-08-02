@@ -36,7 +36,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- Vite CSS/JS
         ================================================== -->
-        <style>html{visibility: hidden;opacity:0;}</style>
         @vite('resources/js/app.js')
     </head>
     <body class="relative custom_cursor">
@@ -56,15 +55,6 @@
             class="custom_cursor_two w-1 h-1 rounded-full border border-gray-400 bg-metborder-gray-400 fixed pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         </div>
         <!-- Custom Cursor End -->
-        <!-- App Preloader Start -->
-        <div id="preloader">
-            <div class="loader_line"></div>
-            <div
-                class="absolute w-20 h-20 transition-all -translate-x-1/2 -translate-y-1/2 logo top-1/2 left-1/2 flex-center">
-                <img src="{{ config('app.static_url') }}/img/intro-selfie.webp" alt="Leo">
-            </div>
-        </div>
-        <!-- App Preloader End -->
         <!-- App Start -->
         <div class="relative pt-10 minfo__app max-xl:pt-20">
             <div

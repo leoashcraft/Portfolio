@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: 'class',
-    content: ['*', './node_modules/tw-elements/js/**/*.js'],
+    content: [
+        './resources/views/**/*.blade.php',
+        './resources/css/**/*.css',
+        './resources/js/**/*.js',
+        './node_modules/tw-elements/dist/js/**/*.js'
+    ],
     theme: {
         extend: {
             maxWidth: {

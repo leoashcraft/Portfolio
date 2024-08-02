@@ -43,6 +43,8 @@
                 <div class="hero-image flex-[0_0_20.3rem] max-md:hidden">
                     <img 
                         src="{{ config('app.static_url') }}/img/intro-selfie.webp"
+                        width="672px"
+                        height="882px"
                         alt="Leo Ashcraft">
                 </div>
             </div>
@@ -920,6 +922,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/lists.webp"
+                                width="840px"
+                                height="413px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -938,6 +942,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/docx-search-replace.webp"
+                                width="375px"
+                                height="375px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -956,6 +962,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/lindaleit.webp"
+                                width="375px"
+                                height="375px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -974,6 +982,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/dashboard.webp"
+                                width="840px"
+                                height="428px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -992,6 +1002,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/radiodaddy.webp"
+                                width="375px"
+                                height="375px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -1010,6 +1022,8 @@
                         class="block p-3 overflow-hidden border md:p-4 rounded-xl border-platinum dark:border-greyBlack">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/logobogo.webp"
+                                width="375px"
+                                height="375px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">
@@ -1026,6 +1040,8 @@
                 <div class="item md:col-span-2 group">
                         <div class="img-wrapper">
                             <img src="{{ config('app.static_url') }}/img/portfolio/amstel.gif"
+                                width="960px"
+                                height="540px"
                                 loading="lazy"
                                 class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                 alt="portfolio">

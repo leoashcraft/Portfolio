@@ -6,20 +6,14 @@ mix.before(() => {
     rimraf.sync('public/js/all.js');
 });
 
-mix.setResourceRoot('https://static.leoashcraft.com');
-
-mix.postCss('resources/css/app.css', 'public/css', [
-    require('tailwindcss'),
-    require('autoprefixer'),
-])
-.styles([
+mix.styles([
     'resources/css/cdheadline.css',
     'resources/css/swiper-bundle.min.css',
     'resources/css/style.min.css',
     'resources/css/custom-embedded.css'
-], 'public/css/all.css')
+], 'public/css/all.css');
 
-.scripts([
+mix.scripts([
     'resources/js/jquery-3.6.0.min.js',
     'resources/js/waypoints.min.js',
     'resources/js/tw-elements.umd.min.js',
@@ -30,5 +24,8 @@ mix.postCss('resources/css/app.css', 'public/css', [
     'resources/js/circle-progress.min.js',
     'resources/js/script.js',
     'resources/js/theme-mode.js'
-], 'public/js/all.js')
-.version();
+], 'public/js/all.js');
+
+mix.minify('public/css/all.css')
+   .minify('public/js/all.js')
+   .version();

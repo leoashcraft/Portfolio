@@ -679,7 +679,7 @@
                                 Parker University
                             </h6>
                             <p class="text-[13px] md:text-sm text-theme">
-                                Jul 2022 - Apr 2024
+                                Sep 2024 - Current
                             </p>
                         </div>
                         <div

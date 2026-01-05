@@ -5,10 +5,18 @@
     <!-- Introduction Section Start -->
     <div data-scroll-index="0" id="home">
         <div class="hero-section px-5 py-8 md:p-8 bg-white dark:bg-nightBlack rounded-2xl lg:p-10 2xl:p-13">
-            <div
-                class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
-                <i class="text-theme icon-home"></i>
-                INTRODUCTION
+            <div class="flex justify-between items-center">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
+                    <i class="text-theme icon-home"></i>
+                    INTRODUCTION
+                </div>
+                <div id="theme-toggle-con"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 border-platinum dark:border-greyBlack200 rounded-4xl">
+                    <button class="flex items-center" id="theme-toggle" title="Toggle Theme">
+                        <i id="theme-icon"></i>
+                    </button>
+                </div>
             </div>
             <div class="items-center gap-6 hero-content md:flex xl:gap-10">
                 <div class="text-content pt-7 lg:pt-8 max-lg:max-w-[30rem]">

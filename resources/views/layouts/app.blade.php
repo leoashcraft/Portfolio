@@ -39,15 +39,7 @@
         <link rel="stylesheet" href="{{ config('app.static_url') }}/css/all.min.css" />
     </head>
     <body class="relative custom_cursor">
-        <!-- Theme Toggle Start -->
-        <div id="theme-toggle-con" class=".w-12 h-12  mt-2 mr-2 border rounded-full bg-white dark:bg-nightBlack border-platinum dark:border-greyBlack flex-center">
-            <div class="flex justify-start">
-                <button class="px-4 text-black rounded-md flex items-center" id="theme-toggle" title="Toggle Theme">
-                    <i id="theme-icon"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Custom Cursor Start -->
+                <!-- Custom Cursor Start -->
         <div
             class="custom_cursor_one fixed top-0 left-0 w-8 h-8 border border-gray-400 rounded-full pointer-events-none">
         </div>

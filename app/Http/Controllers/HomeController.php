@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use App\Mail\ContactFormMail;
-use App\Rules\ReCaptcha;
+use Mailtrap\Config;
+use Mailtrap\Helper\ResponseHelper;
+use Mailtrap\MailtrapClient;
+use Mailtrap\Mime\MailtrapEmail;
+use Symfony\Component\Mime\Address;
 
 class HomeController extends Controller
 {
@@ -18,7 +20,7 @@ class HomeController extends Controller
     public function send_mail(Request $request)
     {
         Log::info('Inside send_mail.');
-        
+
         try {
             Log::info('Starting validation.');
             $validatedData = $request->validate([
@@ -34,9 +36,28 @@ class HomeController extends Controller
         }
 
         try {
-            Log::info('Sending email.');
-            Mail::to('leo@ashcraft.tech')->send(new ContactFormMail($validatedData));
-            Log::info('Mail sent successfully.');
+            Log::info('Sending email via Mailtrap API.');
+
+            $mailtrap = new MailtrapClient(new Config(config('services.mailtrap.token')));
+
+            $htmlBody = view('emails.contact', ['contact' => $validatedData])->render();
+
+            $email = (new MailtrapEmail())
+                ->from(new Address('leo@ashcraft.tech', 'Ashcraft.Tech'))
+                ->to(new Address('leo@ashcraft.tech'))
+                ->subject('Contact Form Submission')
+                ->html($htmlBody)
+                ->text(sprintf(
+                    "Name: %s\nEmail: %s\nPhone: %s\nMessage: %s",
+                    $validatedData['fullname'],
+                    $validatedData['email'],
+                    $validatedData['phone_number'] ?? 'N/A',
+                    $validatedData['message']
+                ));
+
+            $response = $mailtrap->sending()->emails()->send($email);
+
+            Log::info('Mail sent successfully.', ['response' => ResponseHelper::toArray($response)]);
             return redirect()->route('contact')->with('status', 'Your Mail has been received');
         } catch (\Exception $e) {
             Log::error('Mail failed to send: ' . $e->getMessage());

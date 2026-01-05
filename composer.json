@@ -11,6 +11,9 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
+        "nyholm/psr7": "^1.8",
+        "railsware/mailtrap-php": "^2.0",
+        "symfony/http-client": "^7.0",
         "symfony/mailer": "^7.1"
     },
     "require-dev": {

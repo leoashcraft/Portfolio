@@ -676,6 +676,31 @@
                         <div class="flex items-center justify-between mb-5 md:w-64 md:block md:mb-0">
                             <h6
                                 class="text-sm font-medium text-black dark:text-white text-opacity-60 md:text-base md:text-opacity-100">
+                                Parker University
+                            </h6>
+                            <p class="text-[13px] md:text-sm text-theme">
+                                Jul 2022 - Apr 2024
+                            </p>
+                        </div>
+                        <div
+                            class="md:flex-1 md:pl-16 relative md:before:content-[''] md:before:absolute md:before:-left-1 md:before:top-3 md:before:w-2 md:before:h-2 md:before:bg-theme md:before:rounded-full md:before:shadow-dots_glow">
+                            <h4
+                                class="text-xl xl:text-2xl font-medium xl:font-medium leading-7 text-black dark:text-white mb-2.5">
+                                Software Developer
+                            </h4>
+                            <ul style="list-style-type: circle;">
+                                <li>Constructed both front-end and PHP-based back-end systems within the Parker ecosystem, enhancing platforms such as Parker.edu, ParkerSeminars.com, and TheInvictaProject.org.</li>
+                                <li>Fabricated multiple custom WordPress plugins, enabling seamless interactions with Salesforce, Twilio, and SearchStax to automate workflows and boost student enrollment rates by 25%.</li>
+                                <li>Devised an advanced student registration experience by leveraging Salesforce API and SOQL, integrating Jenzabar, TargetX, and Salesforce Communities for a seamless enrollment process.</li>
+                                <li>Orchestrated a robust API for SMS campaigns, successfully navigating The Campaign Registry's approval process to authorize A2P messaging for Parker University via 10DLC in the U.S.</li>
+                                <li>Introduced a tailored multi-domain search functionality powered by the SearchStax API, significantly improving content accessibility across Parker’s digital infrastructure.</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center justify-between mb-5 md:w-64 md:block md:mb-0">
+                            <h6
+                                class="text-sm font-medium text-black dark:text-white text-opacity-60 md:text-base md:text-opacity-100">
                                 Strategic Fulfillment Group
                             </h6>
                             <p class="text-[13px] md:text-sm text-theme">

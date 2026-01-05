@@ -14,16 +14,18 @@ Route::get('/debug-mail', function () {
         'MAIL_PASSWORD' => config('mail.mailers.smtp.password') ? 'SET' : 'NOT SET',
     ];
 
-    // Test socket connection
-    $host = config('mail.mailers.smtp.host');
-    $port = config('mail.mailers.smtp.port');
-    $connection = @fsockopen($host, $port, $errno, $errstr, 10);
+    // Test multiple ports
+    $host = 'live.smtp.mailtrap.io';
+    $ports = [25, 465, 587, 2525];
 
-    if ($connection) {
-        $config['CONNECTION_TEST'] = "SUCCESS - Can reach $host:$port";
-        fclose($connection);
-    } else {
-        $config['CONNECTION_TEST'] = "FAILED - Cannot reach $host:$port - Error: $errstr ($errno)";
+    foreach ($ports as $port) {
+        $connection = @fsockopen($host, $port, $errno, $errstr, 5);
+        if ($connection) {
+            $config["PORT_$port"] = "SUCCESS";
+            fclose($connection);
+        } else {
+            $config["PORT_$port"] = "FAILED ($errstr)";
+        }
     }
 
     return response()->json($config);

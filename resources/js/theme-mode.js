@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
         themeIcon.className = 'icon-moon text-black moon-rise';
     }
 
-    // Function to initialize the theme
+    // Function to initialize the theme - defaults to dark
     function initializeTheme() {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setDarkTheme();
-        } else {
+        if (localStorage.theme === 'light') {
             setLightTheme();
+        } else {
+            setDarkTheme();
         }
 
         var version = getUrlParameter('version');

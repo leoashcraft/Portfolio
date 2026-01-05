@@ -1,6 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" class="dark">
     <head>
+        <script>
+            // Set theme immediately to prevent flash - defaults to dark
+            if (localStorage.theme === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
         <!-- Basic Page Needs
         ================================================== -->
         <meta charset="UTF-8">

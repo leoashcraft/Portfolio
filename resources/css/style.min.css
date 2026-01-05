@@ -4550,13 +4550,7 @@ html.dark .portfolio_wrapper .info span {
                 CUSTOM
 ------------------------------------------------------------------*/
 
-#theme-toggle-con {
-    position: fixed;
-    z-index: 999;
-    width: 100;
-    right: 0;
-    top: 0;
-}
+/* theme-toggle-con styling handled by Tailwind classes in template */
 
 .grecaptcha-badge {
     visibility: hidden;

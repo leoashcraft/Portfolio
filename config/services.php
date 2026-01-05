@@ -38,6 +38,10 @@ return [
     'recaptcha' => [
         'key' => env('RECAPTCHA_SITE_KEY'),
         'secret' => env('RECAPTCHA_SECRET_KEY'),
+    ],
+
+    'mailtrap' => [
+        'token' => env('MAILTRAP_API_TOKEN'),
     ]
 
 ];

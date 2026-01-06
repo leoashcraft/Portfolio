@@ -63,6 +63,20 @@
         scrollTime: 1000,
         topOffset: 0,
     });
+
+    // Fix for last section not highlighting when scrolled to bottom
+    $(window).on('scroll', function() {
+        var scrollTop = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        var documentHeight = $(document).height();
+
+        // If scrolled to bottom (within 50px), activate the last nav item
+        if (scrollTop + windowHeight >= documentHeight - 50) {
+            var lastIndex = $('[data-scroll-index]:last').attr('data-scroll-index');
+            $('[data-scroll-nav]').removeClass('active');
+            $('[data-scroll-nav="' + lastIndex + '"]').addClass('active');
+        }
+    });
     /* Scrollit Scrollspy End */
 
     /* ============================================================ */

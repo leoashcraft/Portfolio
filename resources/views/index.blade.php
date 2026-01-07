@@ -430,21 +430,21 @@
             <div
                 class="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wide text-black dark:text-white border lg:px-5 section-name border-platinum dark:border-greyBlack200 rounded-4xl">
                 <i class="text-theme icon-user"></i>
-                ABOUT ME
+                ABOUT LEO
             </div>
             <div class="mt-7 md:mt-10 section-title">
                 <h2
                     class="title text-[32px] md:text-4xl lg:text-5xl font-extralight text-black dark:text-white leading-1.27">
-                    About <span class="font-semibold text-theme">Me</span>
+                    About <span class="font-semibold text-theme">Leo</span>
                 </h2>
                 <p class="max-w-2xl mt-4 md:mt-6 subtitle">
-                    Hello, I'm <span class="text-black dark:text-white">Leo Ashcraft</span>, with over 15 years of dedicated experience in the IT sector.
+                    Leo Ashcraft is a Software Developer with over 15 years of experience in the IT sector, with a background that spans full-stack development, network administration, and technical operations. He currently works at Parker University, a nationally accredited healthcare university home to one of the top Doctor of Chiropractic programs in the United States. His prior work has supported Texas Health & Human Services and high-profile clients like The Smithsonian Institute, Mayo Clinic, and The New York Review of Books.
                 </p>
                 <p class="max-w-2xl mt-4 md:mt-6 subtitle">
-                    I began my journey into technology at the age of 16, starting with building and repairing computers. Over the years, I've advanced to Director roles in several startup environments, where my responsibilities spanned programming, network administration, and team management. Alongside overseeing employees, I've cultivated expertise across various programming languages and technologies.
+                    His technical focus centers on PHP, JavaScript, Python, and React, with deep experience in WordPress development, API integrations, and enterprise platforms including Salesforce, Twilio, and Jenzabar. He has built custom plugins, data analytics portals, patient registration systems, and SMS campaign infrastructure — consistently delivering solutions that produce measurable results, from a 25% increase in student enrollment to an 80% reduction in post-launch defects. His approach prioritizes clean, maintainable code and adherence to industry standards like PCI and OWASP.
                 </p>
                 <p class="max-w-2xl mt-4 md:mt-6 subtitle">
-                    Driven by a quest to shift away from the broader IT landscape, in 2021, I further honed my skills at <a href="https://codingtemple.com" class="text-black dark:text-white">Coding Temple</a>, a Coding Bootcamp. Gaining practical proficiency in HTML, PHP, CSS, Python, JavaScript and several technologies, I transitioned into a full-fledged software developer role. My approach emphasizes direct communication and a deep understanding of evolving business needs, enabling me to deliver effective solutions tailored to <span class="text-black dark:text-white">cultivating digital excellence</span>.
+                    Earlier in his career, Leo held Director-level positions at startups, where small teams meant the title came with hands-on technical work alongside operational responsibilities. He transitioned to dedicated development roles to strengthen his engineering foundation, with the understanding that effective technical leadership is built on solid hands-on experience. That background in both management and individual contribution positions him to bridge the gap between business needs and engineering execution.
                 </p>
             </div>
             <div class="mt-6 section-content">

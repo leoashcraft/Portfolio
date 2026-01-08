@@ -9,13 +9,13 @@
                     alt="Selfie">
             </a>
             <h6 class="mb-1 text-lg font-semibold text-black dark:text-white name">Leo Ashcraft</h6>
-            <div class="leading-none cd-headline clip is-full-width">
-                <h6 class="text-sm cd-words-wrapper designation text-theme after:!bg-theme *:font-normal">
-                    <b class="is-visible">Full Stack Software Developer</b>
-                    <b>Frontend Developer</b>
-                    <b>Backend Developer</b>
-                    <b>PHP Developer</b>
-                    <b>Web Designer</b>
+            <div class="leading-none">
+                <h6 class="text-sm designation text-theme typewriter-container">
+                    <span class="typewriter-word" style="display:none;">Full Stack Software Developer</span>
+                    <span class="typewriter-word" style="display:none;">Frontend Developer</span>
+                    <span class="typewriter-word" style="display:none;">Backend Developer</span>
+                    <span class="typewriter-word" style="display:none;">PHP Developer</span>
+                    <span class="typewriter-word" style="display:none;">Web Designer</span>
                 </h6>
             </div>
         </div>

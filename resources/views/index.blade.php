@@ -82,11 +82,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-image flex-[0_0_20.3rem] md:flex-[0_0_20.3rem] max-w-[200px] md:max-w-none mx-auto md:mx-0">
+                <div class="hero-image w-full md:flex-[0_0_20.3rem] max-w-[200px] md:max-w-none mx-auto md:mx-0 mb-4 md:mb-0">
                     <img
                         src="{{ config('app.static_url') }}/img/intro-selfie.webp"
                         width="672px"
                         height="882px"
+                        fetchpriority="high"
                         alt="Leo Ashcraft">
                 </div>
             </div>

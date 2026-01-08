@@ -261,10 +261,10 @@ code, pre, kbd {
 }
 
 @keyframes cursor-blink {
-  0%, 100% {
+  0%, 50% {
     opacity: 1;
   }
-  50% {
+  51%, 100% {
     opacity: 0;
   }
 }
@@ -397,11 +397,21 @@ code, pre, kbd {
 
 .terminal-cursor {
   display: inline-block;
-  width: 0.5rem;
-  height: 1rem;
+  width: 0.6rem;
+  height: 1.2em;
   background-color: #00fff7;
-  margin-left: 0.125rem;
-  animation: var(--animate-cursor-blink);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-start infinite;
+  box-shadow: 0 0 8px rgba(0, 255, 247, 0.6);
+}
+
+.terminal-input {
+  color: transparent !important;
+}
+
+.terminal-input::selection {
+  background: transparent;
 }
 
 /* ============================================

@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
+import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +18,13 @@ export default defineConfig({
     react(),
     mdx(),
     sitemap(),
+    compress({
+      CSS: true,
+      HTML: true,
+      JavaScript: true,
+      Image: false, // Skip images - already optimized
+      SVG: true,
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

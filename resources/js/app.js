@@ -12,4 +12,5 @@ import './scrollIt.min.js';
 import './circle-progress.min.js';
 import './script.js';
 import './theme-mode.js';
+import './typewriter.js';
 import './lazy-video.js';

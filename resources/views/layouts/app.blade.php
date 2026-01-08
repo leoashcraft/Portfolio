@@ -62,7 +62,9 @@
                 @include('layouts._menu_mobile')
                 @include('layouts._sidebar_profile')
                 @include('layouts._menu_desktop')
-                @yield('content')
+                <main>
+                    @yield('content')
+                </main>
             </div>
             @include('layouts._footer')
         </div>

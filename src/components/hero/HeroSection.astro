@@ -29,9 +29,9 @@ import Hero3DScene from './Hero3DScene';
     </div>
   </div>
 
-  <!-- 3D Background for Desktop Only (deferred load for better TBT) -->
+  <!-- 3D Background for Desktop Only (loads only on md+ screens) -->
   <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
-    <Hero3DScene client:idle />
+    <Hero3DScene client:media="(min-width: 768px)" />
   </div>
 
   <!-- Gradient Overlays -->

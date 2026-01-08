@@ -3,6 +3,17 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 // Dynamically import the heavy 3D scene
 const Hero3DScene = lazy(() => import('./scenes'));
 
+// Wrapper to detect when the scene has actually mounted
+function SceneWithCallback({ onMounted }: { onMounted: () => void }) {
+  useEffect(() => {
+    // Small delay to ensure canvas is actually rendered
+    const timer = setTimeout(onMounted, 50);
+    return () => clearTimeout(timer);
+  }, [onMounted]);
+
+  return <Hero3DScene />;
+}
+
 export default function LazyHero3DScene() {
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -16,8 +27,6 @@ export default function LazyHero3DScene() {
     // Wait for idle time or 2 seconds, whichever comes first
     const loadScene = () => {
       setShouldLoad(true);
-      // Fade in after component mounts
-      setTimeout(() => setIsVisible(true), 100);
     };
 
     if ('requestIdleCallback' in window) {
@@ -28,6 +37,11 @@ export default function LazyHero3DScene() {
       return () => clearTimeout(id);
     }
   }, []);
+
+  const handleMounted = () => {
+    // Fade in after the 3D scene has actually rendered
+    setIsVisible(true);
+  };
 
   if (!shouldLoad) {
     return null;
@@ -40,7 +54,7 @@ export default function LazyHero3DScene() {
       }`}
     >
       <Suspense fallback={null}>
-        <Hero3DScene />
+        <SceneWithCallback onMounted={handleMounted} />
       </Suspense>
     </div>
   );

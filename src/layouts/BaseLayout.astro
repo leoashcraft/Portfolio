@@ -4,7 +4,6 @@ import SEOHead from '../components/common/SEOHead.astro';
 import Header from '../components/common/Header.astro';
 import Footer from '../components/common/Footer.astro';
 import CustomCursor from '../components/common/CustomCursor.astro';
-import CriticalCSS from '../components/common/CriticalCSS.astro';
 
 interface Props {
   title?: string;
@@ -25,7 +24,6 @@ const props = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <CriticalCSS />
     <SEOHead {...props} />
   </head>
   <body class="custom-cursor">

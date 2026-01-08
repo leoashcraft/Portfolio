@@ -77,9 +77,18 @@ const articleSchema =
 const schemas = [websiteSchema, personSchema, articleSchema].filter(Boolean);
 ---
 
-<!-- Preconnect to external resources -->
+<!-- Preconnect to external resources (highest priority) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Preload critical Inter font for faster LCP -->
+<link
+  rel="preload"
+  href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYAZ9hiJ-Ek-_0ew.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
 <title>{pageTitle}</title>
 <meta name="title" content={pageTitle} />
 <meta name="description" content={description} />

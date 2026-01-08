@@ -462,13 +462,13 @@
                     class="title text-[32px] md:text-4xl lg:text-5xl font-extralight text-black dark:text-white leading-1.27">
                     About <span class="font-semibold text-theme">Leo</span>
                 </h2>
-                <p class="max-w-2xl mt-4 md:mt-6 subtitle">
+                <p class="mt-4 md:mt-6 subtitle">
                     Leo Ashcraft is a Software Developer with over 15 years of experience in the IT sector, with a background that spans full-stack development, network administration, and technical operations. He currently works at Parker University, a nationally accredited healthcare university with one of the top Doctor of Chiropractic programs in the United States. His prior work has supported Texas Health & Human Services and high-profile clients like The Smithsonian Institute, Mayo Clinic, and The New York Review of Books.
                 </p>
-                <p class="max-w-2xl mt-4 md:mt-6 subtitle">
+                <p class="mt-4 md:mt-6 subtitle">
                     His technical focus centers on PHP, JavaScript (including React and jQuery), and various SQL flavors, with deep experience in WordPress development, API integrations, and enterprise platforms including Salesforce, Twilio, and Jenzabar. He has built custom plugins, data analytics portals, patient registration systems, and SMS campaign infrastructure — consistently delivering solutions that produce measurable results, from a 25% increase in student enrollment to an 80% reduction in post-launch defects. His approach prioritizes clean, maintainable code and adherence to industry standards like PCI and OWASP.
                 </p>
-                <p class="max-w-2xl mt-4 md:mt-6 subtitle">
+                <p class="mt-4 md:mt-6 subtitle">
                     Earlier in his career, Leo held Director-level positions at startups, where small teams meant the title came with hands-on technical work alongside operational responsibilities. He transitioned to dedicated development roles to strengthen his engineering foundation, with the understanding that effective technical leadership is built on solid hands-on experience. That background in both management and individual contribution positions him to bridge the gap between business needs and engineering execution.
                 </p>
             </div>

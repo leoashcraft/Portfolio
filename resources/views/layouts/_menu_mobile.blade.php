@@ -73,7 +73,7 @@
                     <i class="icon-tasks"></i>
                 </span>
                 <span class="group-[&.active]:text-theme dark:group-[&.active]:text-white group-hover:text-theme transition-colors">
-                    Poftfolio
+                    Portfolio
                 </span>
             </a>
         </li>

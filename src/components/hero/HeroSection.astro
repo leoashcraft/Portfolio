@@ -135,6 +135,16 @@ import Hero3DScene from './Hero3DScene';
 <script>
   function initCounters() {
     const counters = document.querySelectorAll('.counter');
+    const isMobile = window.innerWidth < 768;
+
+    // On mobile, show final values immediately (no animation for better LCP)
+    if (isMobile) {
+      counters.forEach((counter) => {
+        const target = counter.getAttribute('data-target') || '0';
+        counter.textContent = target;
+      });
+      return;
+    }
 
     const animateCounter = (counter: Element) => {
       const target = parseInt(counter.getAttribute('data-target') || '0', 10);

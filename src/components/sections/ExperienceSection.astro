@@ -1,0 +1,152 @@
+---
+import { experience, education } from '../../data/experience';
+---
+
+<section id="experience" class="section px-4 bg-night-800/30" aria-labelledby="experience-heading">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 id="experience-heading" class="section-title">
+        Work <span class="gradient-text">Experience</span>
+      </h2>
+      <p class="section-subtitle mx-auto">
+        A timeline of my professional journey
+      </p>
+    </div>
+
+    <!-- Experience Timeline -->
+    <div class="relative">
+      <!-- Timeline Line -->
+      <div
+        class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-neon-cyan via-neon-purple to-neon-pink md:-translate-x-1/2"
+        aria-hidden="true"
+      >
+      </div>
+
+      <!-- Experience Items -->
+      <div class="space-y-12">
+        {
+          experience.map((exp, index) => (
+            <div
+              class={`relative flex flex-col md:flex-row gap-8 ${
+                index % 2 === 0 ? 'md:flex-row-reverse' : ''
+              }`}
+            >
+              {/* Timeline Dot */}
+              <div
+                class="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-neon-cyan border-4 border-night-900 md:-translate-x-1/2 z-10"
+                aria-hidden="true"
+              />
+
+              {/* Content */}
+              <div
+                class={`ml-8 md:ml-0 md:w-1/2 ${
+                  index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
+                }`}
+              >
+                <div class="card">
+                  {/* Header */}
+                  <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                    <div>
+                      <h3 class="text-xl font-bold text-white">{exp.position}</h3>
+                      <p class="text-neon-cyan font-medium">{exp.company}</p>
+                    </div>
+                    <span class="text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
+                      {exp.period}
+                    </span>
+                  </div>
+
+                  {/* Location */}
+                  {exp.location && (
+                    <p class="text-gray-400 text-sm mb-4 flex items-center gap-2">
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      {exp.location}
+                    </p>
+                  )}
+
+                  {/* Highlights */}
+                  <ul class="space-y-2">
+                    {exp.highlights.map((highlight) => (
+                      <li class="flex items-start gap-3 text-gray-300 text-sm">
+                        <svg
+                          class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Spacer for opposite side */}
+              <div class="hidden md:block md:w-1/2" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="mt-20">
+      <h3 class="text-2xl font-bold text-white text-center mb-8">
+        Education & <span class="gradient-text">Certifications</span>
+      </h3>
+
+      <div class="max-w-2xl mx-auto">
+        {
+          education.map((edu) => (
+            <div class="card">
+              <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                <div>
+                  <h4 class="text-lg font-bold text-white">{edu.degree}</h4>
+                  <p class="text-neon-cyan">{edu.institution}</p>
+                </div>
+                <span class="text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
+                  {edu.year}
+                </span>
+              </div>
+
+              <p class="text-gray-400 text-sm mb-4">{edu.description}</p>
+
+              <div class="flex flex-wrap gap-2">
+                {edu.skills.map((skill) => (
+                  <span class="px-3 py-1 text-xs bg-neon-cyan/10 text-neon-cyan rounded-full">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

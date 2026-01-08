@@ -1,0 +1,167 @@
+---
+import { profile } from '../../data/profile';
+import Hero3DScene from './Hero3DScene';
+---
+
+<section
+  id="home"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+  aria-label="Introduction"
+>
+  <!-- 3D Background -->
+  <div class="absolute inset-0 -z-10">
+    <Hero3DScene client:load />
+  </div>
+
+  <!-- Gradient Overlays -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-night-900/50 via-transparent to-night-900 -z-10"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-20">
+    <!-- Greeting -->
+    <p
+      class="text-neon-cyan font-mono text-sm md:text-base mb-4 opacity-0 animate-[fadeInUp_0.6s_ease_0.2s_forwards]"
+    >
+      Hello, I'm
+    </p>
+
+    <!-- Name -->
+    <h1
+      class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
+    >
+      <span class="gradient-text-animated">{profile.name}</span>
+    </h1>
+
+    <!-- Title -->
+    <h2
+      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 opacity-0 animate-[fadeInUp_0.6s_ease_0.6s_forwards]"
+    >
+      {profile.title}
+    </h2>
+
+    <!-- Tagline -->
+    <p
+      class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 opacity-0 animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
+    >
+      {profile.tagline}
+    </p>
+
+    <!-- CTA Buttons -->
+    <div
+      class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-[fadeInUp_0.6s_ease_1s_forwards]"
+    >
+      <a href="#projects" class="btn btn-primary">
+        View My Work
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </a>
+
+      <a href="#contact" class="btn btn-secondary">
+        Get In Touch
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+          ></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div
+      class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 opacity-0 animate-[fadeInUp_0.6s_ease_1.2s_forwards]"
+    >
+      {
+        profile.stats.map((stat) => (
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-white">
+              <span class="counter" data-target={stat.value}>
+                0
+              </span>
+              {stat.suffix}
+            </div>
+            <div class="text-gray-400 text-sm mt-1">{stat.label}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_0.6s_ease_1.4s_forwards]"
+  >
+    <a
+      href="#about"
+      class="flex flex-col items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors"
+      aria-label="Scroll to about section"
+    >
+      <span class="text-xs font-mono">SCROLL</span>
+      <div class="w-6 h-10 border-2 border-current rounded-full flex justify-center pt-2">
+        <div
+          class="w-1 h-2 bg-current rounded-full animate-bounce"
+          aria-hidden="true"
+        >
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<script>
+  function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+
+    const animateCounter = (counter: Element) => {
+      const target = parseInt(counter.getAttribute('data-target') || '0', 10);
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function update(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing function
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(easeOutQuart * target);
+
+        counter.textContent = current.toString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    };
+
+    // Use Intersection Observer to trigger animation when visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    counters.forEach((counter) => observer.observe(counter));
+  }
+
+  initCounters();
+  document.addEventListener('astro:after-swap', initCounters);
+</script>

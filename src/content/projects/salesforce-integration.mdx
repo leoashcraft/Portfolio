@@ -1,0 +1,93 @@
+---
+title: "Enterprise Salesforce Integration Platform"
+description: "A comprehensive integration platform connecting Salesforce with multiple internal systems, automating lead management and customer data synchronization."
+image: "/img/salesforce-project.jpg"
+technologies: ["PHP", "Laravel", "Salesforce API", "MySQL", "Redis", "Docker"]
+category: "api"
+featured: true
+publishedAt: 2024-08-15
+problem: "The sales team was manually entering data into multiple systems, leading to inconsistencies, duplicate records, and hours of wasted time each week."
+solution: "Designed and built a middleware integration platform that syncs data bidirectionally between Salesforce and the company's internal systems in real-time."
+results:
+  - metric: "Data Entry Time Saved"
+    value: "15+ hrs/week"
+  - metric: "Error Rate Reduction"
+    value: "94%"
+  - metric: "Lead Response Time"
+    value: "-60%"
+---
+
+## Project Overview
+
+This enterprise-level integration project involved creating a robust middleware platform to connect Salesforce CRM with multiple internal business systems. The goal was to eliminate manual data entry and ensure data consistency across all platforms.
+
+## Technical Architecture
+
+### System Design
+
+The platform uses an event-driven architecture with the following components:
+
+- **API Gateway** - Laravel-based REST API handling all external requests
+- **Message Queue** - Redis-backed queue for processing Salesforce webhooks
+- **Sync Engine** - Custom service managing bidirectional data flow
+- **Conflict Resolver** - Handles data conflicts with configurable rules
+
+### Salesforce Integration
+
+We leveraged the Salesforce REST and Bulk APIs for different use cases:
+
+```php
+class SalesforceService
+{
+    public function syncContact(Contact $contact): void
+    {
+        $sfClient = $this->getAuthenticatedClient();
+
+        $existing = $sfClient->find('Contact', [
+            'Email' => $contact->email
+        ]);
+
+        if ($existing) {
+            $sfClient->update('Contact', $existing->Id, [
+                'FirstName' => $contact->first_name,
+                'LastName' => $contact->last_name,
+                'Phone' => $contact->phone,
+                'Custom_Field__c' => $contact->custom_data,
+            ]);
+        } else {
+            $sfClient->create('Contact', $contact->toSalesforceArray());
+        }
+    }
+}
+```
+
+### Error Handling & Monitoring
+
+The platform includes comprehensive monitoring:
+
+- Real-time sync status dashboard
+- Automated retry logic for failed syncs
+- Email/Slack alerts for critical failures
+- Detailed audit logging for compliance
+
+## Challenges & Solutions
+
+### Challenge: API Rate Limits
+
+Salesforce imposes strict API limits. We solved this with:
+
+- Request batching for bulk operations
+- Intelligent caching to reduce redundant calls
+- Priority queue for time-sensitive syncs
+
+### Challenge: Data Conflicts
+
+When the same record is modified in both systems simultaneously:
+
+1. Timestamp comparison to determine newest
+2. Field-level conflict resolution
+3. Manual review queue for complex conflicts
+
+## Impact
+
+The platform now processes over 10,000 records daily with 99.9% uptime. Sales team productivity increased significantly, and data quality improved dramatically across all systems.

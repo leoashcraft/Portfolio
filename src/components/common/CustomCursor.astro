@@ -1,0 +1,82 @@
+---
+// Custom cursor component - only active on devices with fine pointer (mouse)
+---
+
+<div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+
+<script>
+  function initCustomCursor() {
+    // Only initialize on devices with fine pointer (mouse/trackpad)
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    // Check for reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+
+    if (!dot || !ring) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
+
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Move dot immediately
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+    });
+
+    // Smooth ring follow
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Add hover effect to interactive elements
+    const interactiveElements = document.querySelectorAll(
+      'a, button, [role="button"], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+
+    interactiveElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        ring.classList.add('hovering');
+        dot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        ring.classList.remove('hovering');
+        dot.style.transform = 'translate(-50%, -50%) scale(1)';
+      });
+    });
+
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+    });
+  }
+
+  // Initialize on page load
+  initCustomCursor();
+
+  // Re-initialize after Astro page navigation
+  document.addEventListener('astro:after-swap', initCustomCursor);
+</script>

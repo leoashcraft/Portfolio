@@ -292,13 +292,6 @@ Opening resume in new tab...
                       Memory: Stack Overflow cached
 `,
 
-  whoami: () => `You are a visitor exploring Leo Ashcraft's portfolio.
-Or are you a recruiter? A potential collaborator?
-Either way, welcome! 👋`,
-
-  sudo: () => `Nice try! 🔒
-But seriously, I'm flattered you thought I'd leave that open.`,
-
   matrix: () => `
 🐇 Follow the white rabbit...
 

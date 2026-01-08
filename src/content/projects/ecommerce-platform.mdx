@@ -1,0 +1,120 @@
+---
+title: "Custom E-Commerce Platform"
+description: "A high-performance e-commerce solution built with Laravel and Vue.js, featuring real-time inventory management and integrated payment processing."
+image: "/img/ecommerce-project.jpg"
+technologies: ["Laravel", "Vue.js", "MySQL", "Stripe", "Redis", "AWS"]
+category: "web"
+featured: true
+publishedAt: 2024-03-22
+problem: "The client's existing Shopify setup couldn't handle their complex B2B pricing structures and custom fulfillment workflows."
+solution: "Built a custom e-commerce platform from scratch with flexible pricing rules, multi-warehouse inventory, and automated order routing."
+results:
+  - metric: "Order Processing"
+    value: "3x faster"
+  - metric: "Inventory Accuracy"
+    value: "99.8%"
+  - metric: "Revenue Increase"
+    value: "+35%"
+---
+
+## Project Background
+
+This project was for a wholesale distributor who needed more flexibility than traditional e-commerce platforms could offer. Their requirements included tiered B2B pricing, real-time inventory across multiple warehouses, and custom fulfillment logic.
+
+## Key Features
+
+### Dynamic Pricing Engine
+
+The pricing system supports complex rules including:
+
+- Customer-tier based pricing
+- Volume discounts with quantity breaks
+- Time-limited promotions
+- Contract-specific pricing
+
+```php
+class PricingEngine
+{
+    public function calculatePrice(Product $product, Customer $customer, int $qty): Money
+    {
+        $basePrice = $product->base_price;
+
+        // Apply tier discount
+        $tierDiscount = $customer->tier->discount_percentage;
+        $price = $basePrice->multiply(1 - $tierDiscount / 100);
+
+        // Apply volume discount
+        $volumeBreak = $product->volumeBreaks()
+            ->where('min_quantity', '<=', $qty)
+            ->orderBy('min_quantity', 'desc')
+            ->first();
+
+        if ($volumeBreak) {
+            $price = $price->multiply(1 - $volumeBreak->discount / 100);
+        }
+
+        // Check for contract pricing
+        $contractPrice = $customer->contractPrices()
+            ->where('product_id', $product->id)
+            ->active()
+            ->first();
+
+        if ($contractPrice) {
+            return min($price, $contractPrice->price);
+        }
+
+        return $price;
+    }
+}
+```
+
+### Real-Time Inventory System
+
+Inventory is tracked across multiple warehouses with:
+
+- WebSocket updates for live stock levels
+- Automatic low-stock alerts
+- Reserved inventory for pending orders
+- Integration with warehouse management systems
+
+### Smart Order Routing
+
+Orders are automatically routed to the optimal fulfillment location based on:
+
+- Proximity to shipping address
+- Current stock levels
+- Shipping cost optimization
+- Carrier availability
+
+## Technical Stack
+
+### Backend
+
+- **Laravel 10** - Application framework
+- **MySQL** - Primary database with read replicas
+- **Redis** - Session storage, caching, and queues
+- **Horizon** - Queue monitoring
+
+### Frontend
+
+- **Vue.js 3** - Reactive UI components
+- **Inertia.js** - SPA without API complexity
+- **Tailwind CSS** - Utility-first styling
+
+### Infrastructure
+
+- **AWS EC2** - Application servers
+- **AWS RDS** - Managed database
+- **AWS S3** - Product images and documents
+- **CloudFront** - CDN for static assets
+
+## Performance Optimizations
+
+- Database query optimization reduced page load by 65%
+- Eager loading eliminated N+1 queries
+- Redis caching for product catalog
+- Image optimization and lazy loading
+
+## Outcome
+
+The platform successfully launched and now handles over $2M in monthly transactions. The client was able to onboard new B2B customers faster and reduce fulfillment errors significantly.

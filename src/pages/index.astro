@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/hero/HeroSection.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import GitHubSection from '../components/github/GitHubSection.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+import InteractiveTerminal from '../components/terminal/InteractiveTerminal';
+---
+
+<BaseLayout>
+  <!-- Hero Section with 3D Background -->
+  <HeroSection />
+
+  <!-- Interactive Terminal Section -->
+  <section class="section px-4 max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="section-title gradient-text">Try the Terminal</h2>
+      <p class="section-subtitle mx-auto">
+        Type <code class="bg-night-700 px-2 py-1 rounded text-neon-cyan">help</code> to see available
+        commands
+      </p>
+    </div>
+    <InteractiveTerminal client:visible />
+  </section>
+
+  <!-- About Section -->
+  <AboutSection />
+
+  <!-- Experience Section -->
+  <ExperienceSection />
+
+  <!-- Projects Section -->
+  <ProjectsSection />
+
+  <!-- GitHub Activity Section -->
+  <GitHubSection />
+
+  <!-- Contact Section -->
+  <ContactSection />
+</BaseLayout>

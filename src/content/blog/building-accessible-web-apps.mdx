@@ -1,0 +1,258 @@
+---
+title: "Building Accessible Web Applications: A Practical Guide"
+description: "Practical strategies for making your web applications accessible to all users, with code examples and testing techniques."
+publishedAt: 2024-11-15
+image: "/img/blog/accessibility.jpg"
+tags: ["Accessibility", "Web Development", "HTML", "JavaScript", "Best Practices"]
+draft: false
+readingTime: 12
+---
+
+Web accessibility isn't just about compliance—it's about building applications that everyone can use. After years of building web applications, I've learned that accessibility is easiest when built in from the start.
+
+## Why Accessibility Matters
+
+Consider these statistics:
+
+- **1 in 4 adults** in the US has some type of disability
+- **8% of men** have some form of color blindness
+- **Temporary impairments** (broken arm, bright sunlight) affect everyone
+
+Accessible websites benefit all users through better design, clearer content, and more intuitive interfaces.
+
+## Core Principles
+
+### 1. Semantic HTML
+
+Use the right element for the job:
+
+```html
+<!-- Bad: Div soup -->
+<div class="button" onclick="submit()">Submit</div>
+
+<!-- Good: Semantic elements -->
+<button type="submit">Submit</button>
+```
+
+Semantic elements provide:
+- Built-in keyboard support
+- Screen reader announcements
+- Focus management
+- Form validation
+
+### 2. Keyboard Navigation
+
+Everything clickable should be keyboard accessible:
+
+```typescript
+function handleKeyDown(event: KeyboardEvent) {
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      activateItem();
+      break;
+    case 'Escape':
+      closeModal();
+      break;
+    case 'ArrowDown':
+      focusNextItem();
+      break;
+    case 'ArrowUp':
+      focusPreviousItem();
+      break;
+  }
+}
+```
+
+### 3. Focus Management
+
+Make focus visible and logical:
+
+```css
+/* Never do this */
+*:focus {
+  outline: none;
+}
+
+/* Do this instead */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+```
+
+For modals and dialogs, trap focus appropriately:
+
+```typescript
+function trapFocus(container: HTMLElement) {
+  const focusable = container.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const first = focusable[0] as HTMLElement;
+  const last = focusable[focusable.length - 1] as HTMLElement;
+
+  container.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  first.focus();
+}
+```
+
+## ARIA: Use Sparingly
+
+ARIA is powerful but often misused. The first rule of ARIA:
+
+> **Don't use ARIA if you can use a native HTML element.**
+
+When ARIA is needed:
+
+```html
+<!-- Custom dropdown -->
+<div
+  role="combobox"
+  aria-expanded="false"
+  aria-haspopup="listbox"
+  aria-controls="options-list"
+>
+  <input
+    type="text"
+    aria-autocomplete="list"
+    aria-controls="options-list"
+  />
+  <ul
+    id="options-list"
+    role="listbox"
+    aria-label="Options"
+  >
+    <li role="option" aria-selected="false">Option 1</li>
+    <li role="option" aria-selected="true">Option 2</li>
+  </ul>
+</div>
+```
+
+### Live Regions
+
+Announce dynamic content changes:
+
+```html
+<div aria-live="polite" aria-atomic="true" class="sr-only">
+  <!-- Content updates will be announced -->
+</div>
+```
+
+```typescript
+function announceMessage(message: string) {
+  const region = document.querySelector('[aria-live]');
+  region.textContent = message;
+}
+
+// Usage
+announceMessage('Form submitted successfully');
+```
+
+## Color and Contrast
+
+### Minimum Contrast Ratios
+
+- **Normal text**: 4.5:1
+- **Large text** (18px+ or 14px+ bold): 3:1
+- **UI components**: 3:1
+
+### Don't Rely on Color Alone
+
+```html
+<!-- Bad: Color only indicates error -->
+<input class="border-red-500" />
+
+<!-- Good: Multiple indicators -->
+<input
+  class="border-red-500"
+  aria-invalid="true"
+  aria-describedby="error-msg"
+/>
+<p id="error-msg" class="text-red-500">
+  <span class="sr-only">Error:</span>
+  Email is required
+</p>
+```
+
+## Motion and Animation
+
+Respect user preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+```typescript
+const prefersReducedMotion = window.matchMedia(
+  '(prefers-reduced-motion: reduce)'
+).matches;
+
+if (!prefersReducedMotion) {
+  // Initialize complex animations
+}
+```
+
+## Testing Accessibility
+
+### Automated Testing
+
+```bash
+# axe-core with Playwright
+npm install @axe-core/playwright
+
+# In your tests
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('should not have accessibility violations', async ({ page }) => {
+  await page.goto('/');
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});
+```
+
+### Manual Testing
+
+1. **Keyboard only** - Unplug your mouse, navigate everything
+2. **Screen reader** - VoiceOver (Mac), NVDA (Windows)
+3. **Zoom** - Test at 200% and 400%
+4. **Color simulation** - DevTools can simulate color blindness
+
+## Quick Wins
+
+Start with these high-impact improvements:
+
+1. Add **skip links** for keyboard users
+2. Ensure all **images have alt text**
+3. Label all **form inputs**
+4. Make **focus states visible**
+5. Use **headings in order** (h1 → h2 → h3)
+
+## Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [Inclusive Components](https://inclusive-components.design/)
+- [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+
+Building accessible applications is an ongoing process. Start where you are, make incremental improvements, and test with real users. The web should be for everyone.

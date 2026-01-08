@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import SEOHead from '../components/common/SEOHead.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import CustomCursor from '../components/common/CustomCursor.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <SEOHead {...props} />
+  </head>
+  <body class="custom-cursor">
+    <!-- Skip to main content (Accessibility) -->
+    <a href="#main-content" class="skip-link">
+      Skip to main content
+    </a>
+
+    <!-- Custom Cursor -->
+    <CustomCursor />
+
+    <!-- Header/Navigation -->
+    <Header />
+
+    <!-- Main Content -->
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <Footer />
+  </body>
+</html>

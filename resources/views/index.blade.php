@@ -48,7 +48,7 @@
                         </li>
                     </ul>
                     <!-- Mobile Contact Info (visible below 1280px) -->
-                    <div class="xl:hidden mt-7 pt-6 border-t border-platinum dark:border-greyBlack">
+                    <div class="mobile-contact-info mt-7 pt-6 border-t border-platinum dark:border-greyBlack">
                         <ul class="space-y-2 text-sm mb-5">
                             <li class="flex items-center gap-2">
                                 <i class="text-theme icon-map"></i>

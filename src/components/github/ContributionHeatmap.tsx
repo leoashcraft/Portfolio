@@ -124,9 +124,9 @@ export default function ContributionHeatmap({ data }: ContributionHeatmapProps) 
           </div>
 
           {/* Contribution grid */}
-          <div className="flex gap-[3px]">
+          <div className="flex gap-[3px]" role="grid" aria-label="GitHub contribution heatmap">
             {data.weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-[3px]">
+              <div key={weekIndex} className="flex flex-col gap-[3px]" role="row">
                 {week.days.map((day, dayIndex) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}

@@ -1739,17 +1739,17 @@ export default function InteractiveTerminal() {
       {/* Terminal Header */}
       <div className="terminal-header">
         <button
-          className="terminal-dot red cursor-pointer hover:brightness-125 transition-all hover:scale-110"
+          className="terminal-dot red cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
           aria-label="Close terminal"
           onClick={(e) => { e.stopPropagation(); handleClose(); }}
         />
         <button
-          className="terminal-dot yellow cursor-pointer hover:brightness-125 transition-all hover:scale-110"
+          className="terminal-dot yellow cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
           aria-label="Minimize terminal"
           onClick={(e) => { e.stopPropagation(); handleMinimize(); }}
         />
         <button
-          className="terminal-dot green cursor-pointer hover:brightness-125 transition-all hover:scale-110"
+          className="terminal-dot green cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
           aria-label="Maximize terminal"
           onClick={(e) => { e.stopPropagation(); handleMaximize(); }}
         />
@@ -1805,7 +1805,7 @@ export default function InteractiveTerminal() {
             <div className="absolute inset-0 pointer-events-none flex items-center font-mono text-gray-100">
               <span>{input}</span>
               <span className="terminal-cursor" aria-hidden="true" />
-              {!input && <span className="text-gray-500 ml-0">Type a command...</span>}
+              {!input && <span className="text-gray-400 ml-0">Type a command...</span>}
             </div>
           </div>
         </div>

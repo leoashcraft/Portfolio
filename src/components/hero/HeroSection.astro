@@ -1,6 +1,6 @@
 ---
 import { profile } from '../../data/profile';
-import Hero3DScene from './Hero3DScene';
+import LazyHero3DScene from './LazyHero3DScene';
 ---
 
 <section
@@ -29,9 +29,9 @@ import Hero3DScene from './Hero3DScene';
     </div>
   </div>
 
-  <!-- 3D Background for Desktop Only (loads only on md+ screens) -->
+  <!-- 3D Background for Desktop Only (lazy loaded after paint) -->
   <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
-    <Hero3DScene client:media="(min-width: 768px)" />
+    <LazyHero3DScene client:only="react" />
   </div>
 
   <!-- Gradient Overlays -->
@@ -143,56 +143,13 @@ import Hero3DScene from './Hero3DScene';
 </section>
 
 <script>
+  // Show final counter values immediately (no animation for better performance)
   function initCounters() {
     const counters = document.querySelectorAll('.counter');
-    const isMobile = window.innerWidth < 768;
-
-    // On mobile, show final values immediately (no animation for better LCP)
-    if (isMobile) {
-      counters.forEach((counter) => {
-        const target = counter.getAttribute('data-target') || '0';
-        counter.textContent = target;
-      });
-      return;
-    }
-
-    const animateCounter = (counter: Element) => {
-      const target = parseInt(counter.getAttribute('data-target') || '0', 10);
-      const duration = 2000;
-      const startTime = performance.now();
-
-      function update(currentTime: number) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing function
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const current = Math.floor(easeOutQuart * target);
-
-        counter.textContent = current.toString();
-
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
-      }
-
-      requestAnimationFrame(update);
-    };
-
-    // Use Intersection Observer to trigger animation when visible
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    counters.forEach((counter) => observer.observe(counter));
+    counters.forEach((counter) => {
+      const target = counter.getAttribute('data-target') || '0';
+      counter.textContent = target;
+    });
   }
 
   initCounters();

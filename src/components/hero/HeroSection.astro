@@ -19,9 +19,19 @@ import Hero3DScene from './Hero3DScene';
     </div>
   </div>
 
-  <!-- 3D Background for Desktop Only (loads Three.js only on md+ screens) -->
-  <div class="absolute inset-0 -z-10 hidden md:block">
-    <Hero3DScene client:media="(min-width: 768px)" />
+  <!-- Static Background for Desktop (shows immediately while 3D loads) -->
+  <div class="absolute inset-0 -z-20 hidden md:block hero-static-bg" aria-hidden="true">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0015] via-[#1a0a2a] to-[#0a0015]"></div>
+    <div class="absolute inset-0 opacity-40">
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-fuchsia-600/30 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/2 w-48 h-48 bg-yellow-400/20 rounded-full blur-3xl"></div>
+    </div>
+  </div>
+
+  <!-- 3D Background for Desktop Only (deferred load for better TBT) -->
+  <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
+    <Hero3DScene client:idle />
   </div>
 
   <!-- Gradient Overlays -->

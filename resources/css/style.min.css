@@ -4572,6 +4572,28 @@ html.dark .portfolio_wrapper .info span {
     }
 }
 
+/* Mobile buttons row - side by side below 1280px */
+.mobile-buttons-row {
+    display: flex;
+    gap: 0.75rem;
+}
+.mobile-hire-btn {
+    flex: 0 0 33%;
+}
+.mobile-resume-btn {
+    flex: 1;
+}
+
+/* Hide desktop HIRE ME button below 1280px */
+.buttons.xl\:block {
+    display: none;
+}
+@media (min-width: 1280px) {
+    .buttons.xl\:block {
+        display: block;
+    }
+}
+
 /* Typewriter effect */
 .typewriter-container {
     display: inline-block;

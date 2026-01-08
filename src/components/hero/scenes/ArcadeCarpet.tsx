@@ -313,51 +313,45 @@ function LightningBolts({ count = 5 }: { count?: number }) {
   );
 }
 
-// Main Scene
+// Main Scene - Optimized for performance
 function Scene() {
   return (
     <>
       {/* Dark ambient with slight purple tint */}
       <ambientLight intensity={0.1} color="#4400ff" />
 
-      {/* Colored point lights for atmosphere */}
-      <pointLight position={[10, 5, 5]} color="#ff00ff" intensity={0.8} distance={25} />
-      <pointLight position={[-10, 5, 5]} color="#6600ff" intensity={0.8} distance={25} />
-      <pointLight position={[0, -5, 10]} color="#ffff00" intensity={0.5} distance={20} />
-      <pointLight position={[5, 8, 0]} color="#00ff00" intensity={0.4} distance={20} />
+      {/* Reduced point lights for atmosphere */}
+      <pointLight position={[10, 5, 5]} color="#ff00ff" intensity={0.6} distance={20} />
+      <pointLight position={[-10, 5, 5]} color="#6600ff" intensity={0.6} distance={20} />
 
-      {/* Geometric shapes */}
-      <FloatingShapes count={35} />
+      {/* Geometric shapes - reduced count */}
+      <FloatingShapes count={18} />
 
-      {/* Squiggly lines */}
-      <SquigglyLines count={10} />
+      {/* Squiggly lines - reduced */}
+      <SquigglyLines count={5} />
 
-      {/* Zigzag patterns */}
-      <ZigzagPatterns count={8} />
-
+      {/* Zigzag patterns - reduced */}
+      <ZigzagPatterns count={4} />
 
       {/* Neon grid floor */}
       <NeonGrid />
 
-      {/* Scattered dots */}
-      <ScatteredDots count={60} />
+      {/* Scattered dots - reduced */}
+      <ScatteredDots count={30} />
 
-      {/* Lightning bolts */}
-      <LightningBolts count={4} />
+      {/* Lightning bolts - reduced */}
+      <LightningBolts count={2} />
 
       {/* Dark purple fog */}
       <fog attach="fog" args={['#0a0015', 8, 35]} />
 
-      {/* Post-processing */}
-      <EffectComposer>
+      {/* Post-processing - simplified for performance */}
+      <EffectComposer multisampling={0}>
         <Bloom
-          luminanceThreshold={0.2}
+          luminanceThreshold={0.3}
           luminanceSmoothing={0.9}
-          intensity={1.8}
-        />
-        <ChromaticAberration
-          blendFunction={BlendFunction.NORMAL}
-          offset={[0.001, 0.001]}
+          intensity={1.2}
+          mipmapBlur
         />
       </EffectComposer>
     </>

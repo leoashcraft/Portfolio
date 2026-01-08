@@ -19,12 +19,13 @@ const navItems = [
       aria-label="Leo Ashcraft - Home"
     >
       <div
-        class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center text-night-900 font-bold text-lg"
+        class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-neon-purple flex items-center justify-center text-white font-bold text-lg"
+        style="box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);"
       >
         LA
       </div>
       <span
-        class="hidden sm:block font-semibold text-white group-hover:text-neon-cyan transition-colors"
+        class="hidden sm:block font-semibold text-white group-hover:text-neon-pink transition-colors"
       >
         {profile.name}
       </span>
@@ -37,7 +38,7 @@ const navItems = [
           <li>
             <a
               href={item.href}
-              class="px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+              class="px-4 py-2 rounded-lg text-gray-300 hover:text-neon-pink hover:bg-neon-pink/5 transition-all duration-200"
               aria-label={item.label}
             >
               {item.label}
@@ -54,7 +55,7 @@ const navItems = [
         href={profile.social.github}
         target="_blank"
         rel="noopener noreferrer"
-        class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+        class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
         aria-label="GitHub Profile"
       >
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -68,7 +69,7 @@ const navItems = [
         href={profile.social.linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+        class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-purple hover:bg-neon-purple/10 transition-all duration-200"
         aria-label="LinkedIn Profile"
       >
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -81,7 +82,7 @@ const navItems = [
       <!-- Mobile Menu Toggle -->
       <button
         id="mobile-menu-toggle"
-        class="md:hidden w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+        class="md:hidden w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
         aria-label="Toggle mobile menu"
         aria-expanded="false"
       >
@@ -108,7 +109,7 @@ const navItems = [
           <li>
             <a
               href={item.href}
-              class="block px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
+              class="block px-4 py-3 rounded-lg text-gray-300 hover:text-neon-pink hover:bg-neon-pink/5 transition-all duration-200"
             >
               {item.label}
             </a>

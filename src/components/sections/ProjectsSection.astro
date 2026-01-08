@@ -72,8 +72,48 @@ const featuredProjects = projects.filter((p) => p.featured);
 const otherProjects = projects.filter((p) => !p.featured);
 ---
 
-<section id="projects" class="section px-4" aria-labelledby="projects-heading">
-  <div class="max-w-6xl mx-auto">
+<section id="projects" class="section section-arcade px-4 overflow-hidden" aria-labelledby="projects-heading">
+  <!-- Neon Top Border -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple/50 to-transparent"></div>
+
+  <!-- Floating Arcade Decorations -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <!-- Glowing orbs -->
+    <div class="absolute top-40 left-10 w-80 h-80 rounded-full bg-neon-pink/8 blur-3xl"></div>
+    <div class="absolute bottom-60 right-10 w-72 h-72 rounded-full bg-neon-purple/10 blur-3xl"></div>
+    <div class="absolute top-1/3 right-1/3 w-56 h-56 rounded-full bg-neon-yellow/5 blur-3xl"></div>
+    <div class="absolute bottom-20 left-1/4 w-48 h-48 rounded-full bg-neon-orange/5 blur-2xl"></div>
+
+    <!-- Geometric shapes - scattered throughout -->
+    <div class="absolute top-28 right-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-pink/35 wobble"></div>
+    <div class="absolute top-[25%] left-[5%] w-8 h-8 border-2 border-neon-yellow/40 rounded-full drift-1 spin-slow"></div>
+    <div class="absolute top-[45%] right-[4%] w-6 h-6 bg-neon-green/25 rotate-45 float-rotate"></div>
+    <div class="absolute bottom-[35%] left-[7%] w-7 h-7 border-2 border-neon-purple/35 rotate-45 sway"></div>
+    <div class="absolute top-[65%] right-[10%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/40 drift-2"></div>
+    <div class="absolute bottom-28 left-[15%] w-5 h-5 border-2 border-neon-pink/30 rounded-full pulse-drift"></div>
+
+    <!-- Zigzag patterns -->
+    <svg class="absolute top-[20%] left-[2%] w-20 h-10 text-neon-purple/30 drift-slow" viewBox="0 0 80 40">
+      <path d="M0 20 L20 0 L40 20 L60 0 L80 20" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute bottom-[25%] right-[3%] w-16 h-8 text-neon-yellow/25 sway" viewBox="0 0 64 32">
+      <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
+    <!-- Squiggly lines -->
+    <svg class="absolute top-[55%] left-[3%] w-8 h-16 text-neon-green/30 wobble" viewBox="0 0 32 64">
+      <path d="M16 0 Q0 16 16 32 Q32 48 16 64" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
+    <!-- Concentric circles -->
+    <div class="absolute top-[75%] right-[6%] drift-3">
+      <div class="w-14 h-14 border-2 border-neon-pink/20 rounded-full spin-slow"></div>
+      <div class="absolute top-2 left-2 w-10 h-10 border-2 border-neon-pink/30 rounded-full"></div>
+      <div class="absolute top-4 left-4 w-6 h-6 border-2 border-neon-pink/40 rounded-full"></div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
     <div class="text-center mb-16">
       <h2 id="projects-heading" class="section-title">
@@ -96,8 +136,8 @@ const otherProjects = projects.filter((p) => !p.featured);
             {/* Image */}
             <div class="lg:w-1/2">
               <div class="relative group">
-                <div class="absolute inset-0 bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div class="relative rounded-2xl overflow-hidden border border-night-600 group-hover:border-neon-cyan/30 transition-colors">
+                <div class="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div class="relative rounded-2xl overflow-hidden border border-neon-pink/20 group-hover:border-neon-pink/40 transition-colors">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -111,7 +151,7 @@ const otherProjects = projects.filter((p) => !p.featured);
 
             {/* Content */}
             <div class="lg:w-1/2">
-              <span class="text-neon-cyan text-sm font-mono mb-2 block">
+              <span class="text-neon-pink text-sm font-mono mb-2 block glow-text-pink">
                 Featured Project
               </span>
               <h3 class="text-2xl font-bold text-white mb-4">{project.title}</h3>
@@ -209,9 +249,9 @@ const otherProjects = projects.filter((p) => !p.featured);
             <div class="card card-highlighted group">
               {/* Header */}
               <div class="flex items-start justify-between mb-4">
-                <div class="w-12 h-12 rounded-xl bg-night-700 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-xl bg-neon-pink/10 border border-neon-pink/20 flex items-center justify-center">
                   <svg
-                    class="w-6 h-6 text-neon-cyan"
+                    class="w-6 h-6 text-neon-pink"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -230,7 +270,7 @@ const otherProjects = projects.filter((p) => !p.featured);
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-gray-400 hover:text-neon-cyan transition-colors"
+                      class="text-gray-400 hover:text-neon-pink transition-colors"
                       aria-label={`View ${project.title} on GitHub`}
                     >
                       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -243,7 +283,7 @@ const otherProjects = projects.filter((p) => !p.featured);
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-gray-400 hover:text-neon-cyan transition-colors"
+                      class="text-gray-400 hover:text-neon-yellow transition-colors"
                       aria-label={`Visit ${project.title}`}
                     >
                       <svg
@@ -265,7 +305,7 @@ const otherProjects = projects.filter((p) => !p.featured);
               </div>
 
               {/* Content */}
-              <h4 class="text-lg font-semibold text-white mb-2 group-hover:text-neon-cyan transition-colors">
+              <h4 class="text-lg font-semibold text-white mb-2 group-hover:text-neon-pink transition-colors">
                 {project.title}
               </h4>
               <p class="text-gray-400 text-sm mb-4">{project.description}</p>

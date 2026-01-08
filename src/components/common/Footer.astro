@@ -4,13 +4,14 @@ import { profile } from '../../data/profile';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="py-12 px-4 border-t border-night-700">
+<footer class="py-12 px-4 border-t border-neon-pink/20 bg-gradient-to-b from-transparent to-[rgba(10,0,21,0.5)]">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <!-- Logo and Copyright -->
       <div class="flex items-center gap-4">
         <div
-          class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center text-night-900 font-bold text-lg"
+          class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-neon-purple flex items-center justify-center text-white font-bold text-lg"
+          style="box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);"
         >
           LA
         </div>
@@ -30,7 +31,7 @@ const currentYear = new Date().getFullYear();
           href={profile.social.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-gray-400 hover:text-neon-cyan transition-colors"
+          class="text-gray-400 hover:text-neon-pink transition-colors"
           aria-label="GitHub Profile"
         >
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -44,7 +45,7 @@ const currentYear = new Date().getFullYear();
           href={profile.social.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-gray-400 hover:text-neon-cyan transition-colors"
+          class="text-gray-400 hover:text-neon-purple transition-colors"
           aria-label="LinkedIn Profile"
         >
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -56,7 +57,7 @@ const currentYear = new Date().getFullYear();
 
         <a
           href={`mailto:${profile.contact.email.user.split('').reverse().join('')}@${profile.contact.email.website.split('').reverse().join('')}`}
-          class="text-gray-400 hover:text-neon-cyan transition-colors"
+          class="text-gray-400 hover:text-neon-yellow transition-colors"
           aria-label="Email me"
         >
           <svg
@@ -80,7 +81,7 @@ const currentYear = new Date().getFullYear();
     <div class="mt-8 text-center">
       <a
         href="#home"
-        class="inline-flex items-center gap-2 text-gray-500 hover:text-neon-cyan transition-colors text-sm"
+        class="inline-flex items-center gap-2 text-gray-500 hover:text-neon-pink transition-colors text-sm"
         aria-label="Back to top"
       >
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -12,10 +12,49 @@ const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
 
 <section
   id="contact"
-  class="section px-4 bg-night-800/30"
+  class="section section-arcade-alt px-4 overflow-hidden"
   aria-labelledby="contact-heading"
 >
-  <div class="max-w-6xl mx-auto">
+  <!-- Neon Top Border -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-yellow/50 to-transparent"></div>
+
+  <!-- Floating Arcade Decorations -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <!-- Glowing orbs -->
+    <div class="absolute top-20 right-20 w-72 h-72 rounded-full bg-neon-pink/10 blur-3xl"></div>
+    <div class="absolute bottom-32 left-10 w-64 h-64 rounded-full bg-neon-purple/10 blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 w-48 h-48 rounded-full bg-neon-green/5 blur-2xl -translate-x-1/2"></div>
+
+    <!-- Geometric shapes -->
+    <div class="absolute top-32 left-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-yellow/40 wobble"></div>
+    <div class="absolute top-[40%] right-[5%] w-8 h-8 border-2 border-neon-pink/35 rounded-full pulse-drift"></div>
+    <div class="absolute bottom-[30%] left-[6%] w-6 h-6 bg-neon-orange/30 rotate-45 float-rotate"></div>
+    <div class="absolute top-[60%] right-[12%] w-0 h-0 border-l-[11px] border-l-transparent border-r-[11px] border-r-transparent border-b-[19px] border-b-neon-purple/35 drift-1"></div>
+    <div class="absolute bottom-24 right-[8%] w-5 h-5 border-2 border-neon-green/40 rotate-45 sway"></div>
+
+    <!-- Lightning bolt -->
+    <svg class="absolute top-[25%] right-[4%] w-6 h-12 text-neon-yellow/40 drift-2" viewBox="0 0 24 48">
+      <path d="M12 0 L4 20 L12 20 L8 48 L20 24 L12 24 Z" fill="currentColor"/>
+    </svg>
+
+    <!-- Squiggly line -->
+    <svg class="absolute bottom-[40%] left-[3%] w-10 h-20 text-neon-pink/30 wobble" viewBox="0 0 40 80">
+      <path d="M20 0 Q0 20 20 40 Q40 60 20 80" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
+    <!-- Concentric circles -->
+    <div class="absolute top-[70%] left-[10%] drift-3">
+      <div class="w-12 h-12 border-2 border-neon-purple/20 rounded-full spin-slow"></div>
+      <div class="absolute top-2 left-2 w-8 h-8 border-2 border-neon-purple/30 rounded-full"></div>
+    </div>
+
+    <!-- Zigzag -->
+    <svg class="absolute top-[15%] left-[15%] w-16 h-8 text-neon-orange/30 drift-slow" viewBox="0 0 64 32">
+      <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
     <div class="text-center mb-16">
       <h2 id="contact-heading" class="section-title">
@@ -132,7 +171,7 @@ const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
             href={profile.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-12 h-12 rounded-xl bg-night-700 flex items-center justify-center text-gray-400 hover:bg-neon-cyan/10 hover:text-neon-cyan transition-all"
+            class="w-12 h-12 rounded-xl bg-neon-pink/10 border border-neon-pink/20 flex items-center justify-center text-gray-400 hover:bg-neon-pink/20 hover:text-neon-pink hover:border-neon-pink/40 transition-all"
             aria-label="Connect on LinkedIn"
           >
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -146,7 +185,7 @@ const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
             href={profile.social.github}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-12 h-12 rounded-xl bg-night-700 flex items-center justify-center text-gray-400 hover:bg-neon-cyan/10 hover:text-neon-cyan transition-all"
+            class="w-12 h-12 rounded-xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center text-gray-400 hover:bg-neon-purple/20 hover:text-neon-purple hover:border-neon-purple/40 transition-all"
             aria-label="Follow on GitHub"
           >
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

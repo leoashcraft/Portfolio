@@ -1111,6 +1111,7 @@
                                 <source data-src="{{ config('app.static_url') }}/img/portfolio/amstelplumbing.webm"
                                     class="rounded-lg max-md:h-[17rem] w-full max-md:object-cover max-md:object-center transition-all duration-300 group-hover:blur-xs"
                                     type="video/webm">
+                                <track kind="captions" src="data:text/vtt,WEBVTT" label="No audio" default>
                             </video>
                             <div
                                 class="absolute inset-0 transition-all duration-300 opacity-0 overlay bg-gradient-to-t from-white dark:from-black to-transparent rounded-xl group-hover:opacity-100">

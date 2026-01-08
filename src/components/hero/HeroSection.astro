@@ -58,11 +58,11 @@ import LazyHero3DScene from './LazyHero3DScene';
       <span class="gradient-text-animated">{profile.name}</span>
     </h1>
 
-    <!-- Title -->
+    <!-- Title with Typewriter Effect -->
     <h2
-      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 opacity-0 animate-[fadeInUp_0.6s_ease_0.6s_forwards]"
+      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 opacity-0 animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2.25rem]"
     >
-      {profile.title}
+      <span id="typewriter"></span><span class="inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
 
     <!-- Tagline -->
@@ -152,6 +152,69 @@ import LazyHero3DScene from './LazyHero3DScene';
     });
   }
 
+  // Typewriter effect for title
+  function initTypewriter() {
+    const element = document.getElementById('typewriter');
+    if (!element) return;
+
+    const titles = [
+      'Full Stack Software Developer',
+      'Frontend Web Developer',
+      'Backend Web Developer',
+      'Jack of All Trades'
+    ];
+
+    let titleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let isPaused = false;
+
+    const typeSpeed = 80;
+    const deleteSpeed = 50;
+    const pauseTime = 2000;
+
+    function type() {
+      const currentTitle = titles[titleIndex];
+
+      if (isPaused) {
+        isPaused = false;
+        isDeleting = true;
+        setTimeout(type, pauseTime);
+        return;
+      }
+
+      if (isDeleting) {
+        element.textContent = currentTitle.substring(0, charIndex - 1);
+        charIndex--;
+
+        if (charIndex === 0) {
+          isDeleting = false;
+          titleIndex = (titleIndex + 1) % titles.length;
+          setTimeout(type, 500);
+          return;
+        }
+      } else {
+        element.textContent = currentTitle.substring(0, charIndex + 1);
+        charIndex++;
+
+        if (charIndex === currentTitle.length) {
+          isPaused = true;
+          setTimeout(type, 100);
+          return;
+        }
+      }
+
+      setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
+    }
+
+    // Start after a short delay to let the fade-in animation complete
+    setTimeout(type, 1000);
+  }
+
   initCounters();
-  document.addEventListener('astro:after-swap', initCounters);
+  initTypewriter();
+  document.addEventListener('astro:after-swap', () => {
+    initCounters();
+    initTypewriter();
+  });
 </script>

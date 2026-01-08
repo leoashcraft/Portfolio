@@ -1107,3 +1107,51 @@ code, pre, kbd {
   background: rgba(255, 0, 255, 0.2);
   box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
 }
+
+/* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
+/* Disable all decorative animations on mobile to reduce main thread work */
+@media (max-width: 767px) {
+  /* Disable all arcade floating/drifting animations */
+  .drift-1,
+  .drift-2,
+  .drift-3,
+  .drift-slow,
+  .drift-diagonal,
+  .spin-slow,
+  .pulse-drift,
+  .wobble,
+  .float-rotate,
+  .sway,
+  .arcade-float,
+  .timeline-traveler {
+    animation: none !important;
+  }
+
+  /* Disable the animated gradient on text (expensive) */
+  .gradient-text-animated {
+    animation: none !important;
+    background-size: 100% 100% !important;
+  }
+
+  /* Hide all floating geometric decorations on mobile */
+  [aria-hidden="true"] .drift-1,
+  [aria-hidden="true"] .drift-2,
+  [aria-hidden="true"] .drift-3,
+  [aria-hidden="true"] .drift-slow,
+  [aria-hidden="true"] .drift-diagonal,
+  [aria-hidden="true"] .spin-slow,
+  [aria-hidden="true"] .pulse-drift,
+  [aria-hidden="true"] .wobble,
+  [aria-hidden="true"] .float-rotate,
+  [aria-hidden="true"] .sway {
+    display: none !important;
+  }
+
+  /* Reduce blur effects (GPU intensive) */
+  .blur-3xl {
+    filter: blur(32px) !important;
+  }
+  .blur-2xl {
+    filter: blur(24px) !important;
+  }
+}

@@ -391,14 +391,26 @@ code, pre, kbd {
 }
 
 .terminal-dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  position: relative;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-dot::after {
+  content: '';
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
 }
 
-.terminal-dot.red { background-color: #ef4444; }
-.terminal-dot.yellow { background-color: #eab308; }
-.terminal-dot.green { background-color: #22c55e; }
+.terminal-dot.red::after { background-color: #ef4444; }
+.terminal-dot.yellow::after { background-color: #eab308; }
+.terminal-dot.green::after { background-color: #22c55e; }
 
 .terminal-body {
   padding: 1rem;

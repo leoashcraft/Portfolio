@@ -1739,17 +1739,17 @@ export default function InteractiveTerminal() {
       {/* Terminal Header */}
       <div className="terminal-header">
         <button
-          className="terminal-dot red cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
+          className="terminal-dot red cursor-pointer hover:brightness-125 transition-all hover:scale-110"
           aria-label="Close terminal"
           onClick={(e) => { e.stopPropagation(); handleClose(); }}
         />
         <button
-          className="terminal-dot yellow cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
+          className="terminal-dot yellow cursor-pointer hover:brightness-125 transition-all hover:scale-110"
           aria-label="Minimize terminal"
           onClick={(e) => { e.stopPropagation(); handleMinimize(); }}
         />
         <button
-          className="terminal-dot green cursor-pointer hover:brightness-125 transition-all hover:scale-110 relative before:absolute before:inset-[-6px] before:content-['']"
+          className="terminal-dot green cursor-pointer hover:brightness-125 transition-all hover:scale-110"
           aria-label="Maximize terminal"
           onClick={(e) => { e.stopPropagation(); handleMaximize(); }}
         />

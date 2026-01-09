@@ -11,7 +11,7 @@ const navItems = [
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
-  <nav class="glass max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+  <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
     <!-- Logo/Name -->
     <a
       href="/"
@@ -100,7 +100,8 @@ const navItems = [
   <!-- Mobile Menu -->
   <div
     id="mobile-menu"
-    class="md:hidden fixed inset-x-4 top-20 glass p-4 opacity-0 invisible translate-y-[-10px] transition-all duration-300"
+    class="md:hidden fixed inset-x-4 top-20 p-4 opacity-0 invisible translate-y-[-10px] transition-all duration-300 rounded-2xl border border-white/10"
+    style="background: rgba(10, 0, 21, 0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);"
     aria-hidden="true"
   >
     <ul class="space-y-2">
@@ -154,6 +155,47 @@ const navItems = [
     });
   }
 
+  function initNavScroll() {
+    const nav = document.getElementById('main-nav');
+    if (!nav) return;
+
+    const scrollThreshold = 300;
+
+    // Arcade carpet gradient background
+    const arcadeGradient = `
+      linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+      linear-gradient(225deg, rgba(102, 0, 255, 0.1) 0%, transparent 50%),
+      linear-gradient(45deg, rgba(255, 255, 0, 0.05) 0%, transparent 50%),
+      linear-gradient(315deg, rgba(0, 255, 0, 0.05) 0%, transparent 50%),
+      rgba(10, 0, 21, 0.9)
+    `;
+
+    function updateNav() {
+      const scrollY = window.scrollY;
+      const progress = Math.min(scrollY / scrollThreshold, 1);
+
+      if (progress > 0) {
+        // Scrolled: apply arcade carpet background with increasing opacity
+        const bgOpacity = 0.05 + (progress * 0.85); // 5% to 90%
+        nav.style.background = arcadeGradient;
+        nav.style.backgroundColor = `rgba(10, 0, 21, ${bgOpacity})`;
+        nav.style.borderColor = `rgba(255, 0, 255, ${0.1 + progress * 0.2})`;
+      } else {
+        // At top: reset to glass style
+        nav.style.background = '';
+        nav.style.backgroundColor = '';
+        nav.style.borderColor = '';
+      }
+    }
+
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav(); // Initial check
+  }
+
   initMobileMenu();
-  document.addEventListener('astro:after-swap', initMobileMenu);
+  initNavScroll();
+  document.addEventListener('astro:after-swap', () => {
+    initMobileMenu();
+    initNavScroll();
+  });
 </script>

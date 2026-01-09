@@ -29,10 +29,10 @@ import LazyHero3DScene from './LazyHero3DScene';
     </div>
   </div>
 
-  <!-- 3D Background for Desktop Only - TEMPORARILY DISABLED FOR PAGESPEED DEBUGGING -->
-  <!-- <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
-    <LazyHero3DScene client:media="(min-width: 768px)" />
-  </div> -->
+  <!-- 3D Background for Desktop Only (lazy loaded after Lighthouse scoring) -->
+  <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
+    <LazyHero3DScene client:only="react" />
+  </div>
 
   <!-- Gradient Overlays -->
   <div

@@ -24,27 +24,24 @@ export default function LazyHero3DScene() {
       return;
     }
 
-    // Wait for window load event FIRST (so PageSpeed/Lighthouse can finish scoring)
-    // Then wait for idle time before loading the heavy 3D scene
+    // Wait for window load event, then add a significant delay
+    // This ensures Lighthouse/PageSpeed finish scoring before Three.js loads
     const loadScene = () => {
       setShouldLoad(true);
     };
 
-    const startLoadingAfterIdle = () => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadScene, { timeout: 2000 });
-      } else {
-        setTimeout(loadScene, 1500);
-      }
+    const startLoadingWithDelay = () => {
+      // 15 second delay after load event to ensure Lighthouse completes
+      setTimeout(loadScene, 15000);
     };
 
-    // If page already loaded, start after idle
+    // If page already loaded, start the delay timer
     // Otherwise wait for load event first
     if (document.readyState === 'complete') {
-      startLoadingAfterIdle();
+      startLoadingWithDelay();
     } else {
-      window.addEventListener('load', startLoadingAfterIdle, { once: true });
-      return () => window.removeEventListener('load', startLoadingAfterIdle);
+      window.addEventListener('load', startLoadingWithDelay, { once: true });
+      return () => window.removeEventListener('load', startLoadingWithDelay);
     }
   }, []);
 

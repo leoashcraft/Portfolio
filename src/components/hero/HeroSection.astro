@@ -286,14 +286,11 @@ import { profile } from '../../data/profile';
       setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
     }
 
-    // Delay start by 3 seconds, then show cursor and wait 4 more seconds before erasing
-    setTimeout(() => {
-      if (cursor) {
-        cursor.classList.remove('hidden');
-      }
-      // Wait 4 seconds with full title visible before starting to erase
-      setTimeout(type, 4000);
-    }, 3000);
+    // Show cursor immediately, wait 4 seconds before erasing
+    if (cursor) {
+      cursor.classList.remove('hidden');
+    }
+    setTimeout(type, 4000);
   }
 
   // Explicit scroll handler for contact button

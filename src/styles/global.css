@@ -237,7 +237,6 @@ code, pre, kbd {
     var(--color-neon-pink),
     var(--color-neon-yellow),
     var(--color-neon-orange),
-    var(--color-neon-purple),
     var(--color-neon-pink)
   );
   animation: var(--animate-gradient);

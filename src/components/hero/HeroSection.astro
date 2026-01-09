@@ -209,14 +209,15 @@ import LazyHero3DScene from './LazyHero3DScene';
       setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
     }
 
-    // Delay start by 8 seconds to let Lighthouse finish scoring
-    // Then show cursor and begin animation
+    // Delay start by 12 seconds to let Lighthouse finish scoring
+    // Then show cursor and wait 4 more seconds before erasing
     setTimeout(() => {
       if (cursor) {
         cursor.classList.remove('hidden');
       }
-      type();
-    }, 8000);
+      // Wait 4 seconds with full title visible before starting to erase
+      setTimeout(type, 4000);
+    }, 12000);
   }
 
   initCounters();

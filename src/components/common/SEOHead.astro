@@ -137,21 +137,27 @@ const schemas = [websiteSchema, personSchema, articleSchema].filter(Boolean);
   ))
 }
 
-<!-- Google Fonts (non-render-blocking) -->
+<!-- Critical inline styles for fastest FCP -->
+<style>
+  body{background:#0a0a0f;color:#e5e5e5;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+  .gradient-text-animated{background:linear-gradient(135deg,#facc15,#f97316,#facc15);-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<!-- Google Fonts (non-render-blocking, display=optional for no layout shift) -->
 <link
   rel="preload"
   as="style"
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=optional"
 />
 <link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=optional"
   rel="stylesheet"
   media="print"
   onload="this.media='all'"
 />
 <noscript>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=optional"
     rel="stylesheet"
   />
 </noscript>

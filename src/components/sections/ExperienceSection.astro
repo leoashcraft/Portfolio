@@ -43,9 +43,9 @@ import { experience, education } from '../../data/experience';
 
     <!-- Experience Timeline -->
     <div class="relative">
-      <!-- Timeline Line -->
+      <!-- Timeline Line (hidden on mobile) -->
       <div
-        class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-neon-pink via-neon-purple via-neon-yellow to-neon-green md:-translate-x-1/2"
+        class="hidden md:block absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-neon-pink via-neon-purple via-neon-yellow to-neon-green md:-translate-x-1/2"
         style="box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);"
         aria-hidden="true"
       >
@@ -85,16 +85,16 @@ import { experience, education } from '../../data/experience';
                 index % 2 === 0 ? 'md:flex-row-reverse' : ''
               }`}
             >
-              {/* Timeline Dot */}
+              {/* Timeline Dot (hidden on mobile) */}
               <div
-                class="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-neon-pink border-4 border-night-900 md:-translate-x-1/2 z-10"
+                class="hidden md:block absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-neon-pink border-4 border-night-900 md:-translate-x-1/2 z-10"
                 style="box-shadow: 0 0 12px rgba(255, 0, 255, 0.6);"
                 aria-hidden="true"
               />
 
               {/* Content */}
               <div
-                class={`ml-8 md:ml-0 md:w-1/2 ${
+                class={`md:w-1/2 ${
                   index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
                 }`}
               >

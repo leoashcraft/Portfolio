@@ -109,7 +109,7 @@ export const education: Education[] = [
     year: '2023',
     description: 'Obtained React experience, enhancing UX/UI skills with HTML, CSS, JavaScript, and React.',
     skills: ['React', 'JavaScript', 'HTML5', 'CSS3', 'UX/UI'],
-    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.coursera.org/account/accomplishments/specialization/certificate/PVARJGKHEXDX',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/specialization/certificate/PVARJGKHEXDX',
   },
   {
     institution: 'Coding Temple',
@@ -117,7 +117,7 @@ export const education: Education[] = [
     year: '2022',
     description: 'Acquired skills in Python, SQL, MongoDB, and other technologies through real-world projects.',
     skills: ['Python', 'SQL', 'MongoDB', 'Data Analysis'],
-    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.credly.com/users/leo-ashcraft/badges',
+    credentialUrl: 'https://www.credly.com/users/leo-ashcraft/badges',
   },
   {
     institution: 'Coding Temple',
@@ -125,7 +125,7 @@ export const education: Education[] = [
     year: '2021',
     description: 'Gained hands-on expertise in Docker, GitHub, TypeScript, React, MySQL, HTML5, and CSS3.',
     skills: ['Docker', 'TypeScript', 'React', 'MySQL', 'GitHub'],
-    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.credly.com/users/leo-ashcraft/badges',
+    credentialUrl: 'https://www.credly.com/users/leo-ashcraft/badges',
   },
   {
     institution: 'Penn Foster',

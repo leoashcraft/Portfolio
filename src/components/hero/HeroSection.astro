@@ -67,6 +67,17 @@ import { profile } from '../../data/profile';
       <path d="M0 10 Q8 0 16 10 T32 10 T48 10 T64 10" fill="none" stroke="currentColor" stroke-width="2"/>
     </svg>
 
+    <!-- Long center squiggly lines -->
+    <svg class="absolute top-[25%] left-[25%] w-48 h-10 text-neon-pink/25 drift-diagonal" viewBox="0 0 192 40">
+      <path d="M0 20 Q16 0 32 20 T64 20 T96 20 T128 20 T160 20 T192 20" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute top-[68%] right-[20%] w-56 h-12 text-neon-orange/20 drift-2" viewBox="0 0 224 48">
+      <path d="M0 24 Q18 0 36 24 T72 24 T108 24 T144 24 T180 24 T224 24" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute top-[45%] left-[30%] w-40 h-8 text-neon-cyan/20 drift-1" viewBox="0 0 160 32">
+      <path d="M0 16 Q13 0 26 16 T52 16 T78 16 T104 16 T130 16 T160 16" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
     <!-- Plus signs -->
     <div class="absolute top-[28%] right-[45%] text-neon-pink/40 text-2xl font-light drift-2">+</div>
     <div class="absolute bottom-[40%] left-[40%] text-neon-cyan/35 text-xl font-light drift-1">+</div>
@@ -275,15 +286,14 @@ import { profile } from '../../data/profile';
       setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
     }
 
-    // Delay start by 12 seconds to let Lighthouse finish scoring
-    // Then show cursor and wait 4 more seconds before erasing
+    // Delay start by 3 seconds, then show cursor and wait 4 more seconds before erasing
     setTimeout(() => {
       if (cursor) {
         cursor.classList.remove('hidden');
       }
       // Wait 4 seconds with full title visible before starting to erase
       setTimeout(type, 4000);
-    }, 12000);
+    }, 3000);
   }
 
   // Explicit scroll handler for contact button

@@ -93,13 +93,46 @@ export const experience: Experience[] = [
   },
 ];
 
-export const education = [
+export interface Education {
+  institution: string;
+  degree: string;
+  year: string;
+  description: string;
+  skills: string[];
+  credentialUrl?: string;
+}
+
+export const education: Education[] = [
   {
     institution: 'Meta',
     degree: 'Front-End Development Professional Certificate',
     year: '2023',
-    description: 'Comprehensive React, HTML, CSS, and JavaScript certification program',
-    skills: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Version Control'],
+    description: 'Obtained React experience, enhancing UX/UI skills with HTML, CSS, JavaScript, and React.',
+    skills: ['React', 'JavaScript', 'HTML5', 'CSS3', 'UX/UI'],
+    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.coursera.org/account/accomplishments/specialization/certificate/PVARJGKHEXDX',
+  },
+  {
+    institution: 'Coding Temple',
+    degree: 'Data Analysis Bootcamp',
+    year: '2022',
+    description: 'Acquired skills in Python, SQL, MongoDB, and other technologies through real-world projects.',
+    skills: ['Python', 'SQL', 'MongoDB', 'Data Analysis'],
+    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.credly.com/users/leo-ashcraft/badges',
+  },
+  {
+    institution: 'Coding Temple',
+    degree: 'Software Engineering Bootcamp',
+    year: '2021',
+    description: 'Gained hands-on expertise in Docker, GitHub, TypeScript, React, MySQL, HTML5, and CSS3.',
+    skills: ['Docker', 'TypeScript', 'React', 'MySQL', 'GitHub'],
+    credentialUrl: 'https://web.archive.org/web/20251116093515/https://www.credly.com/users/leo-ashcraft/badges',
+  },
+  {
+    institution: 'Penn Foster',
+    degree: 'High School Diploma',
+    year: '2007',
+    description: 'Computer Programming and Information Technology/Computer Science were among my chosen electives.',
+    skills: ['Computer Programming', 'Information Technology'],
   },
 ];
 

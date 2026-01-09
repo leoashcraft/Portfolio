@@ -1,6 +1,5 @@
 ---
 import { profile } from '../../data/profile';
-import LazyHero3DScene from './LazyHero3DScene';
 ---
 
 <section
@@ -8,30 +7,95 @@ import LazyHero3DScene from './LazyHero3DScene';
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
   aria-label="Introduction"
 >
-  <!-- Static Background for Mobile (CSS only, no JS) -->
-  <div class="absolute inset-0 -z-10 hero-static-bg md:hidden" aria-hidden="true">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0015] via-[#1a0a2a] to-[#0a0015]"></div>
-    <div class="absolute inset-0 opacity-60">
-      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-fuchsia-600/30 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 w-48 h-48 bg-yellow-400/20 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/3 right-1/3 w-32 h-32 bg-green-400/25 rounded-full blur-2xl"></div>
-    </div>
+  <!-- Base gradient background -->
+  <div class="absolute inset-0 -z-20 bg-gradient-to-b from-[#0a0015] via-[#1a0a2a] to-[#0a0015]" aria-hidden="true"></div>
+
+  <!-- Glowing orbs layer -->
+  <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <div class="absolute top-[10%] left-[10%] w-72 h-72 bg-fuchsia-600/25 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute top-[60%] right-[5%] w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-[30%] right-[30%] w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-[20%] left-[20%] w-80 h-80 bg-neon-pink/15 rounded-3xl blur-3xl"></div>
+    <div class="absolute top-[50%] left-[50%] w-48 h-48 bg-green-400/20 rounded-full blur-2xl animate-pulse-slow"></div>
+    <div class="absolute bottom-[40%] right-[15%] w-56 h-56 bg-orange-400/15 rounded-full blur-3xl"></div>
   </div>
 
-  <!-- Static Background for Desktop (shows immediately while 3D loads) -->
-  <div class="absolute inset-0 -z-20 hidden md:block hero-static-bg" aria-hidden="true">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0015] via-[#1a0a2a] to-[#0a0015]"></div>
-    <div class="absolute inset-0 opacity-40">
-      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-fuchsia-600/30 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 w-48 h-48 bg-yellow-400/20 rounded-full blur-3xl"></div>
-    </div>
-  </div>
+  <!-- Floating geometric shapes - 80s arcade carpet style -->
+  <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <!-- Triangles -->
+    <div class="absolute top-[15%] left-[8%] w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[35px] border-b-neon-pink/50 drift-1"></div>
+    <div class="absolute top-[70%] right-[12%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-yellow/40 drift-2"></div>
+    <div class="absolute top-[45%] left-[5%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/40 drift-diagonal"></div>
+    <div class="absolute bottom-[25%] right-[25%] w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-b-[30px] border-b-neon-green/35 drift-3"></div>
+    <div class="absolute top-[25%] right-[8%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/45 drift-slow"></div>
 
-  <!-- 3D Background for Desktop Only (lazy loaded after Lighthouse scoring) -->
-  <div class="absolute inset-0 -z-10 hidden md:block" id="hero-3d-container">
-    <LazyHero3DScene client:only="react" />
+    <!-- Squares/Diamonds -->
+    <div class="absolute top-[20%] right-[20%] w-8 h-8 border-2 border-neon-pink/50 rotate-45 drift-2"></div>
+    <div class="absolute top-[65%] left-[15%] w-6 h-6 border-2 border-neon-yellow/40 rotate-45 drift-1"></div>
+    <div class="absolute bottom-[35%] right-[8%] w-10 h-10 border-2 border-neon-cyan/40 rotate-45 drift-diagonal"></div>
+    <div class="absolute top-[40%] right-[35%] w-5 h-5 bg-neon-orange/30 rotate-45 drift-3"></div>
+    <div class="absolute bottom-[15%] left-[30%] w-7 h-7 border-2 border-neon-green/35 rotate-45 drift-slow"></div>
+    <div class="absolute top-[55%] left-[25%] w-4 h-4 bg-neon-purple/40 rotate-45 drift-2"></div>
+
+    <!-- Circles/Rings -->
+    <div class="absolute top-[30%] left-[20%] w-12 h-12 border-2 border-neon-pink/40 rounded-full drift-slow spin-slow"></div>
+    <div class="absolute top-[75%] right-[30%] w-8 h-8 border-2 border-neon-cyan/50 rounded-full drift-1"></div>
+    <div class="absolute bottom-[45%] left-[8%] w-10 h-10 border-2 border-neon-yellow/35 rounded-full drift-2 spin-slow"></div>
+    <div class="absolute top-[18%] left-[40%] w-6 h-6 bg-neon-green/30 rounded-full drift-diagonal"></div>
+    <div class="absolute bottom-[20%] right-[40%] w-14 h-14 border-2 border-neon-purple/30 rounded-full drift-3 spin-slow"></div>
+    <div class="absolute top-[50%] right-[5%] w-5 h-5 bg-neon-orange/35 rounded-full drift-slow"></div>
+
+    <!-- Zigzag SVG lines -->
+    <svg class="absolute top-[22%] left-[2%] w-20 h-10 text-neon-orange/40 drift-slow" viewBox="0 0 80 40">
+      <path d="M0 20 L20 0 L40 20 L60 0 L80 20" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute bottom-[30%] right-[3%] w-16 h-8 text-neon-pink/35 drift-2" viewBox="0 0 64 32">
+      <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute top-[60%] left-[35%] w-12 h-6 text-neon-cyan/30 drift-diagonal" viewBox="0 0 48 24">
+      <path d="M0 12 L12 0 L24 12 L36 0 L48 12" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
+    <!-- Squiggly/wavy lines -->
+    <svg class="absolute top-[35%] right-[15%] w-24 h-8 text-neon-purple/35 drift-1" viewBox="0 0 96 32">
+      <path d="M0 16 Q12 0 24 16 T48 16 T72 16 T96 16" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute bottom-[55%] left-[10%] w-20 h-6 text-neon-yellow/30 drift-3" viewBox="0 0 80 24">
+      <path d="M0 12 Q10 0 20 12 T40 12 T60 12 T80 12" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <svg class="absolute top-[80%] left-[45%] w-16 h-5 text-neon-green/35 drift-slow" viewBox="0 0 64 20">
+      <path d="M0 10 Q8 0 16 10 T32 10 T48 10 T64 10" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+
+    <!-- Plus signs -->
+    <div class="absolute top-[28%] right-[45%] text-neon-pink/40 text-2xl font-light drift-2">+</div>
+    <div class="absolute bottom-[40%] left-[40%] text-neon-cyan/35 text-xl font-light drift-1">+</div>
+    <div class="absolute top-[72%] left-[12%] text-neon-yellow/30 text-3xl font-light drift-diagonal">+</div>
+
+    <!-- Dots cluster -->
+    <div class="absolute top-[12%] right-[35%] flex gap-2 drift-slow">
+      <div class="w-2 h-2 bg-neon-pink/50 rounded-full"></div>
+      <div class="w-2 h-2 bg-neon-yellow/50 rounded-full"></div>
+      <div class="w-2 h-2 bg-neon-cyan/50 rounded-full"></div>
+    </div>
+    <div class="absolute bottom-[28%] left-[5%] flex gap-1.5 drift-2">
+      <div class="w-1.5 h-1.5 bg-neon-purple/45 rounded-full"></div>
+      <div class="w-1.5 h-1.5 bg-neon-green/45 rounded-full"></div>
+      <div class="w-1.5 h-1.5 bg-neon-orange/45 rounded-full"></div>
+    </div>
+
+    <!-- Lightning bolt shapes -->
+    <svg class="absolute top-[42%] left-[3%] w-6 h-12 text-neon-yellow/40 drift-1" viewBox="0 0 24 48">
+      <path d="M12 0 L4 20 L10 20 L6 48 L20 18 L12 18 Z" fill="currentColor"/>
+    </svg>
+    <svg class="absolute bottom-[15%] right-[18%] w-5 h-10 text-neon-cyan/35 drift-3" viewBox="0 0 20 40">
+      <path d="M10 0 L3 16 L8 16 L5 40 L17 15 L10 15 Z" fill="currentColor"/>
+    </svg>
+
+    <!-- Small stars -->
+    <div class="absolute top-[8%] right-[25%] text-neon-yellow/50 text-sm drift-slow">✦</div>
+    <div class="absolute top-[85%] left-[22%] text-neon-pink/40 text-xs drift-2">✦</div>
+    <div class="absolute top-[38%] right-[3%] text-neon-cyan/45 text-base drift-diagonal">✦</div>
   </div>
 
   <!-- Gradient Overlays -->

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ashcraft.tech/sitemap-index.xml
+Sitemap: https://leoashcraft.com/sitemap-index.xml

@@ -234,10 +234,9 @@ code, pre, kbd {
   background-size: 300% 300%;
   background-image: linear-gradient(
     135deg,
-    var(--color-neon-pink),
     var(--color-neon-yellow),
     var(--color-neon-orange),
-    var(--color-neon-pink)
+    var(--color-neon-yellow)
   );
   animation: var(--animate-gradient);
 }

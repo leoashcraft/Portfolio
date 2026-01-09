@@ -9,7 +9,7 @@ import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ashcraft.tech',
+  site: 'https://leoashcraft.com',
   output: 'static',
   adapter: node({
     mode: 'standalone',
@@ -32,20 +32,6 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      noExternal: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/postprocessing'],
-    },
-    optimizeDeps: {
-      include: ['detect-gpu'],
-      esbuildOptions: {
-        target: 'esnext',
-      },
-    },
-    resolve: {
-      alias: {
-        'detect-gpu': 'detect-gpu/dist/detect-gpu.esm.js',
-      },
-    },
   },
   image: {
     domains: ['github.com', 'avatars.githubusercontent.com'],

@@ -119,37 +119,37 @@ import { profile } from '../../data/profile';
   <!-- Content -->
   <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-20">
     <div class="rounded-2xl p-8 md:p-12">
-    <!-- Greeting -->
+    <!-- Greeting (visible immediately on mobile, fade-in on desktop) -->
     <p
-      class="text-neon-pink font-mono text-sm md:text-base mb-4 opacity-0 animate-[fadeInUp_0.6s_ease_0.2s_forwards] glow-text-pink"
+      class="text-neon-pink font-mono text-sm md:text-base mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.2s_forwards] glow-text-pink"
     >
       Hello, I'm
     </p>
 
-    <!-- Name -->
+    <!-- Name (LCP element - visible immediately on mobile) -->
     <h1
-      class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 opacity-0 animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
+      class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
     >
       <span class="gradient-text-animated">{profile.name}</span>
     </h1>
 
     <!-- Title with Typewriter Effect -->
     <h2
-      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 opacity-0 animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2.25rem]"
+      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2.25rem]"
     >
       <span id="typewriter">Full Stack Software Developer</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
 
     <!-- Tagline -->
     <p
-      class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 opacity-0 animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
+      class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
     >
       {profile.tagline}
     </p>
 
     <!-- CTA Buttons -->
     <div
-      class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-[fadeInUp_0.6s_ease_1s_forwards]"
+      class="flex flex-col sm:flex-row items-center justify-center gap-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1s_forwards]"
     >
       <a href="#projects" class="btn btn-primary">
         View My Work
@@ -175,9 +175,9 @@ import { profile } from '../../data/profile';
       </a>
     </div>
 
-    <!-- Stats -->
+    <!-- Stats (visible immediately on mobile) -->
     <div
-      class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 opacity-0 animate-[fadeInUp_0.6s_ease_1.2s_forwards]"
+      class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1.2s_forwards]"
     >
       {
         profile.stats.map((stat) => (

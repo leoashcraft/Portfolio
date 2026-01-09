@@ -62,7 +62,7 @@ import LazyHero3DScene from './LazyHero3DScene';
     <h2
       class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 opacity-0 animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2.25rem]"
     >
-      <span id="typewriter"></span><span class="inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
+      <span id="typewriter">Full Stack Software Developer</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
 
     <!-- Tagline -->
@@ -155,6 +155,7 @@ import LazyHero3DScene from './LazyHero3DScene';
   // Typewriter effect for title
   function initTypewriter() {
     const element = document.getElementById('typewriter');
+    const cursor = document.getElementById('typewriter-cursor');
     if (!element) return;
 
     const titles = [
@@ -164,9 +165,10 @@ import LazyHero3DScene from './LazyHero3DScene';
       'Jack of All Trades'
     ];
 
+    // Start with first title complete, ready to delete
     let titleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    let charIndex = titles[0].length;
+    let isDeleting = true;
     let isPaused = false;
 
     const typeSpeed = 80;
@@ -207,8 +209,14 @@ import LazyHero3DScene from './LazyHero3DScene';
       setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
     }
 
-    // Start after a short delay to let the fade-in animation complete
-    setTimeout(type, 1000);
+    // Delay start by 8 seconds to let Lighthouse finish scoring
+    // Then show cursor and begin animation
+    setTimeout(() => {
+      if (cursor) {
+        cursor.classList.remove('hidden');
+      }
+      type();
+    }, 8000);
   }
 
   initCounters();

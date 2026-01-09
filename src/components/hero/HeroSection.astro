@@ -151,7 +151,7 @@ import { profile } from '../../data/profile';
         </svg>
       </a>
 
-      <a href="#contact" class="btn btn-secondary">
+      <a href="#contact" id="contact-btn" class="btn btn-secondary">
         Get In Touch
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
@@ -286,10 +286,26 @@ import { profile } from '../../data/profile';
     }, 12000);
   }
 
+  // Explicit scroll handler for contact button
+  function initContactButton() {
+    const contactBtn = document.getElementById('contact-btn');
+    if (contactBtn) {
+      contactBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
   initCounters();
   initTypewriter();
+  initContactButton();
   document.addEventListener('astro:after-swap', () => {
     initCounters();
     initTypewriter();
+    initContactButton();
   });
 </script>

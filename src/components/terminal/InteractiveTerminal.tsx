@@ -1195,6 +1195,7 @@ export default function InteractiveTerminal() {
   }, [output]);
 
   // Auto-focus input when terminal scrolls into view (desktop only)
+  // But not when navigating to other sections via hash links
   useEffect(() => {
     if (isMobile) return;
 
@@ -1205,6 +1206,11 @@ export default function InteractiveTerminal() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && windowState === 'normal') {
+            // Don't steal focus if user is navigating to a different section
+            const hash = window.location.hash;
+            if (hash && hash !== '#terminal' && hash !== '') {
+              return;
+            }
             inputRef.current?.focus();
           }
         });

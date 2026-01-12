@@ -5,7 +5,7 @@ export const profile = {
   tagline: 'I Cultivate Digital Excellence',
   description:
     'Full Stack Software Developer with 15+ years of IT experience, specializing in clean, maintainable PHP and JavaScript code. Currently developing solutions at Parker University.',
-  bio: `I'm a Full Stack Software Developer with over 15 years of IT experience and 5+ years of dedicated development experience.
+  bio: `I'm Leo Ashcraft, a software engineer with over 15 years of IT experience and 5+ years of dedicated development experience.
 
 I've had the privilege of building solutions for organizations like The Smithsonian Institute, Mayo Clinic, and The New York Review of Books. My focus is on creating clean, efficient, and maintainable code that solves real business problems.
 

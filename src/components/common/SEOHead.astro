@@ -1,5 +1,6 @@
 ---
 import { profile } from '../../data/profile';
+import { seo, schema } from '../../data/seo';
 
 interface Props {
   title?: string;
@@ -23,10 +24,8 @@ const {
   noindex = false,
 } = Astro.props;
 
-const siteTitle = 'Leo Ashcraft | Software Engineer';
-const siteDescription = 'Leo Ashcraft is a software engineer and technology director with over 15 years of experience in web development, Salesforce integrations, and higher education systems.';
-const pageTitle = title ? `Leo Ashcraft | ${title}` : siteTitle;
-const metaDescription = description || siteDescription;
+const pageTitle = title ? `Leo Ashcraft | ${title}` : seo.siteTitle;
+const metaDescription = description || seo.siteDescription;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 
@@ -34,55 +33,28 @@ const imageURL = new URL(image, Astro.site);
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  '@id': 'https://leoashcraft.com/#person',
-  name: 'Leo Ashcraft',
+  '@id': schema.personId,
+  name: profile.name,
   url: 'https://leoashcraft.com',
   image: new URL(profile.photoUrl, Astro.site).href,
-  description: siteDescription,
-  jobTitle: 'Software Engineer',
+  description: seo.siteDescription,
+  jobTitle: schema.jobTitle,
   worksFor: {
-    '@type': 'Organization',
-    name: 'Parker University',
+    '@type': schema.worksFor.type,
+    name: schema.worksFor.name,
   },
   alumniOf: {
-    '@type': 'EducationalOrganization',
-    name: 'Coding Temple',
+    '@type': schema.alumniOf.type,
+    name: schema.alumniOf.name,
   },
-  knowsAbout: [
-    'Software Engineering',
-    'Salesforce API Integration',
-    'WordPress Development',
-    'Higher Education Technology',
-    'Laravel',
-    'React',
-    'Next.js',
-    'Vue.js',
-    'Node.js',
-    'PHP',
-    'JavaScript',
-    'TypeScript',
-    'Git',
-    'GitHub',
-    'Docker',
-    'AWS',
-    'Salesforce',
-    'Jenkins',
-    'MySQL',
-    'PostgreSQL',
-  ],
-  sameAs: [
-    'https://www.linkedin.com/in/leo3',
-    'https://github.com/leoashcraft',
-    'https://www.facebook.com/leoashcraft',
-    'https://www.instagram.com/leoa_3',
-    'https://stackoverflow.com/users/4625370/leo-ashcraft',
-  ],
+  knowsAbout: schema.knowsAbout,
+  sameAs: schema.sameAs,
 };
 
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: siteTitle,
+  name: seo.siteTitle,
   url: Astro.site?.href,
   author: personSchema,
 };
@@ -114,7 +86,7 @@ const schemas = [websiteSchema, personSchema, articleSchema].filter(Boolean);
 <meta name="author" content={profile.name} />
 <meta
   name="keywords"
-  content="Leo Ashcraft, Software Developer, Full Stack Developer, PHP, JavaScript, Laravel, React, Dallas, Web Development"
+  content={seo.keywords}
 />
 <link rel="canonical" href={canonicalURL} />
 
@@ -134,7 +106,7 @@ const schemas = [websiteSchema, personSchema, articleSchema].filter(Boolean);
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={metaDescription} />
 <meta property="og:image" content={imageURL} />
-<meta property="og:site_name" content={siteTitle} />
+<meta property="og:site_name" content={seo.siteTitle} />
 <meta property="og:locale" content="en_US" />
 
 {

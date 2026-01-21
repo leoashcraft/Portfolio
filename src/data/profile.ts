@@ -32,7 +32,7 @@ Currently at Parker University, I develop front-end and PHP-based back-end syste
   ],
 
   resumeUrl: '/Ashcraft-Leo-Resume.pdf',
-  photoUrl: '/img/intro-selfie.webp',
+  photoUrl: '/img/Untitled-3.png',
   avatarUrl: '/img/pic.webp',
 } as const;
 

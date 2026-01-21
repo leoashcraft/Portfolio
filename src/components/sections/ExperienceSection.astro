@@ -1,5 +1,6 @@
 ---
 import { experience, education } from '../../data/experience';
+import { site } from '../../data/site';
 ---
 
 <section id="experience" class="section section-arcade-alt px-4 overflow-hidden" aria-labelledby="experience-heading">
@@ -34,10 +35,10 @@ import { experience, education } from '../../data/experience';
     <!-- Section Header -->
     <div class="text-center mb-16">
       <h2 id="experience-heading" class="section-title">
-        Work <span class="gradient-text">Experience</span>
+        {site.sections.experience.title} <span class="gradient-text">{site.sections.experience.titleHighlight}</span>
       </h2>
       <p class="section-subtitle mx-auto">
-        A timeline of my professional journey
+        {site.sections.experience.subtitle}
       </p>
     </div>
 
@@ -171,7 +172,7 @@ import { experience, education } from '../../data/experience';
     <!-- Education Section -->
     <div class="mt-20">
       <h3 class="text-2xl font-bold text-white text-center mb-8">
-        Education & <span class="gradient-text">Certifications</span>
+        {site.sections.experience.educationTitle} <span class="gradient-text">{site.sections.experience.educationTitleHighlight}</span>
       </h3>
 
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">

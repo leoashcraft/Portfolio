@@ -1,5 +1,6 @@
 ---
 import { profile } from '../../data/profile';
+import { site } from '../../data/site';
 import ContactForm from '../contact/ContactForm';
 
 // Unscramble email and phone for display
@@ -58,21 +59,19 @@ const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
     <!-- Section Header -->
     <div class="text-center mb-16">
       <h2 id="contact-heading" class="section-title">
-        Get In <span class="gradient-text">Touch</span>
+        {site.sections.contact.title} <span class="gradient-text">{site.sections.contact.titleHighlight}</span>
       </h2>
       <p class="section-subtitle mx-auto">
-        Have a project in mind? Let's talk about how I can help.
+        {site.sections.contact.subtitle}
       </p>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-12">
       <!-- Contact Info -->
       <div>
-        <h3 class="text-2xl font-bold text-white mb-6">Let's Connect</h3>
+        <h3 class="text-2xl font-bold text-white mb-6">{site.sections.contact.connectTitle}</h3>
         <p class="text-gray-400 mb-8">
-          I'm currently open to new opportunities and interesting projects.
-          Whether you have a question or just want to say hi, I'll do my best to
-          get back to you!
+          {site.sections.contact.connectDescription}
         </p>
 
         <!-- Contact Details -->
@@ -199,14 +198,14 @@ const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
 
       <!-- Contact Form -->
       <div class="card">
-        <h3 class="text-xl font-bold text-white mb-6">Send a Message</h3>
+        <h3 class="text-xl font-bold text-white mb-6">{site.sections.contact.formTitle}</h3>
         <ContactForm client:visible />
       </div>
     </div>
 
     <!-- Disclaimer -->
     <p class="text-sm text-gray-500 text-center mt-12">
-      Not affiliated with Catch+Release, Hive Mind Social, Radio/TV Broadcast or any other individuals named Leo Ashcraft.
+      {site.footer.disclaimer}
     </p>
   </div>
 </section>

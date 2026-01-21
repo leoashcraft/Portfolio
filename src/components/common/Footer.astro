@@ -1,5 +1,6 @@
 ---
 import { profile } from '../../data/profile';
+import { site } from '../../data/site';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -20,7 +21,7 @@ const currentYear = new Date().getFullYear();
             &copy; {currentYear} {profile.name}. All rights reserved.
           </p>
           <p class="text-gray-500 text-xs">
-            Built with Astro and lots of caffeine.
+            {site.footer.tagline}
           </p>
         </div>
       </div>

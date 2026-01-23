@@ -46,15 +46,16 @@ import { site } from '../../data/site';
     <div class="relative">
       <!-- Timeline Line (hidden on mobile) -->
       <div
+        id="timeline-line"
         class="hidden md:block absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2 timeline-gradient"
         aria-hidden="true"
       >
         <!-- Eyes Traveler 1 -->
-        <div class="absolute left-1/2 timeline-traveler text-2xl" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
+        <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
           👀
         </div>
         <!-- Eyes Traveler 2 -->
-        <div class="absolute left-1/2 timeline-traveler text-2xl" style="animation-delay: -10s; filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
+        <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="animation-delay: -10s; filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
           👀
         </div>
       </div>
@@ -199,3 +200,65 @@ import { site } from '../../data/site';
     </div>
   </div>
 </section>
+
+<script>
+  function initTimelineEyes() {
+    const timelineLine = document.getElementById('timeline-line');
+    if (!timelineLine) return;
+
+    const travelers = timelineLine.querySelectorAll('.timeline-traveler');
+    const dots = document.querySelectorAll('.timeline-dot');
+
+    if (travelers.length === 0 || dots.length === 0) return;
+
+    // Get dot positions as percentages of the timeline
+    const lineRect = timelineLine.getBoundingClientRect();
+    const lineHeight = lineRect.height;
+
+    // Calculate threshold positions (percentage) for each dot
+    const dotThresholds: number[] = [];
+    dots.forEach((dot) => {
+      const dotRect = dot.getBoundingClientRect();
+      const dotTop = dotRect.top - lineRect.top;
+      const percentage = (dotTop / lineHeight) * 100;
+      dotThresholds.push(percentage);
+    });
+
+    function updateEyeDirection(traveler: Element) {
+      // Get current top position from computed style
+      const style = getComputedStyle(traveler);
+      const topValue = parseFloat(style.top);
+      const currentPercent = (topValue / lineHeight) * 100;
+
+      // Count how many dots we've passed
+      let passedDots = 0;
+      for (const threshold of dotThresholds) {
+        if (currentPercent >= threshold) {
+          passedDots++;
+        }
+      }
+
+      // First entry (index 0) is flex-row-reverse, so content is on LEFT, eyes look LEFT
+      // Even passedDots (0, 2, 4, 6) = look left, Odd passedDots (1, 3, 5) = look right
+      if (passedDots % 2 === 0) {
+        traveler.classList.remove('look-right');
+        traveler.classList.add('look-left');
+      } else {
+        traveler.classList.remove('look-left');
+        traveler.classList.add('look-right');
+      }
+    }
+
+    // Update eye directions on animation frame
+    function animate() {
+      travelers.forEach(updateEyeDirection);
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  // Run on load and after Astro page transitions
+  initTimelineEyes();
+  document.addEventListener('astro:after-swap', initTimelineEyes);
+</script>

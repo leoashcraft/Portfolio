@@ -983,73 +983,36 @@ code, pre, kbd {
   animation: sway 4s ease-in-out infinite;
 }
 
-/* Timeline traveler animation with flipping at each entry */
-@keyframes travel-down-flip {
+/* Timeline traveler animation - just travels down, JS handles flipping */
+@keyframes travel-down {
   0% {
     top: 0;
     opacity: 0;
-    transform: translateX(-50%) scaleX(-1); /* Look left at entry 1 */
   }
   3% {
     opacity: 1;
-    transform: translateX(-50%) scaleX(-1);
   }
-  /* Entry 1 ~7% - looking left */
-  14% {
-    transform: translateX(-50%) scaleX(-1);
-  }
-  14.1% {
-    transform: translateX(-50%) scaleX(1); /* Flip to look right at entry 2 */
-  }
-  /* Entry 2 ~21% - looking right */
-  28% {
-    transform: translateX(-50%) scaleX(1);
-  }
-  28.1% {
-    transform: translateX(-50%) scaleX(-1); /* Flip to look left at entry 3 */
-  }
-  /* Entry 3 ~36% - looking left */
-  42% {
-    transform: translateX(-50%) scaleX(-1);
-  }
-  42.1% {
-    transform: translateX(-50%) scaleX(1); /* Flip to look right at entry 4 */
-  }
-  /* Entry 4 ~50% - looking right */
-  56% {
-    transform: translateX(-50%) scaleX(1);
-  }
-  56.1% {
-    transform: translateX(-50%) scaleX(-1); /* Flip to look left at entry 5 */
-  }
-  /* Entry 5 ~64% - looking left */
-  70% {
-    transform: translateX(-50%) scaleX(-1);
-  }
-  70.1% {
-    transform: translateX(-50%) scaleX(1); /* Flip to look right at entry 6 */
-  }
-  /* Entry 6 ~79% - looking right */
-  84% {
-    transform: translateX(-50%) scaleX(1);
-  }
-  84.1% {
-    transform: translateX(-50%) scaleX(-1); /* Flip to look left at entry 7 */
-  }
-  /* Entry 7 ~93% - looking left */
   97% {
     opacity: 1;
-    transform: translateX(-50%) scaleX(-1);
   }
   100% {
     top: 100%;
     opacity: 0;
-    transform: translateX(-50%) scaleX(-1);
   }
 }
 
 .timeline-traveler {
-  animation: travel-down-flip 20s linear infinite;
+  animation: travel-down 20s linear infinite;
+  transform: translateX(-50%);
+  transition: transform 0.15s ease-out;
+}
+
+.timeline-traveler.look-right {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.timeline-traveler.look-left {
+  transform: translateX(-50%) scaleX(-1);
 }
 
 /* Timeline dot pulse animation */

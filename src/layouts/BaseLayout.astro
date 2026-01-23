@@ -273,11 +273,66 @@ const props = Astro.props;
         });
       }
 
+      function initMobileCardFloat() {
+        // Only run on mobile (< 768px)
+        if (window.innerWidth >= 768) return;
+
+        const cards = document.querySelectorAll('.card');
+        if (cards.length === 0) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('float-active');
+              } else {
+                entry.target.classList.remove('float-active');
+              }
+            });
+          },
+          {
+            threshold: 0.3,
+            rootMargin: '0px 0px -10% 0px'
+          }
+        );
+
+        cards.forEach((card) => {
+          observer.observe(card);
+        });
+
+        // Store observer for cleanup on resize
+        return observer;
+      }
+
+      let mobileCardObserver: IntersectionObserver | undefined;
+
+      function handleMobileCardFloat() {
+        // Clean up existing observer
+        if (mobileCardObserver) {
+          mobileCardObserver.disconnect();
+          // Remove float-active from all cards
+          document.querySelectorAll('.card.float-active').forEach((card) => {
+            card.classList.remove('float-active');
+          });
+        }
+        mobileCardObserver = initMobileCardFloat();
+      }
+
       initBackToTop();
       initSectionTitleWave();
+      handleMobileCardFloat();
+
+      // Re-check on resize (debounced)
+      let resizeTimeout: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleMobileCardFloat, 250);
+      });
+
       document.addEventListener('astro:after-swap', () => {
         initBackToTop();
         initSectionTitleWave();
+        handleMobileCardFloat();
       });
     </script>
   </body>

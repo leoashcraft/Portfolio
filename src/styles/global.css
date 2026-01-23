@@ -511,6 +511,25 @@ code, pre, kbd {
   transform: scale(1.04);
 }
 
+/* Mobile scroll-triggered service card effects */
+@media (max-width: 767px) {
+  .card.float-active .hover-underline-trigger {
+    transform: scale(1.02);
+  }
+
+  .card.float-active .hover-underline-trigger::after {
+    transform: scaleX(1);
+  }
+
+  .card.float-active .feature-item {
+    transform: scale(1.03);
+  }
+
+  .card.float-active .service-title {
+    transform: scale(1.04);
+  }
+}
+
 /* Bio line grow animation */
 .bio-line {
   transition: transform 0.3s ease-out;
@@ -635,6 +654,14 @@ code, pre, kbd {
 .card:hover {
   border-color: transparent;
   animation: hover-float-glow 5s ease-in-out infinite;
+}
+
+/* Mobile scroll-triggered float animation */
+@media (max-width: 767px) {
+  .card.float-active {
+    border-color: transparent;
+    animation: hover-float-glow 5s ease-in-out infinite;
+  }
 }
 
 @keyframes hover-float-glow {

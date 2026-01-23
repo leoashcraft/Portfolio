@@ -630,45 +630,22 @@ code, pre, kbd {
   animation: letter-wave 0.4s ease-in-out;
 }
 
-/* Metallic sheen effect on letters */
+/* Metallic sheen effect - unified approach using filter for all letters */
 @keyframes letter-sheen {
   0% {
-    color: inherit;
-    text-shadow: none;
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
   }
   50% {
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    filter: brightness(1.5) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
   }
   100% {
-    color: inherit;
-    text-shadow: none;
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
   }
 }
 
 .section-title .wave-letter.sheen,
 .hero-title .wave-letter.sheen {
   animation: letter-sheen 0.3s ease-in-out;
-}
-
-/* Keep gradient-text colors during sheen - use brightness filter */
-.section-title .gradient-text .wave-letter.sheen,
-.section-title .gradient-text-animated .wave-letter.sheen,
-.hero-title .gradient-text .wave-letter.sheen,
-.hero-title .gradient-text-animated .wave-letter.sheen {
-  animation: letter-sheen-gradient 0.3s ease-in-out;
-}
-
-@keyframes letter-sheen-gradient {
-  0% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.8);
-  }
-  100% {
-    filter: brightness(1);
-  }
 }
 
 .card:hover::before {

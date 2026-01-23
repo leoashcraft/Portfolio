@@ -92,10 +92,18 @@ const props = Astro.props;
         function wrapAllLetters(element: Element): HTMLSpanElement[] {
           const allLetterSpans: HTMLSpanElement[] = [];
 
-          function processNode(node: Node) {
+          function processNode(node: Node, parentElement: Element | null) {
             if (node.nodeType === Node.TEXT_NODE && node.textContent) {
               const text = node.textContent;
               const fragment = document.createDocumentFragment();
+
+              // Check if parent has gradient-text class and get its gradient
+              const isGradient = parentElement?.classList.contains('gradient-text') ||
+                                 parentElement?.classList.contains('gradient-text-animated');
+              let gradientStyle = '';
+              if (isGradient && parentElement) {
+                gradientStyle = getComputedStyle(parentElement).backgroundImage;
+              }
 
               for (const char of text) {
                 if (char === ' ' || char === '\n' || char === '\t') {
@@ -105,6 +113,15 @@ const props = Astro.props;
                   span.className = 'wave-letter';
                   span.style.display = 'inline-block';
                   span.textContent = char;
+
+                  // If inside gradient-text, apply gradient to each letter
+                  if (isGradient && gradientStyle) {
+                    span.style.backgroundImage = gradientStyle;
+                    span.style.backgroundClip = 'text';
+                    span.style.webkitBackgroundClip = 'text';
+                    span.style.color = 'transparent';
+                  }
+
                   fragment.appendChild(span);
                   allLetterSpans.push(span);
                 }
@@ -113,13 +130,14 @@ const props = Astro.props;
               node.replaceWith(fragment);
             } else if (node.nodeType === Node.ELEMENT_NODE) {
               // Process children of element nodes (like gradient-text spans)
-              const children = Array.from(node.childNodes);
-              children.forEach(processNode);
+              const el = node as Element;
+              const children = Array.from(el.childNodes);
+              children.forEach(child => processNode(child, el));
             }
           }
 
           const childNodes = Array.from(element.childNodes);
-          childNodes.forEach(processNode);
+          childNodes.forEach(child => processNode(child, null));
 
           return allLetterSpans;
         }

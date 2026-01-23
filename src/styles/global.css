@@ -565,8 +565,18 @@ code, pre, kbd {
 
 .card:hover {
   border-color: transparent;
-  box-shadow: 0 0 30px rgba(255, 0, 255, 0.2), 0 0 60px rgba(102, 0, 255, 0.1);
-  animation: hover-float 5s ease-in-out infinite;
+  animation: hover-float-glow 5s ease-in-out infinite;
+}
+
+@keyframes hover-float-glow {
+  0%, 100% {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.1), 0 0 30px rgba(102, 0, 255, 0.05);
+  }
+  50% {
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px rgba(255, 0, 255, 0.3), 0 0 80px rgba(102, 0, 255, 0.15);
+  }
 }
 
 @keyframes hover-float {

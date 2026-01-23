@@ -149,6 +149,16 @@ const props = Astro.props;
           const sheenDelayIncrement = 30;
           const sheenDuration = 300;
 
+          // Reset all letters first (for re-animation)
+          letters.forEach((letter) => {
+            letter.style.transition = 'none';
+            letter.style.transform = 'scale(1)';
+            letter.style.filter = '';
+          });
+
+          // Force reflow to ensure reset is applied
+          void letters[0]?.offsetHeight;
+
           // Wave animation - scale each letter
           letters.forEach((letter, index) => {
             const delay = index * delayIncrement;

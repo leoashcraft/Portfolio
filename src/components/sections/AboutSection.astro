@@ -256,3 +256,64 @@ import { site } from '../../data/site';
     </div>
   </div>
 </section>
+
+<script>
+  function initServiceIconFlips() {
+    const icons = document.querySelectorAll('.service-icon');
+    if (icons.length === 0) return;
+
+    const hoverStates = new Map<Element, boolean>();
+
+    // Handle hover - flip and stay flipped
+    icons.forEach((icon) => {
+      hoverStates.set(icon, false);
+
+      icon.addEventListener('mouseenter', () => {
+        hoverStates.set(icon, true);
+        icon.classList.add('flipped');
+      });
+
+      icon.addEventListener('mouseleave', () => {
+        hoverStates.set(icon, false);
+        icon.classList.remove('flipped');
+      });
+    });
+
+    // Random flip function
+    function randomFlip() {
+      // Pick a random icon
+      const randomIndex = Math.floor(Math.random() * icons.length);
+      const icon = icons[randomIndex];
+
+      // Don't flip if user is hovering
+      if (hoverStates.get(icon)) {
+        scheduleNextFlip();
+        return;
+      }
+
+      // Flip it
+      icon.classList.add('flipped');
+
+      // Wait 2.5 seconds then flip back (if not hovered)
+      setTimeout(() => {
+        if (!hoverStates.get(icon)) {
+          icon.classList.remove('flipped');
+        }
+      }, 2500);
+
+      scheduleNextFlip();
+    }
+
+    function scheduleNextFlip() {
+      // Random delay between 3-7 seconds
+      const delay = 3000 + Math.random() * 4000;
+      setTimeout(randomFlip, delay);
+    }
+
+    // Start the random flipping
+    scheduleNextFlip();
+  }
+
+  initServiceIconFlips();
+  document.addEventListener('astro:after-swap', initServiceIconFlips);
+</script>

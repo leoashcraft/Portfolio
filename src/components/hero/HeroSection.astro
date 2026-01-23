@@ -308,9 +308,11 @@ import { heroTitles } from '../../data/hero';
   }
 
   // Tagline word grow animation
-  function initTaglineWordGrow() {
+  function animateTaglineWords(startDelay: number = 1400) {
     const words = document.querySelectorAll('.tagline-word') as NodeListOf<HTMLElement>;
     if (words.length === 0) return;
+
+    const wordDelay = 150; // Delay between each word
 
     // Reset all words first
     words.forEach((word) => {
@@ -318,11 +320,6 @@ import { heroTitles } from '../../data/hero';
     });
 
     // Animate each word sequentially
-    // Name animation finishes at ~1s (0.4s delay + 0.6s duration)
-    // Tagline fadeInUp starts at 0.8s, so words are visible by ~1.4s
-    const startDelay = 1400; // Wait for fadeInUp to complete
-    const wordDelay = 150; // Delay between each word
-
     words.forEach((word, index) => {
       setTimeout(() => {
         // Grow to 103%
@@ -335,12 +332,18 @@ import { heroTitles } from '../../data/hero';
     });
   }
 
+  // Initial page load animation (wait for fadeInUp to complete)
+  function initTaglineWordGrow() {
+    animateTaglineWords(1400);
+  }
+
   // Listen for home navigation clicks to retrigger animation
   function initHomeNavListener() {
-    document.querySelectorAll('a[href="#home"], a[href="/"]').forEach((link) => {
+    // Match home links: "#", "#home", or "/"
+    document.querySelectorAll('a[href="#"], a[href="#home"], a[href="/"]').forEach((link) => {
       link.addEventListener('click', () => {
-        // Small delay to allow scroll to complete
-        setTimeout(initTaglineWordGrow, 100);
+        // Short delay for click retrigger (no need to wait for fadeInUp)
+        setTimeout(() => animateTaglineWords(300), 100);
       });
     });
   }

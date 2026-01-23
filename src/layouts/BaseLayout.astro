@@ -134,15 +134,24 @@ const props = Astro.props;
             delay += delayIncrement;
           });
 
-          // Add sheen effect after wave completes
+          // Add sheen effect to letters after wave completes
           const totalWaveTime = delay + 400;
           setTimeout(() => {
-            title.classList.add('sheen');
+            let sheenDelay = 0;
+            const sheenDelayIncrement = 30; // faster sweep
 
-            // Remove sheen class after animation
-            setTimeout(() => {
-              title.classList.remove('sheen');
-            }, 800);
+            letters.forEach((letter) => {
+              setTimeout(() => {
+                letter.classList.add('sheen');
+
+                // Remove sheen class after animation
+                setTimeout(() => {
+                  letter.classList.remove('sheen');
+                }, 300);
+              }, sheenDelay);
+
+              sheenDelay += sheenDelayIncrement;
+            });
           }, totalWaveTime);
         }
 

@@ -141,11 +141,14 @@ import { heroTitles } from '../../data/hero';
       <span id="typewriter" data-titles={JSON.stringify(heroTitles)}>{heroTitles[0]}</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
 
-    <!-- Tagline -->
+    <!-- Tagline with word-by-word grow animation -->
     <p
+      id="hero-tagline"
       class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
     >
-      {profile.tagline}
+      {profile.tagline.split(' ').map((word, i) => (
+        <span class="tagline-word inline-block transition-transform duration-200" data-word-index={i}>{word}{i < profile.tagline.split(' ').length - 1 ? '\u00A0' : ''}</span>
+      ))}
     </p>
 
     <!-- CTA Buttons -->
@@ -304,12 +307,54 @@ import { heroTitles } from '../../data/hero';
     }
   }
 
+  // Tagline word grow animation
+  function initTaglineWordGrow() {
+    const words = document.querySelectorAll('.tagline-word') as NodeListOf<HTMLElement>;
+    if (words.length === 0) return;
+
+    // Reset all words first
+    words.forEach((word) => {
+      word.style.transform = 'scale(1)';
+    });
+
+    // Animate each word sequentially
+    // Name animation finishes at ~1s (0.4s delay + 0.6s duration)
+    // Tagline fadeInUp starts at 0.8s, so words are visible by ~1.4s
+    const startDelay = 1400; // Wait for fadeInUp to complete
+    const wordDelay = 150; // Delay between each word
+
+    words.forEach((word, index) => {
+      setTimeout(() => {
+        // Grow to 103%
+        word.style.transform = 'scale(1.03)';
+        // Shrink back after 200ms
+        setTimeout(() => {
+          word.style.transform = 'scale(1)';
+        }, 200);
+      }, startDelay + (index * wordDelay));
+    });
+  }
+
+  // Listen for home navigation clicks to retrigger animation
+  function initHomeNavListener() {
+    document.querySelectorAll('a[href="#home"], a[href="/"]').forEach((link) => {
+      link.addEventListener('click', () => {
+        // Small delay to allow scroll to complete
+        setTimeout(initTaglineWordGrow, 100);
+      });
+    });
+  }
+
   initCounters();
   initTypewriter();
   initContactButton();
+  initTaglineWordGrow();
+  initHomeNavListener();
   document.addEventListener('astro:after-swap', () => {
     initCounters();
     initTypewriter();
     initContactButton();
+    initTaglineWordGrow();
+    initHomeNavListener();
   });
 </script>

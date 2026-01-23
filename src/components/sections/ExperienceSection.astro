@@ -2,6 +2,7 @@
 import { experience, education } from '../../data/experience';
 import { site } from '../../data/site';
 import SectionHeader from '../common/SectionHeader.astro';
+import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 import Icon from '../ui/Icon.astro';
 ---
 
@@ -10,28 +11,7 @@ import Icon from '../ui/Icon.astro';
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-pink/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <!-- Glowing orbs -->
-    <div class="absolute top-32 right-10 w-72 h-72 rounded-full bg-neon-purple/8 blur-3xl"></div>
-    <div class="absolute bottom-20 left-20 w-64 h-64 rounded-full bg-neon-green/5 blur-3xl"></div>
-    <div class="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-neon-orange/5 blur-2xl"></div>
-
-    <!-- Geometric shapes -->
-    <div class="absolute top-24 left-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-yellow/40 drift-2"></div>
-    <div class="absolute top-[35%] right-[6%] w-7 h-7 border-2 border-neon-pink/40 rounded-full pulse-drift"></div>
-    <div class="absolute bottom-[30%] left-[5%] w-5 h-5 bg-neon-purple/30 rotate-45 drift-1"></div>
-    <div class="absolute top-[70%] right-[12%] w-6 h-6 border-2 border-neon-green/30 rotate-45 drift-3"></div>
-    <div class="absolute bottom-24 right-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/35 drift-diagonal"></div>
-
-    <!-- Squiggly line -->
-    <svg class="absolute top-[45%] right-[3%] w-12 h-20 text-neon-pink/30 drift-slow" viewBox="0 0 48 80">
-      <path d="M24 0 Q0 20 24 40 Q48 60 24 80" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
-
-    <!-- Double circles -->
-    <div class="absolute bottom-[50%] left-[4%] w-10 h-10 border-2 border-neon-yellow/25 rounded-full drift-2 spin-slow"></div>
-    <div class="absolute bottom-[48%] left-[5%] w-6 h-6 border-2 border-neon-yellow/35 rounded-full drift-2"></div>
-  </div>
+  <ArcadeDecorations variant="experience" />
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
@@ -52,11 +32,11 @@ import Icon from '../ui/Icon.astro';
       >
         <!-- Eyes Traveler 1 -->
         <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
-          👀
+          <span class="eyes-blink">👀</span>
         </div>
         <!-- Eyes Traveler 2 -->
         <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="animation-delay: -10s; filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
-          👀
+          <span class="eyes-blink">👀</span>
         </div>
       </div>
 
@@ -202,63 +182,15 @@ import Icon from '../ui/Icon.astro';
 </section>
 
 <script>
-  function initTimelineEyes() {
-    const timelineLine = document.getElementById('timeline-line');
-    if (!timelineLine) return;
+  import { initTimelineEyes } from '../../lib/timeline-eyes';
 
-    const travelers = timelineLine.querySelectorAll('.timeline-traveler');
-    const dots = document.querySelectorAll('.timeline-dot');
+  let cleanup: (() => void) | undefined;
 
-    if (travelers.length === 0 || dots.length === 0) return;
-
-    // Get dot positions as percentages of the timeline
-    const lineRect = timelineLine.getBoundingClientRect();
-    const lineHeight = lineRect.height;
-
-    // Calculate threshold positions (percentage) for each dot
-    const dotThresholds: number[] = [];
-    dots.forEach((dot) => {
-      const dotRect = dot.getBoundingClientRect();
-      const dotTop = dotRect.top - lineRect.top;
-      const percentage = (dotTop / lineHeight) * 100;
-      dotThresholds.push(percentage);
-    });
-
-    function updateEyeDirection(traveler: Element) {
-      // Get current top position from computed style
-      const style = getComputedStyle(traveler);
-      const topValue = parseFloat(style.top);
-      const currentPercent = (topValue / lineHeight) * 100;
-
-      // Count how many dots we've passed
-      let passedDots = 0;
-      for (const threshold of dotThresholds) {
-        if (currentPercent >= threshold) {
-          passedDots++;
-        }
-      }
-
-      // First entry (index 0) is flex-row-reverse, so content is on LEFT, eyes look LEFT
-      // Odd passedDots (1, 3, 5, 7) = look left, Even passedDots (0, 2, 4, 6) = look right
-      if (passedDots % 2 === 1) {
-        traveler.classList.remove('look-right');
-        traveler.classList.add('look-left');
-      } else {
-        traveler.classList.remove('look-left');
-        traveler.classList.add('look-right');
-      }
-    }
-
-    // Update eye directions on animation frame
-    function animate() {
-      travelers.forEach(updateEyeDirection);
-      requestAnimationFrame(animate);
-    }
-
-    animate();
+  function init() {
+    cleanup?.();
+    cleanup = initTimelineEyes();
   }
 
-  // Run on load and after Astro page transitions
-  initTimelineEyes();
-  document.addEventListener('astro:after-swap', initTimelineEyes);
+  init();
+  document.addEventListener('astro:after-swap', init);
 </script>

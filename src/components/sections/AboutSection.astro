@@ -3,6 +3,7 @@ import { profile } from '../../data/profile';
 import { skills, services } from '../../data/skills';
 import { site } from '../../data/site';
 import SectionHeader from '../common/SectionHeader.astro';
+import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 import Icon from '../ui/Icon.astro';
 ---
 
@@ -11,27 +12,7 @@ import Icon from '../ui/Icon.astro';
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <!-- Glowing orbs -->
-    <div class="absolute top-20 left-10 w-64 h-64 rounded-full bg-neon-pink/10 blur-3xl"></div>
-    <div class="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-neon-purple/10 blur-3xl"></div>
-    <div class="absolute top-1/2 left-1/3 w-48 h-48 rounded-full bg-neon-yellow/5 blur-2xl"></div>
-
-    <!-- Geometric shapes -->
-    <div class="absolute top-32 right-[15%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-pink/40 drift-1"></div>
-    <div class="absolute top-[60%] left-[8%] w-6 h-6 border-2 border-neon-yellow/50 rotate-45 drift-2"></div>
-    <div class="absolute bottom-32 right-[25%] w-8 h-8 border-2 border-neon-green/40 rounded-full drift-slow spin-slow"></div>
-    <div class="absolute top-[40%] right-[5%] w-5 h-5 bg-neon-orange/30 rotate-45 drift-3"></div>
-    <div class="absolute bottom-[20%] left-[12%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/30 drift-diagonal"></div>
-
-    <!-- Zigzag line -->
-    <svg class="absolute top-[30%] left-[3%] w-16 h-8 text-neon-orange/40 drift-slow" viewBox="0 0 64 32">
-      <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
-
-    <!-- Circle ring -->
-    <div class="absolute bottom-[40%] right-[8%] w-12 h-12 border-2 border-neon-pink/30 rounded-full drift-2"></div>
-  </div>
+  <ArcadeDecorations variant="about" />
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
@@ -247,24 +228,13 @@ import Icon from '../ui/Icon.astro';
 </section>
 
 <script>
+  import { initIconFlips } from '../../lib/icon-flip';
+
+  let iconCleanup: () => void;
+
   function initServiceIconFlips() {
-    const icons = document.querySelectorAll('.service-icon') as NodeListOf<HTMLElement>;
-    if (icons.length === 0) return;
-
-    // Handle hover on parent card - flip and stay flipped
-    icons.forEach((icon) => {
-      const parentCard = icon.closest('.card');
-
-      if (parentCard) {
-        parentCard.addEventListener('mouseenter', () => {
-          icon.classList.add('flipped');
-        });
-
-        parentCard.addEventListener('mouseleave', () => {
-          icon.classList.remove('flipped');
-        });
-      }
-    });
+    iconCleanup?.();
+    iconCleanup = initIconFlips({ selector: '.service-icon' });
   }
 
   // Tagline typewriter animation - only runs once

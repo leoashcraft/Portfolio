@@ -572,7 +572,11 @@ code, pre, kbd {
 }
 
 .btn-primary:hover {
-  animation: hover-pulse-pink 5s ease-in-out infinite;
+  --pulse-color-1: rgba(255, 0, 255, 0.2);
+  --pulse-color-2: rgba(102, 0, 255, 0.1);
+  --pulse-color-1-intense: rgba(255, 0, 255, 0.4);
+  --pulse-color-2-intense: rgba(102, 0, 255, 0.25);
+  animation: hover-pulse-neon 5s ease-in-out infinite;
 }
 
 .btn-secondary {
@@ -604,7 +608,11 @@ code, pre, kbd {
 }
 
 .btn-neon-green:hover {
-  animation: hover-pulse-green 5s ease-in-out infinite;
+  --pulse-color-1: rgba(0, 255, 0, 0.2);
+  --pulse-color-2: transparent;
+  --pulse-color-1-intense: rgba(0, 255, 0, 0.4);
+  --pulse-color-2-intense: transparent;
+  animation: hover-pulse-neon 5s ease-in-out infinite;
 }
 
 .btn-neon-yellow {
@@ -613,7 +621,11 @@ code, pre, kbd {
 }
 
 .btn-neon-yellow:hover {
-  animation: hover-pulse-yellow 5s ease-in-out infinite;
+  --pulse-color-1: rgba(255, 255, 0, 0.2);
+  --pulse-color-2: transparent;
+  --pulse-color-1-intense: rgba(255, 255, 0, 0.4);
+  --pulse-color-2-intense: transparent;
+  animation: hover-pulse-neon 5s ease-in-out infinite;
 }
 
 /* ============================================
@@ -693,36 +705,17 @@ code, pre, kbd {
   }
 }
 
-@keyframes hover-pulse-pink {
+/* Consolidated hover-pulse animation using CSS custom properties */
+@keyframes hover-pulse-neon {
   0%, 100% {
     transform: scale(1.01);
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.2), 0 0 20px rgba(102, 0, 255, 0.1);
+    box-shadow: 0 0 10px var(--pulse-color-1, rgba(255, 0, 255, 0.2)),
+                0 0 20px var(--pulse-color-2, rgba(102, 0, 255, 0.1));
   }
   50% {
     transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(255, 0, 255, 0.4), 0 0 50px rgba(102, 0, 255, 0.25);
-  }
-}
-
-@keyframes hover-pulse-green {
-  0%, 100% {
-    transform: scale(1.01);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-  }
-  50% {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
-  }
-}
-
-@keyframes hover-pulse-yellow {
-  0%, 100% {
-    transform: scale(1.01);
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
-  }
-  50% {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(255, 255, 0, 0.4);
+    box-shadow: 0 0 25px var(--pulse-color-1-intense, rgba(255, 0, 255, 0.4)),
+                0 0 50px var(--pulse-color-2-intense, rgba(102, 0, 255, 0.25));
   }
 }
 
@@ -1229,6 +1222,17 @@ code, pre, kbd {
 
 .timeline-dot {
   animation: timeline-dot-pulse 3s ease-in-out infinite;
+}
+
+/* Eyes blink - triggered via JS when crossing midpoint between dots */
+.eyes-blink {
+  display: inline-block;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.1s ease-in-out;
+}
+
+.eyes-blink.blinking {
+  clip-path: inset(45% 0 45% 0);
 }
 
 /* Timeline gradient animation */

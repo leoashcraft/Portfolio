@@ -468,7 +468,7 @@ code, pre, kbd {
 }
 
 .card:hover .hover-underline-trigger {
-  color: #e5e7eb;
+  color: #f3f4f6;
 }
 
 .hover-underline-trigger::after {
@@ -490,31 +490,33 @@ code, pre, kbd {
   transform: scaleX(1);
 }
 
-/* Feature items staggered color animation */
+/* Feature items staggered grow animation */
 .feature-item {
-  transition: color 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
   transition-delay: calc(var(--feature-index) * 0.1s);
 }
 
 .card:hover .feature-item {
+  transform: scale(1.03);
   color: #e5e7eb;
 }
 
-/* Service title glow animation */
+/* Service title grow animation */
 .service-title {
   display: inline-block;
-  transition: text-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+  transform-origin: left;
 }
 
 .card:hover .service-title {
-  color: #ffffff;
+  transform: scale(1.04);
   text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
 }
 
 /* Mobile scroll-triggered service card effects */
 @media (max-width: 767px) {
   .card.float-active .hover-underline-trigger {
-    color: #e5e7eb;
+    color: #f3f4f6;
   }
 
   .card.float-active .hover-underline-trigger::after {
@@ -522,11 +524,12 @@ code, pre, kbd {
   }
 
   .card.float-active .feature-item {
+    transform: scale(1.03);
     color: #e5e7eb;
   }
 
   .card.float-active .service-title {
-    color: #ffffff;
+    transform: scale(1.04);
     text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
   }
 }

@@ -566,7 +566,16 @@ code, pre, kbd {
 .card:hover {
   border-color: transparent;
   box-shadow: 0 0 30px rgba(255, 0, 255, 0.2), 0 0 60px rgba(102, 0, 255, 0.1);
-  transform: translateY(-4px);
+  animation: card-hover-float 1.5s ease-in-out infinite;
+}
+
+@keyframes card-hover-float {
+  0%, 100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .card:hover::before {

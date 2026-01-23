@@ -226,12 +226,15 @@ const props = Astro.props;
         });
 
         // Listen for nav link clicks to re-trigger animation
-        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        document.querySelectorAll('a[href*="#"]').forEach((link) => {
           link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            if (!href || href === '#') return;
+            if (!href || href === '#' || href === '/#') return;
 
-            const targetId = href.slice(1);
+            // Extract the ID from href (handles both #about and /#about)
+            const hashIndex = href.indexOf('#');
+            if (hashIndex === -1) return;
+            const targetId = href.slice(hashIndex + 1);
             const targetSection = document.getElementById(targetId);
             if (!targetSection) return;
 

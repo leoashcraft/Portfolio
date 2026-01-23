@@ -84,7 +84,8 @@ const props = Astro.props;
       }
 
       function initSectionTitleWave() {
-        const titles = document.querySelectorAll('.section-title');
+        // Target both section titles and the hero title
+        const titles = document.querySelectorAll('.section-title, .hero-title');
         const animatedTitles = new Set<Element>();
 
         // Function to wrap text in letter spans
@@ -115,13 +116,16 @@ const props = Astro.props;
           });
         }
 
-        // Function to animate the wave
+        // Function to animate the wave - treats ALL letters as one continuous sequence
         function animateWave(title: Element) {
-          const letters = title.querySelectorAll('.wave-letter');
-          let delay = 0;
+          // Get all wave-letter elements in document order (this naturally handles nested spans)
+          const letters = Array.from(title.querySelectorAll('.wave-letter'));
           const delayIncrement = 50; // ms between each letter
 
+          // Animate each letter with staggered delay
           letters.forEach((letter, index) => {
+            const delay = index * delayIncrement;
+
             setTimeout(() => {
               letter.classList.add('animating');
 
@@ -130,17 +134,16 @@ const props = Astro.props;
                 letter.classList.remove('animating');
               }, 400);
             }, delay);
-
-            delay += delayIncrement;
           });
 
-          // Add sheen effect to letters after wave completes
-          const totalWaveTime = delay + 400;
+          // Add sheen effect to ALL letters after wave completes
+          const totalWaveTime = letters.length * delayIncrement + 400;
           setTimeout(() => {
-            let sheenDelay = 0;
             const sheenDelayIncrement = 30; // faster sweep
 
-            letters.forEach((letter) => {
+            letters.forEach((letter, index) => {
+              const sheenDelay = index * sheenDelayIncrement;
+
               setTimeout(() => {
                 letter.classList.add('sheen');
 
@@ -149,8 +152,6 @@ const props = Astro.props;
                   letter.classList.remove('sheen');
                 }, 300);
               }, sheenDelay);
-
-              sheenDelay += sheenDelayIncrement;
             });
           }, totalWaveTime);
         }

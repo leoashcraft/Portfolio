@@ -598,12 +598,20 @@ code, pre, kbd {
   transition: transform 0.6s ease-in-out;
 }
 
-.service-icon.flipped {
+.service-icon.flipped,
+.project-icon.flipped {
   transform: perspective(400px) rotateY(180deg);
 }
 
-/* Section title wave animation */
-.section-title .wave-letter {
+/* Project icon 3D flip */
+.project-icon {
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Section title and hero title wave animation */
+.section-title .wave-letter,
+.hero-title .wave-letter {
   display: inline-block;
   transition: transform 0.3s ease-out;
 }
@@ -617,7 +625,8 @@ code, pre, kbd {
   }
 }
 
-.section-title .wave-letter.animating {
+.section-title .wave-letter.animating,
+.hero-title .wave-letter.animating {
   animation: letter-wave 0.4s ease-in-out;
 }
 
@@ -637,12 +646,16 @@ code, pre, kbd {
   }
 }
 
-.section-title .wave-letter.sheen {
+.section-title .wave-letter.sheen,
+.hero-title .wave-letter.sheen {
   animation: letter-sheen 0.3s ease-in-out;
 }
 
-/* Keep gradient-text colors during sheen */
-.section-title .gradient-text .wave-letter.sheen {
+/* Keep gradient-text colors during sheen - use brightness filter */
+.section-title .gradient-text .wave-letter.sheen,
+.section-title .gradient-text-animated .wave-letter.sheen,
+.hero-title .gradient-text .wave-letter.sheen,
+.hero-title .gradient-text-animated .wave-letter.sheen {
   animation: letter-sheen-gradient 0.3s ease-in-out;
 }
 

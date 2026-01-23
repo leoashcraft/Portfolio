@@ -30,6 +30,36 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 ## Features
 
+### Animations & Interactions
+
+#### Timeline Eyes
+The Experience section features animated eye emojis that travel down the timeline:
+- **Direction Flip**: Eyes look toward the content - they flip direction each time they pass a timeline dot
+- **Blinking**: Eyes blink when crossing the midpoint between dots
+- **Dual Travelers**: Two eye emojis travel with offset timing for visual interest
+
+#### Hero Section
+- **Typewriter Effect**: Job titles cycle through with typing/deleting animation
+- **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
+- **Re-triggerable**: Clicking the Home nav link replays the tagline animation
+
+#### Service Cards ("What I Offer")
+- **Float Animation**: Cards gently float up/down with neon glow on hover
+- **Icon Flip**: 3D flip animation on service icons when hovering the card
+- **Staggered Features**: Checkmark items slide right with staggered delays
+- **Title Glow**: Service titles gain a subtle pink glow on hover
+
+#### Project Cards
+- **Random Icon Flip**: Project folder icons randomly flip at intervals
+- **Hover Float**: Cards float with enhanced glow effect on hover
+
+#### Floating Arcade Decorations
+Each section features floating geometric shapes inspired by 80s arcade carpet patterns:
+- Triangles, squares, circles, and diamond shapes
+- Zigzag and squiggly SVG patterns
+- Glowing orbs with blur effects
+- Various drift, wobble, spin, and pulse animations
+
 ### Security Measures
 
 #### Contact Info Obfuscation
@@ -66,24 +96,29 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 ```
 src/
 ├── components/
-│   ├── common/          # Header, Footer, SEO, CustomCursor
+│   ├── common/          # Header, Footer, SocialIcons, SectionHeader, ArcadeDecorations
 │   ├── contact/         # Contact form (React)
 │   ├── github/          # GitHub heatmap (React)
-│   ├── hero/            # Hero section with 3D scene
-│   └── sections/        # About, Experience, Projects, Contact
+│   ├── hero/            # Hero section with typewriter & word animations
+│   ├── sections/        # About, Experience, Projects, Contact
+│   └── ui/              # Reusable UI components (Icon)
 ├── data/
 │   ├── experience.ts    # Work history & education
 │   ├── navigation.ts    # Nav menu items
 │   ├── profile.ts       # Personal info & contact (obfuscated)
 │   ├── projects.ts      # Featured projects
-│   └── skills.ts        # Technical skills
+│   └── skills.ts        # Technical skills & services
 ├── layouts/
 │   └── BaseLayout.astro # Main layout with SEO
+├── lib/
+│   ├── contact.ts       # Email/phone unscrambling utilities
+│   ├── icon-flip.ts     # Shared icon flip animation logic
+│   └── timeline-eyes.ts # Timeline eye direction & blink logic
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
 │   └── index.astro      # Single-page portfolio
 └── styles/
-    └── global.css       # Theme & animations
+    └── global.css       # Theme, animations & arcade styling
 ```
 
 ## Design Philosophy

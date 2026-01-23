@@ -79,7 +79,7 @@ export const services = [
   {
     title: 'Web & Software Development',
     description:
-      'Clean, maintainable code for web applications, custom software solutions, and API integrations using modern frameworks like Laravel and React.',
+      '<span class="hover-underline-trigger">clean, maintainable code</span> for web applications, custom software solutions, and API integrations using modern frameworks like Laravel and React.',
     icon: 'code',
     features: [
       'Full-stack web applications',
@@ -91,7 +91,7 @@ export const services = [
   {
     title: 'Cloud Solutions & DevOps',
     description:
-      'AWS infrastructure setup, deployment pipelines, and containerization to ensure your applications scale reliably and securely.',
+      'AWS infrastructure setup, deployment pipelines, and containerization to ensure your applications <span class="hover-underline-trigger">scale reliably and securely</span>.',
     icon: 'cloud',
     features: [
       'AWS setup & management',
@@ -103,7 +103,7 @@ export const services = [
   {
     title: 'CRM & Integration Solutions',
     description:
-      'Seamless integration of Salesforce, HubSpot, and other business platforms to streamline your workflows and improve data consistency.',
+      '<span class="hover-underline-trigger">Seamless integration</span> of Salesforce, HubSpot, and other business platforms to streamline your workflows and <span class="hover-underline-trigger">improve data consistency</span>.',
     icon: 'puzzle',
     features: [
       'Salesforce integration',

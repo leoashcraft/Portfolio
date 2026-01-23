@@ -81,13 +81,14 @@ import { site } from '../../data/site';
 
       <!-- Bio -->
       <div class="mx-auto lg:mx-0 lg:mr-12">
-        <h3 class="text-2xl font-bold text-white mb-4">
-          {profile.tagline}
+        <h3 id="about-tagline" class="text-2xl font-bold text-white mb-4 relative" data-text={profile.tagline}>
+          <span class="tagline-placeholder invisible" aria-hidden="true">{profile.tagline}</span>
+          <span class="absolute left-0 top-0"><span class="tagline-text"></span><span class="tagline-cursor hidden">|</span></span>
         </h3>
-        <div class="prose prose-lg mb-8">
-          <p class="text-gray-300 leading-relaxed">
-            {profile.bio}
-          </p>
+        <div id="about-bio" class="prose prose-lg mb-8 text-gray-300 leading-relaxed">
+          {profile.bio.split('\n\n').map((paragraph, i) => (
+            <p class="bio-line mb-4">{paragraph}</p>
+          ))}
         </div>
 
         <!-- Quick Info -->
@@ -225,13 +226,13 @@ import { site } from '../../data/site';
                   </svg>
                 )}
               </div>
-              <h4 class="text-lg font-semibold text-white mb-2">
+              <h4 class="service-title text-lg font-semibold text-white mb-2">
                 {service.title}
               </h4>
-              <p class="text-gray-400 text-sm mb-4">{service.description}</p>
+              <p class="text-gray-400 text-sm mb-4" set:html={service.description}></p>
               <ul class="space-y-2">
-                {service.features.map((feature) => (
-                  <li class="flex items-center gap-2 text-sm text-gray-300">
+                {service.features.map((feature, index) => (
+                  <li class="feature-item flex items-center gap-2 text-sm text-gray-300" style={`--feature-index: ${index}`}>
                     <svg
                       class="w-4 h-4 text-neon-green shrink-0"
                       fill="none"
@@ -262,72 +263,119 @@ import { site } from '../../data/site';
     const icons = document.querySelectorAll('.service-icon') as NodeListOf<HTMLElement>;
     if (icons.length === 0) return;
 
-    const hoverStates = new Map<HTMLElement, boolean>();
-    let isRunning = false;
-
-    // Prevent multiple initializations
-    if (isRunning) return;
-    isRunning = true;
-
     // Handle hover on parent card - flip and stay flipped
     icons.forEach((icon) => {
-      hoverStates.set(icon, false);
       const parentCard = icon.closest('.card');
 
       if (parentCard) {
         parentCard.addEventListener('mouseenter', () => {
-          hoverStates.set(icon, true);
           icon.classList.add('flipped');
         });
 
         parentCard.addEventListener('mouseleave', () => {
-          hoverStates.set(icon, false);
           icon.classList.remove('flipped');
         });
       }
     });
+  }
 
-    // Random flip function
-    function randomFlip() {
-      // Pick a random icon
-      const iconsArray = Array.from(icons);
-      const randomIndex = Math.floor(Math.random() * iconsArray.length);
-      const icon = iconsArray[randomIndex];
+  // Tagline typewriter animation - only runs once
+  let taglineAnimated = false;
 
-      // Don't flip if user is hovering
-      if (hoverStates.get(icon)) {
-        scheduleNextFlip();
-        return;
-      }
+  function initTaglineTypewriter() {
+    if (taglineAnimated) return;
 
-      // Flip it
-      icon.classList.add('flipped');
+    const taglineEl = document.getElementById('about-tagline');
+    if (!taglineEl) return;
 
-      // Wait 2.5 seconds then flip back (if not hovered)
-      setTimeout(() => {
-        if (!hoverStates.get(icon)) {
-          icon.classList.remove('flipped');
-        }
-      }, 2500);
+    const textSpan = taglineEl.querySelector('.tagline-text') as HTMLElement;
+    const cursorSpan = taglineEl.querySelector('.tagline-cursor') as HTMLElement;
+    const fullText = taglineEl.getAttribute('data-text') || '';
 
-      scheduleNextFlip();
-    }
+    if (!textSpan || !fullText) return;
 
-    function scheduleNextFlip() {
-      // Random delay between 3-7 seconds
-      const delay = 3000 + Math.random() * 4000;
-      setTimeout(randomFlip, delay);
-    }
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
 
-    // Start the random flipping after a short delay
-    setTimeout(randomFlip, 2000);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !taglineAnimated) {
+            taglineAnimated = true;
+            observer.disconnect();
+
+            // Start typewriter and bio animation together
+            setTimeout(() => {
+              if (cursorSpan) cursorSpan.style.display = 'inline-block';
+              let charIndex = 0;
+              const typeSpeed = 50;
+
+              // Start bio line grow animation at same time as typewriter
+              const bioLines = document.querySelectorAll('.bio-line') as NodeListOf<HTMLElement>;
+              bioLines.forEach((line, i) => {
+                setTimeout(() => {
+                  line.classList.add('grow');
+                  setTimeout(() => {
+                    line.classList.remove('grow');
+                  }, 300);
+                }, i * 200);
+              });
+
+              function typeChar() {
+                if (charIndex < fullText.length) {
+                  textSpan.textContent = fullText.slice(0, charIndex + 1);
+                  charIndex++;
+                  setTimeout(typeChar, typeSpeed);
+                } else {
+                  // Wrap "Digital Excellence" in a span for animation
+                  const html = textSpan.innerHTML;
+                  textSpan.innerHTML = html.replace(
+                    'Digital Excellence',
+                    '<span class="excellence-pop" style="display: inline-block; transition: transform 0.5s ease-in-out;">Digital Excellence</span>'
+                  );
+
+                  // Animate "Excellence" while cursor is still blinking
+                  setTimeout(() => {
+                    const excellenceSpan = textSpan.querySelector('.excellence-pop') as HTMLElement;
+                    if (excellenceSpan) {
+                      excellenceSpan.style.transform = 'scale(1.02)';
+                      setTimeout(() => {
+                        excellenceSpan.style.transform = 'scale(1)';
+                      }, 500);
+                    }
+                  }, 500);
+
+                  // Let cursor blink 1 time then hide
+                  setTimeout(() => {
+                    if (cursorSpan) cursorSpan.style.display = 'none';
+                  }, 1000);
+                }
+              }
+
+              typeChar();
+            }, 300);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(aboutSection);
   }
 
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initServiceIconFlips);
+    document.addEventListener('DOMContentLoaded', () => {
+      initServiceIconFlips();
+      initTaglineTypewriter();
+    });
   } else {
     initServiceIconFlips();
+    initTaglineTypewriter();
   }
-  document.addEventListener('astro:after-swap', initServiceIconFlips);
+  document.addEventListener('astro:after-swap', () => {
+    initServiceIconFlips();
+    taglineAnimated = false;
+    initTaglineTypewriter();
+  });
 </script>

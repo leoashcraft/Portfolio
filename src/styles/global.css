@@ -453,6 +453,74 @@ code, pre, kbd {
   box-shadow: 0 0 8px rgba(0, 255, 247, 0.6);
 }
 
+/* Tagline typewriter cursor */
+.tagline-cursor {
+  color: var(--color-neon-pink);
+  animation: cursor-blink 1s step-start infinite;
+  margin-left: 2px;
+}
+
+/* Hover underline animation for service cards */
+.hover-underline-trigger {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .hover-underline-trigger {
+  transform: scale(1.02);
+}
+
+.hover-underline-trigger::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(to right, rgba(255, 0, 255, 0.2), rgba(102, 0, 255, 0.2));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1;
+}
+
+.card:hover .hover-underline-trigger::after {
+  transform: scaleX(1);
+}
+
+/* Feature items staggered grow animation */
+.feature-item {
+  transition: transform 0.3s ease-in-out;
+  transition-delay: calc(var(--feature-index) * 0.1s);
+}
+
+.card:hover .feature-item {
+  transform: scale(1.03);
+}
+
+/* Service title grow animation */
+.service-title {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+  transform-origin: left;
+}
+
+.card:hover .service-title {
+  transform: scale(1.04);
+}
+
+/* Bio line grow animation */
+.bio-line {
+  transition: transform 0.3s ease-out;
+  transform-origin: left;
+}
+
+.bio-line.grow {
+  transform: scale(1.005);
+}
+
 .terminal-input {
   color: transparent !important;
 }
@@ -560,6 +628,10 @@ code, pre, kbd {
   pointer-events: none;
 }
 
+.card {
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
 .card:hover {
   border-color: transparent;
   animation: hover-float-glow 5s ease-in-out infinite;
@@ -567,12 +639,12 @@ code, pre, kbd {
 
 @keyframes hover-float-glow {
   0%, 100% {
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.1), 0 0 30px rgba(102, 0, 255, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.08), 0 0 20px rgba(102, 0, 255, 0.04);
   }
   50% {
-    transform: translateY(-8px);
-    box-shadow: 0 0 40px rgba(255, 0, 255, 0.3), 0 0 80px rgba(102, 0, 255, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.2), 0 0 50px rgba(102, 0, 255, 0.1);
   }
 }
 
@@ -596,50 +668,54 @@ code, pre, kbd {
 
 @keyframes hover-pulse-pink {
   0%, 100% {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3), 0 0 30px rgba(102, 0, 255, 0.15);
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.2), 0 0 20px rgba(102, 0, 255, 0.1);
   }
   50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 35px rgba(255, 0, 255, 0.6), 0 0 70px rgba(102, 0, 255, 0.4);
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.4), 0 0 50px rgba(102, 0, 255, 0.25);
   }
 }
 
 @keyframes hover-pulse-green {
   0%, 100% {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
   }
   50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 35px rgba(0, 255, 0, 0.6);
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
   }
 }
 
 @keyframes hover-pulse-yellow {
   0%, 100% {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
   }
   50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 35px rgba(255, 255, 0, 0.6);
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(255, 255, 0, 0.4);
   }
 }
 
 /* Featured project image hover float */
+.project-image-wrapper {
+  transition: transform 0.4s ease-out, filter 0.4s ease-out;
+}
+
 .project-image-wrapper:hover {
   animation: hover-float-glow-image 5s ease-in-out infinite;
 }
 
 @keyframes hover-float-glow-image {
   0%, 100% {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.15)) drop-shadow(0 0 20px rgba(102, 0, 255, 0.1));
+    transform: translateY(-1px);
+    filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.1)) drop-shadow(0 0 16px rgba(102, 0, 255, 0.06));
   }
   50% {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 0 25px rgba(255, 0, 255, 0.35)) drop-shadow(0 0 50px rgba(102, 0, 255, 0.25));
+    transform: translateY(-4px);
+    filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.25)) drop-shadow(0 0 40px rgba(102, 0, 255, 0.15));
   }
 }
 

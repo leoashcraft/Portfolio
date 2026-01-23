@@ -3,12 +3,15 @@ import { profile } from '../../data/profile';
 import { site } from '../../data/site';
 import ContactForm from '../contact/ContactForm';
 
-// Unscramble email and phone for display
+// Unscramble email and phone for display (reversed for spam protection)
 const email =
   profile.contact.email.user.split('').reverse().join('') +
   '@' +
   profile.contact.email.website.split('').reverse().join('');
-const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
+const phone =
+  profile.contact.phone.area.split('').reverse().join('') +
+  ' ' +
+  profile.contact.phone.number.split('').reverse().join('');
 ---
 
 <section

@@ -182,7 +182,7 @@ Visit /projects for detailed case studies with metrics.
 
   contact: () => {
     const email = profile.contact.email.user.split('').reverse().join('') + '@' + profile.contact.email.website.split('').reverse().join('');
-    const phone = profile.contact.phone.user + ' ' + profile.contact.phone.website;
+    const phone = profile.contact.phone.area.split('').reverse().join('') + ' ' + profile.contact.phone.number.split('').reverse().join('');
 
     return `
 ╔══════════════════════════════════════════════════════════════╗

@@ -15,7 +15,7 @@ Currently at Parker University, I develop front-end and PHP-based back-end syste
 
   // Obfuscated contact info (reversed for spam protection)
   contact: {
-    phone: { user: '(309)', website: '2874-836' },
+    phone: { area: ')309(', number: '2874-836' },
     email: { user: 'oel', website: 'hcet.tfarchsa' },
   },
 

@@ -1,8 +1,8 @@
 # Leo Ashcraft - Portfolio
 
-A modern, performant portfolio website built with Astro, featuring an 80s arcade aesthetic, interactive terminal, and thoughtful security measures.
+A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic and thoughtful security measures.
 
-**Live Site:** [leoashcraft.com](https://leoashcraft.com)
+**Live Site:** [ashcraft.tech](https://ashcraft.tech)
 
 ## Tech Stack
 
@@ -16,10 +16,9 @@ A modern, performant portfolio website built with Astro, featuring an 80s arcade
 - **Custom CSS Animations** - Floating geometric shapes, drift effects, wobble animations
 - **Arcade Carpet Theme** - 80s-inspired neon color palette (pink, purple, cyan, yellow, green, orange)
 
-### Content & SEO
-- **[MDX](https://mdxjs.com)** - Markdown with JSX for blog posts and project case studies
+### SEO
 - **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** - Automatic sitemap generation
-- **JSON-LD Structured Data** - Schema.org markup for Person, WebSite, and BlogPosting
+- **JSON-LD Structured Data** - Schema.org markup for Person and WebSite
 - **Open Graph & Twitter Cards** - Rich social media previews
 
 ### Performance
@@ -31,34 +30,20 @@ A modern, performant portfolio website built with Astro, featuring an 80s arcade
 
 ## Features
 
-### Interactive Terminal
-A fully functional terminal emulator with custom commands:
-- `help` - List available commands
-- `about` - Display bio information
-- `skills` - Show technical skills
-- `projects` - List portfolio projects
-- `contact` - Display contact information
-- `resume` - Download resume
-- `github` - View GitHub activity
-- `theme` - Toggle light/dark mode
-- `clear` - Clear terminal
-- Easter eggs: `sudo`, `rm -rf`, `matrix`, `hack`, `ls`, `cat`, and more
-
 ### Security Measures
 
-#### Email Obfuscation
-Email addresses are stored in reverse and reconstructed at runtime to prevent scraping:
+#### Contact Info Obfuscation
+Email and phone are stored reversed and reconstructed at runtime to prevent bot scraping:
 ```typescript
 // Stored as reversed strings in profile data
-email: {
-  user: 'oel',      // 'leo' reversed
-  website: 'moc.tfarcsahoel'  // 'leoashcraft.com' reversed
+contact: {
+  email: { user: 'oel', website: 'hcet.tfarchsa' },
+  phone: { area: ')309(', number: '2874-836' },
 }
 
-// Reconstructed when needed
-const email = profile.contact.email.user.split('').reverse().join('')
-  + '@'
-  + profile.contact.email.website.split('').reverse().join('');
+// Reconstructed when displayed
+const email = user.reverse() + '@' + website.reverse();  // leo@ashcraft.tech
+const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 ```
 
 #### Contact Form Protection
@@ -73,7 +58,7 @@ const email = profile.contact.email.user.split('').reverse().join('')
 
 ### GitHub Integration
 - Live contribution heatmap via GitHub GraphQL API
-- Repository statistics display
+- Auto-scrolls to show recent activity on mobile
 - Cached responses for performance
 
 ## Project Structure
@@ -81,26 +66,22 @@ const email = profile.contact.email.user.split('').reverse().join('')
 ```
 src/
 ├── components/
-│   ├── common/          # Header, Footer, SEO
-│   ├── contact/         # Contact form
-│   ├── github/          # GitHub activity components
-│   ├── hero/            # Hero section with floating shapes
-│   ├── sections/        # About, Experience, Projects, Contact
-│   └── terminal/        # Interactive terminal
-├── content/
-│   ├── blog/            # MDX blog posts
-│   └── projects/        # MDX project case studies
+│   ├── common/          # Header, Footer, SEO, CustomCursor
+│   ├── contact/         # Contact form (React)
+│   ├── github/          # GitHub heatmap (React)
+│   ├── hero/            # Hero section with 3D scene
+│   └── sections/        # About, Experience, Projects, Contact
 ├── data/
 │   ├── experience.ts    # Work history & education
-│   ├── profile.ts       # Personal info & contact
+│   ├── navigation.ts    # Nav menu items
+│   ├── profile.ts       # Personal info & contact (obfuscated)
+│   ├── projects.ts      # Featured projects
 │   └── skills.ts        # Technical skills
 ├── layouts/
 │   └── BaseLayout.astro # Main layout with SEO
 ├── pages/
-│   ├── api/             # Server endpoints
-│   ├── blog/            # Blog routes
-│   ├── projects/        # Project routes
-│   └── index.astro      # Homepage
+│   ├── api/             # Server endpoints (contact form)
+│   └── index.astro      # Single-page portfolio
 └── styles/
     └── global.css       # Theme & animations
 ```

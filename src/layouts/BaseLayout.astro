@@ -45,5 +45,46 @@ const props = Astro.props;
 
     <!-- Footer -->
     <Footer />
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-neon-pink/20 border border-neon-pink/40 text-neon-pink opacity-0 invisible translate-y-4 transition-all duration-300 hover:bg-neon-pink/30 hover:border-neon-pink/60 hover:scale-110 z-50 flex items-center justify-center"
+      aria-label="Back to top"
+      style="box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+
+    <script>
+      function initBackToTop() {
+        const btn = document.getElementById('back-to-top');
+        if (!btn) return;
+
+        const showThreshold = 400;
+
+        function updateButton() {
+          if (window.scrollY > showThreshold) {
+            btn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+            btn.classList.add('opacity-100', 'visible', 'translate-y-0');
+          } else {
+            btn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            btn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+          }
+        }
+
+        window.addEventListener('scroll', updateButton, { passive: true });
+        updateButton();
+
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      initBackToTop();
+      document.addEventListener('astro:after-swap', initBackToTop);
+    </script>
   </body>
 </html>

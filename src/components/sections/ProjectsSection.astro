@@ -1,6 +1,8 @@
 ---
 import { featuredProjects, otherProjects } from '../../data/projects';
 import { site } from '../../data/site';
+import SectionHeader from '../common/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
 ---
 
 <section id="projects" class="section section-arcade px-4 overflow-hidden" aria-labelledby="projects-heading">
@@ -46,14 +48,12 @@ import { site } from '../../data/site';
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 id="projects-heading" class="section-title">
-        {site.sections.projects.title} <span class="gradient-text">{site.sections.projects.titleHighlight}</span>
-      </h2>
-      <p class="section-subtitle mx-auto">
-        {site.sections.projects.subtitle}
-      </p>
-    </div>
+    <SectionHeader
+      title={site.sections.projects.title}
+      titleHighlight={site.sections.projects.titleHighlight}
+      subtitle={site.sections.projects.subtitle}
+      headingId="projects-heading"
+    />
 
     <!-- Featured Projects -->
     <div class="space-y-20 mb-20">

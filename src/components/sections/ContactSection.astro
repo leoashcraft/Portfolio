@@ -2,16 +2,13 @@
 import { profile } from '../../data/profile';
 import { site } from '../../data/site';
 import ContactForm from '../contact/ContactForm';
+import SectionHeader from '../common/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
+import { unscrambleEmail, unscramblePhone } from '../../lib/contact';
 
-// Unscramble email and phone for display (reversed for spam protection)
-const email =
-  profile.contact.email.user.split('').reverse().join('') +
-  '@' +
-  profile.contact.email.website.split('').reverse().join('');
-const phone =
-  profile.contact.phone.area.split('').reverse().join('') +
-  ' ' +
-  profile.contact.phone.number.split('').reverse().join('');
+// Unscramble email and phone for display
+const email = unscrambleEmail(profile);
+const phone = unscramblePhone(profile);
 ---
 
 <section
@@ -60,14 +57,12 @@ const phone =
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 id="contact-heading" class="section-title">
-        {site.sections.contact.title} <span class="gradient-text">{site.sections.contact.titleHighlight}</span>
-      </h2>
-      <p class="section-subtitle mx-auto">
-        {site.sections.contact.subtitle}
-      </p>
-    </div>
+    <SectionHeader
+      title={site.sections.contact.title}
+      titleHighlight={site.sections.contact.titleHighlight}
+      subtitle={site.sections.contact.subtitle}
+      headingId="contact-heading"
+    />
 
     <div class="grid lg:grid-cols-2 gap-12">
       <!-- Contact Info -->

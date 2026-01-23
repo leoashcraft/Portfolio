@@ -2,6 +2,8 @@
 import { profile } from '../../data/profile';
 import { skills, services } from '../../data/skills';
 import { site } from '../../data/site';
+import SectionHeader from '../common/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
 ---
 
 <section id="about" class="section section-arcade px-4 overflow-hidden" aria-labelledby="about-heading">
@@ -33,14 +35,12 @@ import { site } from '../../data/site';
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 id="about-heading" class="section-title">
-        {site.sections.about.title} <span class="gradient-text">{site.sections.about.titleHighlight}</span>
-      </h2>
-      <p class="section-subtitle mx-auto">
-        {site.sections.about.subtitle}
-      </p>
-    </div>
+    <SectionHeader
+      title={site.sections.about.title}
+      titleHighlight={site.sections.about.titleHighlight}
+      subtitle={site.sections.about.subtitle}
+      headingId="about-heading"
+    />
 
     <!-- Content Grid -->
     <div class="grid lg:grid-cols-2 gap-12 items-center mb-20">
@@ -233,19 +233,7 @@ import { site } from '../../data/site';
               <ul class="space-y-2">
                 {service.features.map((feature, index) => (
                   <li class="feature-item flex items-center gap-2 text-sm text-gray-300" style={`--feature-index: ${index}`}>
-                    <svg
-                      class="w-4 h-4 text-neon-green shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                    <Icon name="checkmark" size="sm" class="text-neon-green shrink-0" />
                     {feature}
                   </li>
                 ))}
@@ -297,6 +285,7 @@ import { site } from '../../data/site';
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
 
+    // Observe the tagline element directly instead of the whole section
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -357,10 +346,14 @@ import { site } from '../../data/site';
           }
         });
       },
-      { threshold: 0.5 }
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -5% 0px'
+      }
     );
 
-    observer.observe(aboutSection);
+    // Observe the tagline element directly for more reliable triggering
+    observer.observe(taglineEl);
   }
 
   // Initialize when DOM is ready

@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  titleHighlight: string;
+  subtitle: string;
+  headingId?: string;
+}
+
+const { title, titleHighlight, subtitle, headingId } = Astro.props;
+---
+
+<div class="text-center mb-16">
+  <h2 id={headingId} class="section-title">
+    {title} <span class="gradient-text">{titleHighlight}</span>
+  </h2>
+  <p class="section-subtitle mx-auto">
+    {subtitle}
+  </p>
+</div>

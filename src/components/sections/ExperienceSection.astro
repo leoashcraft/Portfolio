@@ -1,6 +1,8 @@
 ---
 import { experience, education } from '../../data/experience';
 import { site } from '../../data/site';
+import SectionHeader from '../common/SectionHeader.astro';
+import Icon from '../ui/Icon.astro';
 ---
 
 <section id="experience" class="section section-arcade-alt px-4 overflow-hidden" aria-labelledby="experience-heading">
@@ -33,14 +35,12 @@ import { site } from '../../data/site';
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 id="experience-heading" class="section-title">
-        {site.sections.experience.title} <span class="gradient-text">{site.sections.experience.titleHighlight}</span>
-      </h2>
-      <p class="section-subtitle mx-auto">
-        {site.sections.experience.subtitle}
-      </p>
-    </div>
+    <SectionHeader
+      title={site.sections.experience.title}
+      titleHighlight={site.sections.experience.titleHighlight}
+      subtitle={site.sections.experience.subtitle}
+      headingId="experience-heading"
+    />
 
     <!-- Experience Timeline -->
     <div class="relative">

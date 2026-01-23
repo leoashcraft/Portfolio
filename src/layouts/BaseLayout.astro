@@ -88,69 +88,76 @@ const props = Astro.props;
         const titles = document.querySelectorAll('.section-title, .hero-title');
         const animatedTitles = new Set<Element>();
 
-        // Function to wrap text in letter spans
-        function wrapLetters(element: Element) {
-          const childNodes = Array.from(element.childNodes);
+        // Function to collect ALL text content and wrap in letter spans
+        function wrapAllLetters(element: Element): HTMLSpanElement[] {
+          const allLetterSpans: HTMLSpanElement[] = [];
 
-          childNodes.forEach((node) => {
+          function processNode(node: Node) {
             if (node.nodeType === Node.TEXT_NODE && node.textContent) {
               const text = node.textContent;
               const fragment = document.createDocumentFragment();
 
               for (const char of text) {
-                if (char === ' ') {
-                  fragment.appendChild(document.createTextNode(' '));
+                if (char === ' ' || char === '\n' || char === '\t') {
+                  fragment.appendChild(document.createTextNode(char));
                 } else {
                   const span = document.createElement('span');
                   span.className = 'wave-letter';
+                  span.style.display = 'inline-block';
                   span.textContent = char;
                   fragment.appendChild(span);
+                  allLetterSpans.push(span);
                 }
               }
 
               node.replaceWith(fragment);
             } else if (node.nodeType === Node.ELEMENT_NODE) {
-              // Recursively wrap letters in child elements (like gradient-text spans)
-              wrapLetters(node as Element);
+              // Process children of element nodes (like gradient-text spans)
+              const children = Array.from(node.childNodes);
+              children.forEach(processNode);
             }
-          });
+          }
+
+          const childNodes = Array.from(element.childNodes);
+          childNodes.forEach(processNode);
+
+          return allLetterSpans;
         }
 
-        // Function to animate the wave - treats ALL letters as one continuous sequence
-        function animateWave(title: Element) {
-          // Get all wave-letter elements in document order (this naturally handles nested spans)
-          const letters = Array.from(title.querySelectorAll('.wave-letter'));
-          const delayIncrement = 50; // ms between each letter
+        // Function to animate using direct style manipulation
+        function animateWave(letters: HTMLSpanElement[]) {
+          const delayIncrement = 50;
+          const waveDuration = 400;
+          const sheenDelayIncrement = 30;
+          const sheenDuration = 300;
 
-          // Animate each letter with staggered delay
+          // Wave animation - scale each letter
           letters.forEach((letter, index) => {
             const delay = index * delayIncrement;
 
             setTimeout(() => {
-              letter.classList.add('animating');
+              letter.style.transition = `transform ${waveDuration}ms ease-in-out`;
+              letter.style.transform = 'scale(1.2)';
 
-              // Remove animation class after it completes
               setTimeout(() => {
-                letter.classList.remove('animating');
-              }, 400);
+                letter.style.transform = 'scale(1)';
+              }, waveDuration / 2);
             }, delay);
           });
 
-          // Add sheen effect to ALL letters after wave completes
-          const totalWaveTime = letters.length * delayIncrement + 400;
+          // Sheen animation - brightness filter sweep
+          const totalWaveTime = letters.length * delayIncrement + waveDuration;
           setTimeout(() => {
-            const sheenDelayIncrement = 30; // faster sweep
-
             letters.forEach((letter, index) => {
               const sheenDelay = index * sheenDelayIncrement;
 
               setTimeout(() => {
-                letter.classList.add('sheen');
+                letter.style.transition = `filter ${sheenDuration}ms ease-in-out`;
+                letter.style.filter = 'brightness(1.5) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6))';
 
-                // Remove sheen class after animation
                 setTimeout(() => {
-                  letter.classList.remove('sheen');
-                }, 300);
+                  letter.style.filter = '';
+                }, sheenDuration / 2);
               }, sheenDelay);
             });
           }, totalWaveTime);
@@ -163,14 +170,12 @@ const props = Astro.props;
               if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
                 animatedTitles.add(entry.target);
 
-                // Wrap letters if not already done
-                if (!entry.target.querySelector('.wave-letter')) {
-                  wrapLetters(entry.target);
-                }
+                // Wrap letters and get them in order
+                const letters = wrapAllLetters(entry.target);
 
                 // Small delay before starting animation
                 setTimeout(() => {
-                  animateWave(entry.target);
+                  animateWave(letters);
                 }, 200);
               }
             });

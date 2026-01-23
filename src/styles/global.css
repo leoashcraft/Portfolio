@@ -492,23 +492,27 @@ code, pre, kbd {
 
 /* Feature items staggered grow animation */
 .feature-item {
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
   transition-delay: calc(var(--feature-index) * 0.1s);
+  will-change: transform;
 }
 
 .card:hover .feature-item {
-  transform: scale(1.03);
+  transform: translateX(4px);
+  color: #e5e7eb;
 }
 
 /* Service title grow animation */
 .service-title {
   display: inline-block;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
   transform-origin: left;
+  will-change: transform;
 }
 
 .card:hover .service-title {
-  transform: scale(1.04);
+  transform: translateX(2px);
+  text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
 }
 
 /* Mobile scroll-triggered service card effects */
@@ -522,11 +526,13 @@ code, pre, kbd {
   }
 
   .card.float-active .feature-item {
-    transform: scale(1.03);
+    transform: translateX(4px);
+    color: #e5e7eb;
   }
 
   .card.float-active .service-title {
-    transform: scale(1.04);
+    transform: translateX(2px);
+    text-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
   }
 }
 

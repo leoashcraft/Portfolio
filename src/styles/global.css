@@ -602,6 +602,59 @@ code, pre, kbd {
   transform: perspective(400px) rotateY(180deg);
 }
 
+/* Section title wave animation */
+.section-title .wave-letter {
+  display: inline-block;
+  transition: transform 0.3s ease-out;
+}
+
+@keyframes letter-wave {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.section-title .wave-letter.animating {
+  animation: letter-wave 0.4s ease-in-out;
+}
+
+/* Metallic sheen effect */
+.section-title.sheen {
+  position: relative;
+  overflow: visible;
+}
+
+.section-title.sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 80%,
+    transparent 100%
+  );
+  animation: sheen-sweep 0.8s ease-in-out forwards;
+  pointer-events: none;
+}
+
+@keyframes sheen-sweep {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
 .card:hover::before {
   opacity: 1;
 }

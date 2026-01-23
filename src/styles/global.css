@@ -464,11 +464,11 @@ code, pre, kbd {
 .hover-underline-trigger {
   position: relative;
   display: inline-block;
-  transition: transform 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
 }
 
 .card:hover .hover-underline-trigger {
-  transform: scale(1.02);
+  color: #e5e7eb;
 }
 
 .hover-underline-trigger::after {
@@ -518,7 +518,7 @@ code, pre, kbd {
 /* Mobile scroll-triggered service card effects */
 @media (max-width: 767px) {
   .card.float-active .hover-underline-trigger {
-    transform: scale(1.02);
+    color: #e5e7eb;
   }
 
   .card.float-active .hover-underline-trigger::after {

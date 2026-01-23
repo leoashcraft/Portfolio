@@ -1005,6 +1005,49 @@ code, pre, kbd {
   animation: travel-down 20s linear infinite;
 }
 
+/* Timeline dot pulse animation */
+@keyframes timeline-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+    transform: translateX(-50%) scale(1.2);
+  }
+}
+
+.timeline-dot {
+  animation: timeline-dot-pulse 3s ease-in-out infinite;
+}
+
+/* Timeline gradient animation */
+@keyframes timeline-gradient-shift {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.timeline-gradient {
+  background: linear-gradient(
+    180deg,
+    #ff00ff 0%,
+    #6600ff 25%,
+    #00fff7 50%,
+    #ffff00 75%,
+    #00ff00 100%
+  );
+  background-size: 100% 200%;
+  animation: timeline-gradient-shift 8s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+}
+
 /* Space Invader style character */
 .arcade-invader {
   width: 24px;

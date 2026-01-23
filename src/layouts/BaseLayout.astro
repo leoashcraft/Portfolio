@@ -181,6 +181,9 @@ const props = Astro.props;
           }, totalWaveTime);
         }
 
+        // Store wrapped letters for each title so we can re-animate
+        const titleLettersMap = new Map<Element, HTMLSpanElement[]>();
+
         // Intersection Observer to trigger animation
         const observer = new IntersectionObserver(
           (entries) => {
@@ -188,12 +191,16 @@ const props = Astro.props;
               if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
                 animatedTitles.add(entry.target);
 
-                // Wrap letters and get them in order
-                const letters = wrapAllLetters(entry.target);
+                // Wrap letters and get them in order (only once)
+                let letters = titleLettersMap.get(entry.target);
+                if (!letters) {
+                  letters = wrapAllLetters(entry.target);
+                  titleLettersMap.set(entry.target, letters);
+                }
 
                 // Small delay before starting animation
                 setTimeout(() => {
-                  animateWave(letters);
+                  animateWave(letters!);
                 }, 200);
               }
             });
@@ -206,6 +213,38 @@ const props = Astro.props;
 
         titles.forEach((title) => {
           observer.observe(title);
+        });
+
+        // Listen for nav link clicks to re-trigger animation
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (!href || href === '#') return;
+
+            const targetId = href.slice(1);
+            const targetSection = document.getElementById(targetId);
+            if (!targetSection) return;
+
+            // Find the section title within the target section
+            const sectionTitle = targetSection.querySelector('.section-title, .hero-title');
+            if (!sectionTitle) return;
+
+            // Remove from animated set so it can animate again
+            animatedTitles.delete(sectionTitle);
+
+            // Get or create wrapped letters
+            let letters = titleLettersMap.get(sectionTitle);
+            if (!letters) {
+              letters = wrapAllLetters(sectionTitle);
+              titleLettersMap.set(sectionTitle, letters);
+            }
+
+            // Delay animation to let scroll complete
+            setTimeout(() => {
+              animateWave(letters!);
+              animatedTitles.add(sectionTitle);
+            }, 400);
+          });
         });
       }
 

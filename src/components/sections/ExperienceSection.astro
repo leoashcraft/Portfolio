@@ -239,8 +239,8 @@ import { site } from '../../data/site';
       }
 
       // First entry (index 0) is flex-row-reverse, so content is on LEFT, eyes look LEFT
-      // Even passedDots (0, 2, 4, 6) = look left, Odd passedDots (1, 3, 5) = look right
-      if (passedDots % 2 === 0) {
+      // Odd passedDots (1, 3, 5, 7) = look left, Even passedDots (0, 2, 4, 6) = look right
+      if (passedDots % 2 === 1) {
         traveler.classList.remove('look-right');
         traveler.classList.add('look-left');
       } else {

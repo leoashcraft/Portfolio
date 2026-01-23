@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import type { ContributionDay, GitHubStats } from '../../lib/github';
 
 const CELL_SIZE = 12;
@@ -54,6 +54,14 @@ interface ContributionHeatmapProps {
 }
 
 export default function ContributionHeatmap({ data }: ContributionHeatmapProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to show most recent contributions on mobile
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+    }
+  }, []);
 
   // Calculate month labels positions
   const monthLabels = useMemo(() => {
@@ -77,7 +85,7 @@ export default function ContributionHeatmap({ data }: ContributionHeatmapProps) 
   }, [data]);
 
   return (
-    <div className="w-full overflow-x-auto pb-4">
+    <div ref={scrollRef} className="w-full overflow-x-auto pb-4">
       <div className="min-w-[800px]">
         {/* Header with total */}
         <div className="flex items-center justify-between mb-4">

@@ -485,8 +485,7 @@ code, pre, kbd {
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 25px rgba(255, 0, 255, 0.5), 0 0 50px rgba(102, 0, 255, 0.3);
-  animation: hover-pulse 5s ease-in-out infinite;
+  animation: hover-pulse-pink 5s ease-in-out infinite;
 }
 
 .btn-secondary {
@@ -518,8 +517,7 @@ code, pre, kbd {
 }
 
 .btn-neon-green:hover {
-  box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
-  animation: hover-pulse 5s ease-in-out infinite;
+  animation: hover-pulse-green 5s ease-in-out infinite;
 }
 
 .btn-neon-yellow {
@@ -528,8 +526,7 @@ code, pre, kbd {
 }
 
 .btn-neon-yellow:hover {
-  box-shadow: 0 0 25px rgba(255, 255, 0, 0.5);
-  animation: hover-pulse 5s ease-in-out infinite;
+  animation: hover-pulse-yellow 5s ease-in-out infinite;
 }
 
 /* ============================================
@@ -594,6 +591,39 @@ code, pre, kbd {
   }
   50% {
     transform: scale(1.06);
+  }
+}
+
+@keyframes hover-pulse-pink {
+  0%, 100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3), 0 0 30px rgba(102, 0, 255, 0.15);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 35px rgba(255, 0, 255, 0.6), 0 0 70px rgba(102, 0, 255, 0.4);
+  }
+}
+
+@keyframes hover-pulse-green {
+  0%, 100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 35px rgba(0, 255, 0, 0.6);
+  }
+}
+
+@keyframes hover-pulse-yellow {
+  0%, 100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 35px rgba(255, 255, 0, 0.6);
   }
 }
 

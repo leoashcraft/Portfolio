@@ -269,20 +269,22 @@ import { site } from '../../data/site';
     if (isRunning) return;
     isRunning = true;
 
-    // Handle hover - flip and stay flipped
+    // Handle hover on parent card - flip and stay flipped
     icons.forEach((icon) => {
       hoverStates.set(icon, false);
-      icon.style.cursor = 'pointer';
+      const parentCard = icon.closest('.card');
 
-      icon.addEventListener('mouseenter', () => {
-        hoverStates.set(icon, true);
-        icon.classList.add('flipped');
-      });
+      if (parentCard) {
+        parentCard.addEventListener('mouseenter', () => {
+          hoverStates.set(icon, true);
+          icon.classList.add('flipped');
+        });
 
-      icon.addEventListener('mouseleave', () => {
-        hoverStates.set(icon, false);
-        icon.classList.remove('flipped');
-      });
+        parentCard.addEventListener('mouseleave', () => {
+          hoverStates.set(icon, false);
+          icon.classList.remove('flipped');
+        });
+      }
     });
 
     // Random flip function

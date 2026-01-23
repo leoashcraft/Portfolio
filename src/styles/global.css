@@ -592,6 +592,34 @@ code, pre, kbd {
   animation: hover-float 5s ease-in-out infinite;
 }
 
+/* Service icon 3D flip animation */
+@keyframes service-icon-flip {
+  0%, 85%, 100% {
+    transform: perspective(400px) rotateY(0deg);
+  }
+  90%, 95% {
+    transform: perspective(400px) rotateY(180deg);
+  }
+}
+
+.service-icon {
+  animation: service-icon-flip 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* Stagger the animations so they flip at different times */
+.card:nth-child(1) .service-icon {
+  animation-delay: 0s;
+}
+
+.card:nth-child(2) .service-icon {
+  animation-delay: -2.5s;
+}
+
+.card:nth-child(3) .service-icon {
+  animation-delay: -5s;
+}
+
 .card:hover::before {
   opacity: 1;
 }

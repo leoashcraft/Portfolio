@@ -5,23 +5,13 @@ import { navItems } from '../../data/navigation';
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
   <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
-    <!-- Logo/Name -->
+    <!-- Name -->
     <a
-      href="/"
-      class="flex items-center gap-3 group"
+      href="#"
+      class="px-4 py-2 rounded-lg text-gray-300 font-bold hover:text-neon-pink hover:bg-neon-pink/5 transition-all duration-200"
       aria-label="Leo Ashcraft - Home"
     >
-      <div
-        class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-pink to-neon-purple flex items-center justify-center text-white font-bold text-lg"
-        style="box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);"
-      >
-        LA
-      </div>
-      <span
-        class="hidden sm:block font-semibold text-white group-hover:text-neon-pink transition-colors"
-      >
-        {profile.name}
-      </span>
+      {profile.name}
     </a>
 
     <!-- Desktop Navigation -->

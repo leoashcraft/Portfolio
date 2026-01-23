@@ -259,14 +259,20 @@ import { site } from '../../data/site';
 
 <script>
   function initServiceIconFlips() {
-    const icons = document.querySelectorAll('.service-icon');
+    const icons = document.querySelectorAll('.service-icon') as NodeListOf<HTMLElement>;
     if (icons.length === 0) return;
 
-    const hoverStates = new Map<Element, boolean>();
+    const hoverStates = new Map<HTMLElement, boolean>();
+    let isRunning = false;
+
+    // Prevent multiple initializations
+    if (isRunning) return;
+    isRunning = true;
 
     // Handle hover - flip and stay flipped
     icons.forEach((icon) => {
       hoverStates.set(icon, false);
+      icon.style.cursor = 'pointer';
 
       icon.addEventListener('mouseenter', () => {
         hoverStates.set(icon, true);
@@ -282,8 +288,9 @@ import { site } from '../../data/site';
     // Random flip function
     function randomFlip() {
       // Pick a random icon
-      const randomIndex = Math.floor(Math.random() * icons.length);
-      const icon = icons[randomIndex];
+      const iconsArray = Array.from(icons);
+      const randomIndex = Math.floor(Math.random() * iconsArray.length);
+      const icon = iconsArray[randomIndex];
 
       // Don't flip if user is hovering
       if (hoverStates.get(icon)) {
@@ -310,10 +317,15 @@ import { site } from '../../data/site';
       setTimeout(randomFlip, delay);
     }
 
-    // Start the random flipping
-    scheduleNextFlip();
+    // Start the random flipping after a short delay
+    setTimeout(randomFlip, 2000);
   }
 
-  initServiceIconFlips();
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initServiceIconFlips);
+  } else {
+    initServiceIconFlips();
+  }
   document.addEventListener('astro:after-swap', initServiceIconFlips);
 </script>

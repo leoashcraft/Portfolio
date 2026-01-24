@@ -84,8 +84,9 @@ const props = Astro.props;
       }
 
       function initSectionTitleWave() {
-        // Target both section titles and the hero title
-        const titles = document.querySelectorAll('.section-title, .hero-title');
+        // Target section titles, hero title, and subsection titles
+        const titles = document.querySelectorAll('.section-title, .hero-title, .subsection-title');
+        const subsectionTitles = document.querySelectorAll('.subsection-title');
         const animatedTitles = new Set<Element>();
 
         // Function to collect ALL text content and wrap in letter spans
@@ -229,11 +230,22 @@ const props = Astro.props;
           observer.observe(title);
         });
 
+        // Function to reset all subsection titles so they can animate again
+        function resetAllSubsectionTitles() {
+          subsectionTitles.forEach((title) => {
+            animatedTitles.delete(title);
+            pendingNavAnimation.delete(title);
+          });
+        }
+
         // Listen for nav link clicks to re-trigger animation
         document.querySelectorAll('a[href*="#"]').forEach((link) => {
           link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             if (!href) return;
+
+            // Reset all subsection titles on any nav click
+            resetAllSubsectionTitles();
 
             let targetSection: Element | null = null;
 
@@ -271,6 +283,14 @@ const props = Astro.props;
             }, 1000);
           });
         });
+
+        // Listen for back-to-top button click to reset subsection titles
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+          backToTopBtn.addEventListener('click', () => {
+            resetAllSubsectionTitles();
+          });
+        }
       }
 
       function initMobileCardFloat() {

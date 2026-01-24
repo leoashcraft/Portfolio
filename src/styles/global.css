@@ -762,7 +762,8 @@ code, pre, kbd {
 
 /* Section title and hero title wave animation - styles applied via JS */
 .section-title .wave-letter,
-.hero-title .wave-letter {
+.hero-title .wave-letter,
+.subsection-title .wave-letter {
   display: inline-block;
 }
 

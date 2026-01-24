@@ -32,12 +32,6 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 ### Animations & Interactions
 
-#### Timeline Eyes
-The Experience section features animated eye emojis that travel down the timeline:
-- **Direction Flip**: Eyes look toward the content - they flip direction each time they pass a timeline dot
-- **Blinking**: Eyes blink when crossing the midpoint between dots
-- **Dual Travelers**: Two eye emojis travel with offset timing for visual interest
-
 #### Hero Section
 - **Typewriter Effect**: Job titles cycle through with typing/deleting animation
 - **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
@@ -48,6 +42,12 @@ The Experience section features animated eye emojis that travel down the timelin
 - **Icon Flip**: 3D flip animation on service icons when hovering the card
 - **Staggered Features**: Checkmark items slide right with staggered delays
 - **Title Glow**: Service titles gain a subtle pink glow on hover
+
+#### Timeline Eyes
+The Experience section features animated eye emojis that travel down the timeline:
+- **Direction Flip**: Eyes look toward the content - they flip direction each time they pass a timeline dot
+- **Blinking**: Eyes blink when crossing the midpoint between dots
+- **Dual Travelers**: Two eye emojis travel with offset timing for visual interest
 
 #### Project Cards
 - **Random Icon Flip**: Project folder icons randomly flip at intervals

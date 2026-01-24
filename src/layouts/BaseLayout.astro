@@ -143,8 +143,35 @@ const props = Astro.props;
           return allLetterSpans;
         }
 
+        // Function to animate subtitle words (103% grow)
+        function animateSubtitleWords(subtitleEl: Element | null) {
+          if (!subtitleEl) return;
+          const words = subtitleEl.querySelectorAll('.subtitle-word') as NodeListOf<HTMLElement>;
+          if (words.length === 0) return;
+
+          const wordDelay = 80;
+
+          // Reset all words first
+          words.forEach((word) => {
+            word.style.transition = 'none';
+            word.style.transform = 'scale(1)';
+          });
+          void words[0]?.offsetHeight;
+
+          // Animate each word sequentially
+          words.forEach((word, index) => {
+            setTimeout(() => {
+              word.style.transition = 'transform 200ms ease-out';
+              word.style.transform = 'scale(1.03)';
+              setTimeout(() => {
+                word.style.transform = 'scale(1)';
+              }, 200);
+            }, index * wordDelay);
+          });
+        }
+
         // Function to animate using direct style manipulation
-        function animateWave(letters: HTMLSpanElement[]) {
+        function animateWave(letters: HTMLSpanElement[], subtitleEl?: Element | null) {
           const delayIncrement = 50;
           const waveDuration = 400;
           const sheenDelayIncrement = 30;
@@ -190,6 +217,12 @@ const props = Astro.props;
               }, sheenDelay);
             });
           }, totalWaveTime);
+
+          // Animate subtitle words after title animation completes
+          const totalTitleAnimTime = totalWaveTime + (letters.length * sheenDelayIncrement) + sheenDuration;
+          setTimeout(() => {
+            animateSubtitleWords(subtitleEl || null);
+          }, totalTitleAnimTime);
         }
 
         // Store wrapped letters for each title so we can re-animate
@@ -213,9 +246,13 @@ const props = Astro.props;
                   titleLettersMap.set(entry.target, letters);
                 }
 
+                // Find the associated subtitle (next sibling with .section-subtitle class)
+                const parent = entry.target.parentElement;
+                const subtitleEl = parent?.querySelector('.section-subtitle');
+
                 // Small delay before starting animation
                 setTimeout(() => {
-                  animateWave(letters!);
+                  animateWave(letters!, subtitleEl);
                 }, 200);
               }
             });
@@ -266,6 +303,10 @@ const props = Astro.props;
             const sectionTitle = targetSection.querySelector('.section-title, .hero-title');
             if (!sectionTitle) return;
 
+            // Find the associated subtitle
+            const parent = sectionTitle.parentElement;
+            const subtitleEl = parent?.querySelector('.section-subtitle');
+
             // Mark as pending to block observer, keep in animatedTitles
             pendingNavAnimation.add(sectionTitle);
 
@@ -279,7 +320,7 @@ const props = Astro.props;
             // Delay animation to let scroll complete
             setTimeout(() => {
               pendingNavAnimation.delete(sectionTitle);
-              animateWave(letters!);
+              animateWave(letters!, subtitleEl);
             }, 1000);
           });
         });

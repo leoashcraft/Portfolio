@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, titleHighlight, subtitle, headingId } = Astro.props;
+const subtitleWords = subtitle.split(' ');
 ---
 
 <div class="text-center mb-16">
@@ -14,6 +15,8 @@ const { title, titleHighlight, subtitle, headingId } = Astro.props;
     {title} <span class="gradient-text">{titleHighlight}</span>
   </h2>
   <p class="section-subtitle mx-auto">
-    {subtitle}
+    {subtitleWords.map((word, i) => (
+      <span class="subtitle-word inline-block transition-transform duration-200" data-word-index={i}>{word}{i < subtitleWords.length - 1 ? '\u00A0' : ''}</span>
+    ))}
   </p>
 </div>

@@ -37,6 +37,17 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
 - **Re-triggerable**: Clicking the Home nav link replays the tagline animation
 
+#### Section Titles
+- **Wave Animation**: Each letter scales up to 140% in sequence when scrolling into view
+- **Sheen Effect**: Brightness sweep follows the wave animation
+- **Subtitle Grow**: After title animation, subtitle words grow 103% sequentially
+- **Re-triggerable**: Nav link clicks replay the animation for that section
+
+#### Subsection Titles
+"What I Offer", "Education & Certifications", and "Other Projects" also animate:
+- **Wave + Sheen**: Same letter-by-letter animation as main section titles
+- **Reset on Navigation**: All three reset when any nav link or back-to-top is clicked
+
 #### Service Cards ("What I Offer")
 - **Float Animation**: Cards gently float up/down with neon glow on hover
 - **Icon Flip**: 3D flip animation on service icons when hovering the card

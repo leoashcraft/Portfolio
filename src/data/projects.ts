@@ -94,7 +94,7 @@ export const projects: Project[] = [
       "The #1 Buc-ee's trip planner. Find all locations, plan your route, and never miss the brisket or beaver nuggets.",
     image: '/img/featured/featured-roadtrip.avif',
     tags: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-    metrics: ['50% performance boost', 'Real-time updates'],
+    metrics: ['~15% bounce rate', '~200 daily visitors'],
     github: null,
     live: 'https://roadtripbeaver.com',
     featured: true,

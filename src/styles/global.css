@@ -94,6 +94,98 @@ body {
 }
 
 /* ============================================
+   Chasing Border System
+   Reusable animated border with color variants
+   ============================================ */
+
+/* Base chasing border - apply to element, use --chase-color for tint */
+.chase-border {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --chase-color: rgba(255, 0, 255, 0.6);
+  --chase-inset: -1px;
+  --chase-bg: rgba(23, 16, 36, 0.98);
+  --chase-radius: 0.75rem;
+  --chase-speed: 3s;
+}
+
+.chase-border::before {
+  content: '';
+  position: absolute;
+  inset: var(--chase-inset);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    var(--chase-color) 330deg,
+    transparent 360deg
+  );
+  border-radius: inherit;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chase-border::after {
+  content: '';
+  position: absolute;
+  inset: max(1px, calc(var(--chase-inset) * -1));
+  background-color: var(--chase-bg);
+  border-radius: calc(var(--chase-radius) - 1px);
+  z-index: -1;
+}
+
+/* Hover activation */
+.chase-border:hover::before,
+.chase-border.chase-active::before {
+  opacity: 1;
+  animation: chase-spin var(--chase-speed) linear infinite;
+}
+
+/* Always-on variant */
+.chase-border.chase-always::before {
+  opacity: 1;
+  animation: chase-spin var(--chase-speed) linear infinite;
+}
+
+/* Reverse direction */
+.chase-border.chase-reverse:hover::before,
+.chase-border.chase-reverse.chase-active::before,
+.chase-border.chase-reverse.chase-always::before {
+  animation: chase-spin-reverse var(--chase-speed) linear infinite;
+}
+
+/* Color variants */
+.chase-cyan { --chase-color: rgba(0, 255, 247, 0.6); }
+.chase-pink { --chase-color: rgba(255, 0, 255, 0.6); }
+.chase-yellow { --chase-color: rgba(255, 255, 0, 0.7); }
+.chase-purple { --chase-color: rgba(102, 0, 255, 0.6); }
+
+/* Keyframes */
+@keyframes chase-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes chase-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* ============================================
+   Glow Utilities
+   ============================================ */
+
+.glow-sm { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+.glow-md { box-shadow: 0 0 20px rgba(255, 0, 255, 0.3); }
+.glow-lg { box-shadow: 0 0 30px rgba(255, 0, 255, 0.4), 0 0 60px rgba(102, 0, 255, 0.2); }
+
+.glow-cyan-sm { box-shadow: 0 0 10px rgba(0, 255, 247, 0.2); }
+.glow-cyan-md { box-shadow: 0 0 20px rgba(0, 255, 247, 0.3); }
+.glow-cyan-lg { box-shadow: 0 0 30px rgba(0, 255, 247, 0.4); }
+
+/* ============================================
    Custom Scrollbar
    ============================================ */
 
@@ -800,146 +892,74 @@ code, pre, kbd {
 /* Mobile nav menu with chasing border */
 .mobile-nav-menu {
   position: relative;
-  z-index: 1;
+  margin-top: 1rem;
+  padding: 2px;
+  border-radius: 0.75rem;
 }
 
-.mobile-nav-menu::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
+.mobile-nav-menu.menu-open {
   background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 270deg,
-    rgba(255, 0, 255, 0.5) 330deg,
-    transparent 360deg
-  );
-  border-radius: 0.5rem;
-  z-index: -2;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  animation: border-chase 3s linear infinite;
-}
-
-.mobile-nav-menu::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-color: rgba(10, 0, 21, 0.95);
-  border-radius: 0.5rem;
-  z-index: -1;
-}
-
-.mobile-nav-menu.menu-open::before {
-  opacity: 1;
-}
-
-/* Modal sub-project tile with chasing border */
-.modal-tile {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.modal-tile::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: conic-gradient(
-    from 0deg,
+    from var(--border-angle, 0deg),
     transparent 0deg,
     transparent 270deg,
     rgba(255, 0, 255, 0.6) 330deg,
     transparent 360deg
   );
-  border-radius: inherit;
-  z-index: -2;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  animation: mobile-nav-chase 3s linear infinite;
 }
 
-.modal-tile::after {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  background-color: rgba(23, 16, 36, 0.98);
-  border-radius: calc(0.75rem - 1px);
-  z-index: -1;
+.mobile-nav-menu > ul {
+  background-color: rgba(10, 0, 21, 0.95);
+  border-radius: 0.625rem;
+  margin: 0;
 }
 
-.modal-tile:hover {
-  border-color: transparent;
+.mobile-nav-menu a {
+  background: transparent !important;
 }
 
-.modal-tile:hover::before {
-  opacity: 1;
-  animation: border-chase 3s linear infinite;
+@keyframes mobile-nav-chase {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
 }
 
-/* Cyan variant for nested modals */
-.modal-tile-cyan::before {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 270deg,
-    rgba(0, 255, 247, 0.6) 330deg,
-    transparent 360deg
-  );
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
-/* Modal container with chasing border */
+/* Modal tiles - extend chase-border */
+.modal-tile {
+  --chase-color: rgba(255, 0, 255, 0.6);
+  --chase-inset: -1px;
+  --chase-bg: rgba(23, 16, 36, 0.98);
+  --chase-radius: 0.75rem;
+}
+
+.modal-tile:hover { border-color: transparent; }
+
+/* Cyan variant */
+.modal-tile-cyan { --chase-color: rgba(0, 255, 247, 0.6); }
+
+/* Modal containers - always-on chase border */
 .modal-container {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+  --chase-color: rgba(255, 0, 255, 0.7);
+  --chase-inset: -2px;
+  --chase-bg: rgba(23, 16, 36, 0.98);
+  --chase-radius: 1rem;
+  --chase-speed: 4s;
 }
 
-.modal-container::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 270deg,
-    rgba(255, 0, 255, 0.7) 330deg,
-    transparent 360deg
-  );
-  border-radius: inherit;
-  z-index: -2;
-  animation: border-chase 4s linear infinite;
-}
+/* Warning variant (yellow) */
+.modal-container-warning { --chase-color: rgba(255, 255, 0, 0.7); }
 
-.modal-container::after {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  background-color: rgba(23, 16, 36, 0.98);
-  border-radius: calc(1rem - 2px);
-  z-index: -1;
-}
-
-/* External link modal with yellow/warning chasing border */
-.modal-container-warning::before {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 270deg,
-    rgba(255, 255, 0, 0.7) 330deg,
-    transparent 360deg
-  );
-}
-
-/* Nested modal with cyan chasing border */
-.modal-container-cyan::before {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 270deg,
-    rgba(0, 255, 247, 0.7) 330deg,
-    transparent 360deg
-  );
-}
+/* Cyan variant */
+.modal-container-cyan { --chase-color: rgba(0, 255, 247, 0.7); }
 
 .btn-ghost {
   background-color: transparent;

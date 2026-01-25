@@ -156,7 +156,51 @@ src/
 │   ├── api/             # Server endpoints (contact form)
 │   └── index.astro      # Single-page portfolio
 └── styles/
-    └── global.css       # Theme, animations & arcade styling
+    └── global.css       # Theme, animations & chasing border utilities
+```
+
+## CSS Architecture
+
+### Chasing Border System
+Reusable animated border utility with CSS custom properties:
+
+```css
+/* Base class - apply to element */
+.chase-border {
+  --chase-color: rgba(255, 0, 255, 0.6);  /* Border glow color */
+  --chase-inset: -1px;                     /* Pseudo-element inset */
+  --chase-bg: rgba(23, 16, 36, 0.98);     /* Inner background */
+  --chase-radius: 0.75rem;                 /* Border radius */
+  --chase-speed: 3s;                       /* Animation duration */
+}
+
+/* Color variants */
+.chase-cyan { --chase-color: rgba(0, 255, 247, 0.6); }
+.chase-pink { --chase-color: rgba(255, 0, 255, 0.6); }
+.chase-yellow { --chase-color: rgba(255, 255, 0, 0.7); }
+
+/* Modifiers */
+.chase-always   /* Always animate (no hover required) */
+.chase-reverse  /* Reverse rotation direction */
+```
+
+Usage example:
+```html
+<!-- Hover-activated chasing border -->
+<div class="chase-border modal-tile">...</div>
+
+<!-- Always-on chasing border with cyan color -->
+<div class="chase-border chase-always chase-cyan modal-container">...</div>
+```
+
+### Glow Utilities
+```css
+.glow-sm      /* 10px pink glow */
+.glow-md      /* 20px pink glow */
+.glow-lg      /* 30px pink + purple glow */
+.glow-cyan-sm /* 10px cyan glow */
+.glow-cyan-md /* 20px cyan glow */
+.glow-cyan-lg /* 30px cyan glow */
 ```
 
 ## Image Guidelines

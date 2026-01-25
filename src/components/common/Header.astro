@@ -69,13 +69,13 @@ import SocialIcons from './SocialIcons.astro';
       style="max-height: 0;"
       aria-hidden="true"
     >
-      <ul class="pt-4 pb-2 space-y-1 relative z-10">
+      <ul class="py-2 space-y-1">
         {
           navItems.map((item) => (
             <li>
               <a
                 href={item.href}
-                class="block px-4 py-3 rounded-lg text-gray-300 hover:text-neon-pink hover:bg-neon-pink/5 transition-all duration-200"
+                class="block px-4 py-3 rounded-lg text-gray-300 hover:text-neon-pink transition-colors duration-200"
               >
                 {item.label}
               </a>

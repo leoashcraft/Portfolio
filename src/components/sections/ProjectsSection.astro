@@ -201,7 +201,7 @@ import Icon from '../ui/Icon.astro';
             <div class="absolute inset-0 bg-night-900/90 backdrop-blur-sm" data-modal-backdrop />
 
             {/* Modal Content */}
-            <div class="modal-container relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-pink/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
+            <div class="chase-border chase-always modal-container relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-pink/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
               {/* Close Button */}
               <button
                 type="button"
@@ -227,7 +227,7 @@ import Icon from '../ui/Icon.astro';
                     <button
                       type="button"
                       data-modal-trigger={`nested-modal-${index}-${subIndex}`}
-                      class="modal-tile group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10 text-left"
+                      class="chase-border modal-tile group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10 text-left"
                     >
                       {/* Sub-Project Image */}
                       <div class="aspect-video overflow-hidden relative z-10">
@@ -257,7 +257,7 @@ import Icon from '../ui/Icon.astro';
                   ) : (
                     <a
                       href={subProject.live}
-                      class="modal-tile external-link group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10"
+                      class="chase-border modal-tile external-link group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10"
                       data-external-url={subProject.live}
                     >
                       {/* Sub-Project Image */}
@@ -310,7 +310,7 @@ import Icon from '../ui/Icon.astro';
               <div class="absolute inset-0 bg-night-900/95 backdrop-blur-sm" data-modal-backdrop />
 
               {/* Modal Content */}
-              <div class="modal-container modal-container-cyan relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-cyan/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
+              <div class="chase-border chase-always modal-container modal-container-cyan relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-cyan/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
                 {/* Back Button */}
                 <button
                   type="button"
@@ -347,7 +347,7 @@ import Icon from '../ui/Icon.astro';
                     nestedProject.live ? (
                       <a
                         href={nestedProject.live}
-                        class="modal-tile modal-tile-cyan external-link group block rounded-xl border border-neon-cyan/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-cyan/10"
+                        class="chase-border modal-tile modal-tile-cyan external-link group block rounded-xl border border-neon-cyan/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-cyan/10"
                         data-external-url={nestedProject.live}
                       >
                         <div class="aspect-video overflow-hidden relative z-10">
@@ -374,7 +374,7 @@ import Icon from '../ui/Icon.astro';
                         </div>
                       </a>
                     ) : (
-                      <div class="modal-tile modal-tile-cyan group block rounded-xl border border-neon-cyan/20 bg-night-700/50">
+                      <div class="chase-border modal-tile modal-tile-cyan group block rounded-xl border border-neon-cyan/20 bg-night-700/50">
                         <div class="aspect-video overflow-hidden relative z-10">
                           <img
                             src={nestedProject.image}
@@ -414,7 +414,7 @@ import Icon from '../ui/Icon.astro';
       <div class="absolute inset-0 bg-night-900/95 backdrop-blur-sm" data-external-modal-backdrop />
 
       {/* Modal Content */}
-      <div class="modal-container modal-container-warning relative w-full max-w-md rounded-2xl border border-neon-yellow/30 bg-night-800/95 p-6 md:p-8 shadow-2xl text-center">
+      <div class="chase-border chase-always modal-container modal-container-warning relative w-full max-w-md rounded-2xl border border-neon-yellow/30 bg-night-800/95 p-6 md:p-8 shadow-2xl text-center">
         {/* Warning Icon */}
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neon-yellow/10 border border-neon-yellow/30 flex items-center justify-center">
           <svg class="w-8 h-8 text-neon-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">

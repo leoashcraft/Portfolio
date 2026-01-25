@@ -146,8 +146,8 @@ import Icon from '../ui/Icon.astro';
                   <h4 class="text-lg font-bold text-white">{edu.degree}</h4>
                   <p class="text-neon-yellow">{edu.institution}</p>
                 </div>
-                <span class="text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
-                  {edu.year}
+                <span class="text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full year-counter" data-target-year={edu.year}>
+                  2000
                 </span>
               </div>
 
@@ -193,4 +193,95 @@ import Icon from '../ui/Icon.astro';
 
   init();
   document.addEventListener('astro:after-swap', init);
+
+  // Year counter animation
+  function initYearCounters(skipInitialInView = false) {
+    const counters = document.querySelectorAll('.year-counter');
+    const animatedCounters = new Set<Element>();
+    const wasOutOfView = new Set<Element>();
+    const pendingTimeouts: number[] = [];
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          // Track when element leaves viewport
+          wasOutOfView.add(entry.target);
+        } else if (entry.isIntersecting && !animatedCounters.has(entry.target)) {
+          // Only animate if element was out of view first (or not skipping initial)
+          if (!skipInitialInView || wasOutOfView.has(entry.target)) {
+            animatedCounters.add(entry.target);
+            const target = entry.target as HTMLElement;
+            const targetYear = parseInt(target.dataset.targetYear || '2000', 10);
+            // 1 second delay before starting animation
+            const timeoutId = window.setTimeout(() => {
+              animateCounter(target, 2000, targetYear);
+            }, 1000);
+            pendingTimeouts.push(timeoutId);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach((counter) => {
+      // Reset to 2000 for re-initialization
+      counter.textContent = '2000';
+      observer.observe(counter);
+    });
+
+    return () => {
+      observer.disconnect();
+      animatedCounters.clear();
+      wasOutOfView.clear();
+      pendingTimeouts.forEach((id) => clearTimeout(id));
+      pendingTimeouts.length = 0;
+    };
+  }
+
+  function animateCounter(element: HTMLElement, start: number, end: number) {
+    const duration = 1500; // 1.5 seconds
+    const startTime = performance.now();
+    const range = end - start;
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function for smooth deceleration
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + range * easeOut);
+
+      element.textContent = current.toString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  let yearCleanup: (() => void) | undefined;
+
+  function initYears() {
+    yearCleanup?.();
+    yearCleanup = initYearCounters();
+  }
+
+  function resetYearCounters() {
+    yearCleanup?.();
+    // Reset all counters to 2000
+    document.querySelectorAll('.year-counter').forEach((counter) => {
+      counter.textContent = '2000';
+    });
+    // Re-init but skip animating elements already in view - wait for them to scroll out and back in
+    yearCleanup = initYearCounters(true);
+  }
+
+  initYears();
+  document.addEventListener('astro:after-swap', initYears);
+
+  // Reset on nav link clicks and back-to-top button
+  document.querySelectorAll('nav a[href^="#"], .back-to-top, a[href="#home"]').forEach((link) => {
+    link.addEventListener('click', resetYearCounters);
+  });
 </script>

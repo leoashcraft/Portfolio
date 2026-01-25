@@ -61,6 +61,12 @@ The Experience section features animated eye emojis that travel down the timelin
 - **Blinking**: Eyes blink when crossing the midpoint between dots
 - **Dual Travelers**: Two eye emojis travel with offset timing for visual interest
 
+#### Education Year Counters
+- **Count-Up Animation**: Years count up from 2000 to their target year (e.g., 2007, 2021, 2022, 2023)
+- **Viewport Trigger**: Animation starts 1 second after scrolling into view
+- **Smooth Easing**: Cubic ease-out for natural deceleration
+- **Re-triggerable**: Resets to 2000 on nav clicks, re-animates when scrolling back into view
+
 #### Project Cards
 - **Random Icon Flip**: Project folder icons randomly flip at intervals
 - **Hover Lift**: Cards lift with enhanced glow on hover (fast 0.4s), smooth 5s return on mouse leave

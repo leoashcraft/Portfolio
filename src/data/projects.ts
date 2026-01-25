@@ -115,7 +115,7 @@ export const projects: Project[] = [
     description:
       'All-in-one family planner with shared calendar, meal planning, chore management, and smart lists.',
     image: '/img/featured/featured-clan.avif',
-    tags: ['React', 'Next.js', 'MySQL', 'SASS'],
+    tags: ['React', 'Next.js', 'MySQL', 'Sass'],
     metrics: ['40% cost reduction', 'Automated workflows'],
     github: null,
     live: 'https://clancompass.com',

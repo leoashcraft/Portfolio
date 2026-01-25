@@ -4,6 +4,7 @@
 
 <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+<div id="mouse-heatmap" class="mouse-heatmap" aria-hidden="true"></div>
 
 <script>
   function initCustomCursor() {
@@ -15,6 +16,7 @@
 
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
+    const heatmap = document.getElementById('mouse-heatmap');
 
     if (!dot || !ring) return;
 
@@ -22,6 +24,31 @@
     let mouseY = 0;
     let ringX = 0;
     let ringY = 0;
+    let lastHeatmapX = 0;
+    let lastHeatmapY = 0;
+
+    // Heatmap trail
+    function createHeatmapDot(x: number, y: number) {
+      if (!heatmap) return;
+
+      // Only create dot if moved enough distance
+      const distance = Math.sqrt(Math.pow(x - lastHeatmapX, 2) + Math.pow(y - lastHeatmapY, 2));
+      if (distance < 50) return;
+
+      lastHeatmapX = x;
+      lastHeatmapY = y;
+
+      const heatDot = document.createElement('div');
+      heatDot.className = 'heatmap-dot';
+      heatDot.style.left = `${x}px`;
+      heatDot.style.top = `${y}px`;
+      heatmap.appendChild(heatDot);
+
+      // Remove after fade out
+      setTimeout(() => {
+        heatDot.remove();
+      }, 8000);
+    }
 
     // Track mouse position
     document.addEventListener('mousemove', (e) => {
@@ -31,6 +58,9 @@
       // Move dot immediately
       dot.style.left = `${mouseX}px`;
       dot.style.top = `${mouseY}px`;
+
+      // Create heatmap trail
+      createHeatmapDot(mouseX + window.scrollX, mouseY + window.scrollY);
     });
 
     // Smooth ring follow

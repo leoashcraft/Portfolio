@@ -35,15 +35,45 @@ import Icon from '../ui/Icon.astro';
             <div class="lg:w-1/2">
               <div class="relative group project-image-wrapper">
                 <div class="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div class="relative rounded-2xl overflow-hidden border border-neon-pink/20 group-hover:border-neon-pink/40 transition-colors">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    class="w-full h-auto object-cover"
-                    loading="lazy"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-night-900/90 via-night-900/20 to-transparent" />
-                </div>
+                {project.subProjects && project.subProjects.length > 0 ? (
+                  <button
+                    type="button"
+                    data-modal-trigger={`modal-${index}`}
+                    class="relative rounded-2xl overflow-hidden border border-neon-pink/20 group-hover:border-neon-pink/40 transition-colors cursor-pointer w-full"
+                  >
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      class="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-night-900/90 via-night-900/20 to-transparent" />
+                  </button>
+                ) : project.live ? (
+                  <a
+                    href={project.live}
+                    class="external-link relative rounded-2xl overflow-hidden border border-neon-pink/20 group-hover:border-neon-pink/40 transition-colors cursor-pointer block"
+                    data-external-url={project.live}
+                  >
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      class="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-night-900/90 via-night-900/20 to-transparent" />
+                  </a>
+                ) : (
+                  <div class="relative rounded-2xl overflow-hidden border border-neon-pink/20 group-hover:border-neon-pink/40 transition-colors">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      class="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-night-900/90 via-night-900/20 to-transparent" />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -129,9 +159,8 @@ import Icon from '../ui/Icon.astro';
                 ) : project.live && (
                   <a
                     href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn-primary"
+                    class="external-link btn btn-primary"
+                    data-external-url={project.live}
                     aria-label={`Visit ${project.title} live site`}
                   >
                     <svg
@@ -172,7 +201,7 @@ import Icon from '../ui/Icon.astro';
             <div class="absolute inset-0 bg-night-900/90 backdrop-blur-sm" data-modal-backdrop />
 
             {/* Modal Content */}
-            <div class="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-pink/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
+            <div class="modal-container relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-pink/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
               {/* Close Button */}
               <button
                 type="button"
@@ -193,38 +222,70 @@ import Icon from '../ui/Icon.astro';
 
               {/* Sub-Projects Grid - 4 cols desktop, 2 cols tablet, 1 col mobile */}
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {project.subProjects.map((subProject) => (
-                  <a
-                    href={subProject.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group block rounded-xl border border-neon-purple/20 bg-night-700/50 overflow-hidden hover:border-neon-pink/40 transition-all hover:shadow-lg hover:shadow-neon-pink/10"
-                  >
-                    {/* Sub-Project Image */}
-                    <div class="aspect-video overflow-hidden">
-                      <img
-                        src={subProject.image}
-                        alt={subProject.title}
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    </div>
-                    {/* Sub-Project Content */}
-                    <div class="p-4">
-                      <h4 class="font-semibold text-white group-hover:text-neon-pink transition-colors mb-1">
-                        {subProject.title}
-                      </h4>
-                      <p class="text-sm text-gray-400 line-clamp-2">
-                        {subProject.description}
-                      </p>
-                      <div class="mt-3 flex items-center gap-1 text-sm text-neon-cyan">
-                        <span>Visit</span>
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
+                {project.subProjects.map((subProject, subIndex) => (
+                  subProject.subProjects && subProject.subProjects.length > 0 ? (
+                    <button
+                      type="button"
+                      data-modal-trigger={`nested-modal-${index}-${subIndex}`}
+                      class="modal-tile group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10 text-left"
+                    >
+                      {/* Sub-Project Image */}
+                      <div class="aspect-video overflow-hidden relative z-10">
+                        <img
+                          src={subProject.image}
+                          alt={subProject.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
                       </div>
-                    </div>
-                  </a>
+                      {/* Sub-Project Content */}
+                      <div class="p-4 relative z-10">
+                        <h4 class="font-semibold text-white group-hover:text-neon-pink transition-colors mb-1">
+                          {subProject.title}
+                        </h4>
+                        <p class="text-sm text-gray-400 line-clamp-2">
+                          {subProject.description}
+                        </p>
+                        <div class="mt-3 flex items-center gap-1 text-sm text-neon-cyan">
+                          <span>View Projects</span>
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  ) : (
+                    <a
+                      href={subProject.live}
+                      class="modal-tile external-link group block rounded-xl border border-neon-purple/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-pink/10"
+                      data-external-url={subProject.live}
+                    >
+                      {/* Sub-Project Image */}
+                      <div class="aspect-video overflow-hidden relative z-10">
+                        <img
+                          src={subProject.image}
+                          alt={subProject.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      </div>
+                      {/* Sub-Project Content */}
+                      <div class="p-4 relative z-10">
+                        <h4 class="font-semibold text-white group-hover:text-neon-pink transition-colors mb-1">
+                          {subProject.title}
+                        </h4>
+                        <p class="text-sm text-gray-400 line-clamp-2">
+                          {subProject.description}
+                        </p>
+                        <div class="mt-3 flex items-center gap-1 text-sm text-neon-cyan">
+                          <span>Visit</span>
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  )
                 ))}
               </div>
             </div>
@@ -232,6 +293,165 @@ import Icon from '../ui/Icon.astro';
         )
       ))
     }
+
+    {/* Nested Sub-Projects Modals (for Parker.edu etc.) */}
+    {
+      featuredProjects.map((project, index) => (
+        project.subProjects && project.subProjects.map((subProject, subIndex) => (
+          subProject.subProjects && subProject.subProjects.length > 0 && (
+            <div
+              id={`nested-modal-${index}-${subIndex}`}
+              class="fixed inset-0 z-[60] hidden items-center justify-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={`nested-modal-title-${index}-${subIndex}`}
+            >
+              {/* Backdrop */}
+              <div class="absolute inset-0 bg-night-900/95 backdrop-blur-sm" data-modal-backdrop />
+
+              {/* Modal Content */}
+              <div class="modal-container modal-container-cyan relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-neon-cyan/30 bg-night-800/95 p-6 md:p-8 shadow-2xl">
+                {/* Back Button */}
+                <button
+                  type="button"
+                  class="absolute top-4 left-4 w-10 h-10 rounded-full bg-night-700 border border-neon-cyan/20 flex items-center justify-center text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/40 transition-colors"
+                  data-back-to-modal={`modal-${index}`}
+                  aria-label="Back to previous"
+                >
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* Close Button */}
+                <button
+                  type="button"
+                  class="absolute top-4 right-4 w-10 h-10 rounded-full bg-night-700 border border-neon-cyan/20 flex items-center justify-center text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/40 transition-colors"
+                  data-modal-close
+                  aria-label="Close modal"
+                >
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                {/* Modal Header */}
+                <h3 id={`nested-modal-title-${index}-${subIndex}`} class="text-2xl font-bold text-white mb-2 text-center">
+                  {subProject.title}
+                </h3>
+                <p class="text-gray-400 mb-8 text-center">Select a project to view</p>
+
+                {/* Nested Sub-Projects Grid */}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {subProject.subProjects.map((nestedProject) => (
+                    nestedProject.live ? (
+                      <a
+                        href={nestedProject.live}
+                        class="modal-tile modal-tile-cyan external-link group block rounded-xl border border-neon-cyan/20 bg-night-700/50 hover:shadow-lg hover:shadow-neon-cyan/10"
+                        data-external-url={nestedProject.live}
+                      >
+                        <div class="aspect-video overflow-hidden relative z-10">
+                          <img
+                            src={nestedProject.image}
+                            alt={nestedProject.title}
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="p-4 relative z-10">
+                          <h4 class="font-semibold text-white group-hover:text-neon-cyan transition-colors mb-1">
+                            {nestedProject.title}
+                          </h4>
+                          <p class="text-sm text-gray-400 line-clamp-2">
+                            {nestedProject.description}
+                          </p>
+                          <div class="mt-3 flex items-center gap-1 text-sm text-neon-cyan">
+                            <span>Visit</span>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                    ) : (
+                      <div class="modal-tile modal-tile-cyan group block rounded-xl border border-neon-cyan/20 bg-night-700/50">
+                        <div class="aspect-video overflow-hidden relative z-10">
+                          <img
+                            src={nestedProject.image}
+                            alt={nestedProject.title}
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="p-4 relative z-10">
+                          <h4 class="font-semibold text-white mb-1">
+                            {nestedProject.title}
+                          </h4>
+                          <p class="text-sm text-gray-400 line-clamp-2">
+                            {nestedProject.description}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
+        ))
+      ))
+    }
+
+    {/* External Link Confirmation Modal */}
+    <div
+      id="external-link-modal"
+      class="fixed inset-0 z-[70] hidden items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="external-modal-title"
+    >
+      {/* Backdrop */}
+      <div class="absolute inset-0 bg-night-900/95 backdrop-blur-sm" data-external-modal-backdrop />
+
+      {/* Modal Content */}
+      <div class="modal-container modal-container-warning relative w-full max-w-md rounded-2xl border border-neon-yellow/30 bg-night-800/95 p-6 md:p-8 shadow-2xl text-center">
+        {/* Warning Icon */}
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neon-yellow/10 border border-neon-yellow/30 flex items-center justify-center">
+          <svg class="w-8 h-8 text-neon-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+
+        <h3 id="external-modal-title" class="text-xl font-bold text-white mb-2">
+          Leaving Portfolio
+        </h3>
+        <p class="text-gray-400 mb-6">
+          You're about to visit an external website. This will open in a new tab.
+        </p>
+        <p id="external-link-url" class="text-sm text-neon-cyan font-mono mb-6 break-all"></p>
+
+        {/* Buttons */}
+        <div class="flex gap-4 justify-center">
+          <button
+            type="button"
+            class="btn btn-ghost"
+            data-external-modal-cancel
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-external-modal-confirm
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Other Projects -->
     <div>
@@ -264,9 +484,8 @@ import Icon from '../ui/Icon.astro';
                   {project.github && (
                     <a
                       href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-400 hover:text-neon-pink transition-colors"
+                      class="external-link text-gray-400 hover:text-neon-pink transition-colors"
+                      data-external-url={project.github}
                       aria-label={`View ${project.title} on GitHub`}
                     >
                       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -277,9 +496,8 @@ import Icon from '../ui/Icon.astro';
                   {project.live && (
                     <a
                       href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-400 hover:text-neon-yellow transition-colors"
+                      class="external-link text-gray-400 hover:text-neon-yellow transition-colors"
+                      data-external-url={project.live}
                       aria-label={`Visit ${project.title}`}
                     >
                       <svg
@@ -347,6 +565,24 @@ import Icon from '../ui/Icon.astro';
       });
     });
 
+    // Back button handler for nested modals
+    document.querySelectorAll('[data-back-to-modal]').forEach((backBtn) => {
+      backBtn.addEventListener('click', () => {
+        const targetModalId = backBtn.getAttribute('data-back-to-modal');
+        const currentModal = backBtn.closest('[role="dialog"]');
+        const targetModal = document.getElementById(targetModalId || '');
+
+        if (currentModal && targetModal) {
+          // Close current nested modal
+          currentModal.classList.add('hidden');
+          currentModal.classList.remove('flex');
+          // Open parent modal
+          targetModal.classList.remove('hidden');
+          targetModal.classList.add('flex');
+        }
+      });
+    });
+
     // Close modal on backdrop click
     document.querySelectorAll('[data-modal-backdrop]').forEach((backdrop) => {
       backdrop.addEventListener('click', () => {
@@ -372,8 +608,80 @@ import Icon from '../ui/Icon.astro';
     });
   }
 
+  // External link confirmation modal
+  function initExternalLinkModal() {
+    const modal = document.getElementById('external-link-modal');
+    const urlDisplay = document.getElementById('external-link-url');
+    const confirmBtn = document.querySelector('[data-external-modal-confirm]');
+    const cancelBtn = document.querySelector('[data-external-modal-cancel]');
+    const backdrop = document.querySelector('[data-external-modal-backdrop]');
+
+    let pendingUrl = '';
+
+    function openExternalModal(url: string) {
+      pendingUrl = url;
+      if (urlDisplay) urlDisplay.textContent = url;
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeExternalModal() {
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+      pendingUrl = '';
+    }
+
+    // Intercept external link clicks
+    document.querySelectorAll('.external-link, a[data-external-url]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = link.getAttribute('data-external-url') || link.getAttribute('href');
+        if (url && url !== '#') {
+          openExternalModal(url);
+        }
+      });
+    });
+
+    // Also intercept btn-primary links that go external (Live Site buttons)
+    document.querySelectorAll('a.btn-primary[href^="http"], a.btn-primary[href^="https"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = link.getAttribute('href');
+        if (url) {
+          openExternalModal(url);
+        }
+      });
+    });
+
+    // Confirm button - open in new tab
+    confirmBtn?.addEventListener('click', () => {
+      if (pendingUrl) {
+        window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+      }
+      closeExternalModal();
+    });
+
+    // Cancel button
+    cancelBtn?.addEventListener('click', closeExternalModal);
+
+    // Backdrop click
+    backdrop?.addEventListener('click', closeExternalModal);
+
+    // Escape key (handled by main modal handler)
+  }
+
   initProjectModals();
-  document.addEventListener('astro:after-swap', initProjectModals);
+  initExternalLinkModal();
+  document.addEventListener('astro:after-swap', () => {
+    initProjectModals();
+    initExternalLinkModal();
+  });
 
   // Project icon flip animation
   import { initIconFlips } from '../../lib/icon-flip';

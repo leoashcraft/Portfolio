@@ -33,9 +33,10 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 ### Animations & Interactions
 
 #### Hero Section
+- **Mascot Slide-in**: On desktop (768px+), mascot slides in from left with fade-in, decelerating toward the end; static on mobile
 - **Typewriter Effect**: Job titles cycle through with typing/deleting animation
 - **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
-- **Re-triggerable**: Clicking the Home nav link replays the tagline animation
+- **Re-triggerable**: Clicking the Home nav link or back-to-top button replays the title and tagline animations
 
 #### Section Titles
 - **Wave Animation**: Each letter scales up to 140% in sequence when scrolling into view
@@ -49,7 +50,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Reset on Navigation**: All three reset when any nav link or back-to-top is clicked
 
 #### Service Cards ("What I Offer")
-- **Float Animation**: Cards gently float up/down with neon glow on hover
+- **Hover Lift**: Cards lift up with neon glow on hover (fast 0.4s), smooth 5s return on mouse leave
 - **Icon Flip**: 3D flip animation on service icons when hovering the card
 - **Staggered Features**: Checkmark items slide right with staggered delays
 - **Title Glow**: Service titles gain a subtle pink glow on hover
@@ -62,7 +63,16 @@ The Experience section features animated eye emojis that travel down the timelin
 
 #### Project Cards
 - **Random Icon Flip**: Project folder icons randomly flip at intervals
-- **Hover Float**: Cards float with enhanced glow effect on hover
+- **Hover Lift**: Cards lift with enhanced glow on hover (fast 0.4s), smooth 5s return on mouse leave
+- **Clickable Images**: Featured project images are clickable - opens sub-project modal or links to live site
+- **Nested Modals**: Sub-projects can contain their own sub-projects (e.g., Parker.edu umbrella)
+- **Back Navigation**: Nested modals include a back button to return to parent modal
+
+#### External Link Confirmation
+- **Exit Warning Modal**: Clicking external links shows a confirmation modal
+- **URL Preview**: Displays the destination URL before navigating
+- **New Tab Opening**: External links open in a new tab after confirmation
+- **Consistent UX**: All external links (Live Site buttons, sub-project tiles, GitHub links) use the same modal
 
 #### Floating Arcade Decorations
 Each section features floating geometric shapes inspired by 80s arcade carpet patterns:
@@ -70,6 +80,14 @@ Each section features floating geometric shapes inspired by 80s arcade carpet pa
 - Zigzag and squiggly SVG patterns
 - Glowing orbs with blur effects
 - Various drift, wobble, spin, and pulse animations
+
+#### Custom Cursor & Mouse Heatmap (Desktop)
+- **Custom Cursor**: Neon cyan dot with trailing ring that expands on interactive elements
+- **Mouse Heatmap**: Subtle glowing dots trail behind cursor, fading out over 8 seconds
+
+#### Button Hover Effects
+- **Primary Button**: Cyan glow chases counter-clockwise around border on hover
+- **Secondary Button**: Pink glow chases clockwise around border on hover
 
 ### Security Measures
 
@@ -117,7 +135,7 @@ src/
 │   ├── experience.ts    # Work history & education
 │   ├── navigation.ts    # Nav menu items
 │   ├── profile.ts       # Personal info & contact (obfuscated)
-│   ├── projects.ts      # Featured projects
+│   ├── projects.ts      # Featured projects (supports nested sub-projects)
 │   └── skills.ts        # Technical skills & services
 ├── layouts/
 │   └── BaseLayout.astro # Main layout with SEO
@@ -139,9 +157,10 @@ Recommended sizes for optimal display and retina support:
 
 | Image Type | Display Size | Recommended Size | Aspect Ratio |
 |------------|--------------|------------------|--------------|
-| Featured Projects | ~550px | 1200 x 800px | 3:2 |
+| Featured Projects | ~550px | 1400 x 800px | 7:4 |
 | Other Projects | ~350px | 800 x 600px | 4:3 |
-| Sub-Projects | ~260px | 600 x 450px | 4:3 |
+| Sub-Projects (Modal) | ~260px | 600 x 338px | 16:9 |
+| Nested Sub-Projects | ~260px | 600 x 338px | 16:9 |
 
 - Use AVIF format for best compression
 - Quality: 80-85% compression

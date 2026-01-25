@@ -105,7 +105,7 @@ export const projects: Project[] = [
       'Community hub for Corsicana and surrounding areas. Discover local restaurants, events, jobs, and services.',
     image: '/img/featured/featured-navarro.avif',
     tags: ['TypeScript', 'Next.js', 'MongoDB', 'Docker'],
-    metrics: ['99.9% uptime', 'Scalable architecture'],
+    metrics: ['100% white-label ready', 'Scalable architecture'],
     github: null,
     live: 'https://navarrocounty.com',
     featured: true,

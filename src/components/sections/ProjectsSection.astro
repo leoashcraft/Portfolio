@@ -192,7 +192,7 @@ import Icon from '../ui/Icon.astro';
         project.subProjects && project.subProjects.length > 0 && (
           <div
             id={`modal-${index}`}
-            class="fixed inset-0 z-50 hidden items-center justify-center p-4"
+            class="fixed inset-0 z-[60] hidden items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby={`modal-title-${index}`}
@@ -301,7 +301,7 @@ import Icon from '../ui/Icon.astro';
           subProject.subProjects && subProject.subProjects.length > 0 && (
             <div
               id={`nested-modal-${index}-${subIndex}`}
-              class="fixed inset-0 z-[60] hidden items-center justify-center p-4"
+              class="fixed inset-0 z-[70] hidden items-center justify-center p-4"
               role="dialog"
               aria-modal="true"
               aria-labelledby={`nested-modal-title-${index}-${subIndex}`}
@@ -405,7 +405,7 @@ import Icon from '../ui/Icon.astro';
     {/* External Link Confirmation Modal */}
     <div
       id="external-link-modal"
-      class="fixed inset-0 z-[70] hidden items-center justify-center p-4"
+      class="fixed inset-0 z-[80] hidden items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="external-modal-title"

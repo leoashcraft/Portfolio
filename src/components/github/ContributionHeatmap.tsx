@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect, useState } from 'react';
 import type { ContributionDay, GitHubStats } from '../../lib/github';
 
 const CELL_SIZE = 12;
@@ -55,6 +55,8 @@ interface ContributionHeatmapProps {
 
 export default function ContributionHeatmap({ data }: ContributionHeatmapProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [shiningTiles, setShiningTiles] = useState<Set<string>>(new Set());
+  const animatingTiles = useRef<Set<string>>(new Set());
 
   // Auto-scroll to show most recent contributions on mobile
   useEffect(() => {
@@ -62,6 +64,70 @@ export default function ContributionHeatmap({ data }: ContributionHeatmapProps) 
       scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
     }
   }, []);
+
+  // Build list of tiles with activity (level > 0)
+  const activeTiles = useMemo(() => {
+    const tiles: { weekIdx: number; dayIdx: number; key: string }[] = [];
+    data.weeks.forEach((week, weekIdx) => {
+      week.days.forEach((day, dayIdx) => {
+        if (day.level > 0) {
+          tiles.push({ weekIdx, dayIdx, key: `${weekIdx}-${dayIdx}` });
+        }
+      });
+    });
+    return tiles;
+  }, [data.weeks]);
+
+  // Random shimmer effect on active tiles
+  useEffect(() => {
+    if (activeTiles.length === 0) return;
+
+    const triggerShimmer = () => {
+      // Filter out tiles that are currently animating
+      const availableTiles = activeTiles.filter(t => !animatingTiles.current.has(t.key));
+      if (availableTiles.length === 0) return;
+
+      // Pick 1-4 random available tiles to shimmer
+      const numTiles = Math.floor(Math.random() * 4) + 1;
+      const shuffled = [...availableTiles].sort(() => Math.random() - 0.5);
+      const selectedKeys: string[] = [];
+
+      for (let i = 0; i < Math.min(numTiles, shuffled.length); i++) {
+        selectedKeys.push(shuffled[i].key);
+        animatingTiles.current.add(shuffled[i].key);
+      }
+
+      setShiningTiles(prev => {
+        const next = new Set(prev);
+        selectedKeys.forEach(k => next.add(k));
+        return next;
+      });
+
+      // Clear these specific tiles after animation completes
+      setTimeout(() => {
+        selectedKeys.forEach(k => animatingTiles.current.delete(k));
+        setShiningTiles(prev => {
+          const next = new Set(prev);
+          selectedKeys.forEach(k => next.delete(k));
+          return next;
+        });
+      }, 1500);
+    };
+
+    // Initial shimmer after a short delay
+    const initialTimeout = setTimeout(triggerShimmer, 1000);
+
+    // Recurring shimmers at random intervals (2-4 seconds)
+    const interval = setInterval(() => {
+      triggerShimmer();
+    }, 2000 + Math.random() * 2000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(interval);
+      animatingTiles.current.clear();
+    };
+  }, [activeTiles]);
 
   // Calculate month labels positions
   const monthLabels = useMemo(() => {
@@ -135,20 +201,25 @@ export default function ContributionHeatmap({ data }: ContributionHeatmapProps) 
           <div className="flex gap-[3px]" role="grid" aria-label="GitHub contribution heatmap">
             {data.weeks.map((week, weekIndex) => (
               <div key={weekIndex} className="flex flex-col gap-[3px]" role="row">
-                {week.days.map((day, dayIndex) => (
-                  <div
-                    key={`${weekIndex}-${dayIndex}`}
-                    className="rounded-sm transition-all duration-200 hover:ring-2 hover:ring-white/30 cursor-pointer"
-                    style={{
-                      width: CELL_SIZE,
-                      height: CELL_SIZE,
-                      backgroundColor: getColorForLevel(day.level),
-                    }}
-                    title={`${day.count} contributions on ${day.date}`}
-                    role="gridcell"
-                    aria-label={`${day.count} contributions on ${day.date}`}
-                  />
-                ))}
+                {week.days.map((day, dayIndex) => {
+                  const tileKey = `${weekIndex}-${dayIndex}`;
+                  const isShining = shiningTiles.has(tileKey);
+                  const isInactive = day.level === 0;
+                  return (
+                    <div
+                      key={tileKey}
+                      className={`rounded-sm transition-all duration-200 hover:ring-2 hover:ring-white/30 cursor-pointer ${isShining ? 'heatmap-tile-shine' : ''} ${isInactive ? 'heatmap-tile-inactive' : ''}`}
+                      style={{
+                        width: CELL_SIZE,
+                        height: CELL_SIZE,
+                        backgroundColor: getColorForLevel(day.level),
+                      }}
+                      title={`${day.count} contributions on ${day.date}`}
+                      role="gridcell"
+                      aria-label={`${day.count} contributions on ${day.date}`}
+                    />
+                  );
+                })}
               </div>
             ))}
           </div>

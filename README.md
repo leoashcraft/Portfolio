@@ -119,12 +119,15 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 ### Responsive Navigation
 - Scroll-aware navbar with dynamic opacity
 - Arcade carpet gradient background on scroll
-- Mobile hamburger menu with blur backdrop
+- Mobile hamburger menu with chasing pink border animation
+- Heat glow effect follows cursor on desktop
 
 ### GitHub Integration
 - Live contribution heatmap via GitHub GraphQL API
 - Auto-scrolls to show recent activity on mobile
 - Cached responses for performance
+- **Shimmer Animation**: Active tiles randomly shimmer with diagonal light sweep
+- **Inactive Tile Pulse**: Empty tiles subtly pulse opacity (100% to 50%) over 3 seconds
 
 ## Project Structure
 

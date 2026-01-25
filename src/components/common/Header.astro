@@ -65,11 +65,11 @@ import SocialIcons from './SocialIcons.astro';
     <!-- Mobile Menu (inside nav, expands when open) -->
     <div
       id="mobile-menu"
-      class="md:hidden w-full overflow-hidden transition-all duration-300 ease-in-out"
+      class="mobile-nav-menu md:hidden w-full overflow-hidden transition-all duration-300 ease-in-out"
       style="max-height: 0;"
       aria-hidden="true"
     >
-      <ul class="pt-4 pb-2 space-y-1">
+      <ul class="pt-4 pb-2 space-y-1 relative z-10">
         {
           navItems.map((item) => (
             <li>
@@ -129,6 +129,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'false');
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
+        menu.classList.remove('menu-open');
         removeDarkBg();
       } else {
         menu.style.maxHeight = menu.scrollHeight + 'px';
@@ -136,6 +137,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'true');
         hamburgerIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
+        menu.classList.add('menu-open');
         applyDarkBg();
       }
     });
@@ -147,6 +149,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'false');
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
+        menu.classList.remove('menu-open');
         removeDarkBg();
       });
     });

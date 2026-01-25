@@ -441,6 +441,51 @@ code, pre, kbd {
   }
 }
 
+/* GitHub Contribution Heatmap Tile Shimmer */
+.heatmap-tile-shine {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.heatmap-tile-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 80%
+  );
+  animation: heatmap-shimmer 1.5s ease-in-out forwards;
+}
+
+@keyframes heatmap-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Inactive tiles subtle pulse */
+.heatmap-tile-inactive {
+  animation: heatmap-inactive-pulse 3s ease-in-out infinite;
+}
+
+@keyframes heatmap-inactive-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* ============================================
    Terminal Styles
    ============================================ */
@@ -750,6 +795,43 @@ code, pre, kbd {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Mobile nav menu with chasing border */
+.mobile-nav-menu {
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-nav-menu::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    rgba(255, 0, 255, 0.5) 330deg,
+    transparent 360deg
+  );
+  border-radius: 0.5rem;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: border-chase 3s linear infinite;
+}
+
+.mobile-nav-menu::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(10, 0, 21, 0.95);
+  border-radius: 0.5rem;
+  z-index: -1;
+}
+
+.mobile-nav-menu.menu-open::before {
+  opacity: 1;
 }
 
 /* Modal sub-project tile with chasing border */

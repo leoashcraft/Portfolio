@@ -117,16 +117,17 @@ import { heroTitles } from '../../data/hero';
   >
   </div>
 
+  <!-- Mascot Image (behind text, off-center left) -->
+  <img
+    src="/img/leo-mascot.avif"
+    alt=""
+    class="absolute top-[38%] md:top-[53%] left-1/2 -translate-x-1/2 md:left-[7%] md:translate-x-0 lg:left-[12%] xl:left-[17%] 2xl:left-[22%] -translate-y-1/2 w-[250px] md:w-[200px] lg:w-[250px] h-auto opacity-95 pointer-events-none z-[5]"
+    aria-hidden="true"
+  />
+
   <!-- Content -->
   <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-20">
-    <!-- Mascot Image (behind text, off-center left) -->
-    <img
-      src="/img/leo-mascot.avif"
-      alt=""
-      class="absolute top-1/2 left-[25%] -translate-y-1/2 w-[150px] md:w-[200px] lg:w-[250px] h-auto opacity-30 md:opacity-40 pointer-events-none -z-10"
-      aria-hidden="true"
-    />
-    <div class="rounded-2xl p-8 md:p-12">
+    <div class="rounded-2xl p-8 md:p-12 mt-36 md:mt-0 bg-black/70 md:bg-transparent shadow-[0_0_60px_40px_rgba(0,0,0,0.7)] md:shadow-none">
     <!-- Greeting (visible immediately on mobile, fade-in on desktop) -->
     <p
       class="text-neon-pink font-mono text-sm md:text-base mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.2s_forwards] glow-text-pink"

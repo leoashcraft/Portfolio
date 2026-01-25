@@ -93,7 +93,7 @@ export const projects: Project[] = [
     description:
       "The #1 Buc-ee's trip planner. Find all locations, plan your route, and never miss the brisket or beaver nuggets.",
     image: '/img/featured/featured-roadtrip.avif',
-    tags: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
+    tags: ['React', 'TypeScript', 'Node.js', 'Leaflet'],
     metrics: ['~200 daily visitors', '~15% bounce rate'],
     github: null,
     live: 'https://roadtripbeaver.com',
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     description:
       'Community hub for Corsicana and surrounding areas. Discover local restaurants, events, jobs, and services.',
     image: '/img/featured/featured-navarro.avif',
-    tags: ['TypeScript', 'Next.js', 'MongoDB', 'Docker'],
+    tags: ['React', 'Node.js', 'SQLite', 'TailwindCSS'],
     metrics: ['100% white-label ready', 'Scalable architecture'],
     github: null,
     live: 'https://navarrocounty.com',
@@ -115,7 +115,7 @@ export const projects: Project[] = [
     description:
       'All-in-one family planner with shared calendar, meal planning, chore management, and smart lists.',
     image: '/img/featured/featured-clan.avif',
-    tags: ['Vue.js', 'Python', 'Redis', 'GraphQL'],
+    tags: ['React', 'Next.js', 'MySQL', 'SASS'],
     metrics: ['40% cost reduction', 'Automated workflows'],
     github: null,
     live: 'https://clancompass.com',

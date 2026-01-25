@@ -132,6 +132,21 @@ src/
     └── global.css       # Theme, animations & arcade styling
 ```
 
+## Image Guidelines
+
+### Project Images
+Recommended sizes for optimal display and retina support:
+
+| Image Type | Display Size | Recommended Size | Aspect Ratio |
+|------------|--------------|------------------|--------------|
+| Featured Projects | ~550px | 1200 x 800px | 3:2 |
+| Other Projects | ~350px | 800 x 600px | 4:3 |
+| Sub-Projects | ~260px | 600 x 450px | 4:3 |
+
+- Use AVIF format for best compression
+- Quality: 80-85% compression
+- Keep consistent aspect ratios within each category
+
 ## Design Philosophy
 
 ### Visual Theme

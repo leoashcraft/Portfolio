@@ -325,11 +325,30 @@ const props = Astro.props;
           });
         });
 
-        // Listen for back-to-top button click to reset subsection titles
+        // Listen for back-to-top button click to reset subsection titles and hero animations
         const backToTopBtn = document.getElementById('back-to-top');
         if (backToTopBtn) {
           backToTopBtn.addEventListener('click', () => {
             resetAllSubsectionTitles();
+
+            // Trigger hero title animation
+            const heroSection = document.getElementById('home');
+            if (heroSection) {
+              const heroTitle = heroSection.querySelector('.hero-title');
+              if (heroTitle) {
+                let letters = titleLettersMap.get(heroTitle);
+                if (!letters) {
+                  letters = wrapAllLetters(heroTitle);
+                  titleLettersMap.set(heroTitle, letters);
+                }
+                setTimeout(() => {
+                  animateWave(letters!, null);
+                }, 800);
+              }
+            }
+
+            // Dispatch event for tagline animation (handled in HeroSection)
+            window.dispatchEvent(new CustomEvent('reset-hero-tagline'));
           });
         }
       }

@@ -121,7 +121,7 @@ import { heroTitles } from '../../data/hero';
   <img
     src="/img/leo-mascot.avif"
     alt=""
-    class="absolute top-[38%] md:top-[53%] left-1/2 -translate-x-1/2 md:left-[7%] md:translate-x-0 lg:left-[12%] xl:left-[17%] 2xl:left-[22%] -translate-y-1/2 w-[250px] h-auto opacity-95 pointer-events-none z-[5]"
+    class="absolute top-[42%] md:top-[53%] left-1/2 -translate-x-1/2 md:left-[7%] md:translate-x-0 lg:left-[8%] xl:left-[13%] 2xl:left-[19%] -translate-y-1/2 w-[250px] xl:w-[300px] min-[2200px]:w-[400px] min-[2500px]:w-[500px] h-auto opacity-95 pointer-events-none z-[5]"
     aria-hidden="true"
   />
 
@@ -353,6 +353,11 @@ import { heroTitles } from '../../data/hero';
         // Short delay for click retrigger (no need to wait for fadeInUp)
         setTimeout(() => animateTaglineWords(300), 100);
       });
+    });
+
+    // Listen for back-to-top button reset event
+    window.addEventListener('reset-hero-tagline', () => {
+      setTimeout(() => animateTaglineWords(300), 800);
     });
   }
 

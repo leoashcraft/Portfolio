@@ -932,6 +932,29 @@ code, pre, kbd {
   z-index: -1;
 }
 
+/* Animated underline for tagline */
+.animate-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.animate-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-neon-pink), var(--color-neon-cyan));
+  animation: draw-underline 0.6s ease-out forwards;
+}
+
+@keyframes draw-underline {
+  to {
+    width: 100%;
+  }
+}
+
 @keyframes nav-chase-spin {
   from { --border-angle: 0deg; }
   to { --border-angle: 360deg; }

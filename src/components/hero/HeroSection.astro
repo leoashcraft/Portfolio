@@ -272,9 +272,26 @@ import { heroTitles } from '../../data/hero';
     let isDeleting = true;
     let isPaused = false;
 
-    const typeSpeed = 80;
     const deleteSpeed = 50;
     const pauseTime = 2000;
+
+    function getRandomTypeDelay(char: string): number {
+      const baseSpeed = 50;
+      const variance = 80;
+      let delay = baseSpeed + Math.random() * variance;
+
+      // Longer pause after spaces
+      if (char === ' ') {
+        delay += Math.random() * 150;
+      }
+
+      // Occasional hesitation
+      if (Math.random() < 0.1) {
+        delay += Math.random() * 200;
+      }
+
+      return delay;
+    }
 
     function type() {
       const currentTitle = titles[titleIndex];
@@ -297,6 +314,7 @@ import { heroTitles } from '../../data/hero';
           return;
         }
       } else {
+        const currentChar = currentTitle[charIndex] || '';
         element.textContent = currentTitle.substring(0, charIndex + 1);
         charIndex++;
 
@@ -305,9 +323,11 @@ import { heroTitles } from '../../data/hero';
           setTimeout(type, 100);
           return;
         }
+        setTimeout(type, getRandomTypeDelay(currentChar));
+        return;
       }
 
-      setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
+      setTimeout(type, deleteSpeed);
     }
 
     // Show cursor immediately, wait 4 seconds before erasing

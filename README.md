@@ -48,8 +48,9 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Re-triggerable**: Nav link clicks replay the animation for that section
 
 #### About Section Tagline
-- **Rotating Typewriter**: Cycles through first-person phrases like "I build solutions that ship", "I turn ideas into production code", and "I make manual workflows obsolete"
-- **Blinking Cursor**: Matches hero section cursor style
+- **Rotating Typewriter**: Cycles through first-person phrases with natural typing delays (random variance, pauses after spaces, occasional hesitation)
+- **Final Phrase**: Stops on the last phrase, adds a period, and animates an underline
+- **Blinking Cursor**: Matches hero section cursor style, blinks 3 times then hides after final phrase
 
 #### Subsection Titles
 "What I Offer", "Education & Certifications", and "More Work" also animate:

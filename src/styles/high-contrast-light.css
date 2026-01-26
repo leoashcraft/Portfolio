@@ -517,6 +517,7 @@
   animation-timing-function: linear !important;
   animation-iteration-count: infinite !important;
   transition: transform 0.15s ease-out !important;
+  z-index: 20 !important;
 }
 
 [data-theme="high-contrast-light"] .timeline-traveler .eyes-blink {

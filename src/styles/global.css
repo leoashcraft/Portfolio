@@ -1566,6 +1566,7 @@ code, pre, kbd {
   animation: travel-down 20s linear infinite;
   transform: translateX(-50%);
   transition: transform 0.15s ease-out;
+  z-index: 20;
 }
 
 .timeline-traveler.look-right {

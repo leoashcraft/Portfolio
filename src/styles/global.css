@@ -1872,3 +1872,6 @@ code, pre, kbd {
     filter: blur(24px) !important;
   }
 }
+
+/* High Contrast Theme */
+@import "./high-contrast.css";

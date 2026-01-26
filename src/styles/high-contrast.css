@@ -1,0 +1,266 @@
+/**
+ * High Contrast Theme
+ * Black and white, minimal distractions, accessibility-focused
+ */
+
+[data-theme="high-contrast"] {
+  /* Override all neon colors to grayscale */
+  --neon-pink: #ffffff;
+  --neon-purple: #ffffff;
+  --neon-cyan: #ffffff;
+  --neon-yellow: #ffffff;
+  --neon-green: #ffffff;
+  --neon-orange: #ffffff;
+}
+
+/* Base styles */
+[data-theme="high-contrast"] body {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Hide all decorative elements */
+[data-theme="high-contrast"] .arcade-decorations,
+[data-theme="high-contrast"] #hero-shapes,
+[data-theme="high-contrast"] .blur-3xl,
+[data-theme="high-contrast"] .blur-2xl,
+[data-theme="high-contrast"] .blur-xl,
+[data-theme="high-contrast"] [class*="bg-neon-"],
+[data-theme="high-contrast"] [class*="bg-fuchsia-"],
+[data-theme="high-contrast"] [class*="bg-purple-"],
+[data-theme="high-contrast"] [class*="bg-orange-"],
+[data-theme="high-contrast"] #hero-parallax-container,
+[data-theme="high-contrast"] #contact-parallax-bg,
+[data-theme="high-contrast"] .section-arcade::before,
+[data-theme="high-contrast"] .section-arcade-alt::before {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Keep mascot visible */
+[data-theme="high-contrast"] .hero-mascot {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  filter: grayscale(100%) contrast(1.2);
+}
+
+/* Section backgrounds */
+[data-theme="high-contrast"] section,
+[data-theme="high-contrast"] .section,
+[data-theme="high-contrast"] .section-arcade,
+[data-theme="high-contrast"] .section-arcade-alt {
+  background: #000000 !important;
+}
+
+/* Remove gradient overlays */
+[data-theme="high-contrast"] [class*="bg-gradient-"],
+[data-theme="high-contrast"] .backdrop-blur-sm {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+/* Navigation */
+[data-theme="high-contrast"] header,
+[data-theme="high-contrast"] nav {
+  background: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] header a,
+[data-theme="high-contrast"] nav a {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] header a:hover,
+[data-theme="high-contrast"] nav a:hover {
+  color: #cccccc !important;
+}
+
+/* Text colors */
+[data-theme="high-contrast"] h1,
+[data-theme="high-contrast"] h2,
+[data-theme="high-contrast"] h3,
+[data-theme="high-contrast"] h4,
+[data-theme="high-contrast"] p,
+[data-theme="high-contrast"] span,
+[data-theme="high-contrast"] a,
+[data-theme="high-contrast"] li {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .text-gray-300,
+[data-theme="high-contrast"] .text-gray-400,
+[data-theme="high-contrast"] .text-gray-500 {
+  color: #cccccc !important;
+}
+
+/* Gradient text becomes white */
+[data-theme="high-contrast"] .gradient-text {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Cards and glass effects */
+[data-theme="high-contrast"] .card,
+[data-theme="high-contrast"] .glass {
+  background: #111111 !important;
+  border: 1px solid #ffffff !important;
+  backdrop-filter: none !important;
+}
+
+/* Buttons */
+[data-theme="high-contrast"] .btn,
+[data-theme="high-contrast"] .btn-primary,
+[data-theme="high-contrast"] .btn-secondary {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .btn:hover,
+[data-theme="high-contrast"] .btn-primary:hover,
+[data-theme="high-contrast"] .btn-secondary:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Remove chasing border animations */
+[data-theme="high-contrast"] .chase-border::before,
+[data-theme="high-contrast"] .chase-border::after {
+  display: none !important;
+}
+
+/* Disable all glow effects */
+[data-theme="high-contrast"] [class*="glow-"],
+[data-theme="high-contrast"] [style*="box-shadow"] {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Neon top borders become white lines */
+[data-theme="high-contrast"] .h-px[class*="bg-gradient-"] {
+  background: #ffffff !important;
+}
+
+/* Form inputs */
+[data-theme="high-contrast"] input,
+[data-theme="high-contrast"] textarea,
+[data-theme="high-contrast"] select {
+  background: #111111 !important;
+  border: 1px solid #ffffff !important;
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] input::placeholder,
+[data-theme="high-contrast"] textarea::placeholder {
+  color: #888888 !important;
+}
+
+/* Timeline */
+[data-theme="high-contrast"] .timeline-gradient {
+  background: #ffffff !important;
+  animation: none !important;
+}
+
+/* GitHub heatmap */
+[data-theme="high-contrast"] [class*="bg-neon-green"] {
+  background: #ffffff !important;
+}
+
+/* Icons */
+[data-theme="high-contrast"] svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] svg path,
+[data-theme="high-contrast"] svg circle,
+[data-theme="high-contrast"] svg rect {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Back to top button */
+[data-theme="high-contrast"] #back-to-top {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] #back-to-top:hover {
+  background: #ffffff !important;
+}
+
+[data-theme="high-contrast"] #back-to-top:hover svg {
+  color: #000000 !important;
+}
+
+/* Custom cursor - disable in high contrast */
+[data-theme="high-contrast"] #custom-cursor,
+[data-theme="high-contrast"] .heatmap-container {
+  display: none !important;
+}
+
+/* Disable animations for accessibility */
+[data-theme="high-contrast"] *,
+[data-theme="high-contrast"] *::before,
+[data-theme="high-contrast"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Keep essential transitions for usability */
+[data-theme="high-contrast"] .btn,
+[data-theme="high-contrast"] a {
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+/* Footer */
+[data-theme="high-contrast"] footer {
+  background: #000000 !important;
+  border-top: 1px solid #ffffff !important;
+}
+
+/* Social links */
+[data-theme="high-contrast"] [class*="border-neon-"] {
+  border-color: #ffffff !important;
+}
+
+/* Progress bars / skill bars */
+[data-theme="high-contrast"] [role="progressbar"] {
+  background: #ffffff !important;
+}
+
+/* Modal overlays */
+[data-theme="high-contrast"] [role="dialog"] {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+[data-theme="high-contrast"] .modal-container,
+[data-theme="high-contrast"] .modal-tile {
+  background: #111111 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Ensure good focus visibility */
+[data-theme="high-contrast"] *:focus {
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
+
+/* Image treatment - keep visible but grayscale */
+[data-theme="high-contrast"] img:not(.hero-mascot) {
+  filter: grayscale(100%);
+}
+
+/* Theme toggle button styling */
+[data-theme="high-contrast"] #theme-toggle {
+  background: #ffffff !important;
+  color: #000000 !important;
+}

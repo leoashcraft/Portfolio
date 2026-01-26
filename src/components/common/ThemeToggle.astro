@@ -1,0 +1,57 @@
+---
+/**
+ * Theme toggle button for switching between normal and high contrast modes
+ */
+---
+
+<button
+  id="theme-toggle"
+  class="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg border border-gray-600 hover:border-neon-cyan hover:text-neon-cyan transition-colors"
+  aria-label="Toggle high contrast mode"
+  title="Toggle high contrast mode"
+>
+  <svg class="w-4 h-4 theme-icon-normal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+  <svg class="w-4 h-4 theme-icon-contrast hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+  <span class="hidden sm:inline theme-label">Contrast</span>
+</button>
+
+<script>
+  import { toggleTheme, getTheme } from '../../lib/theme';
+
+  function initThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+
+    const normalIcon = toggle.querySelector('.theme-icon-normal');
+    const contrastIcon = toggle.querySelector('.theme-icon-contrast');
+
+    function updateIcons() {
+      const theme = getTheme();
+      if (theme === 'high-contrast') {
+        normalIcon?.classList.add('hidden');
+        contrastIcon?.classList.remove('hidden');
+      } else {
+        normalIcon?.classList.remove('hidden');
+        contrastIcon?.classList.add('hidden');
+      }
+    }
+
+    toggle.addEventListener('click', () => {
+      toggleTheme();
+      updateIcons();
+    });
+
+    // Listen for theme changes from other sources
+    window.addEventListener('theme-change', updateIcons);
+
+    // Initial state
+    updateIcons();
+  }
+
+  initThemeToggle();
+  document.addEventListener('astro:after-swap', initThemeToggle);
+</script>

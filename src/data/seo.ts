@@ -13,10 +13,13 @@ export const schema = {
   worksFor: {
     type: 'Organization' as const,
     name: 'Parker University',
+    url: 'https://parker.edu',
   },
-  alumniOf: {
-    type: 'EducationalOrganization' as const,
-    name: 'Coding Temple',
+  address: {
+    type: 'PostalAddress' as const,
+    addressLocality: 'Dallas',
+    addressRegion: 'TX',
+    addressCountry: 'US',
   },
   knowsAbout: [
     'Software Engineering',

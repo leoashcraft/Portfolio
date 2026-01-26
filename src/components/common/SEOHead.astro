@@ -1,6 +1,9 @@
 ---
 import { profile } from '../../data/profile';
 import { seo, schema } from '../../data/seo';
+import { experience, education, certifications } from '../../data/experience';
+import { projects } from '../../data/projects';
+import { services } from '../../data/skills';
 
 interface Props {
   title?: string;
@@ -28,37 +31,181 @@ const pageTitle = title ? `Leo Ashcraft | ${title}` : seo.siteTitle;
 const metaDescription = description || seo.siteDescription;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
+const siteUrl = Astro.site?.href || 'https://leoashcraft.com';
 
-// JSON-LD Structured Data - Enhanced Person Schema
+// Helper to create ISO date from YYYY-MM format
+const toISODate = (dateStr: string) => {
+  if (dateStr === 'Current') return undefined;
+  const [year, month] = dateStr.split('-');
+  return `${year}-${month || '01'}-01`;
+};
+
+// JSON-LD: Educational Credentials (Education + Certifications)
+const credentialSchemas = [
+  ...education.map((edu) => ({
+    '@type': 'EducationalOccupationalCredential',
+    name: edu.degree,
+    credentialCategory: edu.degree.includes('Certificate') ? 'Certificate' :
+                        edu.degree.includes('Bootcamp') ? 'Certificate' : 'Diploma',
+    educationalLevel: edu.degree.includes('High School') ? 'HighSchool' : 'PostSecondary',
+    recognizedBy: {
+      '@type': 'EducationalOrganization',
+      name: edu.institution,
+    },
+    dateCreated: `${edu.year}-01-01`,
+    ...(edu.credentialUrl && { url: edu.credentialUrl }),
+  })),
+  ...certifications.map((cert) => ({
+    '@type': 'EducationalOccupationalCredential',
+    name: cert.name,
+    credentialCategory: 'Certificate',
+    recognizedBy: {
+      '@type': 'Organization',
+      name: cert.issuer,
+    },
+    dateCreated: `${cert.year}-01-01`,
+  })),
+];
+
+// JSON-LD: Work Experience as Occupations
+const occupationSchemas = experience.map((job) => ({
+  '@type': 'Occupation',
+  name: job.position,
+  occupationLocation: job.location ? {
+    '@type': 'Place',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: job.location.split(', ')[0],
+      addressRegion: job.location.split(', ')[1] || '',
+    },
+  } : undefined,
+  hiringOrganization: {
+    '@type': 'Organization',
+    name: job.company,
+  },
+  description: job.highlights.join(' '),
+  skills: job.highlights.join(', '),
+}));
+
+// JSON-LD: Enhanced Person Schema
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   '@id': schema.personId,
   name: profile.name,
-  url: 'https://leoashcraft.com',
+  url: siteUrl,
   image: new URL(profile.photoUrl, Astro.site).href,
   description: seo.siteDescription,
   jobTitle: schema.jobTitle,
+  address: {
+    '@type': schema.address.type,
+    addressLocality: schema.address.addressLocality,
+    addressRegion: schema.address.addressRegion,
+    addressCountry: schema.address.addressCountry,
+  },
   worksFor: {
     '@type': schema.worksFor.type,
     name: schema.worksFor.name,
+    url: schema.worksFor.url,
   },
-  alumniOf: {
-    '@type': schema.alumniOf.type,
-    name: schema.alumniOf.name,
-  },
+  alumniOf: education.map((edu) => ({
+    '@type': 'EducationalOrganization',
+    name: edu.institution,
+  })),
+  hasCredential: credentialSchemas,
+  hasOccupation: occupationSchemas,
   knowsAbout: schema.knowsAbout,
   sameAs: schema.sameAs,
 };
 
+// JSON-LD: WebSite Schema
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': `${siteUrl}#website`,
   name: seo.siteTitle,
-  url: Astro.site?.href,
-  author: personSchema,
+  url: siteUrl,
+  author: { '@id': schema.personId },
+  description: seo.siteDescription,
 };
 
+// JSON-LD: Portfolio/Projects as ItemList of CreativeWork
+const portfolioSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${siteUrl}#portfolio`,
+  name: 'Portfolio Projects',
+  description: 'Software development projects by Leo Ashcraft',
+  numberOfItems: projects.length,
+  itemListElement: projects.map((project, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'SoftwareApplication',
+      name: project.title,
+      description: project.description,
+      image: new URL(project.image, Astro.site).href,
+      applicationCategory: 'WebApplication',
+      operatingSystem: 'Web Browser',
+      author: { '@id': schema.personId },
+      ...(project.live && { url: project.live }),
+      ...(project.github && {
+        codeRepository: project.github,
+        isAccessibleForFree: true,
+      }),
+      keywords: project.tags.join(', '),
+    },
+  })),
+};
+
+// JSON-LD: Services Offered
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${siteUrl}#services`,
+  name: 'Professional Services',
+  description: 'Software development services offered by Leo Ashcraft',
+  numberOfItems: services.length,
+  itemListElement: services.map((service, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Service',
+      name: service.title,
+      description: service.description.replace(/<[^>]*>/g, ''), // Strip HTML tags
+      provider: { '@id': schema.personId },
+      areaServed: {
+        '@type': 'Place',
+        name: 'Worldwide',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: service.title,
+        itemListElement: service.features.map((feature) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: feature,
+          },
+        })),
+      },
+    },
+  })),
+};
+
+// JSON-LD: Professional Profile Page
+const profilePageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${siteUrl}#profilepage`,
+  name: pageTitle,
+  url: siteUrl,
+  mainEntity: { '@id': schema.personId },
+  dateCreated: '2024-01-01',
+  dateModified: new Date().toISOString().split('T')[0],
+};
+
+// JSON-LD: Article schema (for blog posts if used)
 const articleSchema =
   type === 'article' && publishedTime
     ? {
@@ -67,14 +214,22 @@ const articleSchema =
         headline: title,
         description,
         image: imageURL.href,
-        author: personSchema,
+        author: { '@id': schema.personId },
         datePublished: publishedTime.toISOString(),
         dateModified: (modifiedTime || publishedTime).toISOString(),
         keywords: tags.join(', '),
       }
     : null;
 
-const schemas = [websiteSchema, personSchema, articleSchema].filter(Boolean);
+// Combine all schemas
+const schemas = [
+  personSchema,
+  websiteSchema,
+  profilePageSchema,
+  portfolioSchema,
+  servicesSchema,
+  articleSchema,
+].filter(Boolean);
 ---
 
 <!-- Preconnect to external resources (highest priority) -->

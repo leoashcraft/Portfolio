@@ -39,14 +39,15 @@
 
 /* Hide decorative bg-neon elements but not interactive ones */
 [data-theme="high-contrast-light"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot),
-[data-theme="high-contrast-light"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor) {
+[data-theme="high-contrast-light"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor):not(.subtitle-cursor) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
-/* Typewriter cursor - black in high contrast light */
-[data-theme="high-contrast-light"] #typewriter-cursor {
+/* Typewriter cursors - black in high contrast light */
+[data-theme="high-contrast-light"] #typewriter-cursor,
+[data-theme="high-contrast-light"] .subtitle-cursor {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -538,7 +539,8 @@
 }
 
 /* Typewriter cursor blink animation - must be after animation disable rule */
-[data-theme="high-contrast-light"] #typewriter-cursor {
+[data-theme="high-contrast-light"] #typewriter-cursor,
+[data-theme="high-contrast-light"] .subtitle-cursor {
   animation: cursor-blink 1s step-end infinite !important;
 }
 

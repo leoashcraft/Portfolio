@@ -1,0 +1,821 @@
+/**
+ * High Contrast Light Theme (Inverted)
+ * White background, black text - inverse of high contrast dark
+ */
+
+[data-theme="high-contrast-light"] {
+  /* Override all neon colors to black */
+  --neon-pink: #000000;
+  --neon-purple: #000000;
+  --neon-cyan: #000000;
+  --neon-yellow: #000000;
+  --neon-green: #000000;
+  --neon-orange: #000000;
+}
+
+/* Base styles */
+[data-theme="high-contrast-light"] body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Hide all decorative elements */
+[data-theme="high-contrast-light"] .arcade-decorations,
+[data-theme="high-contrast-light"] #hero-shapes,
+[data-theme="high-contrast-light"] .blur-3xl,
+[data-theme="high-contrast-light"] .blur-2xl,
+[data-theme="high-contrast-light"] .blur-xl,
+[data-theme="high-contrast-light"] [class*="bg-fuchsia-"],
+[data-theme="high-contrast-light"] [class*="bg-purple-"]:not(a):not(button),
+[data-theme="high-contrast-light"] [class*="bg-orange-"]:not(a):not(button),
+[data-theme="high-contrast-light"] #hero-parallax-container,
+[data-theme="high-contrast-light"] #contact-parallax-bg,
+[data-theme="high-contrast-light"] .section-arcade::before,
+[data-theme="high-contrast-light"] .section-arcade-alt::before {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide decorative bg-neon elements but not interactive ones */
+[data-theme="high-contrast-light"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot),
+[data-theme="high-contrast-light"] span[class*="bg-neon-"]:not(.rounded-full) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Timeline dots - make visible and black */
+[data-theme="high-contrast-light"] .timeline-dot {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+/* Ensure back-to-top button is not hidden by decorative rules */
+[data-theme="high-contrast-light"] #back-to-top:not(.invisible) {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Keep mascot visible - grayscale only, no invert */
+[data-theme="high-contrast-light"] .hero-mascot {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  filter: grayscale(100%) contrast(1.2);
+}
+
+/* Section backgrounds */
+[data-theme="high-contrast-light"] section,
+[data-theme="high-contrast-light"] .section,
+[data-theme="high-contrast-light"] .section-arcade,
+[data-theme="high-contrast-light"] .section-arcade-alt {
+  background: #ffffff !important;
+}
+
+/* Remove gradient overlays */
+[data-theme="high-contrast-light"] [class*="bg-gradient-"],
+[data-theme="high-contrast-light"] .backdrop-blur-sm {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+/* Navigation */
+[data-theme="high-contrast-light"] header,
+[data-theme="high-contrast-light"] nav {
+  background: transparent !important;
+  border-color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] header a,
+[data-theme="high-contrast-light"] nav a {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] header a:hover,
+[data-theme="high-contrast-light"] nav a:hover {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Disable nav heat glow effect */
+[data-theme="high-contrast-light"] #nav-heat-glow {
+  display: none !important;
+}
+
+/* Text colors */
+[data-theme="high-contrast-light"] h1,
+[data-theme="high-contrast-light"] h2,
+[data-theme="high-contrast-light"] h3,
+[data-theme="high-contrast-light"] h4,
+[data-theme="high-contrast-light"] p,
+[data-theme="high-contrast-light"] span,
+[data-theme="high-contrast-light"] a,
+[data-theme="high-contrast-light"] li {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .text-gray-300,
+[data-theme="high-contrast-light"] .text-gray-400,
+[data-theme="high-contrast-light"] .text-gray-500 {
+  color: #333333 !important;
+}
+
+/* Gradient text becomes black */
+[data-theme="high-contrast-light"] .gradient-text {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
+
+/* Cards and glass effects */
+[data-theme="high-contrast-light"] .card,
+[data-theme="high-contrast-light"] .glass {
+  background: #f5f5f5 !important;
+  border: 1px solid #000000 !important;
+  backdrop-filter: none !important;
+}
+
+/* Buttons - default style */
+[data-theme="high-contrast-light"] .btn,
+[data-theme="high-contrast-light"] .btn-secondary,
+[data-theme="high-contrast-light"] .btn-ghost,
+[data-theme="high-contrast-light"] button {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast-light"] .btn:hover,
+[data-theme="high-contrast-light"] .btn-ghost:hover,
+[data-theme="high-contrast-light"] button:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Secondary buttons - same hover effect as primary */
+[data-theme="high-contrast-light"] .btn-secondary:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .btn:hover svg,
+[data-theme="high-contrast-light"] button:hover svg {
+  color: #ffffff !important;
+}
+
+/* Primary buttons - inverted style (black bg at rest) */
+[data-theme="high-contrast-light"] .btn-primary {
+  background: #000000 !important;
+  border: 2px solid #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="high-contrast-light"] .btn-primary svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .btn-primary:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .btn-primary:hover svg {
+  color: #ffffff !important;
+}
+
+/* Mobile menu toggle */
+[data-theme="high-contrast-light"] #mobile-menu-toggle {
+  background: transparent !important;
+  border: 1px solid #000000 !important;
+}
+
+[data-theme="high-contrast-light"] #mobile-menu-toggle:hover {
+  background: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] #mobile-menu-toggle:hover svg {
+  color: #ffffff !important;
+}
+
+/* Remove chasing border animations */
+[data-theme="high-contrast-light"] .chase-border::before,
+[data-theme="high-contrast-light"] .chase-border::after {
+  display: none !important;
+}
+
+/* Disable all glow effects and glowing animations */
+[data-theme="high-contrast-light"] [class*="glow-"],
+[data-theme="high-contrast-light"] [style*="box-shadow"],
+[data-theme="high-contrast-light"] [class*="pulse"],
+[data-theme="high-contrast-light"] [class*="shimmer"],
+[data-theme="high-contrast-light"] [class*="neon-glow"],
+[data-theme="high-contrast-light"] .chase-border,
+[data-theme="high-contrast-light"] .gradient-text-animated,
+[data-theme="high-contrast-light"] .text-glow-cyan,
+[data-theme="high-contrast-light"] .text-glow-purple,
+[data-theme="high-contrast-light"] .text-glow-pink,
+[data-theme="high-contrast-light"] .text-glow-yellow,
+[data-theme="high-contrast-light"] .text-glow-green,
+[data-theme="high-contrast-light"] .text-glow-orange,
+[data-theme="high-contrast-light"] .glow-cyan,
+[data-theme="high-contrast-light"] .glow-purple,
+[data-theme="high-contrast-light"] .timeline-dot,
+[data-theme="high-contrast-light"] .heatmap-inactive {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+
+/* Remove all pseudo-element glow effects */
+[data-theme="high-contrast-light"] *::before,
+[data-theme="high-contrast-light"] *::after {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Disable specific glow animations */
+[data-theme="high-contrast-light"] .btn-primary::before,
+[data-theme="high-contrast-light"] .btn-primary::after,
+[data-theme="high-contrast-light"] .btn-secondary::before,
+[data-theme="high-contrast-light"] .btn-secondary::after {
+  display: none !important;
+}
+
+/* Disable hover glow effects */
+[data-theme="high-contrast-light"] .card:hover,
+[data-theme="high-contrast-light"] .glass:hover,
+[data-theme="high-contrast-light"] a:hover,
+[data-theme="high-contrast-light"] button:hover {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Project section glow effects */
+[data-theme="high-contrast-light"] .project-image-wrapper .blur-xl,
+[data-theme="high-contrast-light"] .project-image-wrapper [class*="blur-"],
+[data-theme="high-contrast-light"] .glow-text-pink,
+[data-theme="high-contrast-light"] .glow-text-cyan,
+[data-theme="high-contrast-light"] .glow-text-purple,
+[data-theme="high-contrast-light"] [class*="glow-text-"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Modal tile hover shadows */
+[data-theme="high-contrast-light"] .modal-tile,
+[data-theme="high-contrast-light"] .modal-tile:hover {
+  box-shadow: none !important;
+}
+
+/* Card highlighted effects */
+[data-theme="high-contrast-light"] .card-highlighted,
+[data-theme="high-contrast-light"] .card-highlighted:hover {
+  box-shadow: none !important;
+  background: #f5f5f5 !important;
+}
+
+[data-theme="high-contrast-light"] .card-highlighted::after,
+[data-theme="high-contrast-light"] .card-highlighted:hover::after {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Card hover glow effects */
+[data-theme="high-contrast-light"] .card,
+[data-theme="high-contrast-light"] .card:hover {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+[data-theme="high-contrast-light"] .card::before,
+[data-theme="high-contrast-light"] .card:hover::before {
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* Mobile card float glow */
+[data-theme="high-contrast-light"] .card.float-active {
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+/* Project image wrapper hover glow */
+[data-theme="high-contrast-light"] .project-image-wrapper,
+[data-theme="high-contrast-light"] .project-image-wrapper:hover {
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* Project icon backgrounds */
+[data-theme="high-contrast-light"] .project-icon {
+  background: transparent !important;
+  border-color: #000000 !important;
+}
+
+/* Service icon backgrounds */
+[data-theme="high-contrast-light"] .service-icon {
+  background: transparent !important;
+  border-color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .service-icon:hover,
+[data-theme="high-contrast-light"] .card:hover .service-icon {
+  background: transparent !important;
+}
+
+/* Service title hover glow */
+[data-theme="high-contrast-light"] .service-title,
+[data-theme="high-contrast-light"] .card:hover .service-title,
+[data-theme="high-contrast-light"] .card.float-active .service-title {
+  text-shadow: none !important;
+}
+
+/* Hover underline trigger - disable colored highlight */
+[data-theme="high-contrast-light"] .hover-underline-trigger::after {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="high-contrast-light"] .card:hover .hover-underline-trigger,
+[data-theme="high-contrast-light"] .card.float-active .hover-underline-trigger {
+  color: #000000 !important;
+}
+
+/* Disable all shadow-neon classes */
+[data-theme="high-contrast-light"] [class*="shadow-neon-"],
+[data-theme="high-contrast-light"] [class*="hover:shadow-neon-"]:hover {
+  box-shadow: none !important;
+}
+
+/* Override inline style glow effects (except timeline traveler) */
+[data-theme="high-contrast-light"] [style*="box-shadow"]:not(.timeline-traveler),
+[data-theme="high-contrast-light"] [style*="filter"]:not(.timeline-traveler),
+[data-theme="high-contrast-light"] [style*="drop-shadow"]:not(.timeline-traveler) {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Skill bar glow */
+[data-theme="high-contrast-light"] .skill-progress {
+  box-shadow: none !important;
+}
+
+/* Timeline traveler (eyes) - greyscale only */
+[data-theme="high-contrast-light"] .timeline-traveler,
+[data-theme="high-contrast-light"] .timeline-traveler .eyes-blink {
+  filter: grayscale(100%) !important;
+}
+
+/* Footer social link glow */
+[data-theme="high-contrast-light"] footer [style*="box-shadow"] {
+  box-shadow: none !important;
+}
+
+/* Neon top borders become black lines */
+[data-theme="high-contrast-light"] .h-px[class*="bg-gradient-"] {
+  background: #000000 !important;
+}
+
+/* Form inputs */
+[data-theme="high-contrast-light"] input,
+[data-theme="high-contrast-light"] textarea,
+[data-theme="high-contrast-light"] select {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] input::placeholder,
+[data-theme="high-contrast-light"] textarea::placeholder {
+  color: #666666 !important;
+}
+
+/* Timeline */
+[data-theme="high-contrast-light"] .timeline-gradient {
+  background: #000000 !important;
+  animation: none !important;
+}
+
+/* GitHub heatmap - greyscale tiles */
+[data-theme="high-contrast-light"] [class*="bg-neon-green"] {
+  background: #000000 !important;
+}
+
+/* GitHub contribution heatmap tiles - greyscale and inverted */
+[data-theme="high-contrast-light"] [role="grid"] [role="gridcell"] {
+  filter: grayscale(100%) invert(1) !important;
+}
+
+/* GitHub heatmap legend tiles */
+[data-theme="high-contrast-light"] [role="grid"] + div .rounded-sm {
+  filter: grayscale(100%) invert(1) !important;
+}
+
+/* Also target the legend container */
+[data-theme="high-contrast-light"] .flex.items-center.justify-end.gap-2 .rounded-sm {
+  filter: grayscale(100%) invert(1) !important;
+}
+
+/* Language indicator dots - make black */
+[data-theme="high-contrast-light"] #github .w-3.h-3.rounded-full,
+[data-theme="high-contrast-light"] #github span > .rounded-full,
+[data-theme="high-contrast-light"] #github .flex.items-center.gap-1 .rounded-full {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+/* Icons */
+[data-theme="high-contrast-light"] svg {
+  color: #000000 !important;
+}
+
+/* Only set fill on SVGs that use fill (not stroke-based icons) */
+[data-theme="high-contrast-light"] svg[fill="currentColor"] path,
+[data-theme="high-contrast-light"] svg[fill="currentColor"] circle,
+[data-theme="high-contrast-light"] svg[fill="currentColor"] rect {
+  fill: currentColor;
+}
+
+/* Stroke-based icons - preserve stroke, don't fill */
+[data-theme="high-contrast-light"] svg[fill="none"] path,
+[data-theme="high-contrast-light"] svg[fill="none"] circle,
+[data-theme="high-contrast-light"] svg[fill="none"] rect {
+  fill: none !important;
+  stroke: currentColor;
+}
+
+/* Back to top button */
+[data-theme="high-contrast-light"] #back-to-top {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast-light"] #back-to-top:hover {
+  background: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] #back-to-top:hover svg {
+  color: #ffffff !important;
+}
+
+/* Custom cursor - black in high contrast light */
+[data-theme="high-contrast-light"] #cursor-dot {
+  background: #000000 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast-light"] #cursor-ring {
+  border-color: #000000 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast-light"] #cursor-ring.hovering {
+  background: rgba(0, 0, 0, 0.1) !important;
+  border-color: #000000 !important;
+}
+
+/* Disable heatmap trail in high contrast light */
+[data-theme="high-contrast-light"] #mouse-heatmap,
+[data-theme="high-contrast-light"] .heatmap-dot,
+[data-theme="high-contrast-light"] .heatmap-container {
+  display: none !important;
+}
+
+/* Disable animations for accessibility */
+[data-theme="high-contrast-light"] *,
+[data-theme="high-contrast-light"] *::before,
+[data-theme="high-contrast-light"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Re-enable timeline eyes animations - must come after the disable rule */
+/* Use individual properties to preserve inline animation-delay */
+[data-theme="high-contrast-light"] .timeline-traveler {
+  animation-name: travel-down !important;
+  animation-duration: 20s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  transition: transform 0.15s ease-out !important;
+}
+
+[data-theme="high-contrast-light"] .timeline-traveler .eyes-blink {
+  transition: clip-path 0.1s ease-in-out !important;
+}
+
+[data-theme="high-contrast-light"] .timeline-dot {
+  animation: timeline-dot-pulse 3s ease-in-out infinite !important;
+}
+
+/* Keep essential transitions for usability */
+[data-theme="high-contrast-light"] .btn,
+[data-theme="high-contrast-light"] a {
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+/* Footer */
+[data-theme="high-contrast-light"] footer {
+  background: #ffffff !important;
+  border-top: 1px solid #000000 !important;
+}
+
+/* Social links */
+[data-theme="high-contrast-light"] [class*="border-neon-"] {
+  border-color: #000000 !important;
+}
+
+/* Progress bars / skill bars */
+[data-theme="high-contrast-light"] [role="progressbar"] {
+  background: #000000 !important;
+}
+
+/* Modal overlays */
+[data-theme="high-contrast-light"] [role="dialog"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="high-contrast-light"] .modal-container,
+[data-theme="high-contrast-light"] .modal-tile {
+  background: #f5f5f5 !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Ensure good focus visibility */
+[data-theme="high-contrast-light"] *:focus {
+  outline: 2px solid #000000 !important;
+  outline-offset: 2px !important;
+}
+
+/* Image treatment - keep visible but grayscale */
+[data-theme="high-contrast-light"] img:not(.hero-mascot) {
+  filter: grayscale(100%);
+}
+
+/* Theme toggle button styling */
+[data-theme="high-contrast-light"] .theme-toggle {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast-light"] .theme-toggle span,
+[data-theme="high-contrast-light"] .theme-toggle .theme-label {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .theme-toggle svg {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .theme-toggle:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .theme-toggle:hover span,
+[data-theme="high-contrast-light"] .theme-toggle:hover .theme-label,
+[data-theme="high-contrast-light"] .theme-toggle:hover svg {
+  color: #ffffff !important;
+}
+
+/* Theme dropdown menu */
+[data-theme="high-contrast-light"] .theme-dropdown {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  backdrop-filter: none !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option {
+  color: #000000 !important;
+  background: transparent !important;
+  outline: none !important;
+  border: none !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option:focus {
+  outline: none !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option:hover svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option svg {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option .check-icon {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] .theme-option:hover .check-icon {
+  color: #ffffff !important;
+}
+
+/* Info menu toggle */
+[data-theme="high-contrast-light"] #info-menu-toggle {
+  background: transparent !important;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast-light"] #info-menu-toggle:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] #info-menu-toggle:hover svg,
+[data-theme="high-contrast-light"] #info-menu-toggle:hover span {
+  color: #ffffff !important;
+}
+
+/* Scrollbar - high contrast light */
+html[data-theme="high-contrast-light"],
+html[data-theme="high-contrast-light"] body,
+html[data-theme="high-contrast-light"] * {
+  --scrollbar-thumb: #000000;
+  --scrollbar-thumb-hover: #555555;
+  --scrollbar-track: #ffffff;
+}
+
+html[data-theme="high-contrast-light"]::-webkit-scrollbar,
+[data-theme="high-contrast-light"] ::-webkit-scrollbar,
+[data-theme="high-contrast-light"] *::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+html[data-theme="high-contrast-light"]::-webkit-scrollbar-track,
+[data-theme="high-contrast-light"] ::-webkit-scrollbar-track,
+[data-theme="high-contrast-light"] *::-webkit-scrollbar-track {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+html[data-theme="high-contrast-light"]::-webkit-scrollbar-thumb,
+[data-theme="high-contrast-light"] ::-webkit-scrollbar-thumb,
+[data-theme="high-contrast-light"] *::-webkit-scrollbar-thumb {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
+html[data-theme="high-contrast-light"]::-webkit-scrollbar-thumb:hover,
+html[data-theme="high-contrast-light"]::-webkit-scrollbar-thumb:active,
+[data-theme="high-contrast-light"] ::-webkit-scrollbar-thumb:hover,
+[data-theme="high-contrast-light"] ::-webkit-scrollbar-thumb:active,
+[data-theme="high-contrast-light"] *::-webkit-scrollbar-thumb:hover,
+[data-theme="high-contrast-light"] *::-webkit-scrollbar-thumb:active {
+  background: #555555 !important;
+  background-color: #555555 !important;
+}
+
+/* Firefox scrollbar */
+html[data-theme="high-contrast-light"] {
+  scrollbar-width: auto !important;
+  scrollbar-color: #000000 #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] * {
+  scrollbar-color: #000000 #ffffff !important;
+}
+
+/* Mobile/SM hero adjustments for light mode */
+@media (max-width: 767px) {
+  /* Remove shadow and use gradient background */
+  [data-theme="high-contrast-light"] #home .rounded-2xl {
+    box-shadow: none !important;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 30%, rgba(255, 255, 255, 0.95) 100%) !important;
+  }
+
+  /* Stats labels - black text */
+  [data-theme="high-contrast-light"] #home .text-gray-400.text-sm {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  /* Stats numbers - ensure contrast */
+  [data-theme="high-contrast-light"] #home .counter,
+  [data-theme="high-contrast-light"] #home .text-3xl.font-bold {
+    color: #000000 !important;
+  }
+}
+
+/* Nav social icons - prevent color on hover */
+[data-theme="high-contrast-light"] header a:hover,
+[data-theme="high-contrast-light"] nav a:hover,
+[data-theme="high-contrast-light"] header a:hover svg,
+[data-theme="high-contrast-light"] nav a:hover svg {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+
+[data-theme="high-contrast-light"] header a[class*="hover:text-neon-"]:hover,
+[data-theme="high-contrast-light"] nav a[class*="hover:text-neon-"]:hover,
+[data-theme="high-contrast-light"] header a[class*="hover:bg-neon-"]:hover,
+[data-theme="high-contrast-light"] nav a[class*="hover:bg-neon-"]:hover {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+
+/* Timeline line - remove all glow */
+[data-theme="high-contrast-light"] .timeline-line,
+[data-theme="high-contrast-light"] .timeline-gradient,
+[data-theme="high-contrast-light"] [class*="timeline"] {
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Work experience date chips - black background */
+[data-theme="high-contrast-light"] #experience .bg-night-700,
+[data-theme="high-contrast-light"] #experience .rounded-full[class*="bg-night"],
+[data-theme="high-contrast-light"] #experience span.rounded-full {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Education date chips (year counter) - black background */
+[data-theme="high-contrast-light"] .year-counter,
+[data-theme="high-contrast-light"] #experience .year-counter {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Education and certifications skill/language chips - black background */
+[data-theme="high-contrast-light"] #experience [class*="bg-neon-pink"],
+[data-theme="high-contrast-light"] #experience [class*="text-neon-pink"].rounded-full,
+[data-theme="high-contrast-light"] #experience span[class*="px-3"][class*="py-1"],
+[data-theme="high-contrast-light"] [class*="bg-neon-"][class*="rounded-full"],
+[data-theme="high-contrast-light"] span[class*="bg-neon-pink/10"] {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Featured projects chips/tags - black text */
+[data-theme="high-contrast-light"] .project-tags span,
+[data-theme="high-contrast-light"] [class*="project"] .rounded-full,
+[data-theme="high-contrast-light"] #projects .rounded-full,
+[data-theme="high-contrast-light"] #projects [class*="bg-neon-"],
+[data-theme="high-contrast-light"] #projects span[class*="px-"] {
+  color: #000000 !important;
+  background: transparent !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Contact section social icons - black background */
+[data-theme="high-contrast-light"] #contact a[href*="github"],
+[data-theme="high-contrast-light"] #contact a[href*="linkedin"],
+[data-theme="high-contrast-light"] #contact .social-link,
+[data-theme="high-contrast-light"] #contact a[class*="rounded-full"],
+[data-theme="high-contrast-light"] #contact a[class*="border-neon-"] {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+[data-theme="high-contrast-light"] #contact a[href*="github"] svg,
+[data-theme="high-contrast-light"] #contact a[href*="linkedin"] svg,
+[data-theme="high-contrast-light"] #contact .social-link svg,
+[data-theme="high-contrast-light"] #contact a[class*="rounded-full"] svg,
+[data-theme="high-contrast-light"] #contact a[class*="border-neon-"] svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast-light"] #contact a[href*="github"]:hover,
+[data-theme="high-contrast-light"] #contact a[href*="linkedin"]:hover,
+[data-theme="high-contrast-light"] #contact .social-link:hover,
+[data-theme="high-contrast-light"] #contact a[class*="rounded-full"]:hover,
+[data-theme="high-contrast-light"] #contact a[class*="border-neon-"]:hover {
+  background: #333333 !important;
+}

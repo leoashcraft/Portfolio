@@ -140,7 +140,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 ```
 src/
 ├── components/
-│   ├── common/          # Header, Footer, SocialIcons, SectionHeader, ArcadeDecorations
+│   ├── common/          # Header, Footer, SocialIcons, SectionHeader, ArcadeDecorations, ThemeToggle
 │   ├── contact/         # Contact form (React)
 │   ├── github/          # GitHub heatmap (React)
 │   ├── hero/            # Hero section with typewriter & word animations
@@ -158,13 +158,16 @@ src/
 │   ├── contact.ts       # Email/phone unscrambling utilities
 │   ├── icon-flip.ts     # Shared icon flip animation logic
 │   ├── parallax.ts      # Section-based parallax for decorations
+│   ├── theme.ts         # Theme state management (normal, high-contrast, high-contrast-light)
 │   ├── timeline-eyes.ts # Timeline eye direction & blink logic
 │   └── typewriter.ts    # Natural typing delay utilities
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
 │   └── index.astro      # Single-page portfolio
 └── styles/
-    └── global.css       # Theme, animations & chasing border utilities
+    ├── global.css              # Theme, animations & chasing border utilities
+    ├── high-contrast.css       # High contrast dark mode styles
+    └── high-contrast-light.css # High contrast light mode styles
 ```
 
 ## CSS Architecture
@@ -244,11 +247,33 @@ The design draws inspiration from 80s arcade carpet patterns, featuring:
 - Optimized Core Web Vitals (LCP, FID, CLS)
 
 ### Accessibility
+
+#### High Contrast Modes
+A theme toggle dropdown in the navigation provides three contrast options:
+
+- **Normal**: Default arcade aesthetic with neon colors and animations
+- **High Contrast Dark**: Black background, white text, grayscale images
+- **High Contrast Light**: White background, black text, grayscale images
+
+Features:
+- **Theme Persistence**: Selection saved to localStorage, persists across sessions
+- **No Flash**: Inline script in `<head>` applies theme before first paint
+- **Disabled Animations**: All decorative animations stopped for reduced distraction
+- **Timeline Eyes Exception**: Eyes continue animating in grayscale for visual interest
+- **Mobile Optimizations**: High contrast light mode adjusts hero section with gradient background
+- **Keyboard Accessible**: Dropdown supports keyboard navigation and Escape to close
+
+CSS files:
+- `src/styles/high-contrast.css` - Dark high contrast theme
+- `src/styles/high-contrast-light.css` - Light high contrast theme
+- `src/lib/theme.ts` - Theme state management (getTheme, setTheme, toggleTheme)
+
+#### Other Accessibility Features
 - Semantic HTML structure
 - ARIA labels on interactive elements
 - Keyboard navigation support
 - `prefers-reduced-motion` respect
-- High contrast color choices
+- High contrast color choices in normal mode
 
 ## Development
 

@@ -1,7 +1,10 @@
 ---
 import { navItems } from '../../data/navigation';
-import SocialIcons from './SocialIcons.astro';
+import { profile } from '../../data/profile';
+import { getMailtoLink } from '../../lib/contact';
 import ThemeToggle from './ThemeToggle.astro';
+
+const mailtoLink = getMailtoLink(profile);
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
@@ -9,10 +12,10 @@ import ThemeToggle from './ThemeToggle.astro';
     <!-- Heat sensor glow effect - pink to purple left to right -->
     <div id="nav-heat-glow" class="pointer-events-none absolute w-96 h-40 rounded-full opacity-0 transition-opacity duration-200" style="background: linear-gradient(to right, rgba(255, 0, 255, 0.15), rgba(102, 0, 255, 0.15)); transform: translate(-50%, -50%); filter: blur(30px);"></div>
 
-    <!-- Left Side: Desktop Nav OR Mobile Social Icons -->
+    <!-- Left Side: Navigation Links -->
     <div class="flex items-center gap-1">
-      <!-- Desktop Navigation -->
-      <ul class="hidden md:flex items-center gap-1">
+      <!-- Desktop/Tablet Navigation (visible above 680px) -->
+      <ul id="nav-links-inline" class="nav-links-inline hidden items-center gap-1">
         {
           navItems.map((item) => (
             <li>
@@ -28,49 +31,165 @@ import ThemeToggle from './ThemeToggle.astro';
         }
       </ul>
 
-      <!-- Mobile Social Links (left side) -->
-      <SocialIcons class="flex md:hidden" />
+      <!-- Mobile Social Icons (visible at 680px and below) -->
+      <div id="social-icons-inline" class="social-icons-inline hidden items-center gap-2">
+        <a
+          href={profile.social.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
+          aria-label="GitHub Profile"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+          </svg>
+        </a>
+        <a
+          href={profile.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-purple hover:bg-neon-purple/10 transition-all duration-200"
+          aria-label="LinkedIn Profile"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+          </svg>
+        </a>
+        <a
+          href={mailtoLink}
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-yellow hover:bg-neon-yellow/10 transition-all duration-200"
+          aria-label="Email me"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </a>
+      </div>
     </div>
 
-    <!-- Right Side: Desktop Social Icons + Theme Toggle OR Mobile Hamburger -->
+    <!-- Right Side -->
     <div class="flex items-center gap-3">
-      <!-- Desktop Theme Toggle -->
-      <div class="hidden md:block">
+      <!-- Desktop Social Icons (visible above 950px) -->
+      <div id="social-icons-desktop" class="social-icons-desktop hidden items-center gap-2">
+        <a
+          href={profile.social.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
+          aria-label="GitHub Profile"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+          </svg>
+        </a>
+        <a
+          href={profile.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-purple hover:bg-neon-purple/10 transition-all duration-200"
+          aria-label="LinkedIn Profile"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+          </svg>
+        </a>
+        <a
+          href={mailtoLink}
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-yellow hover:bg-neon-yellow/10 transition-all duration-200"
+          aria-label="Email me"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Theme Toggle (visible above 950px and below 681px) -->
+      <div class="theme-toggle-inline">
         <ThemeToggle />
       </div>
-      <!-- Desktop Social Links -->
-      <SocialIcons class="hidden md:flex" />
 
-      <!-- Mobile Menu Toggle (right side) -->
+      <!-- Info Button (visible 950px - 681px) - shows social icons -->
+      <button
+        id="info-menu-toggle"
+        class="info-menu-toggle hidden w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center text-gray-300 hover:text-neon-pink hover:border-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
+        aria-label="Toggle social links menu"
+        aria-expanded="false"
+      >
+        <!-- Info "i" icon -->
+        <span id="info-icon" class="font-serif font-bold text-xl">i</span>
+        <!-- Close icon (hidden by default) -->
+        <svg id="info-close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Hamburger Menu Toggle (visible at 680px and below) -->
       <button
         id="mobile-menu-toggle"
-        class="md:hidden w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
+        class="mobile-menu-toggle hidden w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
         aria-label="Toggle mobile menu"
         aria-expanded="false"
       >
         <!-- Hamburger icon -->
         <svg id="hamburger-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
         <!-- Close icon (hidden by default) -->
         <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
 
-    <!-- Mobile Menu (inside nav, expands when open) -->
+    <!-- Info Menu Dropdown (social icons + theme toggle) - visible 950px - 681px -->
+    <div
+      id="info-menu"
+      class="info-menu w-full overflow-hidden transition-all duration-300 ease-in-out"
+      style="max-height: 0;"
+      aria-hidden="true"
+    >
+      <div class="flex items-center justify-center gap-4 py-4">
+        <a
+          href={profile.social.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-12 h-12 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
+          aria-label="GitHub Profile"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+          </svg>
+        </a>
+        <a
+          href={profile.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-12 h-12 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-purple hover:bg-neon-purple/10 transition-all duration-200"
+          aria-label="LinkedIn Profile"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+          </svg>
+        </a>
+        <a
+          href={mailtoLink}
+          class="w-12 h-12 rounded-lg flex items-center justify-center text-gray-300 hover:text-neon-yellow hover:bg-neon-yellow/10 transition-all duration-200"
+          aria-label="Email me"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </a>
+        <div class="border-l border-gray-600 h-8 mx-2"></div>
+        <ThemeToggle />
+      </div>
+    </div>
+
+    <!-- Mobile Menu (nav links) - visible at 680px and below -->
     <div
       id="mobile-menu"
-      class="mobile-nav-menu md:hidden w-full overflow-hidden transition-all duration-300 ease-in-out"
+      class="mobile-menu w-full overflow-hidden transition-all duration-300 ease-in-out"
       style="max-height: 0;"
       aria-hidden="true"
     >
@@ -88,13 +207,114 @@ import ThemeToggle from './ThemeToggle.astro';
           ))
         }
       </ul>
-      <!-- Mobile Theme Toggle -->
-      <div class="px-4 py-3 border-t border-gray-700/50">
+      <!-- Theme Toggle (visible in menu at 374px and below) -->
+      <div class="mobile-menu-theme-toggle px-4 py-3 border-t border-gray-700/50 hidden">
         <ThemeToggle />
       </div>
     </div>
   </nav>
 </header>
+
+<style>
+  /* Default: hide everything, JS will manage visibility based on breakpoints */
+
+  /* Desktop: >950px - nav links and social icons visible */
+  @media (min-width: 951px) {
+    .nav-links-inline {
+      display: flex !important;
+    }
+    .social-icons-desktop {
+      display: flex !important;
+    }
+    .theme-toggle-inline {
+      display: block !important;
+    }
+    .info-menu-toggle {
+      display: none !important;
+    }
+    .mobile-menu-toggle {
+      display: none !important;
+    }
+    .social-icons-inline {
+      display: none !important;
+    }
+  }
+
+  /* Medium: 950px - 681px - nav links visible, info button for social icons + theme toggle */
+  @media (min-width: 681px) and (max-width: 950px) {
+    .nav-links-inline {
+      display: flex !important;
+    }
+    .social-icons-desktop {
+      display: none !important;
+    }
+    .theme-toggle-inline {
+      display: none !important;
+    }
+    .info-menu-toggle {
+      display: flex !important;
+    }
+    .mobile-menu-toggle {
+      display: none !important;
+    }
+    .social-icons-inline {
+      display: none !important;
+    }
+  }
+
+  /* Mobile: 680px - 425px - social icons + theme toggle visible, hamburger for nav links */
+  @media (min-width: 425px) and (max-width: 680px) {
+    .nav-links-inline {
+      display: none !important;
+    }
+    .social-icons-desktop {
+      display: none !important;
+    }
+    .theme-toggle-inline {
+      display: block !important;
+    }
+    .info-menu-toggle {
+      display: none !important;
+    }
+    .mobile-menu-toggle {
+      display: flex !important;
+    }
+    .social-icons-inline {
+      display: flex !important;
+    }
+    .info-menu {
+      display: none !important;
+    }
+  }
+
+  /* Small Mobile: <=424px - social icons visible, theme toggle in hamburger menu */
+  @media (max-width: 424px) {
+    .nav-links-inline {
+      display: none !important;
+    }
+    .social-icons-desktop {
+      display: none !important;
+    }
+    .theme-toggle-inline {
+      display: none !important;
+    }
+    .info-menu-toggle {
+      display: none !important;
+    }
+    .mobile-menu-toggle {
+      display: flex !important;
+    }
+    .social-icons-inline {
+      display: flex !important;
+    }
+    .info-menu {
+      display: none !important;
+    }
+    .mobile-menu-theme-toggle {
+      display: block !important;
+    }
+  }
+</style>
 
 <script>
   // Arcade carpet gradient background - shared between functions
@@ -105,6 +325,62 @@ import ThemeToggle from './ThemeToggle.astro';
     linear-gradient(315deg, rgba(0, 255, 0, 0.05) 0%, transparent 50%),
     rgba(10, 0, 21, 0.9)
   `;
+
+  function initInfoMenu() {
+    const toggle = document.getElementById('info-menu-toggle');
+    const menu = document.getElementById('info-menu');
+    const nav = document.getElementById('main-nav');
+    const infoIcon = document.getElementById('info-icon');
+    const closeIcon = document.getElementById('info-close-icon');
+
+    if (!toggle || !menu || !nav || !infoIcon || !closeIcon) return;
+
+    function applyDarkBg() {
+      nav.style.background = arcadeGradient;
+      nav.style.backgroundColor = 'rgba(10, 0, 21, 0.9)';
+      nav.style.borderColor = 'rgba(255, 0, 255, 0.3)';
+    }
+
+    function removeDarkBg() {
+      if (window.scrollY === 0) {
+        nav.style.background = '';
+        nav.style.backgroundColor = '';
+        nav.style.borderColor = '';
+      }
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '';
+
+      if (isOpen) {
+        menu.style.maxHeight = '0';
+        menu.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        infoIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        removeDarkBg();
+      } else {
+        menu.style.maxHeight = menu.scrollHeight + 'px';
+        menu.setAttribute('aria-hidden', 'false');
+        toggle.setAttribute('aria-expanded', 'true');
+        infoIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        applyDarkBg();
+      }
+    });
+
+    // Close menu when clicking a link
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.style.maxHeight = '0';
+        menu.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        infoIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        removeDarkBg();
+      });
+    });
+  }
 
   function initMobileMenu() {
     const toggle = document.getElementById('mobile-menu-toggle');
@@ -207,10 +483,77 @@ import ThemeToggle from './ThemeToggle.astro';
     });
   }
 
+  function initMenuResizeHandler() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const infoMenu = document.getElementById('info-menu');
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const infoToggle = document.getElementById('info-menu-toggle');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const mobileCloseIcon = document.getElementById('close-icon');
+    const infoIcon = document.getElementById('info-icon');
+    const infoCloseIcon = document.getElementById('info-close-icon');
+    const nav = document.getElementById('main-nav');
+
+    if (!mobileMenu || !infoMenu || !nav) return;
+
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+
+    function closeAllMenus() {
+      // Close mobile menu
+      if (mobileMenu.style.maxHeight !== '0px' && mobileMenu.style.maxHeight !== '') {
+        mobileMenu.style.maxHeight = '0';
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileToggle?.setAttribute('aria-expanded', 'false');
+        hamburgerIcon?.classList.remove('hidden');
+        mobileCloseIcon?.classList.add('hidden');
+        nav.classList.remove('menu-expanded');
+      }
+
+      // Close info menu
+      if (infoMenu.style.maxHeight !== '0px' && infoMenu.style.maxHeight !== '') {
+        infoMenu.style.maxHeight = '0';
+        infoMenu.setAttribute('aria-hidden', 'true');
+        infoToggle?.setAttribute('aria-expanded', 'false');
+        infoIcon?.classList.remove('hidden');
+        infoCloseIcon?.classList.add('hidden');
+      }
+
+      // Reset nav background if at top
+      if (window.scrollY === 0) {
+        nav.style.background = '';
+        nav.style.backgroundColor = '';
+        nav.style.borderColor = '';
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const width = window.innerWidth;
+
+        // Close mobile menu when viewport goes above 680px
+        if (width > 680) {
+          if (mobileMenu.style.maxHeight !== '0px' && mobileMenu.style.maxHeight !== '') {
+            closeAllMenus();
+          }
+        }
+
+        // Close info menu when viewport goes outside 681px-950px range
+        if (width <= 680 || width > 950) {
+          if (infoMenu.style.maxHeight !== '0px' && infoMenu.style.maxHeight !== '') {
+            closeAllMenus();
+          }
+        }
+      }, 100);
+    });
+  }
+
   function initHeader() {
+    initInfoMenu();
     initMobileMenu();
     initNavScroll();
     initNavHeatGlow();
+    initMenuResizeHandler();
   }
 
   initHeader();

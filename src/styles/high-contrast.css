@@ -25,10 +25,9 @@
 [data-theme="high-contrast"] .blur-3xl,
 [data-theme="high-contrast"] .blur-2xl,
 [data-theme="high-contrast"] .blur-xl,
-[data-theme="high-contrast"] [class*="bg-neon-"],
 [data-theme="high-contrast"] [class*="bg-fuchsia-"],
-[data-theme="high-contrast"] [class*="bg-purple-"],
-[data-theme="high-contrast"] [class*="bg-orange-"],
+[data-theme="high-contrast"] [class*="bg-purple-"]:not(a):not(button),
+[data-theme="high-contrast"] [class*="bg-orange-"]:not(a):not(button),
 [data-theme="high-contrast"] #hero-parallax-container,
 [data-theme="high-contrast"] #contact-parallax-bg,
 [data-theme="high-contrast"] .section-arcade::before,
@@ -36,6 +35,30 @@
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
+}
+
+/* Hide decorative bg-neon elements but not interactive ones */
+[data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot),
+[data-theme="high-contrast"] span[class*="bg-neon-"]:not(.rounded-full) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Timeline dots - make visible and white */
+[data-theme="high-contrast"] .timeline-dot {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+/* Ensure back-to-top button is not hidden by decorative rules */
+[data-theme="high-contrast"] #back-to-top:not(.invisible) {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Keep mascot visible */
@@ -64,7 +87,7 @@
 /* Navigation */
 [data-theme="high-contrast"] header,
 [data-theme="high-contrast"] nav {
-  background: #000000 !important;
+  background: transparent !important;
   border-color: #ffffff !important;
 }
 
@@ -75,7 +98,13 @@
 
 [data-theme="high-contrast"] header a:hover,
 [data-theme="high-contrast"] nav a:hover {
-  color: #cccccc !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Disable nav heat glow effect */
+[data-theme="high-contrast"] #nav-heat-glow {
+  display: none !important;
 }
 
 /* Text colors */
@@ -113,21 +142,71 @@
   backdrop-filter: none !important;
 }
 
-/* Buttons */
+/* Buttons - default style */
 [data-theme="high-contrast"] .btn,
-[data-theme="high-contrast"] .btn-primary,
-[data-theme="high-contrast"] .btn-secondary {
+[data-theme="high-contrast"] .btn-secondary,
+[data-theme="high-contrast"] .btn-ghost,
+[data-theme="high-contrast"] button {
   background: #000000 !important;
   border: 2px solid #ffffff !important;
   color: #ffffff !important;
   box-shadow: none !important;
+  text-shadow: none !important;
 }
 
 [data-theme="high-contrast"] .btn:hover,
-[data-theme="high-contrast"] .btn-primary:hover,
+[data-theme="high-contrast"] .btn-ghost:hover,
+[data-theme="high-contrast"] button:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Secondary buttons - same hover effect as primary */
 [data-theme="high-contrast"] .btn-secondary:hover {
   background: #ffffff !important;
   color: #000000 !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #000000 !important;
+}
+
+[data-theme="high-contrast"] .btn:hover svg,
+[data-theme="high-contrast"] button:hover svg {
+  color: #000000 !important;
+}
+
+/* Primary buttons - inverted style (white bg at rest) */
+[data-theme="high-contrast"] .btn-primary {
+  background: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="high-contrast"] .btn-primary svg {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast"] .btn-primary:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #000000 !important;
+}
+
+[data-theme="high-contrast"] .btn-primary:hover svg {
+  color: #000000 !important;
+}
+
+/* Mobile menu toggle */
+[data-theme="high-contrast"] #mobile-menu-toggle {
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+}
+
+[data-theme="high-contrast"] #mobile-menu-toggle:hover {
+  background: #ffffff !important;
 }
 
 /* Remove chasing border animations */
@@ -136,11 +215,173 @@
   display: none !important;
 }
 
-/* Disable all glow effects */
+/* Disable all glow effects and glowing animations */
 [data-theme="high-contrast"] [class*="glow-"],
-[data-theme="high-contrast"] [style*="box-shadow"] {
+[data-theme="high-contrast"] [style*="box-shadow"],
+[data-theme="high-contrast"] [class*="pulse"],
+[data-theme="high-contrast"] [class*="shimmer"],
+[data-theme="high-contrast"] [class*="neon-glow"],
+[data-theme="high-contrast"] .chase-border,
+[data-theme="high-contrast"] .gradient-text-animated,
+[data-theme="high-contrast"] .text-glow-cyan,
+[data-theme="high-contrast"] .text-glow-purple,
+[data-theme="high-contrast"] .text-glow-pink,
+[data-theme="high-contrast"] .text-glow-yellow,
+[data-theme="high-contrast"] .text-glow-green,
+[data-theme="high-contrast"] .text-glow-orange,
+[data-theme="high-contrast"] .glow-cyan,
+[data-theme="high-contrast"] .glow-purple,
+[data-theme="high-contrast"] .timeline-dot,
+[data-theme="high-contrast"] .heatmap-inactive {
   box-shadow: none !important;
   text-shadow: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+
+/* Remove all pseudo-element glow effects */
+[data-theme="high-contrast"] *::before,
+[data-theme="high-contrast"] *::after {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Disable specific glow animations */
+[data-theme="high-contrast"] .btn-primary::before,
+[data-theme="high-contrast"] .btn-primary::after,
+[data-theme="high-contrast"] .btn-secondary::before,
+[data-theme="high-contrast"] .btn-secondary::after {
+  display: none !important;
+}
+
+/* Disable hover glow effects */
+[data-theme="high-contrast"] .card:hover,
+[data-theme="high-contrast"] .glass:hover,
+[data-theme="high-contrast"] a:hover,
+[data-theme="high-contrast"] button:hover {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Project section glow effects */
+[data-theme="high-contrast"] .project-image-wrapper .blur-xl,
+[data-theme="high-contrast"] .project-image-wrapper [class*="blur-"],
+[data-theme="high-contrast"] .glow-text-pink,
+[data-theme="high-contrast"] .glow-text-cyan,
+[data-theme="high-contrast"] .glow-text-purple,
+[data-theme="high-contrast"] [class*="glow-text-"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Modal tile hover shadows */
+[data-theme="high-contrast"] .modal-tile,
+[data-theme="high-contrast"] .modal-tile:hover {
+  box-shadow: none !important;
+}
+
+/* Card highlighted effects */
+[data-theme="high-contrast"] .card-highlighted,
+[data-theme="high-contrast"] .card-highlighted:hover {
+  box-shadow: none !important;
+  background: #111111 !important;
+}
+
+[data-theme="high-contrast"] .card-highlighted::after,
+[data-theme="high-contrast"] .card-highlighted:hover::after {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Card hover glow effects */
+[data-theme="high-contrast"] .card,
+[data-theme="high-contrast"] .card:hover {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+[data-theme="high-contrast"] .card::before,
+[data-theme="high-contrast"] .card:hover::before {
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* Mobile card float glow */
+[data-theme="high-contrast"] .card.float-active {
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+/* Project image wrapper hover glow */
+[data-theme="high-contrast"] .project-image-wrapper,
+[data-theme="high-contrast"] .project-image-wrapper:hover {
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* Project icon backgrounds */
+[data-theme="high-contrast"] .project-icon {
+  background: transparent !important;
+  border-color: #ffffff !important;
+}
+
+/* Service icon backgrounds */
+[data-theme="high-contrast"] .service-icon {
+  background: transparent !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .service-icon:hover,
+[data-theme="high-contrast"] .card:hover .service-icon {
+  background: transparent !important;
+}
+
+/* Service title hover glow */
+[data-theme="high-contrast"] .service-title,
+[data-theme="high-contrast"] .card:hover .service-title,
+[data-theme="high-contrast"] .card.float-active .service-title {
+  text-shadow: none !important;
+}
+
+/* Hover underline trigger - disable colored highlight */
+[data-theme="high-contrast"] .hover-underline-trigger::after {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="high-contrast"] .card:hover .hover-underline-trigger,
+[data-theme="high-contrast"] .card.float-active .hover-underline-trigger {
+  color: #ffffff !important;
+}
+
+/* Disable all shadow-neon classes */
+[data-theme="high-contrast"] [class*="shadow-neon-"],
+[data-theme="high-contrast"] [class*="hover:shadow-neon-"]:hover {
+  box-shadow: none !important;
+}
+
+/* Override inline style glow effects (except timeline traveler) */
+[data-theme="high-contrast"] [style*="box-shadow"]:not(.timeline-traveler),
+[data-theme="high-contrast"] [style*="filter"]:not(.timeline-traveler),
+[data-theme="high-contrast"] [style*="drop-shadow"]:not(.timeline-traveler) {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Skill bar glow */
+[data-theme="high-contrast"] .skill-progress {
+  box-shadow: none !important;
+}
+
+/* Timeline traveler (eyes) - greyscale only */
+[data-theme="high-contrast"] .timeline-traveler,
+[data-theme="high-contrast"] .timeline-traveler .eyes-blink {
+  filter: grayscale(100%) !important;
+}
+
+/* Footer social link glow */
+[data-theme="high-contrast"] footer [style*="box-shadow"] {
+  box-shadow: none !important;
 }
 
 /* Neon top borders become white lines */
@@ -168,8 +409,31 @@
   animation: none !important;
 }
 
-/* GitHub heatmap */
+/* GitHub heatmap - greyscale tiles */
 [data-theme="high-contrast"] [class*="bg-neon-green"] {
+  background: #ffffff !important;
+}
+
+/* GitHub contribution heatmap tiles - greyscale */
+[data-theme="high-contrast"] [role="grid"] [role="gridcell"] {
+  filter: grayscale(100%) !important;
+}
+
+/* GitHub heatmap legend tiles */
+[data-theme="high-contrast"] [role="grid"] + div .rounded-sm {
+  filter: grayscale(100%) !important;
+}
+
+/* Also target the legend container */
+[data-theme="high-contrast"] .flex.items-center.justify-end.gap-2 .rounded-sm {
+  filter: grayscale(100%) !important;
+}
+
+/* Language indicator dots - make white */
+[data-theme="high-contrast"] #github .w-3.h-3.rounded-full,
+[data-theme="high-contrast"] #github span > .rounded-full,
+[data-theme="high-contrast"] #github .flex.items-center.gap-1 .rounded-full {
+  background-color: #ffffff !important;
   background: #ffffff !important;
 }
 
@@ -178,10 +442,18 @@
   color: #ffffff !important;
 }
 
-[data-theme="high-contrast"] svg path,
-[data-theme="high-contrast"] svg circle,
-[data-theme="high-contrast"] svg rect {
+/* Only set fill on SVGs that use fill (not stroke-based icons) */
+[data-theme="high-contrast"] svg[fill="currentColor"] path,
+[data-theme="high-contrast"] svg[fill="currentColor"] circle,
+[data-theme="high-contrast"] svg[fill="currentColor"] rect {
   fill: currentColor;
+}
+
+/* Stroke-based icons - preserve stroke, don't fill */
+[data-theme="high-contrast"] svg[fill="none"] path,
+[data-theme="high-contrast"] svg[fill="none"] circle,
+[data-theme="high-contrast"] svg[fill="none"] rect {
+  fill: none !important;
   stroke: currentColor;
 }
 
@@ -200,8 +472,26 @@
   color: #000000 !important;
 }
 
-/* Custom cursor - disable in high contrast */
-[data-theme="high-contrast"] #custom-cursor,
+/* Custom cursor - white in high contrast */
+[data-theme="high-contrast"] #cursor-dot {
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] #cursor-ring {
+  border-color: #ffffff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] #cursor-ring.hovering {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: #ffffff !important;
+}
+
+/* Disable heatmap trail in high contrast */
+[data-theme="high-contrast"] #mouse-heatmap,
+[data-theme="high-contrast"] .heatmap-dot,
 [data-theme="high-contrast"] .heatmap-container {
   display: none !important;
 }
@@ -213,6 +503,24 @@
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
+}
+
+/* Re-enable timeline eyes animations - must come after the disable rule */
+/* Use individual properties to preserve inline animation-delay */
+[data-theme="high-contrast"] .timeline-traveler {
+  animation-name: travel-down !important;
+  animation-duration: 20s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  transition: transform 0.15s ease-out !important;
+}
+
+[data-theme="high-contrast"] .timeline-traveler .eyes-blink {
+  transition: clip-path 0.1s ease-in-out !important;
+}
+
+[data-theme="high-contrast"] .timeline-dot {
+  animation: timeline-dot-pulse 3s ease-in-out infinite !important;
 }
 
 /* Keep essential transitions for usability */
@@ -259,8 +567,210 @@
   filter: grayscale(100%);
 }
 
-/* Theme toggle button styling */
-[data-theme="high-contrast"] #theme-toggle {
+/* Theme toggle button styling - same as secondary buttons */
+[data-theme="high-contrast"] .theme-toggle {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .theme-toggle span,
+[data-theme="high-contrast"] .theme-toggle .theme-label {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .theme-toggle svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .theme-toggle:hover {
   background: #ffffff !important;
   color: #000000 !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 3px #000000 !important;
+}
+
+[data-theme="high-contrast"] .theme-toggle:hover span,
+[data-theme="high-contrast"] .theme-toggle:hover .theme-label,
+[data-theme="high-contrast"] .theme-toggle:hover svg {
+  color: #000000 !important;
+}
+
+/* Theme dropdown menu */
+[data-theme="high-contrast"] .theme-dropdown {
+  background: #000000 !important;
+  border: 1px solid #ffffff !important;
+  backdrop-filter: none !important;
+}
+
+[data-theme="high-contrast"] .theme-dropdown * {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .theme-option {
+  color: #ffffff !important;
+  background: transparent !important;
+  outline: none !important;
+  border: none !important;
+}
+
+[data-theme="high-contrast"] .theme-option:focus {
+  outline: none !important;
+}
+
+[data-theme="high-contrast"] .theme-option:hover,
+[data-theme="high-contrast"] .theme-option:hover * {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast"] .theme-option svg {
+  color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .theme-option:hover svg {
+  color: #000000 !important;
+}
+
+/* Scrollbar - high contrast */
+html[data-theme="high-contrast"],
+html[data-theme="high-contrast"] body,
+html[data-theme="high-contrast"] * {
+  --scrollbar-thumb: #ffffff;
+  --scrollbar-thumb-hover: #aaaaaa;
+  --scrollbar-track: #000000;
+}
+
+html[data-theme="high-contrast"]::-webkit-scrollbar,
+[data-theme="high-contrast"] ::-webkit-scrollbar,
+[data-theme="high-contrast"] *::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+html[data-theme="high-contrast"]::-webkit-scrollbar-track,
+[data-theme="high-contrast"] ::-webkit-scrollbar-track,
+[data-theme="high-contrast"] *::-webkit-scrollbar-track {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
+html[data-theme="high-contrast"]::-webkit-scrollbar-thumb,
+[data-theme="high-contrast"] ::-webkit-scrollbar-thumb,
+[data-theme="high-contrast"] *::-webkit-scrollbar-thumb {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+html[data-theme="high-contrast"]::-webkit-scrollbar-thumb:hover,
+html[data-theme="high-contrast"]::-webkit-scrollbar-thumb:active,
+[data-theme="high-contrast"] ::-webkit-scrollbar-thumb:hover,
+[data-theme="high-contrast"] ::-webkit-scrollbar-thumb:active,
+[data-theme="high-contrast"] *::-webkit-scrollbar-thumb:hover,
+[data-theme="high-contrast"] *::-webkit-scrollbar-thumb:active {
+  background: #aaaaaa !important;
+  background-color: #aaaaaa !important;
+}
+
+/* Firefox scrollbar */
+html[data-theme="high-contrast"] {
+  scrollbar-width: auto !important;
+  scrollbar-color: #ffffff #000000 !important;
+}
+
+[data-theme="high-contrast"] * {
+  scrollbar-color: #ffffff #000000 !important;
+}
+
+/* Nav social icons - prevent color on hover */
+[data-theme="high-contrast"] header a:hover,
+[data-theme="high-contrast"] nav a:hover,
+[data-theme="high-contrast"] header a:hover svg,
+[data-theme="high-contrast"] nav a:hover svg {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+[data-theme="high-contrast"] header a[class*="hover:text-neon-"]:hover,
+[data-theme="high-contrast"] nav a[class*="hover:text-neon-"]:hover,
+[data-theme="high-contrast"] header a[class*="hover:bg-neon-"]:hover,
+[data-theme="high-contrast"] nav a[class*="hover:bg-neon-"]:hover {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+/* Timeline line - remove all glow */
+[data-theme="high-contrast"] .timeline-line,
+[data-theme="high-contrast"] .timeline-gradient,
+[data-theme="high-contrast"] [class*="timeline"] {
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Work experience date chips - white background */
+[data-theme="high-contrast"] #experience .bg-night-700,
+[data-theme="high-contrast"] #experience .rounded-full[class*="bg-night"],
+[data-theme="high-contrast"] #experience span.rounded-full {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Education date chips (year counter) - white background */
+[data-theme="high-contrast"] .year-counter,
+[data-theme="high-contrast"] #experience .year-counter {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Education and certifications skill/language chips - white background */
+[data-theme="high-contrast"] #experience [class*="bg-neon-pink"],
+[data-theme="high-contrast"] #experience [class*="text-neon-pink"].rounded-full,
+[data-theme="high-contrast"] #experience span[class*="px-3"][class*="py-1"],
+[data-theme="high-contrast"] [class*="bg-neon-"][class*="rounded-full"],
+[data-theme="high-contrast"] span[class*="bg-neon-pink/10"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Featured projects chips/tags - white text */
+[data-theme="high-contrast"] .project-tags span,
+[data-theme="high-contrast"] [class*="project"] .rounded-full,
+[data-theme="high-contrast"] #projects .rounded-full,
+[data-theme="high-contrast"] #projects [class*="bg-neon-"],
+[data-theme="high-contrast"] #projects span[class*="px-"] {
+  color: #ffffff !important;
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Contact section social icons - white background */
+[data-theme="high-contrast"] #contact a[href*="github"],
+[data-theme="high-contrast"] #contact a[href*="linkedin"],
+[data-theme="high-contrast"] #contact .social-link,
+[data-theme="high-contrast"] #contact a[class*="rounded-full"],
+[data-theme="high-contrast"] #contact a[class*="border-neon-"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+[data-theme="high-contrast"] #contact a[href*="github"] svg,
+[data-theme="high-contrast"] #contact a[href*="linkedin"] svg,
+[data-theme="high-contrast"] #contact .social-link svg,
+[data-theme="high-contrast"] #contact a[class*="rounded-full"] svg,
+[data-theme="high-contrast"] #contact a[class*="border-neon-"] svg {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast"] #contact a[href*="github"]:hover,
+[data-theme="high-contrast"] #contact a[href*="linkedin"]:hover,
+[data-theme="high-contrast"] #contact .social-link:hover,
+[data-theme="high-contrast"] #contact a[class*="rounded-full"]:hover,
+[data-theme="high-contrast"] #contact a[class*="border-neon-"]:hover {
+  background: #cccccc !important;
 }

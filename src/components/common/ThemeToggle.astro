@@ -1,57 +1,223 @@
 ---
 /**
- * Theme toggle button for switching between normal and high contrast modes
+ * Theme toggle dropdown for selecting between normal, high contrast dark, and high contrast light modes
  */
 ---
 
-<button
-  id="theme-toggle"
-  class="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg border border-gray-600 hover:border-neon-cyan hover:text-neon-cyan transition-colors"
-  aria-label="Toggle high contrast mode"
-  title="Toggle high contrast mode"
->
-  <svg class="w-4 h-4 theme-icon-normal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-  </svg>
-  <svg class="w-4 h-4 theme-icon-contrast hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
-  <span class="hidden sm:inline theme-label">Contrast</span>
-</button>
+<div class="theme-toggle-container relative">
+  <button
+    class="theme-toggle h-10 flex items-center gap-2 px-3 text-sm rounded-lg border border-gray-300 text-gray-300 hover:border-neon-cyan hover:text-neon-cyan transition-colors"
+    aria-label="Select contrast mode"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <!-- Normal theme icon (monitor) -->
+    <svg class="w-5 h-5 theme-icon-normal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+    <!-- High contrast dark icon (half-filled circle) -->
+    <svg class="w-5 h-5 theme-icon-contrast-dark hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <circle cx="12" cy="12" r="9" stroke-width="2" />
+      <path d="M12 3v18a9 9 0 000-18z" fill="currentColor" />
+    </svg>
+    <!-- High contrast light icon (sun) -->
+    <svg class="w-5 h-5 theme-icon-contrast-light hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <span class="theme-label">Contrast</span>
+    <!-- Dropdown arrow -->
+    <svg class="w-4 h-4 ml-1 dropdown-arrow transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu (fixed position to escape overflow-hidden containers) -->
+  <div class="theme-dropdown fixed py-2 min-w-[160px] rounded-lg border border-gray-600 bg-night-900/95 backdrop-blur-sm shadow-lg opacity-0 invisible transition-all duration-200 z-[9999]" style="top: 0; left: 0;">
+    <!-- Normal option -->
+    <button
+      class="theme-option w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors outline-none border-none focus:outline-none"
+      data-theme-value="normal"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      <span>Normal</span>
+      <svg class="w-4 h-4 ml-auto check-icon hidden text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <!-- High Contrast Dark option -->
+    <button
+      class="theme-option w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors outline-none border-none focus:outline-none"
+      data-theme-value="high-contrast"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="12" cy="12" r="9" stroke-width="2" />
+        <path d="M12 3v18a9 9 0 000-18z" fill="currentColor" />
+      </svg>
+      <span>Dark</span>
+      <svg class="w-4 h-4 ml-auto check-icon hidden text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+
+    <!-- High Contrast Light option -->
+    <button
+      class="theme-option w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors outline-none border-none focus:outline-none"
+      data-theme-value="high-contrast-light"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <span>Light</span>
+      <svg class="w-4 h-4 ml-auto check-icon hidden text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+  </div>
+</div>
 
 <script>
-  import { toggleTheme, getTheme } from '../../lib/theme';
+  import { setTheme, getTheme } from '../../lib/theme';
 
-  function initThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
+  function initThemeToggles() {
+    const containers = document.querySelectorAll('.theme-toggle-container');
+    if (containers.length === 0) return;
 
-    const normalIcon = toggle.querySelector('.theme-icon-normal');
-    const contrastIcon = toggle.querySelector('.theme-icon-contrast');
-
-    function updateIcons() {
+    function updateAllIcons() {
       const theme = getTheme();
-      if (theme === 'high-contrast') {
+
+      containers.forEach((container) => {
+        const toggle = container.querySelector('.theme-toggle');
+        if (!toggle) return;
+
+        const normalIcon = toggle.querySelector('.theme-icon-normal');
+        const contrastDarkIcon = toggle.querySelector('.theme-icon-contrast-dark');
+        const contrastLightIcon = toggle.querySelector('.theme-icon-contrast-light');
+
+        // Hide all icons first
         normalIcon?.classList.add('hidden');
-        contrastIcon?.classList.remove('hidden');
-      } else {
-        normalIcon?.classList.remove('hidden');
-        contrastIcon?.classList.add('hidden');
-      }
+        contrastDarkIcon?.classList.add('hidden');
+        contrastLightIcon?.classList.add('hidden');
+
+        // Show appropriate icon
+        if (theme === 'high-contrast') {
+          contrastDarkIcon?.classList.remove('hidden');
+        } else if (theme === 'high-contrast-light') {
+          contrastLightIcon?.classList.remove('hidden');
+        } else {
+          normalIcon?.classList.remove('hidden');
+        }
+
+        // Update checkmarks in dropdown
+        const options = container.querySelectorAll('.theme-option');
+        options.forEach((option) => {
+          const checkIcon = option.querySelector('.check-icon');
+          if ((option as HTMLElement).dataset.themeValue === theme) {
+            checkIcon?.classList.remove('hidden');
+          } else {
+            checkIcon?.classList.add('hidden');
+          }
+        });
+      });
     }
 
-    toggle.addEventListener('click', () => {
-      toggleTheme();
-      updateIcons();
+    function closeAllDropdowns() {
+      containers.forEach((container) => {
+        const toggle = container.querySelector('.theme-toggle');
+        const dropdown = container.querySelector('.theme-dropdown') as HTMLElement;
+        const arrow = toggle?.querySelector('.dropdown-arrow');
+
+        dropdown?.classList.add('opacity-0', 'invisible');
+        dropdown?.classList.remove('opacity-100', 'visible');
+        toggle?.setAttribute('aria-expanded', 'false');
+        arrow?.classList.remove('rotate-180');
+      });
+    }
+
+    function positionDropdown(toggle: Element, dropdown: HTMLElement) {
+      const rect = toggle.getBoundingClientRect();
+      const dropdownWidth = 160; // min-w-[160px]
+
+      // Position below the toggle button, aligned to the right
+      dropdown.style.top = `${rect.bottom + 8}px`;
+      dropdown.style.left = `${rect.right - dropdownWidth}px`;
+    }
+
+    containers.forEach((container) => {
+      const toggle = container.querySelector('.theme-toggle');
+      const dropdown = container.querySelector('.theme-dropdown');
+      const arrow = toggle?.querySelector('.dropdown-arrow');
+      const options = container.querySelectorAll('.theme-option');
+
+      if (!toggle || !dropdown) return;
+
+      // Prevent adding multiple listeners
+      if ((container as HTMLElement).dataset.initialized) return;
+      (container as HTMLElement).dataset.initialized = 'true';
+
+      // Toggle dropdown on button click
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('opacity-100');
+
+        // Close all other dropdowns first
+        closeAllDropdowns();
+
+        if (!isOpen) {
+          // Position the dropdown before showing
+          positionDropdown(toggle, dropdown as HTMLElement);
+          dropdown.classList.remove('opacity-0', 'invisible');
+          dropdown.classList.add('opacity-100', 'visible');
+          toggle.setAttribute('aria-expanded', 'true');
+          arrow?.classList.add('rotate-180');
+        }
+      });
+
+      // Handle option selection
+      options.forEach((option) => {
+        option.addEventListener('click', () => {
+          const theme = (option as HTMLElement).dataset.themeValue as 'normal' | 'high-contrast' | 'high-contrast-light';
+          setTheme(theme);
+          updateAllIcons();
+          closeAllDropdowns();
+        });
+      });
     });
 
-    // Listen for theme changes from other sources
-    window.addEventListener('theme-change', updateIcons);
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as Element;
+      if (!target.closest('.theme-toggle-container')) {
+        closeAllDropdowns();
+      }
+    });
+
+    // Close dropdown on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+      }
+    });
+
+    // Only add window listener once
+    if (!(window as any).__themeChangeListenerAdded) {
+      (window as any).__themeChangeListenerAdded = true;
+      window.addEventListener('theme-change', updateAllIcons);
+    }
 
     // Initial state
-    updateIcons();
+    updateAllIcons();
   }
 
-  initThemeToggle();
-  document.addEventListener('astro:after-swap', initThemeToggle);
+  initThemeToggles();
+  document.addEventListener('astro:after-swap', () => {
+    // Reset initialized flags on page swap
+    document.querySelectorAll('.theme-toggle-container').forEach((container) => {
+      delete (container as HTMLElement).dataset.initialized;
+    });
+    (window as any).__themeChangeListenerAdded = false;
+    initThemeToggles();
+  });
 </script>

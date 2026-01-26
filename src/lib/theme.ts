@@ -1,14 +1,22 @@
 /**
- * Theme utility for toggling between normal and high contrast modes
+ * Theme utility for toggling between normal, high contrast dark, and high contrast light modes
  */
 
-export type Theme = 'normal' | 'high-contrast';
+export type Theme = 'normal' | 'high-contrast' | 'high-contrast-light';
 
 const STORAGE_KEY = 'portfolio-theme';
 
+// Theme cycle order
+const THEME_ORDER: Theme[] = ['normal', 'high-contrast', 'high-contrast-light'];
+
 export function getTheme(): Theme {
   if (typeof window === 'undefined') return 'normal';
-  return (localStorage.getItem(STORAGE_KEY) as Theme) || 'normal';
+  const stored = localStorage.getItem(STORAGE_KEY) as Theme;
+  // Validate stored value is a valid theme
+  if (stored && THEME_ORDER.includes(stored)) {
+    return stored;
+  }
+  return 'normal';
 }
 
 export function setTheme(theme: Theme): void {
@@ -19,7 +27,9 @@ export function setTheme(theme: Theme): void {
 
 export function toggleTheme(): Theme {
   const current = getTheme();
-  const next: Theme = current === 'normal' ? 'high-contrast' : 'normal';
+  const currentIndex = THEME_ORDER.indexOf(current);
+  const nextIndex = (currentIndex + 1) % THEME_ORDER.length;
+  const next = THEME_ORDER[nextIndex];
   setTheme(next);
   return next;
 }

@@ -138,23 +138,23 @@
 
     function positionDropdown(toggle: Element, dropdown: HTMLElement) {
       const rect = toggle.getBoundingClientRect();
-      const dropdownWidth = 160; // min-w-[160px]
       const viewportWidth = window.innerWidth;
+      const dropdownWidth = 160;
 
       // Position below the toggle button
       dropdown.style.top = `${rect.bottom + 8}px`;
 
-      // Try to align right edge of dropdown with right edge of button
-      let left = rect.right - dropdownWidth;
+      // Align left edge of dropdown with left edge of button
+      let left = rect.left;
 
-      // Ensure dropdown doesn't go off the left edge
-      if (left < 8) {
-        left = 8;
+      // If dropdown would go off right edge, align to right edge of button instead
+      if (left + dropdownWidth > viewportWidth - 8) {
+        left = rect.right - dropdownWidth;
       }
 
-      // Ensure dropdown doesn't go off the right edge
-      if (left + dropdownWidth > viewportWidth - 8) {
-        left = viewportWidth - dropdownWidth - 8;
+      // Final check: ensure not off left edge
+      if (left < 8) {
+        left = 8;
       }
 
       dropdown.style.left = `${left}px`;

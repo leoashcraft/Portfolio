@@ -81,6 +81,18 @@ const props = Astro.props;
         btn.addEventListener('click', () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // Arrow wiggle animation every 10 seconds
+        function triggerWiggle() {
+          if (!btn.classList.contains('invisible')) {
+            btn.classList.add('arrow-wiggle');
+            setTimeout(() => {
+              btn.classList.remove('arrow-wiggle');
+            }, 1200); // Animation duration
+          }
+        }
+
+        setInterval(triggerWiggle, 10000);
       }
 
       function initSectionTitleWave() {

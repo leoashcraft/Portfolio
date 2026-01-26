@@ -1585,6 +1585,18 @@ code, pre, kbd {
   clip-path: inset(45% 0 45% 0);
 }
 
+/* Back to top arrow wiggle animation */
+@keyframes arrow-wiggle {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-30deg); }
+  30% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.arrow-wiggle svg {
+  animation: arrow-wiggle 1.2s ease-in-out;
+}
+
 /* Timeline gradient animation */
 @keyframes timeline-gradient-shift {
   0% {

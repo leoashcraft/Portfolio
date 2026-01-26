@@ -47,11 +47,6 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Subtitle Typewriter**: After title animation, subtitle types out character by character with natural delays
 - **Re-triggerable**: Nav link clicks replay the animation for that section
 
-#### About Section Tagline
-- **Rotating Typewriter**: Cycles through first-person phrases with natural typing delays (random variance, extended pauses between words, occasional hesitation)
-- **Final Phrase**: Stops on the last phrase, adds a period, and animates an underline
-- **Blinking Cursor**: Matches hero section cursor style, blinks 3 times then hides after final phrase
-
 #### Subsection Titles
 "What I Offer", "Education & Certifications", and "More Work" also animate:
 - **Wave + Sheen**: Same letter-by-letter animation as main section titles

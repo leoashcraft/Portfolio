@@ -61,12 +61,6 @@ import Icon from '../ui/Icon.astro';
 
       <!-- Bio -->
       <div class="max-w-4xl mx-auto">
-        <h3 id="about-tagline" class="text-lg text-gray-300 mb-4 relative">
-          <span id="tagline-placeholder" class="invisible" aria-hidden="true">I turn ideas into production code</span>
-          <span id="tagline-typewriter" class="absolute left-0 top-0">
-            <span id="tagline-text"></span><span id="tagline-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
-          </span>
-        </h3>
         <div id="about-bio" class="prose prose-lg mb-8 text-gray-300 leading-relaxed">
           {profile.bio.split('\n\n').map((paragraph, i) => (
             <p class="bio-line mb-4">{paragraph}</p>
@@ -238,7 +232,6 @@ import Icon from '../ui/Icon.astro';
 
 <script>
   import { initIconFlips } from '../../lib/icon-flip';
-  import { typePhrase, deletePhrase } from '../../lib/typewriter';
 
   let iconCleanup: () => void;
 
@@ -247,93 +240,11 @@ import Icon from '../ui/Icon.astro';
     iconCleanup = initIconFlips({ selector: '.service-icon' });
   }
 
-  // Rotating tagline typewriter
-  let taglineAnimated = false;
-  let taglineInterval: number | undefined;
-
-  const taglines = [
-    "I build solutions that ship",
-    "I turn ideas into production code",
-    "I make manual workflows obsolete"
-  ];
-
-  function initTaglineTypewriter() {
-    if (taglineAnimated) return;
-
-    const taglineEl = document.getElementById('about-tagline');
-    const textEl = document.getElementById('tagline-text');
-    const cursorEl = document.getElementById('tagline-cursor');
-
-    if (!taglineEl || !textEl || !cursorEl) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !taglineAnimated) {
-            taglineAnimated = true;
-            observer.disconnect();
-
-            setTimeout(() => {
-              cursorEl.classList.remove('hidden');
-
-              // Start bio line animation
-              const bioLines = document.querySelectorAll('.bio-line') as NodeListOf<HTMLElement>;
-              bioLines.forEach((line, i) => {
-                setTimeout(() => {
-                  line.classList.add('grow');
-                  setTimeout(() => line.classList.remove('grow'), 300);
-                }, i * 200);
-              });
-
-              let currentIndex = 0;
-
-              function cycleTagline() {
-                typePhrase(textEl, taglines[currentIndex], () => {
-                  // If this is the last phrase, stop and hide cursor
-                  if (currentIndex === taglines.length - 1) {
-                    setTimeout(() => {
-                      textEl.textContent = textEl.textContent + '.';
-                      cursorEl.style.display = 'none';
-                      textEl.classList.add('animate-underline');
-                    }, 3000); // 3 blinks, add period, underline, then hide
-                    return;
-                  }
-
-                  // Otherwise delete and move to next phrase
-                  setTimeout(() => {
-                    deletePhrase(textEl, () => {
-                      currentIndex++;
-                      setTimeout(cycleTagline, 300);
-                    }, { deleteSpeed: 25 });
-                  }, 2500); // Pause before deleting
-                });
-              }
-
-              cycleTagline();
-            }, 300);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
-    );
-
-    observer.observe(taglineEl);
-  }
-
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initServiceIconFlips();
-      initTaglineTypewriter();
-    });
+    document.addEventListener('DOMContentLoaded', initServiceIconFlips);
   } else {
     initServiceIconFlips();
-    initTaglineTypewriter();
   }
-  document.addEventListener('astro:after-swap', () => {
-    initServiceIconFlips();
-    taglineAnimated = false;
-    if (taglineInterval) clearInterval(taglineInterval);
-    initTaglineTypewriter();
-  });
+  document.addEventListener('astro:after-swap', initServiceIconFlips);
 </script>

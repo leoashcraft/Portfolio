@@ -26,8 +26,8 @@ export const site = {
       title: 'Featured',
       titleHighlight: 'Projects',
       subtitle: 'A selection of work I\'m proud of',
-      otherTitle: 'Other',
-      otherTitleHighlight: 'Projects',
+      otherTitle: 'More',
+      otherTitleHighlight: 'Work',
     },
     contact: {
       title: 'Get In',

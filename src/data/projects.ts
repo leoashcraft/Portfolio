@@ -93,7 +93,7 @@ export const projects: Project[] = [
     description:
       "The #1 Buc-ee's trip planner. Find all locations, plan your route, and never miss the brisket or beaver nuggets.",
     image: '/img/featured/featured-roadtrip.avif',
-    tags: ['React', 'TypeScript', 'Node.js', 'Leaflet'],
+    tags: ['React', 'TypeScript', 'Vite', 'Leaflet'],
     metrics: ['~200 daily visitors', '~15% bounce rate'],
     github: null,
     live: 'https://roadtripbeaver.com',
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     description:
       'Community hub for Corsicana and surrounding areas. Discover local restaurants, events, jobs, and services.',
     image: '/img/featured/featured-navarro.avif',
-    tags: ['React', 'Node.js', 'SQLite', 'TailwindCSS'],
+    tags: ['React', 'Node.js', 'SQLite', 'Tailwind CSS'],
     metrics: ['100% white-label ready', 'Scalable architecture'],
     github: null,
     live: 'https://navarrocounty.com',

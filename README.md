@@ -2,7 +2,7 @@
 
 A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic and thoughtful security measures.
 
-**Live Site:** [ashcraft.tech](https://ashcraft.tech)
+**Live Site:** [leoashcraft.com](https://leoashcraft.com)
 
 ## Tech Stack
 
@@ -20,6 +20,8 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** - Automatic sitemap generation
 - **JSON-LD Structured Data** - Schema.org markup for Person and WebSite
 - **Open Graph & Twitter Cards** - Rich social media previews
+- **Semantic Heading Structure** - Proper h1-h3 hierarchy for document outline
+- **Accessible Hidden Text** - Screen reader content for SEO without visual clutter
 
 ### Performance
 - **[astro-compress](https://github.com/astro-community/astro-compress)** - HTML, CSS, JS, and SVG minification
@@ -44,8 +46,12 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Subtitle Grow**: After title animation, subtitle words grow 103% sequentially
 - **Re-triggerable**: Nav link clicks replay the animation for that section
 
+#### About Section Tagline
+- **Rotating Typewriter**: Cycles through phrases like "Building solutions that ship", "Turning ideas into production code", and "Making manual workflows obsolete"
+- **Blinking Cursor**: Matches hero section cursor style
+
 #### Subsection Titles
-"What I Offer", "Education & Certifications", and "Other Projects" also animate:
+"What I Offer", "Education & Certifications", and "More Work" also animate:
 - **Wave + Sheen**: Same letter-by-letter animation as main section titles
 - **Reset on Navigation**: All three reset when any nav link or back-to-top is clicked
 

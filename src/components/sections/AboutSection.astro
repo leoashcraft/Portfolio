@@ -61,9 +61,11 @@ import Icon from '../ui/Icon.astro';
 
       <!-- Bio -->
       <div class="max-w-4xl mx-auto">
-        <h3 id="about-tagline" class="text-2xl font-bold text-white mb-4 relative" data-text={profile.tagline}>
-          <span class="tagline-placeholder invisible" aria-hidden="true">{profile.tagline}</span>
-          <span class="absolute left-0 top-0"><span class="tagline-text"></span><span class="tagline-cursor hidden">|</span></span>
+        <h3 id="about-tagline" class="text-2xl font-bold text-white mb-4 relative">
+          <span id="tagline-placeholder" class="invisible" aria-hidden="true">Turning ideas into production code</span>
+          <span id="tagline-typewriter" class="absolute left-0 top-0">
+            <span id="tagline-text"></span><span id="tagline-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
+          </span>
         </h3>
         <div id="about-bio" class="prose prose-lg mb-8 text-gray-300 leading-relaxed">
           {profile.bio.split('\n\n').map((paragraph, i) => (
@@ -126,9 +128,9 @@ import Icon from '../ui/Icon.astro';
         {
           skills.map((category) => (
             <div class="card">
-              <h4 class="text-lg font-semibold text-white mb-4">
+              <p class="text-lg font-semibold text-white mb-4">
                 {category.name}
-              </h4>
+              </p>
               <div class="space-y-3">
                 {category.skills.slice(0, 5).map((skill) => (
                   <div>
@@ -214,9 +216,9 @@ import Icon from '../ui/Icon.astro';
                   </svg>
                 )}
               </div>
-              <h4 class="service-title text-lg font-semibold text-white mb-2">
+              <p class="service-title text-lg font-semibold text-white mb-2">
                 {service.title}
-              </h4>
+              </p>
               <p class="text-gray-400 text-sm mb-4" set:html={service.description}></p>
               <ul class="space-y-2">
                 {service.features.map((feature, index) => (
@@ -244,25 +246,25 @@ import Icon from '../ui/Icon.astro';
     iconCleanup = initIconFlips({ selector: '.service-icon' });
   }
 
-  // Tagline typewriter animation - only runs once
+  // Rotating tagline typewriter
   let taglineAnimated = false;
+  let taglineInterval: number | undefined;
+
+  const taglines = [
+    "Building solutions that ship",
+    "Turning ideas into production code",
+    "Making manual workflows obsolete"
+  ];
 
   function initTaglineTypewriter() {
     if (taglineAnimated) return;
 
     const taglineEl = document.getElementById('about-tagline');
-    if (!taglineEl) return;
+    const textEl = document.getElementById('tagline-text');
+    const cursorEl = document.getElementById('tagline-cursor');
 
-    const textSpan = taglineEl.querySelector('.tagline-text') as HTMLElement;
-    const cursorSpan = taglineEl.querySelector('.tagline-cursor') as HTMLElement;
-    const fullText = taglineEl.getAttribute('data-text') || '';
+    if (!taglineEl || !textEl || !cursorEl) return;
 
-    if (!textSpan || !fullText) return;
-
-    const aboutSection = document.getElementById('about');
-    if (!aboutSection) return;
-
-    // Observe the tagline element directly instead of the whole section
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -270,66 +272,70 @@ import Icon from '../ui/Icon.astro';
             taglineAnimated = true;
             observer.disconnect();
 
-            // Start typewriter and bio animation together
             setTimeout(() => {
-              if (cursorSpan) cursorSpan.style.display = 'inline-block';
-              let charIndex = 0;
-              const typeSpeed = 50;
-
-              // Start bio line grow animation at same time as typewriter
+              cursorEl.classList.remove('hidden');
+              
+              // Start bio line animation
               const bioLines = document.querySelectorAll('.bio-line') as NodeListOf<HTMLElement>;
               bioLines.forEach((line, i) => {
                 setTimeout(() => {
                   line.classList.add('grow');
-                  setTimeout(() => {
-                    line.classList.remove('grow');
-                  }, 300);
+                  setTimeout(() => line.classList.remove('grow'), 300);
                 }, i * 200);
               });
 
-              function typeChar() {
-                if (charIndex < fullText.length) {
-                  textSpan.textContent = fullText.slice(0, charIndex + 1);
-                  charIndex++;
-                  setTimeout(typeChar, typeSpeed);
-                } else {
-                  // Wrap "Digital Excellence" in a span for animation
-                  const html = textSpan.innerHTML;
-                  textSpan.innerHTML = html.replace(
-                    'Digital Excellence',
-                    '<span class="excellence-pop" style="display: inline-block; transition: transform 0.5s ease-in-out;">Digital Excellence</span>'
-                  );
+              let currentIndex = 0;
 
-                  // Animate "Excellence" while cursor is still blinking
-                  setTimeout(() => {
-                    const excellenceSpan = textSpan.querySelector('.excellence-pop') as HTMLElement;
-                    if (excellenceSpan) {
-                      excellenceSpan.style.transform = 'scale(1.02)';
-                      setTimeout(() => {
-                        excellenceSpan.style.transform = 'scale(1)';
-                      }, 500);
-                    }
-                  }, 500);
+              function typePhrase(phrase: string, onComplete: () => void) {
+                let charIndex = 0;
+                const typeSpeed = 40;
 
-                  // Let cursor blink 1 time then hide
-                  setTimeout(() => {
-                    if (cursorSpan) cursorSpan.style.display = 'none';
-                  }, 1000);
+                function typeChar() {
+                  if (charIndex < phrase.length) {
+                    textEl.textContent = phrase.slice(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(typeChar, typeSpeed);
+                  } else {
+                    onComplete();
+                  }
                 }
+                typeChar();
               }
 
-              typeChar();
+              function deletePhrase(onComplete: () => void) {
+                const deleteSpeed = 25;
+
+                function deleteChar() {
+                  const current = textEl.textContent || '';
+                  if (current.length > 0) {
+                    textEl.textContent = current.slice(0, -1);
+                    setTimeout(deleteChar, deleteSpeed);
+                  } else {
+                    onComplete();
+                  }
+                }
+                deleteChar();
+              }
+
+              function cycleTagline() {
+                typePhrase(taglines[currentIndex], () => {
+                  setTimeout(() => {
+                    deletePhrase(() => {
+                      currentIndex = (currentIndex + 1) % taglines.length;
+                      setTimeout(cycleTagline, 300);
+                    });
+                  }, 2500); // Pause before deleting
+                });
+              }
+
+              cycleTagline();
             }, 300);
           }
         });
       },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -5% 0px'
-      }
+      { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
     );
 
-    // Observe the tagline element directly for more reliable triggering
     observer.observe(taglineEl);
   }
 
@@ -346,6 +352,7 @@ import Icon from '../ui/Icon.astro';
   document.addEventListener('astro:after-swap', () => {
     initServiceIconFlips();
     taglineAnimated = false;
+    if (taglineInterval) clearInterval(taglineInterval);
     initTaglineTypewriter();
   });
 </script>

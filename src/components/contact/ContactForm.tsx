@@ -127,7 +127,7 @@ export default function ContactForm() {
       {/* Error Message */}
       {status === 'error' && (
         <div
-          className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm"
+          className="p-4 rounded-xl text-sm bg-red-500/10 border border-red-500/30 text-red-400"
           role="alert"
         >
           {errorMessage}
@@ -137,7 +137,7 @@ export default function ContactForm() {
       {/* Success Message */}
       {status === 'success' && (
         <div
-          className="p-4 bg-neon-green/10 border border-neon-green/30 rounded-xl text-neon-green text-sm"
+          className="p-4 rounded-xl text-sm bg-neon-green/10 border border-neon-green/30 text-neon-green"
           role="status"
         >
           Thanks for reaching out! I'll get back to you soon.

@@ -39,10 +39,19 @@
 
 /* Hide decorative bg-neon elements but not interactive ones */
 [data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot),
-[data-theme="high-contrast"] span[class*="bg-neon-"]:not(.rounded-full) {
+[data-theme="high-contrast"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
+}
+
+/* Typewriter cursor - white in high contrast */
+[data-theme="high-contrast"] #typewriter-cursor {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
 }
 
 /* Timeline dots - make visible and white */

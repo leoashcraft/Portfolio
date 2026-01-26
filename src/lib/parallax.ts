@@ -1,5 +1,6 @@
 /**
  * Parallax utility for decorative elements
+ * Uses the separate 'translate' CSS property to avoid conflicts with CSS animation transforms
  */
 
 export interface ParallaxElement {
@@ -22,7 +23,7 @@ export function initSectionParallax(sectionId: string) {
   let ticking = false;
 
   function updateParallax() {
-    const rect = section.getBoundingClientRect();
+    const rect = section!.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
     // Only apply parallax when section is in view
@@ -32,10 +33,12 @@ export function initSectionParallax(sectionId: string) {
       parallaxElements.forEach((el) => {
         const speed = parseFloat(el.dataset.parallax || '0.5');
         const direction = el.dataset.parallaxDir === 'down' ? 1 : -1;
-        const yOffset = (scrollProgress - 0.5) * speed * 200 * direction;
-        const xOffset = parseFloat(el.dataset.parallaxX || '0') * (scrollProgress - 0.5) * 100;
+        // Doubled multipliers for more pronounced effect
+        const yOffset = (scrollProgress - 0.5) * speed * 800 * direction;
+        const xOffset = parseFloat(el.dataset.parallaxX || '0') * (scrollProgress - 0.5) * 400;
 
-        el.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        // Use 'translate' property instead of 'transform' to not conflict with CSS animations
+        el.style.translate = `${xOffset}px ${yOffset}px`;
       });
     }
     ticking = false;

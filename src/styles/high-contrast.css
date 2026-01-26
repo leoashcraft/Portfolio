@@ -533,6 +533,11 @@
   animation: timeline-dot-pulse 3s ease-in-out infinite !important;
 }
 
+/* Typewriter cursor blink animation - must be after animation disable rule */
+[data-theme="high-contrast"] #typewriter-cursor {
+  animation: cursor-blink 1s step-end infinite !important;
+}
+
 /* Keep essential transitions for usability */
 [data-theme="high-contrast"] .btn,
 [data-theme="high-contrast"] a {

@@ -15,10 +15,9 @@
     <svg class="w-5 h-5 theme-icon-normal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
     </svg>
-    <!-- High contrast dark icon (half-filled circle) -->
+    <!-- High contrast dark icon (moon) -->
     <svg class="w-5 h-5 theme-icon-contrast-dark hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <circle cx="12" cy="12" r="9" stroke-width="2" />
-      <path d="M12 3v18a9 9 0 000-18z" fill="currentColor" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
     </svg>
     <!-- High contrast light icon (sun) -->
     <svg class="w-5 h-5 theme-icon-contrast-light hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,8 +52,7 @@
       data-theme-value="high-contrast"
     >
       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <circle cx="12" cy="12" r="9" stroke-width="2" />
-        <path d="M12 3v18a9 9 0 000-18z" fill="currentColor" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
       </svg>
       <span>Dark</span>
       <svg class="w-4 h-4 ml-auto check-icon hidden text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,6 +86,7 @@
     function updateAllIcons() {
       const theme = getTheme();
 
+      // Update toggle button icons
       containers.forEach((container) => {
         const toggle = container.querySelector('.theme-toggle');
         if (!toggle) return;
@@ -109,28 +108,29 @@
         } else {
           normalIcon?.classList.remove('hidden');
         }
+      });
 
-        // Update checkmarks in dropdown
-        const options = container.querySelectorAll('.theme-option');
-        options.forEach((option) => {
-          const checkIcon = option.querySelector('.check-icon');
-          if ((option as HTMLElement).dataset.themeValue === theme) {
-            checkIcon?.classList.remove('hidden');
-          } else {
-            checkIcon?.classList.add('hidden');
-          }
-        });
+      // Update checkmarks in all dropdowns (now in body)
+      document.querySelectorAll('.theme-option').forEach((option) => {
+        const checkIcon = option.querySelector('.check-icon');
+        if ((option as HTMLElement).dataset.themeValue === theme) {
+          checkIcon?.classList.remove('hidden');
+        } else {
+          checkIcon?.classList.add('hidden');
+        }
       });
     }
 
     function closeAllDropdowns() {
+      // Close all dropdowns (now in body)
+      document.querySelectorAll('.theme-dropdown').forEach((dropdown) => {
+        dropdown.classList.add('opacity-0', 'invisible');
+        dropdown.classList.remove('opacity-100', 'visible');
+      });
+      // Reset all toggle buttons
       containers.forEach((container) => {
         const toggle = container.querySelector('.theme-toggle');
-        const dropdown = container.querySelector('.theme-dropdown') as HTMLElement;
         const arrow = toggle?.querySelector('.dropdown-arrow');
-
-        dropdown?.classList.add('opacity-0', 'invisible');
-        dropdown?.classList.remove('opacity-100', 'visible');
         toggle?.setAttribute('aria-expanded', 'false');
         arrow?.classList.remove('rotate-180');
       });
@@ -162,7 +162,7 @@
 
     containers.forEach((container) => {
       const toggle = container.querySelector('.theme-toggle');
-      const dropdown = container.querySelector('.theme-dropdown');
+      const dropdown = container.querySelector('.theme-dropdown') as HTMLElement;
       const arrow = toggle?.querySelector('.dropdown-arrow');
       const options = container.querySelectorAll('.theme-option');
 
@@ -171,6 +171,11 @@
       // Prevent adding multiple listeners
       if ((container as HTMLElement).dataset.initialized) return;
       (container as HTMLElement).dataset.initialized = 'true';
+
+      // Move dropdown to body to escape backdrop-filter container
+      if (dropdown.parentElement !== document.body) {
+        document.body.appendChild(dropdown);
+      }
 
       // Toggle dropdown on button click
       toggle.addEventListener('click', (e) => {
@@ -181,8 +186,13 @@
         closeAllDropdowns();
 
         if (!isOpen) {
-          // Position the dropdown before showing
-          positionDropdown(toggle, dropdown as HTMLElement);
+          // Disable transition, position, then re-enable to prevent flying animation
+          dropdown.style.transition = 'none';
+          positionDropdown(toggle, dropdown);
+          // Force reflow to apply position before transition
+          dropdown.offsetHeight;
+          dropdown.style.transition = '';
+
           dropdown.classList.remove('opacity-0', 'invisible');
           dropdown.classList.add('opacity-100', 'visible');
           toggle.setAttribute('aria-expanded', 'true');

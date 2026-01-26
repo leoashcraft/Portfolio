@@ -181,12 +181,14 @@ import Icon from '../ui/Icon.astro';
 
 <script>
   import { initTimelineEyes } from '../../lib/timeline-eyes';
+  import { initSectionParallax } from '../../lib/parallax';
 
   let cleanup: (() => void) | undefined;
 
   function init() {
     cleanup?.();
     cleanup = initTimelineEyes();
+    initSectionParallax('experience');
   }
 
   init();

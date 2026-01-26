@@ -1,0 +1,53 @@
+/**
+ * Parallax utility for decorative elements
+ */
+
+export interface ParallaxElement {
+  element: HTMLElement;
+  speed: number;
+  direction: 'up' | 'down';
+}
+
+export function initSectionParallax(sectionId: string) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  const parallaxElements = section.querySelectorAll('[data-parallax]') as NodeListOf<HTMLElement>;
+  if (parallaxElements.length === 0) return;
+
+  let ticking = false;
+
+  function updateParallax() {
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // Only apply parallax when section is in view
+    if (rect.top < windowHeight && rect.bottom > 0) {
+      const scrollProgress = (windowHeight - rect.top) / (windowHeight + rect.height);
+
+      parallaxElements.forEach((el) => {
+        const speed = parseFloat(el.dataset.parallax || '0.5');
+        const direction = el.dataset.parallaxDir === 'down' ? 1 : -1;
+        const yOffset = (scrollProgress - 0.5) * speed * 200 * direction;
+        const xOffset = parseFloat(el.dataset.parallaxX || '0') * (scrollProgress - 0.5) * 100;
+
+        el.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Initial call
+  updateParallax();
+}

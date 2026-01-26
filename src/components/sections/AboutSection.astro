@@ -232,6 +232,7 @@ import Icon from '../ui/Icon.astro';
 
 <script>
   import { initIconFlips } from '../../lib/icon-flip';
+  import { initSectionParallax } from '../../lib/parallax';
 
   let iconCleanup: () => void;
 
@@ -240,11 +241,16 @@ import Icon from '../ui/Icon.astro';
     iconCleanup = initIconFlips({ selector: '.service-icon' });
   }
 
+  function initAbout() {
+    initServiceIconFlips();
+    initSectionParallax('about');
+  }
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initServiceIconFlips);
+    document.addEventListener('DOMContentLoaded', initAbout);
   } else {
-    initServiceIconFlips();
+    initAbout();
   }
-  document.addEventListener('astro:after-swap', initServiceIconFlips);
+  document.addEventListener('astro:after-swap', initAbout);
 </script>

@@ -11,62 +11,62 @@ interface Props {
 const { variant } = Astro.props;
 ---
 
-<div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+<div class="absolute inset-0 pointer-events-none overflow-hidden arcade-decorations" aria-hidden="true" data-section={variant}>
   {variant === 'about' && (
     <>
-      {/* Glowing orbs */}
-      <div class="absolute top-20 left-10 w-64 h-64 rounded-full bg-neon-pink/10 blur-3xl"></div>
-      <div class="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-neon-purple/10 blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/3 w-48 h-48 rounded-full bg-neon-yellow/5 blur-2xl"></div>
+      {/* Glowing orbs with parallax */}
+      <div class="absolute top-20 left-10 w-64 h-64 rounded-full bg-neon-pink/10 blur-3xl will-change-transform" data-parallax="0.3"></div>
+      <div class="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-neon-purple/10 blur-3xl will-change-transform" data-parallax="0.5" data-parallax-dir="down"></div>
+      <div class="absolute top-1/2 left-1/3 w-48 h-48 rounded-full bg-neon-yellow/5 blur-2xl will-change-transform" data-parallax="0.4"></div>
 
-      {/* Geometric shapes */}
-      <div class="absolute top-32 right-[15%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-pink/40 drift-1"></div>
-      <div class="absolute top-[60%] left-[8%] w-6 h-6 border-2 border-neon-yellow/50 rotate-45 drift-2"></div>
-      <div class="absolute bottom-32 right-[25%] w-8 h-8 border-2 border-neon-green/40 rounded-full drift-slow spin-slow"></div>
-      <div class="absolute top-[40%] right-[5%] w-5 h-5 bg-neon-orange/30 rotate-45 drift-3"></div>
-      <div class="absolute bottom-[20%] left-[12%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/30 drift-diagonal"></div>
+      {/* Geometric shapes with parallax */}
+      <div class="absolute top-32 right-[15%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-pink/40 will-change-transform" data-parallax="0.8" data-parallax-x="0.3"></div>
+      <div class="absolute top-[60%] left-[8%] w-6 h-6 border-2 border-neon-yellow/50 rotate-45 will-change-transform" data-parallax="0.6" data-parallax-dir="down"></div>
+      <div class="absolute bottom-32 right-[25%] w-8 h-8 border-2 border-neon-green/40 rounded-full spin-slow will-change-transform" data-parallax="0.7"></div>
+      <div class="absolute top-[40%] right-[5%] w-5 h-5 bg-neon-orange/30 rotate-45 will-change-transform" data-parallax="0.5" data-parallax-x="-0.2"></div>
+      <div class="absolute bottom-[20%] left-[12%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/30 will-change-transform" data-parallax="0.9" data-parallax-dir="down"></div>
 
       {/* Zigzag line */}
-      <svg class="absolute top-[30%] left-[3%] w-16 h-8 text-neon-orange/40 drift-slow" viewBox="0 0 64 32">
+      <svg class="absolute top-[30%] left-[3%] w-16 h-8 text-neon-orange/40 will-change-transform" data-parallax="0.4" data-parallax-x="0.5" viewBox="0 0 64 32">
         <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
 
       {/* Circle ring */}
-      <div class="absolute bottom-[40%] right-[8%] w-12 h-12 border-2 border-neon-pink/30 rounded-full drift-2"></div>
+      <div class="absolute bottom-[40%] right-[8%] w-12 h-12 border-2 border-neon-pink/30 rounded-full will-change-transform" data-parallax="0.6" data-parallax-x="-0.3"></div>
     </>
   )}
 
   {variant === 'projects' && (
     <>
-      {/* Glowing orbs */}
-      <div class="absolute top-40 left-10 w-80 h-80 rounded-full bg-neon-pink/8 blur-3xl"></div>
-      <div class="absolute bottom-60 right-10 w-72 h-72 rounded-full bg-neon-purple/10 blur-3xl"></div>
-      <div class="absolute top-1/3 right-1/3 w-56 h-56 rounded-full bg-neon-yellow/5 blur-3xl"></div>
-      <div class="absolute bottom-20 left-1/4 w-48 h-48 rounded-full bg-neon-orange/5 blur-2xl"></div>
+      {/* Glowing orbs with parallax */}
+      <div class="absolute top-40 left-10 w-80 h-80 rounded-full bg-neon-pink/8 blur-3xl will-change-transform" data-parallax="0.4"></div>
+      <div class="absolute bottom-60 right-10 w-72 h-72 rounded-full bg-neon-purple/10 blur-3xl will-change-transform" data-parallax="0.3" data-parallax-dir="down"></div>
+      <div class="absolute top-1/3 right-1/3 w-56 h-56 rounded-full bg-neon-yellow/5 blur-3xl will-change-transform" data-parallax="0.5"></div>
+      <div class="absolute bottom-20 left-1/4 w-48 h-48 rounded-full bg-neon-orange/5 blur-2xl will-change-transform" data-parallax="0.6" data-parallax-dir="down"></div>
 
-      {/* Geometric shapes */}
-      <div class="absolute top-28 right-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-pink/35 wobble"></div>
-      <div class="absolute top-[25%] left-[5%] w-8 h-8 border-2 border-neon-yellow/40 rounded-full drift-1 spin-slow"></div>
-      <div class="absolute top-[45%] right-[4%] w-6 h-6 bg-neon-green/25 rotate-45 float-rotate"></div>
-      <div class="absolute bottom-[35%] left-[7%] w-7 h-7 border-2 border-neon-purple/35 rotate-45 sway"></div>
-      <div class="absolute top-[65%] right-[10%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/40 drift-2"></div>
-      <div class="absolute bottom-28 left-[15%] w-5 h-5 border-2 border-neon-pink/30 rounded-full pulse-drift"></div>
+      {/* Geometric shapes with parallax */}
+      <div class="absolute top-28 right-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-pink/35 will-change-transform" data-parallax="0.9" data-parallax-x="0.4"></div>
+      <div class="absolute top-[25%] left-[5%] w-8 h-8 border-2 border-neon-yellow/40 rounded-full spin-slow will-change-transform" data-parallax="0.7"></div>
+      <div class="absolute top-[45%] right-[4%] w-6 h-6 bg-neon-green/25 rotate-45 will-change-transform" data-parallax="0.5" data-parallax-x="-0.3"></div>
+      <div class="absolute bottom-[35%] left-[7%] w-7 h-7 border-2 border-neon-purple/35 rotate-45 will-change-transform" data-parallax="0.8" data-parallax-dir="down"></div>
+      <div class="absolute top-[65%] right-[10%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/40 will-change-transform" data-parallax="0.6"></div>
+      <div class="absolute bottom-28 left-[15%] w-5 h-5 border-2 border-neon-pink/30 rounded-full will-change-transform" data-parallax="0.7" data-parallax-x="0.2"></div>
 
-      {/* Zigzag patterns */}
-      <svg class="absolute top-[20%] left-[2%] w-20 h-10 text-neon-purple/30 drift-slow" viewBox="0 0 80 40">
+      {/* Zigzag patterns with parallax */}
+      <svg class="absolute top-[20%] left-[2%] w-20 h-10 text-neon-purple/30 will-change-transform" data-parallax="0.5" data-parallax-x="0.4" viewBox="0 0 80 40">
         <path d="M0 20 L20 0 L40 20 L60 0 L80 20" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
-      <svg class="absolute bottom-[25%] right-[3%] w-16 h-8 text-neon-yellow/25 sway" viewBox="0 0 64 32">
+      <svg class="absolute bottom-[25%] right-[3%] w-16 h-8 text-neon-yellow/25 will-change-transform" data-parallax="0.4" data-parallax-x="-0.3" viewBox="0 0 64 32">
         <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
 
       {/* Squiggly line */}
-      <svg class="absolute top-[55%] left-[3%] w-8 h-16 text-neon-green/30 wobble" viewBox="0 0 32 64">
+      <svg class="absolute top-[55%] left-[3%] w-8 h-16 text-neon-green/30 will-change-transform" data-parallax="0.6" viewBox="0 0 32 64">
         <path d="M16 0 Q0 16 16 32 Q32 48 16 64" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
 
-      {/* Concentric circles */}
-      <div class="absolute top-[75%] right-[6%] drift-3">
+      {/* Concentric circles with parallax */}
+      <div class="absolute top-[75%] right-[6%] will-change-transform" data-parallax="0.8" data-parallax-x="-0.2">
         <div class="w-14 h-14 border-2 border-neon-pink/20 rounded-full spin-slow"></div>
         <div class="absolute top-2 left-2 w-10 h-10 border-2 border-neon-pink/30 rounded-full"></div>
         <div class="absolute top-4 left-4 w-6 h-6 border-2 border-neon-pink/40 rounded-full"></div>
@@ -76,61 +76,63 @@ const { variant } = Astro.props;
 
   {variant === 'experience' && (
     <>
-      {/* Glowing orbs */}
-      <div class="absolute top-32 right-10 w-72 h-72 rounded-full bg-neon-purple/8 blur-3xl"></div>
-      <div class="absolute bottom-20 left-20 w-64 h-64 rounded-full bg-neon-green/5 blur-3xl"></div>
-      <div class="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-neon-orange/5 blur-2xl"></div>
+      {/* Glowing orbs with parallax */}
+      <div class="absolute top-32 right-10 w-72 h-72 rounded-full bg-neon-purple/8 blur-3xl will-change-transform" data-parallax="0.3"></div>
+      <div class="absolute bottom-20 left-20 w-64 h-64 rounded-full bg-neon-green/5 blur-3xl will-change-transform" data-parallax="0.4" data-parallax-dir="down"></div>
+      <div class="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-neon-orange/5 blur-2xl will-change-transform" data-parallax="0.5"></div>
 
-      {/* Geometric shapes */}
-      <div class="absolute top-24 left-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-yellow/40 drift-2"></div>
-      <div class="absolute top-[35%] right-[6%] w-7 h-7 border-2 border-neon-pink/40 rounded-full pulse-drift"></div>
-      <div class="absolute bottom-[30%] left-[5%] w-5 h-5 bg-neon-purple/30 rotate-45 drift-1"></div>
-      <div class="absolute top-[70%] right-[12%] w-6 h-6 border-2 border-neon-green/30 rotate-45 drift-3"></div>
-      <div class="absolute bottom-24 right-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/35 drift-diagonal"></div>
+      {/* Geometric shapes with parallax */}
+      <div class="absolute top-24 left-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-yellow/40 will-change-transform" data-parallax="0.7" data-parallax-x="0.3"></div>
+      <div class="absolute top-[35%] right-[6%] w-7 h-7 border-2 border-neon-pink/40 rounded-full spin-slow will-change-transform" data-parallax="0.6" data-parallax-x="-0.2"></div>
+      <div class="absolute bottom-[30%] left-[5%] w-5 h-5 bg-neon-purple/30 rotate-45 will-change-transform" data-parallax="0.8" data-parallax-dir="down"></div>
+      <div class="absolute top-[70%] right-[12%] w-6 h-6 border-2 border-neon-green/30 rotate-45 will-change-transform" data-parallax="0.5" data-parallax-x="-0.3"></div>
+      <div class="absolute bottom-24 right-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/35 will-change-transform" data-parallax="0.9" data-parallax-dir="down"></div>
 
-      {/* Squiggly line */}
-      <svg class="absolute top-[45%] right-[3%] w-12 h-20 text-neon-pink/30 drift-slow" viewBox="0 0 48 80">
+      {/* Squiggly line with parallax */}
+      <svg class="absolute top-[45%] right-[3%] w-12 h-20 text-neon-pink/30 will-change-transform" data-parallax="0.6" data-parallax-x="-0.4" viewBox="0 0 48 80">
         <path d="M24 0 Q0 20 24 40 Q48 60 24 80" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
 
-      {/* Double circles */}
-      <div class="absolute bottom-[50%] left-[4%] w-10 h-10 border-2 border-neon-yellow/25 rounded-full drift-2 spin-slow"></div>
-      <div class="absolute bottom-[48%] left-[5%] w-6 h-6 border-2 border-neon-yellow/35 rounded-full drift-2"></div>
+      {/* Double circles with parallax */}
+      <div class="absolute bottom-[50%] left-[4%] will-change-transform" data-parallax="0.7" data-parallax-x="0.2">
+        <div class="w-10 h-10 border-2 border-neon-yellow/25 rounded-full spin-slow"></div>
+        <div class="absolute top-2 left-1 w-6 h-6 border-2 border-neon-yellow/35 rounded-full"></div>
+      </div>
     </>
   )}
 
   {variant === 'contact' && (
     <>
-      {/* Glowing orbs */}
-      <div class="absolute top-20 right-20 w-72 h-72 rounded-full bg-neon-pink/10 blur-3xl"></div>
-      <div class="absolute bottom-32 left-10 w-64 h-64 rounded-full bg-neon-purple/10 blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 w-48 h-48 rounded-full bg-neon-green/5 blur-2xl -translate-x-1/2"></div>
+      {/* Glowing orbs with parallax */}
+      <div class="absolute top-20 right-20 w-72 h-72 rounded-full bg-neon-pink/10 blur-3xl will-change-transform" data-parallax="0.3"></div>
+      <div class="absolute bottom-32 left-10 w-64 h-64 rounded-full bg-neon-purple/10 blur-3xl will-change-transform" data-parallax="0.4" data-parallax-dir="down"></div>
+      <div class="absolute top-1/2 left-1/2 w-48 h-48 rounded-full bg-neon-green/5 blur-2xl -translate-x-1/2 will-change-transform" data-parallax="0.5"></div>
 
-      {/* Geometric shapes */}
-      <div class="absolute top-32 left-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-yellow/40 wobble"></div>
-      <div class="absolute top-[40%] right-[5%] w-8 h-8 border-2 border-neon-pink/35 rounded-full pulse-drift"></div>
-      <div class="absolute bottom-[30%] left-[6%] w-6 h-6 bg-neon-orange/30 rotate-45 float-rotate"></div>
-      <div class="absolute top-[60%] right-[12%] w-0 h-0 border-l-[11px] border-l-transparent border-r-[11px] border-r-transparent border-b-[19px] border-b-neon-purple/35 drift-1"></div>
-      <div class="absolute bottom-24 right-[8%] w-5 h-5 border-2 border-neon-green/40 rotate-45 sway"></div>
+      {/* Geometric shapes with parallax */}
+      <div class="absolute top-32 left-[8%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-neon-yellow/40 will-change-transform" data-parallax="0.8" data-parallax-x="0.3"></div>
+      <div class="absolute top-[40%] right-[5%] w-8 h-8 border-2 border-neon-pink/35 rounded-full spin-slow will-change-transform" data-parallax="0.6" data-parallax-x="-0.2"></div>
+      <div class="absolute bottom-[30%] left-[6%] w-6 h-6 bg-neon-orange/30 rotate-45 will-change-transform" data-parallax="0.7" data-parallax-dir="down"></div>
+      <div class="absolute top-[60%] right-[12%] w-0 h-0 border-l-[11px] border-l-transparent border-r-[11px] border-r-transparent border-b-[19px] border-b-neon-purple/35 will-change-transform" data-parallax="0.5" data-parallax-x="-0.3"></div>
+      <div class="absolute bottom-24 right-[8%] w-5 h-5 border-2 border-neon-green/40 rotate-45 will-change-transform" data-parallax="0.9" data-parallax-dir="down"></div>
 
-      {/* Lightning bolt */}
-      <svg class="absolute top-[25%] right-[4%] w-6 h-12 text-neon-yellow/40 drift-2" viewBox="0 0 24 48">
+      {/* Lightning bolt with parallax */}
+      <svg class="absolute top-[25%] right-[4%] w-6 h-12 text-neon-yellow/40 will-change-transform" data-parallax="0.7" data-parallax-x="-0.4" viewBox="0 0 24 48">
         <path d="M12 0 L4 20 L12 20 L8 48 L20 24 L12 24 Z" fill="currentColor"/>
       </svg>
 
-      {/* Squiggly line */}
-      <svg class="absolute bottom-[40%] left-[3%] w-10 h-20 text-neon-pink/30 wobble" viewBox="0 0 40 80">
+      {/* Squiggly line with parallax */}
+      <svg class="absolute bottom-[40%] left-[3%] w-10 h-20 text-neon-pink/30 will-change-transform" data-parallax="0.6" data-parallax-x="0.3" viewBox="0 0 40 80">
         <path d="M20 0 Q0 20 20 40 Q40 60 20 80" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
 
-      {/* Concentric circles */}
-      <div class="absolute top-[70%] left-[10%] drift-3">
+      {/* Concentric circles with parallax */}
+      <div class="absolute top-[70%] left-[10%] will-change-transform" data-parallax="0.8" data-parallax-x="0.2">
         <div class="w-12 h-12 border-2 border-neon-purple/20 rounded-full spin-slow"></div>
         <div class="absolute top-2 left-2 w-8 h-8 border-2 border-neon-purple/30 rounded-full"></div>
       </div>
 
-      {/* Zigzag */}
-      <svg class="absolute top-[15%] left-[15%] w-16 h-8 text-neon-orange/30 drift-slow" viewBox="0 0 64 32">
+      {/* Zigzag with parallax */}
+      <svg class="absolute top-[15%] left-[15%] w-16 h-8 text-neon-orange/30 will-change-transform" data-parallax="0.4" data-parallax-x="0.5" viewBox="0 0 64 32">
         <path d="M0 16 L16 0 L32 16 L48 0 L64 16" fill="none" stroke="currentColor" stroke-width="2"/>
       </svg>
     </>

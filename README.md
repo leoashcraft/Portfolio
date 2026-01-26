@@ -88,7 +88,9 @@ Each section features floating geometric shapes inspired by 80s arcade carpet pa
 - Triangles, squares, circles, and diamond shapes
 - Zigzag and squiggly SVG patterns
 - Glowing orbs with blur effects
-- Various drift, wobble, spin, and pulse animations
+- Parallax scrolling with configurable speed and direction
+- GPU-accelerated transforms with `will-change-transform`
+- Respects `prefers-reduced-motion` accessibility preference
 
 #### Custom Cursor & Mouse Heatmap (Desktop)
 - **Custom Cursor**: Neon cyan dot with trailing ring that expands on interactive elements
@@ -155,7 +157,9 @@ src/
 ├── lib/
 │   ├── contact.ts       # Email/phone unscrambling utilities
 │   ├── icon-flip.ts     # Shared icon flip animation logic
-│   └── timeline-eyes.ts # Timeline eye direction & blink logic
+│   ├── parallax.ts      # Section-based parallax for decorations
+│   ├── timeline-eyes.ts # Timeline eye direction & blink logic
+│   └── typewriter.ts    # Natural typing delay utilities
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
 │   └── index.astro      # Single-page portfolio

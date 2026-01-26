@@ -8,12 +8,13 @@ import { heroTitles } from '../../data/hero';
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
   aria-label="Introduction"
 >
-  <!-- Graffiti background image (lowest layer) -->
-  <div class="absolute inset-0 -z-30 overflow-hidden" aria-hidden="true">
+  <!-- Graffiti background image (lowest layer) with parallax -->
+  <div id="hero-parallax-container" class="absolute inset-0 -z-30 overflow-hidden" aria-hidden="true">
     <img
+      id="hero-parallax-bg"
       src="/img/graffiti-bg.avif"
       alt=""
-      class="absolute inset-0 w-[120%] h-[120%] lg:w-[150%] lg:h-[150%] object-cover object-[60%_35%] sm:object-[70%_45%] md:object-[35%_65%] lg:object-[45%_20%]"
+      class="absolute inset-0 w-[120%] h-[120%] lg:w-[150%] lg:h-[150%] object-cover object-[60%_35%] sm:object-[70%_45%] md:object-[35%_65%] lg:object-[45%_20%] will-change-transform"
     />
   </div>
 
@@ -397,16 +398,51 @@ import { heroTitles } from '../../data/hero';
     });
   }
 
+  // Parallax effect for hero background
+  function initParallax() {
+    const parallaxBg = document.getElementById('hero-parallax-bg');
+    const heroSection = document.getElementById('home');
+    if (!parallaxBg || !heroSection) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      const heroHeight = heroSection.offsetHeight;
+
+      // Only apply parallax while in or near the hero section
+      if (scrollY <= heroHeight * 1.5) {
+        const parallaxSpeed = 0.6; // Higher = more pronounced movement
+        const yOffset = scrollY * parallaxSpeed;
+        parallaxBg.style.transform = `translateY(${yOffset}px)`;
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
   initCounters();
   initTypewriter();
   initContactButton();
   initTaglineWordGrow();
   initHomeNavListener();
+  initParallax();
   document.addEventListener('astro:after-swap', () => {
     initCounters();
     initTypewriter();
     initContactButton();
     initTaglineWordGrow();
     initHomeNavListener();
+    initParallax();
   });
 </script>

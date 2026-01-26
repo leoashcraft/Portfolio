@@ -685,6 +685,7 @@ import Icon from '../ui/Icon.astro';
 
   // Project icon flip animation
   import { initIconFlips } from '../../lib/icon-flip';
+  import { initSectionParallax } from '../../lib/parallax';
 
   let iconCleanup: () => void;
 
@@ -697,6 +698,11 @@ import Icon from '../ui/Icon.astro';
     });
   }
 
-  initProjectIconFlips();
-  document.addEventListener('astro:after-swap', initProjectIconFlips);
+  function initProjects() {
+    initProjectIconFlips();
+    initSectionParallax('projects');
+  }
+
+  initProjects();
+  document.addEventListener('astro:after-swap', initProjects);
 </script>

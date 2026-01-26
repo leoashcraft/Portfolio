@@ -17,6 +17,19 @@ const phone = unscramblePhone(profile);
   class="section section-arcade-alt px-4 overflow-hidden scroll-mt-28"
   aria-labelledby="contact-heading"
 >
+  <!-- Graffiti background image with parallax -->
+  <div class="absolute inset-0 -z-30 overflow-hidden" aria-hidden="true">
+    <img
+      id="contact-parallax-bg"
+      src="/img/graffiti-bg2.avif"
+      alt=""
+      loading="lazy"
+      class="absolute inset-0 w-[120%] h-[120%] object-cover object-center will-change-transform"
+    />
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0015]/80 via-[#0a0015]/60 to-[#0a0015]/80"></div>
+  </div>
+
   <!-- Neon Top Border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-yellow/50 to-transparent"></div>
 
@@ -175,3 +188,51 @@ const phone = unscramblePhone(profile);
     </p>
   </div>
 </section>
+
+<script>
+  import { initSectionParallax } from '../../lib/parallax';
+
+  function initContactParallax() {
+    const parallaxBg = document.getElementById('contact-parallax-bg');
+    const contactSection = document.getElementById('contact');
+    if (!parallaxBg || !contactSection) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+      const rect = contactSection.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Only apply parallax when section is in view
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        const parallaxSpeed = 0.5;
+        const sectionTop = rect.top;
+        const yOffset = (windowHeight - sectionTop) * parallaxSpeed * -0.6;
+        parallaxBg.style.transform = `translateY(${yOffset}px)`;
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial call
+    updateParallax();
+  }
+
+  function initContact() {
+    initContactParallax();
+    initSectionParallax('contact');
+  }
+
+  initContact();
+  document.addEventListener('astro:after-swap', initContact);
+</script>

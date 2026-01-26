@@ -889,27 +889,15 @@ code, pre, kbd {
   }
 }
 
-/* Mobile nav menu with chasing border */
+/* Mobile nav menu */
 .mobile-nav-menu {
   position: relative;
-  margin-top: 1rem;
-  padding: 2px;
+  margin-top: 0.5rem;
   border-radius: 0.75rem;
 }
 
-.mobile-nav-menu.menu-open {
-  background: conic-gradient(
-    from var(--border-angle, 0deg),
-    transparent 0deg,
-    transparent 270deg,
-    rgba(255, 0, 255, 0.6) 330deg,
-    transparent 360deg
-  );
-  animation: mobile-nav-chase 3s linear infinite;
-}
-
 .mobile-nav-menu > ul {
-  background-color: rgba(10, 0, 21, 0.95);
+  background: transparent;
   border-radius: 0.625rem;
   margin: 0;
 }
@@ -918,13 +906,35 @@ code, pre, kbd {
   background: transparent !important;
 }
 
-@keyframes mobile-nav-chase {
-  from {
-    --border-angle: 0deg;
-  }
-  to {
-    --border-angle: 360deg;
-  }
+/* Chasing border on main-nav when menu is open */
+#main-nav.menu-expanded::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(1rem + 2px);
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0deg,
+    transparent 270deg,
+    rgba(255, 0, 255, 0.8) 330deg,
+    transparent 360deg
+  );
+  z-index: -2;
+  animation: nav-chase-spin 3s linear infinite;
+}
+
+#main-nav.menu-expanded::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: #0a0015;
+  z-index: -1;
+}
+
+@keyframes nav-chase-spin {
+  from { --border-angle: 0deg; }
+  to { --border-angle: 360deg; }
 }
 
 @property --border-angle {

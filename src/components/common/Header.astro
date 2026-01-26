@@ -4,7 +4,7 @@ import SocialIcons from './SocialIcons.astro';
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
-  <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between transition-all duration-300 relative overflow-hidden">
+  <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between transition-all duration-300 relative">
     <!-- Heat sensor glow effect - pink to purple left to right -->
     <div id="nav-heat-glow" class="pointer-events-none absolute w-96 h-40 rounded-full opacity-0 transition-opacity duration-200" style="background: linear-gradient(to right, rgba(255, 0, 255, 0.15), rgba(102, 0, 255, 0.15)); transform: translate(-50%, -50%); filter: blur(30px);"></div>
 
@@ -17,7 +17,7 @@ import SocialIcons from './SocialIcons.astro';
             <li>
               <a
                 href={item.href}
-                class="px-4 py-2 rounded-lg text-gray-300 hover:text-neon-pink hover:bg-neon-pink/5 transition-all duration-200"
+                class="px-4 py-2 rounded-lg text-gray-300 hover:text-neon-pink transition-all duration-200"
                 aria-label={item.label}
               >
                 {item.label}
@@ -129,7 +129,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'false');
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
-        menu.classList.remove('menu-open');
+        nav.classList.remove('menu-expanded');
         removeDarkBg();
       } else {
         menu.style.maxHeight = menu.scrollHeight + 'px';
@@ -137,7 +137,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'true');
         hamburgerIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
-        menu.classList.add('menu-open');
+        nav.classList.add('menu-expanded');
         applyDarkBg();
       }
     });
@@ -149,7 +149,7 @@ import SocialIcons from './SocialIcons.astro';
         toggle.setAttribute('aria-expanded', 'false');
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
-        menu.classList.remove('menu-open');
+        nav.classList.remove('menu-expanded');
         removeDarkBg();
       });
     });

@@ -124,6 +124,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 - Arcade carpet gradient background on scroll
 - Mobile hamburger menu with chasing pink border animation on expanded nav
 - Heat glow effect follows cursor on desktop
+- Navigation links: Home, About, Experience, Projects, GitHub, Contact
 
 ### GitHub Integration
 - Live contribution heatmap via GitHub GraphQL API

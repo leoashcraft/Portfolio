@@ -48,12 +48,15 @@ const contributionData = await fetchContributionData();
 
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-16">
+    <div class="text-center mb-16 section-header-container">
       <h2 id="github-heading" class="section-title">
         GitHub <span class="gradient-text">Activity</span>
       </h2>
-      <p class="section-subtitle mx-auto">
-        <span class="subtitle-word inline-block transition-transform duration-200" data-word-index="0">Open</span>&nbsp;<span class="subtitle-word inline-block transition-transform duration-200" data-word-index="1">source</span>&nbsp;<span class="subtitle-word inline-block transition-transform duration-200" data-word-index="2">contributions</span>&nbsp;<span class="subtitle-word inline-block transition-transform duration-200" data-word-index="3">and</span>&nbsp;<span class="subtitle-word inline-block transition-transform duration-200" data-word-index="4">personal</span>&nbsp;<span class="subtitle-word inline-block transition-transform duration-200" data-word-index="5">projects</span>
+      <p class="section-subtitle mx-auto relative">
+        <span class="subtitle-placeholder invisible" aria-hidden="true">Open source contributions and personal projects</span>
+        <span class="subtitle-typewriter absolute left-0 right-0 top-0">
+          <span class="subtitle-text" data-subtitle="Open source contributions and personal projects" id="github-heading-subtitle"></span><span class="subtitle-cursor hidden inline-block w-[2px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
+        </span>
       </p>
     </div>
 
@@ -183,3 +186,45 @@ const contributionData = await fetchContributionData();
     </div>
   </div>
 </section>
+
+<script>
+  import { typePhrase } from '../../lib/typewriter';
+
+  function initGitHubSubtitleTypewriter() {
+    const container = document.querySelector('#github .section-header-container');
+    if (!container) return;
+
+    const textEl = container.querySelector('.subtitle-text') as HTMLElement;
+    const cursorEl = container.querySelector('.subtitle-cursor') as HTMLElement;
+
+    if (!textEl || !cursorEl || textEl.dataset.animated === 'true') return;
+
+    const subtitle = textEl.dataset.subtitle || '';
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && textEl.dataset.animated !== 'true') {
+            textEl.dataset.animated = 'true';
+            observer.disconnect();
+
+            setTimeout(() => {
+              cursorEl.classList.remove('hidden');
+              typePhrase(textEl, subtitle, () => {
+                setTimeout(() => {
+                  cursorEl.style.display = 'none';
+                }, 2000);
+              });
+            }, 800);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
+  }
+
+  initGitHubSubtitleTypewriter();
+  document.addEventListener('astro:after-swap', initGitHubSubtitleTypewriter);
+</script>

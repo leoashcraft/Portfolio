@@ -8,43 +8,59 @@ import { heroTitles } from '../../data/hero';
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
   aria-label="Introduction"
 >
+  <!-- Graffiti background image (lowest layer) -->
+  <div class="absolute inset-0 -z-30 overflow-hidden" aria-hidden="true">
+    <img
+      src="/img/graffiti-bg.avif"
+      alt=""
+      class="w-[120%] h-[120%] object-cover -translate-x-[10%]"
+    />
+  </div>
+
   <!-- Base gradient background -->
-  <div class="absolute inset-0 -z-20 bg-gradient-to-b from-[#0a0015] via-[#1a0a2a] to-[#0a0015]" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-20 bg-gradient-to-r from-[#0a0015] via-[#1a0a2a] to-[#0a0015]/50 opacity-60" aria-hidden="true"></div>
 
   <!-- Glowing orbs layer -->
   <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
     <div class="absolute top-[10%] left-[10%] w-72 h-72 bg-fuchsia-600/25 rounded-full blur-3xl animate-pulse-slow"></div>
     <div class="absolute top-[60%] right-[5%] w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-    <div class="absolute top-[30%] right-[30%] w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-[20%] left-[20%] w-80 h-80 bg-neon-pink/15 rounded-3xl blur-3xl"></div>
-    <div class="absolute top-[50%] left-[50%] w-48 h-48 bg-green-400/20 rounded-full blur-2xl animate-pulse-slow"></div>
-    <div class="absolute bottom-[40%] right-[15%] w-56 h-56 bg-orange-400/15 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[20%] left-[20%] w-80 h-80 bg-neon-pink/15 rounded-3xl blur-3xl"></div>
+        <div class="absolute bottom-[40%] right-[15%] w-56 h-56 bg-orange-400/15 rounded-full blur-3xl"></div>
   </div>
 
   <!-- Floating geometric shapes - 80s arcade carpet style -->
   <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
     <!-- Triangles -->
-    <div class="absolute top-[15%] left-[8%] w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[35px] border-b-neon-pink/50 drift-1"></div>
-    <div class="absolute top-[70%] right-[12%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-yellow/40 drift-2"></div>
-    <div class="absolute top-[45%] left-[5%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/40 drift-diagonal"></div>
-    <div class="absolute bottom-[25%] right-[25%] w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-b-[30px] border-b-neon-green/35 drift-3"></div>
-    <div class="absolute top-[25%] right-[8%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/45 drift-slow"></div>
+    <div class="absolute top-[3%] left-[15%] w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[35px] border-b-neon-pink/50 drift-1"></div>
+    <div class="absolute bottom-[8%] right-[12%] w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[26px] border-b-neon-yellow/40 drift-2"></div>
+    <div class="absolute bottom-[20%] left-[20%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-purple/40 drift-diagonal"></div>
+    <div class="absolute bottom-[5%] right-[35%] w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-b-[30px] border-b-neon-green/35 drift-3"></div>
+    <div class="absolute top-[25%] right-[5%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/45 drift-slow"></div>
+    <!-- Golden triangles -->
+    <div class="absolute top-[12%] right-[25%] w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-b-[28px] border-b-[#F4CC4A]/50 drift-2"></div>
+    <div class="absolute bottom-[12%] left-[40%] w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[24px] border-b-[#F4CC4A]/40 drift-slow"></div>
 
     <!-- Squares/Diamonds -->
-    <div class="absolute top-[20%] right-[20%] w-8 h-8 border-2 border-neon-pink/50 rotate-45 drift-2"></div>
-    <div class="absolute top-[65%] left-[15%] w-6 h-6 border-2 border-neon-yellow/40 rotate-45 drift-1"></div>
-    <div class="absolute bottom-[35%] right-[8%] w-10 h-10 border-2 border-neon-cyan/40 rotate-45 drift-diagonal"></div>
-    <div class="absolute top-[40%] right-[35%] w-5 h-5 bg-neon-orange/30 rotate-45 drift-3"></div>
-    <div class="absolute bottom-[15%] left-[30%] w-7 h-7 border-2 border-neon-green/35 rotate-45 drift-slow"></div>
-    <div class="absolute top-[55%] left-[25%] w-4 h-4 bg-neon-purple/40 rotate-45 drift-2"></div>
+    <div class="absolute top-[8%] right-[15%] w-8 h-8 border-2 border-neon-pink/50 rotate-45 drift-2"></div>
+    <div class="absolute bottom-[3%] left-[55%] w-6 h-6 border-2 border-neon-yellow/40 rotate-45 drift-1"></div>
+    <div class="absolute bottom-[25%] right-[5%] w-10 h-10 border-2 border-neon-cyan/40 rotate-45 drift-diagonal"></div>
+    <div class="absolute top-[40%] right-[20%] w-5 h-5 bg-neon-orange/30 rotate-45 drift-3"></div>
+        <div class="absolute bottom-[8%] right-[50%] w-7 h-7 border-2 border-neon-green/35 rotate-45 drift-slow"></div>
+    <div class="absolute bottom-[35%] left-[18%] w-4 h-4 bg-neon-purple/40 rotate-45 drift-2"></div>
+    <!-- Golden diamonds -->
+    <div class="absolute top-[5%] left-[40%] w-7 h-7 border-2 border-[#F4CC4A]/50 rotate-45 drift-1"></div>
+    <div class="absolute bottom-[15%] left-[28%] w-5 h-5 bg-[#F4CC4A]/35 rotate-45 drift-diagonal"></div>
 
     <!-- Circles/Rings -->
-    <div class="absolute top-[30%] left-[20%] w-12 h-12 border-2 border-neon-pink/40 rounded-full drift-slow spin-slow"></div>
-    <div class="absolute top-[75%] right-[30%] w-8 h-8 border-2 border-neon-cyan/50 rounded-full drift-1"></div>
-    <div class="absolute bottom-[45%] left-[8%] w-10 h-10 border-2 border-neon-yellow/35 rounded-full drift-2 spin-slow"></div>
-    <div class="absolute top-[18%] left-[40%] w-6 h-6 bg-neon-green/30 rounded-full drift-diagonal"></div>
-    <div class="absolute bottom-[20%] right-[40%] w-14 h-14 border-2 border-neon-purple/30 rounded-full drift-3 spin-slow"></div>
-    <div class="absolute top-[50%] right-[5%] w-5 h-5 bg-neon-orange/35 rounded-full drift-slow"></div>
+    <div class="absolute top-[20%] right-[35%] w-12 h-12 border-2 border-neon-pink/40 rounded-full drift-slow spin-slow"></div>
+    <div class="absolute bottom-[5%] right-[20%] w-8 h-8 border-2 border-neon-cyan/50 rounded-full drift-1"></div>
+    <div class="absolute bottom-[40%] left-[25%] w-10 h-10 border-2 border-neon-yellow/35 rounded-full drift-2 spin-slow"></div>
+    <div class="absolute top-[3%] right-[35%] w-6 h-6 bg-neon-green/30 rounded-full drift-diagonal"></div>
+    <div class="absolute bottom-[3%] left-[15%] w-14 h-14 border-2 border-neon-purple/30 rounded-full drift-3 spin-slow"></div>
+    <div class="absolute bottom-[30%] right-[3%] w-5 h-5 bg-neon-orange/35 rounded-full drift-slow"></div>
+    <!-- Golden circles -->
+    <div class="absolute bottom-[45%] right-[40%] w-9 h-9 border-2 border-[#F4CC4A]/45 rounded-full drift-3 spin-slow"></div>
+    <div class="absolute top-[8%] left-[30%] w-6 h-6 bg-[#F4CC4A]/30 rounded-full drift-2"></div>
 
     <!-- Zigzag SVG lines -->
     <svg class="absolute top-[22%] left-[2%] w-20 h-10 text-neon-orange/40 drift-slow" viewBox="0 0 80 40">

@@ -7,16 +7,62 @@ interface Props {
 }
 
 const { title, titleHighlight, subtitle, headingId } = Astro.props;
-const subtitleWords = subtitle.split(' ');
+const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<div class="text-center mb-16">
+<div class="text-center mb-16 section-header-container">
   <h2 id={headingId} class="section-title">
     {title} <span class="gradient-text">{titleHighlight}</span>
   </h2>
-  <p class="section-subtitle mx-auto">
-    {subtitleWords.map((word, i) => (
-      <span class="subtitle-word inline-block transition-transform duration-200" data-word-index={i}>{word}{i < subtitleWords.length - 1 ? '\u00A0' : ''}</span>
-    ))}
+  <p class="section-subtitle mx-auto relative">
+    <span class="subtitle-placeholder invisible" aria-hidden="true">{subtitle}</span>
+    <span class="subtitle-typewriter absolute left-0 right-0 top-0">
+      <span class="subtitle-text" data-subtitle={subtitle} id={subtitleId}></span><span class="subtitle-cursor hidden inline-block w-[2px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
+    </span>
   </p>
 </div>
+
+<script>
+  import { typePhrase } from '../../lib/typewriter';
+
+  function initSubtitleTypewriters() {
+    const containers = document.querySelectorAll('.section-header-container');
+
+    containers.forEach((container) => {
+      const textEl = container.querySelector('.subtitle-text') as HTMLElement;
+      const cursorEl = container.querySelector('.subtitle-cursor') as HTMLElement;
+
+      if (!textEl || !cursorEl || textEl.dataset.animated === 'true') return;
+
+      const subtitle = textEl.dataset.subtitle || '';
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && textEl.dataset.animated !== 'true') {
+              textEl.dataset.animated = 'true';
+              observer.disconnect();
+
+              // Delay to let title animation start first
+              setTimeout(() => {
+                cursorEl.classList.remove('hidden');
+                typePhrase(textEl, subtitle, () => {
+                  // Hide cursor after typing completes
+                  setTimeout(() => {
+                    cursorEl.style.display = 'none';
+                  }, 2000);
+                });
+              }, 800);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(container);
+    });
+  }
+
+  initSubtitleTypewriters();
+  document.addEventListener('astro:after-swap', initSubtitleTypewriters);
+</script>

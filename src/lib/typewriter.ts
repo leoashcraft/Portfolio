@@ -14,7 +14,7 @@ export interface TypewriterOptions {
 const defaultOptions: Required<TypewriterOptions> = {
   baseSpeed: 50,
   variance: 80,
-  spaceDelay: 150,
+  spaceDelay: 350,
   hesitationChance: 0.1,
   hesitationDelay: 200,
   deleteSpeed: 50,

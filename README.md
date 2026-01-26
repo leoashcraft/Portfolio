@@ -36,7 +36,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 #### Hero Section
 - **Mascot Slide-in**: On desktop (768px+), mascot slides in from left with fade-in, decelerating toward the end; static on mobile
-- **Typewriter Effect**: Job titles cycle through with typing/deleting animation
+- **Typewriter Effect**: Job titles cycle through with natural typing delays (random variance, extended pauses between words)
 - **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
 - **Re-triggerable**: Clicking the Home nav link or back-to-top button replays the title and tagline animations
 - **4K Scaling**: Glowing orbs double in size and blur on screens above 2000px for consistent visual impact
@@ -44,11 +44,11 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 #### Section Titles
 - **Wave Animation**: Each letter scales up to 140% in sequence when scrolling into view
 - **Sheen Effect**: Brightness sweep follows the wave animation
-- **Subtitle Grow**: After title animation, subtitle words grow 103% sequentially
+- **Subtitle Typewriter**: After title animation, subtitle types out character by character with natural delays
 - **Re-triggerable**: Nav link clicks replay the animation for that section
 
 #### About Section Tagline
-- **Rotating Typewriter**: Cycles through first-person phrases with natural typing delays (random variance, pauses after spaces, occasional hesitation)
+- **Rotating Typewriter**: Cycles through first-person phrases with natural typing delays (random variance, extended pauses between words, occasional hesitation)
 - **Final Phrase**: Stops on the last phrase, adds a period, and animates an underline
 - **Blinking Cursor**: Matches hero section cursor style, blinks 3 times then hides after final phrase
 

@@ -14,19 +14,19 @@ const contributionData = await fetchContributionData();
   <!-- Floating Arcade Decorations -->
   <div class="absolute inset-0 pointer-events-none overflow-hidden arcade-decorations" aria-hidden="true" data-section="github">
     <!-- Glowing orbs with parallax -->
-    <div class="absolute top-32 left-20 w-72 h-72 rounded-full bg-neon-green/8 blur-3xl will-change-transform" data-parallax="0.3"></div>
-    <div class="absolute bottom-40 right-10 w-64 h-64 rounded-full bg-neon-pink/8 blur-3xl will-change-transform" data-parallax="0.4" data-parallax-dir="down"></div>
-    <div class="absolute top-1/2 right-1/4 w-48 h-48 rounded-full bg-neon-purple/5 blur-2xl will-change-transform" data-parallax="0.5"></div>
+    <div class="absolute top-32 left-20 w-72 h-72 rounded-full bg-neon-green/8 blur-3xl" data-parallax="0.3"></div>
+    <div class="absolute bottom-40 right-10 w-64 h-64 rounded-full bg-neon-pink/8 blur-3xl" data-parallax="0.4" data-parallax-dir="down"></div>
+    <div class="absolute top-1/2 right-1/4 w-48 h-48 rounded-full bg-neon-purple/5 blur-2xl" data-parallax="0.5"></div>
 
-    <!-- Geometric shapes with CSS animations (no parallax to avoid transform conflicts) -->
-    <div class="absolute top-24 right-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-green/40 drift-1"></div>
-    <div class="absolute top-[50%] left-[5%] w-7 h-7 border-2 border-neon-pink/35 rounded-full pulse-drift"></div>
-    <div class="absolute bottom-[35%] right-[6%] w-6 h-6 bg-neon-yellow/25 rotate-45 float-rotate"></div>
-    <div class="absolute top-[30%] left-[8%] w-5 h-5 border-2 border-neon-purple/35 rotate-45 sway"></div>
-    <div class="absolute bottom-28 left-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/30 wobble"></div>
+    <!-- Geometric shapes with CSS animations + parallax -->
+    <div class="absolute top-24 right-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-green/40 drift-1" data-parallax="0.7" data-parallax-x="0.3"></div>
+    <div class="absolute top-[50%] left-[5%] w-7 h-7 border-2 border-neon-pink/35 rounded-full pulse-drift" data-parallax="0.6" data-parallax-x="0.2"></div>
+    <div class="absolute bottom-[35%] right-[6%] w-6 h-6 bg-neon-yellow/25 rotate-45 float-rotate" data-parallax="0.8" data-parallax-dir="down"></div>
+    <div class="absolute top-[30%] left-[8%] w-5 h-5 border-2 border-neon-purple/35 rotate-45 sway" data-parallax="0.5" data-parallax-x="-0.2"></div>
+    <div class="absolute bottom-28 left-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/30 wobble" data-parallax="0.9" data-parallax-dir="down"></div>
 
     <!-- Binary-like dots pattern -->
-    <div class="absolute top-[40%] right-[3%] flex flex-col gap-2 opacity-30 drift-2">
+    <div class="absolute top-[40%] right-[3%] flex flex-col gap-2 opacity-30 drift-2" data-parallax="0.6" data-parallax-x="-0.3">
       <div class="flex gap-2">
         <div class="w-2 h-2 bg-neon-green rounded-full"></div>
         <div class="w-2 h-2 bg-neon-green/30 rounded-full"></div>
@@ -38,12 +38,12 @@ const contributionData = await fetchContributionData();
     </div>
 
     <!-- Squiggly line -->
-    <svg class="absolute bottom-[45%] left-[2%] w-8 h-16 text-neon-pink/25 wobble" viewBox="0 0 32 64">
+    <svg class="absolute bottom-[45%] left-[2%] w-8 h-16 text-neon-pink/25 wobble" data-parallax="0.7" data-parallax-x="0.4" viewBox="0 0 32 64">
       <path d="M16 0 Q0 16 16 32 Q32 48 16 64" fill="none" stroke="currentColor" stroke-width="2"/>
     </svg>
 
     <!-- Circle ring -->
-    <div class="absolute top-[65%] right-[8%] w-10 h-10 border-2 border-neon-green/30 rounded-full drift-3 spin-slow"></div>
+    <div class="absolute top-[65%] right-[8%] w-10 h-10 border-2 border-neon-green/30 rounded-full drift-3 spin-slow" data-parallax="0.8" data-parallax-x="-0.2"></div>
   </div>
 
   <div class="max-w-6xl mx-auto relative z-10">

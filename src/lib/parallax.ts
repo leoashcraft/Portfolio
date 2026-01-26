@@ -1,6 +1,6 @@
 /**
  * Parallax utility for decorative elements
- * Uses the separate 'translate' CSS property to avoid conflicts with CSS animation transforms
+ * Uses margin offsets to avoid conflicts with CSS animation transforms
  */
 
 export interface ParallaxElement {
@@ -37,8 +37,9 @@ export function initSectionParallax(sectionId: string) {
         const yOffset = (scrollProgress - 0.5) * speed * 800 * direction;
         const xOffset = parseFloat(el.dataset.parallaxX || '0') * (scrollProgress - 0.5) * 400;
 
-        // Use 'translate' property instead of 'transform' to not conflict with CSS animations
-        el.style.translate = `${xOffset}px ${yOffset}px`;
+        // Use margin for parallax to avoid conflicting with CSS animation transforms
+        el.style.marginTop = `${yOffset}px`;
+        el.style.marginLeft = `${xOffset}px`;
       });
     }
     ticking = false;

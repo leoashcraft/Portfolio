@@ -9,15 +9,16 @@ interface TravelerState {
 
 export function initTimelineEyes(): (() => void) | undefined {
   const timelineLine = document.getElementById('timeline-line');
-  if (!timelineLine) return;
+  const timelineEyes = document.getElementById('timeline-eyes');
+  if (!timelineLine || !timelineEyes) return;
 
-  const travelers = timelineLine.querySelectorAll('.timeline-traveler');
+  const travelers = timelineEyes.querySelectorAll('.timeline-traveler');
   const dots = document.querySelectorAll('.timeline-dot');
 
   if (travelers.length === 0 || dots.length === 0) return;
 
-  // Calculate positions
-  const lineRect = timelineLine.getBoundingClientRect();
+  // Calculate positions using the eyes container (same dimensions as line)
+  const lineRect = timelineEyes.getBoundingClientRect();
   const lineHeight = lineRect.height;
 
   // Get dot positions as percentages

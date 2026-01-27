@@ -282,20 +282,20 @@ import Icon from '../ui/Icon.astro';
             </div>
             <p class="service-card-title text-[24px] font-semibold text-white mb-2" data-title={services[3].title}></p>
             <p class="service-desc text-gray-400 text-[18px] mb-4" set:html={services[3].description}></p>
-            <div class="grid grid-cols-3 gap-4 md:gap-16 mt-4 px-2 md:px-8">
-              <button class="flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/golden-lighting-co.avif" data-alt="Golden Lighting Co. logo">
+            <div class="logo-gallery grid grid-cols-3 gap-4 md:gap-16 mt-4 px-2 md:px-8">
+              <button class="logo-item flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/golden-lighting-co.avif" data-alt="Golden Lighting Co. logo">
                 <div class="logo-image-wrapper relative">
                   <img src="/img/logos/golden-lighting-co.avif" alt="Golden Lighting Co. logo" class="max-h-[200px] max-w-full object-contain" />
                   <div class="logo-shimmer absolute inset-0 opacity-0 pointer-events-none" style="mask-image: url('/img/logos/golden-lighting-co.avif'); mask-size: contain; mask-repeat: no-repeat; mask-position: center; -webkit-mask-image: url('/img/logos/golden-lighting-co.avif'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;"></div>
                 </div>
               </button>
-              <button class="flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/honey-bee-window-cleaning.avif" data-alt="Honey Bee Window Cleaning logo">
+              <button class="logo-item flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/honey-bee-window-cleaning.avif" data-alt="Honey Bee Window Cleaning logo">
                 <div class="logo-image-wrapper relative">
                   <img src="/img/logos/honey-bee-window-cleaning.avif" alt="Honey Bee Window Cleaning logo" class="max-h-[200px] max-w-full object-contain" />
                   <div class="logo-shimmer absolute inset-0 opacity-0 pointer-events-none" style="mask-image: url('/img/logos/honey-bee-window-cleaning.avif'); mask-size: contain; mask-repeat: no-repeat; mask-position: center; -webkit-mask-image: url('/img/logos/honey-bee-window-cleaning.avif'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;"></div>
                 </div>
               </button>
-              <button class="flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/eagle-it.avif" data-alt="Eagle IT logo">
+              <button class="logo-item flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/eagle-it.avif" data-alt="Eagle IT logo">
                 <div class="logo-image-wrapper relative">
                   <img src="/img/logos/eagle-it.avif" alt="Eagle IT logo" class="max-h-[200px] max-w-full object-contain" />
                   <div class="logo-shimmer absolute inset-0 opacity-0 pointer-events-none" style="mask-image: url('/img/logos/eagle-it.avif'); mask-size: contain; mask-repeat: no-repeat; mask-position: center; -webkit-mask-image: url('/img/logos/eagle-it.avif'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;"></div>
@@ -477,6 +477,7 @@ import Icon from '../ui/Icon.astro';
     titleText: string;
     desc: HTMLElement | null;
     features: HTMLElement[];
+    logos: HTMLElement[];
     lastTitleProgress: number;
   }
 
@@ -501,6 +502,7 @@ import Icon from '../ui/Icon.astro';
         titleText,
         desc: card.querySelector('.service-desc'),
         features: Array.from(card.querySelectorAll('.feature-item')),
+        logos: Array.from(card.querySelectorAll('.logo-item')),
         lastTitleProgress: -1
       });
     });
@@ -514,6 +516,7 @@ import Icon from '../ui/Icon.astro';
         if (state.title) state.title.textContent = state.titleText;
         if (state.desc) state.desc.classList.add('visible');
         state.features.forEach((f) => f.classList.add('visible'));
+        state.logos.forEach((l) => l.classList.add('visible'));
       });
       return () => {};
     }
@@ -559,8 +562,8 @@ import Icon from '../ui/Icon.astro';
         }
       }
 
-      // CRM appears after Cloud is 50% complete
-      if (cloudProgress >= 0.5) {
+      // CRM appears when Cloud's checkmarks start (70% of Cloud's progress)
+      if (cloudProgress >= 0.70) {
         container.classList.add('crm-in');
       }
 
@@ -625,17 +628,32 @@ import Icon from '../ui/Icon.astro';
           }
         }
 
-        // Features cascade at 70-100% progress (after description)
+        // Features cascade at 70-90% progress (after description)
         const featuresStart = 0.70;
-        const featuresRange = 0.30;
+        const featuresEnd = 0.90;
+        const featuresRange = featuresEnd - featuresStart;
         state.features.forEach((feature, index) => {
-          const featureThreshold = featuresStart + (index / state.features.length) * featuresRange;
+          const featureThreshold = featuresStart + (index / Math.max(state.features.length, 1)) * featuresRange;
           if (progress >= featureThreshold) {
             feature.classList.add('visible');
           } else {
             feature.classList.remove('visible');
           }
         });
+
+        // Logos cascade at 90-100% progress (after features, for logo card only)
+        if (state.logos.length > 0) {
+          const logosStart = 0.90;
+          const logosRange = 0.10;
+          state.logos.forEach((logo, index) => {
+            const logoThreshold = logosStart + (index / state.logos.length) * logosRange;
+            if (progress >= logoThreshold) {
+              logo.classList.add('visible');
+            } else {
+              logo.classList.remove('visible');
+            }
+          });
+        }
       });
 
       // Reset when scrolling up
@@ -648,6 +666,7 @@ import Icon from '../ui/Icon.astro';
           state.lastTitleProgress = -1;
           if (state.desc) state.desc.classList.remove('visible');
           state.features.forEach((f) => f.classList.remove('visible'));
+          state.logos.forEach((l) => l.classList.remove('visible'));
         });
       }
 
@@ -816,6 +835,18 @@ import Icon from '../ui/Icon.astro';
     transform: translateX(0);
   }
 
+  /* Logo items animation */
+  .logo-item {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+
+  .logo-item.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
   /* Disable animations when preference set */
   [data-animations="disabled"] .services-title,
   [data-animations="disabled"] .services-container .service-first,
@@ -824,7 +855,8 @@ import Icon from '../ui/Icon.astro';
   [data-animations="disabled"] .services-container .service-last,
   [data-animations="disabled"] .service-icon-anim,
   [data-animations="disabled"] .service-desc,
-  [data-animations="disabled"] .feature-item {
+  [data-animations="disabled"] .feature-item,
+  [data-animations="disabled"] .logo-item {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

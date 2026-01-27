@@ -1,6 +1,6 @@
 # Leo Ashcraft - Portfolio
 
-A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic and thoughtful security measures.
+A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic.
 
 **Live Site:** [leoashcraft.com](https://leoashcraft.com)
 

@@ -2005,3 +2005,15 @@ code, pre, kbd {
   transform: none !important;
   filter: none !important;
 }
+
+/* Disable service card feature item animations */
+[data-animations="disabled"] .feature-item,
+[data-animations="disabled"] .service-title {
+  transition: none !important;
+  transform: none !important;
+}
+
+[data-animations="disabled"] .card:hover .feature-item,
+[data-animations="disabled"] .card:hover .service-title {
+  transform: none !important;
+}

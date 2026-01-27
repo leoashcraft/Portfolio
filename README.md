@@ -117,13 +117,13 @@ Email and phone are stored reversed and reconstructed at runtime to prevent bot 
 ```typescript
 // Stored as reversed strings in profile data
 contact: {
-  email: { user: 'oel', website: 'hcet.tfarchsa' },
-  phone: { area: ')309(', number: '2874-836' },
+  email: { user: 'nhoj', website: 'moc.eod' },
+  phone: { area: ')999(', number: '9035-768' },
 }
 
 // Reconstructed when displayed
-const email = user.reverse() + '@' + website.reverse();  // leo@ashcraft.tech
-const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
+const email = user.reverse() + '@' + website.reverse();  // john@doe.com
+const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 ```
 
 #### Contact Form Protection

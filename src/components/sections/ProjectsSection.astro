@@ -690,8 +690,10 @@ import Icon from '../ui/Icon.astro';
   // Project icon flip animation
   import { initIconFlips } from '../../lib/icon-flip';
   import { initSectionParallax } from '../../lib/parallax';
+  import { initScrollWave } from '../../lib/scroll-wave';
 
   let iconCleanup: () => void;
+  let waveCleanup: (() => void) | undefined;
 
   function initProjectIconFlips() {
     iconCleanup?.();
@@ -860,11 +862,28 @@ import Icon from '../ui/Icon.astro';
 
   function initOtherProjects() {
     otherProjectsCleanup?.();
+    waveCleanup?.();
     otherProjectsCleanup = initOtherProjectsAnimation();
+    waveCleanup = initScrollWave({
+      selector: '.other-projects-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
   }
 
   initOtherProjects();
   document.addEventListener('astro:after-swap', initOtherProjects);
+
+  window.addEventListener('animations-change', () => {
+    otherProjectsCleanup?.();
+    waveCleanup?.();
+    otherProjectsCleanup = initOtherProjectsAnimation();
+    waveCleanup = initScrollWave({
+      selector: '.other-projects-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
+  });
 </script>
 
 <style>
@@ -954,13 +973,16 @@ import Icon from '../ui/Icon.astro';
   /* Other Projects (More Work) animations */
   .other-projects-title {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.3s ease-out;
   }
 
   .other-projects-title.visible {
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  /* Wave letter transitions */
+  .other-projects-title .wave-letter {
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
   }
 
   .other-project-card {

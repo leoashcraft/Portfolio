@@ -319,8 +319,10 @@ import Icon from '../ui/Icon.astro';
 <script>
   import { initIconFlips } from '../../lib/icon-flip';
   import { initSectionParallax } from '../../lib/parallax';
+  import { initScrollWave } from '../../lib/scroll-wave';
 
   let iconCleanup: () => void;
+  let waveCleanup: (() => void) | undefined;
 
   function initServiceIconFlips() {
     iconCleanup?.();
@@ -555,7 +557,13 @@ import Icon from '../ui/Icon.astro';
 
   function initServicesAnim() {
     servicesCleanup?.();
+    waveCleanup?.();
     servicesCleanup = initServicesCascade();
+    waveCleanup = initScrollWave({
+      selector: '.services-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
   }
 
   initServicesAnim();
@@ -563,7 +571,13 @@ import Icon from '../ui/Icon.astro';
 
   window.addEventListener('animations-change', () => {
     servicesCleanup?.();
+    waveCleanup?.();
     servicesCleanup = initServicesCascade();
+    waveCleanup = initScrollWave({
+      selector: '.services-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
     aboutContentCleanup?.();
     aboutContentCleanup = initAboutContentCascade();
   });
@@ -581,13 +595,16 @@ import Icon from '../ui/Icon.astro';
   /* Services title animation */
   .services-title {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.3s ease-out;
   }
 
   .services-title.visible {
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  /* Wave letter transitions */
+  .services-title .wave-letter {
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
   }
 
   /* Services cascade animation */

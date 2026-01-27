@@ -220,16 +220,19 @@ import Icon from '../ui/Icon.astro';
     transition: none !important;
   }
 
-  /* Education title fade in */
+  /* Education title animation */
   .education-title {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.3s ease-out;
   }
 
-  .education-section.visible .education-title {
+  .education-title.visible {
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  /* Wave letter transitions */
+  .education-title .wave-letter {
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
   }
 
   /* Education cards diagonal grow from center */
@@ -280,9 +283,11 @@ import Icon from '../ui/Icon.astro';
 <script>
   import { initTimelineEyes } from '../../lib/timeline-eyes';
   import { initSectionParallax } from '../../lib/parallax';
+  import { initScrollWave } from '../../lib/scroll-wave';
 
   let cleanup: (() => void) | undefined;
   let slideCleanup: (() => void) | undefined;
+  let waveCleanup: (() => void) | undefined;
 
   function initExperienceSlides() {
     const cards = document.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
@@ -367,8 +372,14 @@ import Icon from '../ui/Icon.astro';
   function init() {
     cleanup?.();
     slideCleanup?.();
+    waveCleanup?.();
     cleanup = initTimelineEyes();
     slideCleanup = initExperienceSlides();
+    waveCleanup = initScrollWave({
+      selector: '.education-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
     initSectionParallax('experience');
   }
 
@@ -379,8 +390,14 @@ import Icon from '../ui/Icon.astro';
   window.addEventListener('animations-change', () => {
     cleanup?.();
     slideCleanup?.();
+    waveCleanup?.();
     cleanup = initTimelineEyes();
     slideCleanup = initExperienceSlides();
+    waveCleanup = initScrollWave({
+      selector: '.education-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
   });
 
   // Re-init eyes when theme changes (high contrast may affect layout)

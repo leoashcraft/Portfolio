@@ -41,32 +41,38 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Re-triggerable**: Clicking the Home nav link or back-to-top button replays the title and tagline animations
 - **4K Scaling**: Glowing orbs double in size and blur on screens above 2000px for consistent visual impact
 
-#### Section Titles
-- **Wave Animation**: Each letter scales up to 140% in sequence when scrolling into view
+#### Section Titles (Scroll-Driven)
+- **Wave Animation**: Letters scale up to 140% as a "wave" passes through based on scroll position
 - **Sheen Effect**: Brightness sweep follows the wave animation
-- **Subtitle Typewriter**: After title animation, subtitle types out character by character with natural delays
-- **Cascade from Above**: Titles and subtitles slide down from above when scrolling into view
-- **Re-triggerable**: Nav link clicks replay the animation for that section
+- **Scroll-Driven Typewriter**: Subtitle types/untypes based on scroll position (scrolling up removes characters)
+- **Bidirectional**: Animations progress forward when scrolling down, reverse when scrolling up
+- **Completion Threshold**: Text completes at 95% progress to ensure full display
 
-#### Subsection Titles
-"What I Offer", "Education & Certifications", and "More Work" also animate:
-- **Wave + Sheen**: Same letter-by-letter animation as main section titles
+#### Subsection Titles (Scroll-Driven)
+"What I Offer", "Education & Certifications", and "More Work" use scroll-driven wave animation:
+- **Wave + Sheen**: Letters scale up with brightness sweep as you scroll
+- **Bidirectional**: Wave progresses/reverses based on scroll direction
 - **Hidden Until Scroll**: Titles remain hidden until scrolling into view
-- **Reset on Navigation**: All three reset when any nav link or back-to-top is clicked
 
 #### About Me Content
 - **Cascade Animation**: Bio, quick info, and CTA slide up and fade in sequentially as you scroll
 
 #### Service Cards ("What I Offer")
 - **Scroll Cascade**: Services appear one by one as you scroll:
-  - "What I Offer" title hidden until scroll
+  - "What I Offer" title hidden until scroll (uses scroll-wave animation)
   - Web & Software Development fades in first (at 40% viewport)
   - Cloud Solutions flies down from above
-  - CRM slides out from behind Cloud (z-index layering)
+  - CRM slides out from behind Cloud (starts when Cloud's checkmarks begin at 70% progress)
   - Logo & Branding flies in last
+- **Content Cascade**: Each card's content animates sequentially based on scroll:
+  1. Card container fades in
+  2. Icon appears (0-5% progress)
+  3. Title types out with scroll-driven typewriter (15-45% progress)
+  4. Description fades in (55%+ progress)
+  5. Feature checkmarks cascade one by one (70-90% progress)
+  6. Logos appear one at a time - Logo & Branding card only (90-100% progress)
 - **Hover Lift**: Cards lift up with neon glow on hover (fast 0.4s), smooth 5s return on mouse leave
 - **Icon Flip**: 3D flip animation on service icons when hovering the card
-- **Staggered Features**: Checkmark items slide right with staggered delays
 - **Title Glow**: Service titles gain a subtle pink glow on hover
 
 #### Logo & Branding Section
@@ -174,7 +180,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 - Mobile hamburger menu with chasing pink border animation on expanded nav
 - Heat glow effect follows cursor on desktop (contained within nav boundaries)
 - Navigation links bold on hover; inverted colors in high contrast modes
-- Navigation links: Home, About, Experience, Projects, GitHub, Contact
+- Navigation links: Home, About, Projects, Experience, GitHub, Contact
 
 ### GitHub Integration
 - Live contribution heatmap via GitHub GraphQL API
@@ -210,6 +216,7 @@ src/
 │   ├── contact.ts       # Email/phone unscrambling utilities
 │   ├── icon-flip.ts     # Shared icon flip animation logic
 │   ├── parallax.ts      # Section-based parallax for decorations
+│   ├── scroll-wave.ts   # Scroll-driven wave animation for titles
 │   ├── theme.ts         # Theme & animations state management
 │   ├── timeline-eyes.ts # Timeline eye direction & blink logic
 │   └── typewriter.ts    # Natural typing delay utilities

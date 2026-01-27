@@ -23,25 +23,33 @@ export function initTimelineEyes(): (() => void) | undefined {
 
   const traveler = timelineEyes.querySelector('.timeline-traveler') as HTMLElement;
   const dots = document.querySelectorAll('.timeline-dot');
+  const experienceContainers = document.querySelectorAll('#experience .space-y-12 > div');
 
   if (!traveler || dots.length === 0) return;
 
-  // Calculate positions using the eyes container (same dimensions as line)
-  const lineRect = timelineEyes.getBoundingClientRect();
-  const lineHeight = lineRect.height;
+  // Function to get current dot positions (recalculated each frame for accuracy)
+  function getDotThresholds(): number[] {
+    const lineRect = timelineEyes.getBoundingClientRect();
+    const lineHeight = lineRect.height;
+    if (lineHeight === 0) return [];
 
-  // Get dot positions as percentages
-  const dotThresholds = Array.from(dots).map((dot) => {
-    const dotRect = dot.getBoundingClientRect();
-    return ((dotRect.top - lineRect.top) / lineHeight) * 100;
-  });
+    return Array.from(dots).map((dot) => {
+      const dotRect = dot.getBoundingClientRect();
+      return ((dotRect.top - lineRect.top) / lineHeight) * 100;
+    });
+  }
 
-  // Get experience container positions (for flipping at 1024px+)
-  const experienceContainers = document.querySelectorAll('#experience .space-y-12 > div');
-  const containerTopThresholds = Array.from(experienceContainers).map((container) => {
-    const containerRect = container.getBoundingClientRect();
-    return ((containerRect.top - lineRect.top) / lineHeight) * 100;
-  });
+  // Function to get container positions for flipping
+  function getContainerThresholds(): number[] {
+    const lineRect = timelineEyes.getBoundingClientRect();
+    const lineHeight = lineRect.height;
+    if (lineHeight === 0) return [];
+
+    return Array.from(experienceContainers).map((container) => {
+      const containerRect = container.getBoundingClientRect();
+      return ((containerRect.top - lineRect.top) / lineHeight) * 100;
+    });
+  }
 
   // Helper to check viewport - called on each frame for responsive behavior
   function isRightSideTimeline() {
@@ -84,7 +92,17 @@ export function initTimelineEyes(): (() => void) | undefined {
     const now = performance.now();
 
     // Get current timeline line height (dynamic based on visible cards)
-    const lineCurrentHeight = parseFloat(timelineLine.style.height) || 0;
+    const heightStyle = timelineLine.style.height;
+    let lineCurrentHeight: number;
+
+    if (heightStyle.endsWith('%')) {
+      // If height is a percentage, calculate actual pixel value
+      const containerHeight = timelineEyes.getBoundingClientRect().height;
+      lineCurrentHeight = (parseFloat(heightStyle) / 100) * containerHeight;
+    } else {
+      lineCurrentHeight = parseFloat(heightStyle) || 0;
+    }
+
     const containerHeight = timelineEyes.getBoundingClientRect().height;
     const maxPercent = containerHeight > 0 ? (lineCurrentHeight / containerHeight) * 100 : 0;
 
@@ -104,6 +122,9 @@ export function initTimelineEyes(): (() => void) | undefined {
     // Move the traveler (50% speed when slowed)
     const currentSpeed = state.isSlowed ? speed * 0.5 : speed;
     state.currentPercent += currentSpeed * deltaTime;
+
+    // Get current dot positions (dynamic)
+    const dotThresholds = getDotThresholds();
 
     // Check for approaching dots (only dots within current timeline extent)
     const nextDot = dotThresholds[state.nextDotIndex];
@@ -153,6 +174,7 @@ export function initTimelineEyes(): (() => void) | undefined {
       traveler.classList.remove('look-right');
     } else {
       // At 1024px+: flip based on passed container tops
+      const containerTopThresholds = getContainerThresholds();
       const passedContainers = containerTopThresholds.filter((t) => state.currentPercent >= t).length;
       const shouldLookLeft = passedContainers % 2 === 1;
 

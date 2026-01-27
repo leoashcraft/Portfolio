@@ -375,10 +375,18 @@ import Icon from '../ui/Icon.astro';
   init();
   document.addEventListener('astro:after-swap', init);
 
-  // Re-init slides when animations toggle changes
+  // Re-init slides and eyes when animations toggle changes
   window.addEventListener('animations-change', () => {
+    cleanup?.();
     slideCleanup?.();
+    cleanup = initTimelineEyes();
     slideCleanup = initExperienceSlides();
+  });
+
+  // Re-init eyes when theme changes (high contrast may affect layout)
+  window.addEventListener('theme-change', () => {
+    cleanup?.();
+    cleanup = initTimelineEyes();
   });
 
   // Year counter animation

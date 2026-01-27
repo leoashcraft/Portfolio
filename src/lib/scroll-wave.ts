@@ -156,7 +156,7 @@ export function initScrollWave(options: ScrollWaveOptions): () => void {
         const letterWindow = 0.15;
 
         // When wave is complete, all letters should be at normal scale
-        if (waveProgress >= 1) {
+        if (waveProgress >= 0.95) {
           state.letters.forEach((letter) => {
             letter.style.transform = 'scale(1)';
             letter.style.filter = '';

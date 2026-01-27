@@ -610,7 +610,7 @@ import Icon from '../ui/Icon.astro';
 
           if (Math.abs(titleProgress - state.lastTitleProgress) > 0.01) {
             state.lastTitleProgress = titleProgress;
-            if (titleProgress >= 1) {
+            if (titleProgress >= 0.95) {
               state.title.textContent = state.titleText;
             } else {
               const charsToShow = Math.floor(titleProgress * state.titleText.length);

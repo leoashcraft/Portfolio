@@ -325,6 +325,34 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
             setTheme(newTheme);
             updateAllIcons();
 
+            // Close info menu and mobile menu if open
+            const infoMenu = document.getElementById('info-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const infoToggle = document.getElementById('info-menu-toggle');
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+            const infoIcon = document.getElementById('info-icon');
+            const infoCloseIcon = document.getElementById('info-close-icon');
+            const nav = document.getElementById('main-nav');
+
+            if (infoMenu && infoMenu.style.maxHeight && infoMenu.style.maxHeight !== '0px') {
+              infoMenu.style.maxHeight = '0';
+              infoMenu.setAttribute('aria-hidden', 'true');
+              infoToggle?.setAttribute('aria-expanded', 'false');
+              infoIcon?.classList.remove('hidden');
+              infoCloseIcon?.classList.add('hidden');
+            }
+
+            if (mobileMenu && mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== '0px') {
+              mobileMenu.style.maxHeight = '0';
+              mobileMenu.setAttribute('aria-hidden', 'true');
+              mobileToggle?.setAttribute('aria-expanded', 'false');
+              hamburgerIcon?.classList.remove('hidden');
+              closeIcon?.classList.add('hidden');
+              nav?.classList.remove('menu-expanded');
+            }
+
             // Calculate how long to keep overlay visible
             const elapsed = Date.now() - startTime;
             const remainingForMin = Math.max(0, minDuration - elapsed);

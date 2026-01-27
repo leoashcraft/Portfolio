@@ -573,6 +573,14 @@
   animation-iteration-count: infinite !important;
 }
 
+/* Mouse scroll indicator bounce animation */
+[data-theme="high-contrast-light"] .animate-bounce {
+  animation-name: bounce !important;
+  animation-duration: 1s !important;
+  animation-timing-function: ease-in-out !important;
+  animation-iteration-count: infinite !important;
+}
+
 /* Keep essential transitions for usability */
 [data-theme="high-contrast-light"] .btn,
 [data-theme="high-contrast-light"] a {

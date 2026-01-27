@@ -636,6 +636,68 @@
   filter: grayscale(100%);
 }
 
+/* Disable logo shimmer and borders */
+[data-theme="high-contrast"] .logo-shimmer {
+  display: none !important;
+}
+
+[data-theme="high-contrast"] .logo-image-wrapper,
+[data-theme="high-contrast"] .logo-image-wrapper img,
+[data-theme="high-contrast"] .logo-thumbnail,
+[data-theme="high-contrast"] .logo-thumbnail img {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+[data-theme="high-contrast"] .logo-thumbnail:hover {
+  border-radius: 0.5rem !important;
+  transform: scale(1.05) !important;
+}
+
+/* Logo modal - prevent hover effects */
+[data-theme="high-contrast"] #logo-modal {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  background-color: #000000 !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+
+[data-theme="high-contrast"] #logo-modal img {
+  border: none !important;
+  filter: grayscale(100%);
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-theme="high-contrast"] #modal-close {
+  position: absolute !important;
+  top: 0.5rem !important;
+  right: 0.5rem !important;
+  color: #ffffff !important;
+  transform: none !important;
+  transition: none !important;
+  background: transparent !important;
+  font-size: 3rem !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 0 !important;
+  padding-bottom: 0.25rem !important;
+}
+
+[data-theme="high-contrast"] #modal-close:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 0.5rem !important;
+}
+
 /* Theme toggle button styling - same as secondary buttons */
 [data-theme="high-contrast"] .theme-toggle {
   background: #000000 !important;

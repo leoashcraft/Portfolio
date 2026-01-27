@@ -258,6 +258,9 @@ const props = Astro.props;
         // Intersection Observer to trigger animation
         const observer = new IntersectionObserver(
           (entries) => {
+            // Skip all animations if disabled
+            if (document.documentElement.getAttribute('data-animations') === 'disabled') return;
+
             entries.forEach((entry) => {
               // Skip if pending nav animation or already animated
               if (entry.isIntersecting && !animatedTitles.has(entry.target) && !pendingNavAnimation.has(entry.target)) {

@@ -112,4 +112,11 @@ export const services = [
       'Data synchronization',
     ],
   },
+  {
+    title: 'Logo & Branding Design',
+    description:
+      'Creating <span class="hover-underline-trigger">memorable visual identities</span> that capture your brand essence. From logo design, graphic design, and mascot design to complete brand systems, I craft cohesive, <span class="hover-underline-trigger">fully vectorized</span> visuals that make a lasting impression across all touchpoints. Whether it\'s printed on a pen or plastered on a billboard, every design stays <span class="hover-underline-trigger">pixel-perfect at any scale</span>.',
+    icon: 'palette',
+    features: [],
+  },
 ];

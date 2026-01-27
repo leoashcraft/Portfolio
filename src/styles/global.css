@@ -1771,6 +1771,62 @@ code, pre, kbd {
   animation: envelope-bounce 2.5s ease-in-out infinite;
 }
 
+/* Logo shimmer effect */
+@keyframes logo-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.logo-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.4) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  transition: opacity 0.3s ease;
+}
+
+.logo-shimmer.shimmer-active {
+  opacity: 1;
+  animation: logo-shimmer 1.5s ease-in-out 1;
+}
+
+[data-animations="disabled"] .logo-shimmer,
+[data-animations="disabled"] .logo-shimmer.shimmer-active {
+  display: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+.logo-image-wrapper img {
+  border: none !important;
+}
+
+.logo-thumbnail {
+  transition: transform 0.2s ease;
+}
+
+.logo-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+#logo-modal {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border-radius: 1rem;
+}
+
+#logo-modal img {
+  border: none !important;
+}
+
 /* Space Invader style character */
 .arcade-invader {
   width: 24px;
@@ -2000,10 +2056,13 @@ code, pre, kbd {
 
 /* Disable section title wave/sheen animations */
 [data-animations="disabled"] .section-title span,
-[data-animations="disabled"] .subsection-title span {
+[data-animations="disabled"] .subsection-title span,
+[data-animations="disabled"] .section-title .wave-letter,
+[data-animations="disabled"] .subsection-title .wave-letter {
   animation: none !important;
   transform: none !important;
   filter: none !important;
+  transition: none !important;
 }
 
 /* Disable service card feature item animations */

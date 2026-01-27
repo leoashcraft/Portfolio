@@ -43,6 +43,10 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
       if (animationsDisabled) {
         textEl.textContent = subtitle;
         textEl.dataset.animated = 'true';
+        if (cursorEl) {
+          cursorEl.classList.add('hidden');
+          cursorEl.style.display = 'none';
+        }
         return;
       }
 
@@ -51,12 +55,28 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
+            // Check animations disabled again in case it changed
+            if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+              textEl.textContent = subtitle;
+              textEl.dataset.animated = 'true';
+              cursorEl.classList.add('hidden');
+              cursorEl.style.display = 'none';
+              observer.disconnect();
+              return;
+            }
+
             if (entry.isIntersecting && textEl.dataset.animated !== 'true') {
               textEl.dataset.animated = 'true';
               observer.disconnect();
 
               // Delay to let title animation start first
               setTimeout(() => {
+                // Double check animations not disabled during delay
+                if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+                  cursorEl.classList.add('hidden');
+                  cursorEl.style.display = 'none';
+                  return;
+                }
                 cursorEl.classList.remove('hidden');
                 typePhrase(textEl, subtitle, () => {
                   // Hide cursor after typing completes
@@ -75,6 +95,33 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
     });
   }
 
+  // Handle animations state changes
+  function handleAnimationsChange() {
+    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+    const containers = document.querySelectorAll('.section-header-container');
+
+    containers.forEach((container) => {
+      const textEl = container.querySelector('.subtitle-text') as HTMLElement;
+      const cursorEl = container.querySelector('.subtitle-cursor') as HTMLElement;
+
+      if (!textEl) return;
+
+      // Hide cursor
+      if (cursorEl) {
+        cursorEl.classList.add('hidden');
+        cursorEl.style.display = 'none';
+      }
+
+      // If animations disabled, show text immediately
+      if (animationsDisabled) {
+        const subtitle = textEl.dataset.subtitle || '';
+        textEl.textContent = subtitle;
+        textEl.dataset.animated = 'true';
+      }
+    });
+  }
+
   initSubtitleTypewriters();
   document.addEventListener('astro:after-swap', initSubtitleTypewriters);
+  window.addEventListener('animations-change', handleAnimationsChange);
 </script>

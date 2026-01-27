@@ -58,6 +58,13 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Staggered Features**: Checkmark items slide right with staggered delays
 - **Title Glow**: Service titles gain a subtle pink glow on hover
 
+#### Logo & Branding Section
+- **Logo Gallery**: Displays portfolio logos (Golden Lighting Co., Honey Bee Window Cleaning, Eagle IT)
+- **Shimmer Effect**: On hover, a single shimmer sweep plays across the visible (non-transparent) parts of each logo using CSS mask
+- **Hover Scale**: Logos scale up 5% on hover
+- **Lightbox Modal**: Clicking a logo opens an in-card modal overlay with larger view
+- **High Contrast Support**: Shimmer disabled, logos display in grayscale, modal has solid background
+
 #### Timeline Eyes
 The Experience section features animated eye emojis that travel down the timeline:
 - **Four Travelers**: Four eye emojis with different colored glows (pink, cyan, yellow, green) travel with 8-second staggered starts
@@ -155,7 +162,7 @@ src/
 │   ├── navigation.ts    # Nav menu items
 │   ├── profile.ts       # Personal info & contact (obfuscated)
 │   ├── projects.ts      # Featured projects (supports nested sub-projects)
-│   └── skills.ts        # Technical skills & services
+│   └── skills.ts        # Technical skills & services (including Logo & Branding)
 ├── layouts/
 │   └── BaseLayout.astro # Main layout with SEO
 ├── lib/

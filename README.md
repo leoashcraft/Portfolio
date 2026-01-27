@@ -97,8 +97,9 @@ Each section features floating geometric shapes inspired by 80s arcade carpet pa
 - **Mouse Heatmap**: Subtle glowing dots trail behind cursor, fading out over 8 seconds
 
 #### Button Hover Effects
-- **Primary Button**: Cyan glow chases counter-clockwise around border on hover
-- **Secondary Button**: Pink glow chases clockwise around border on hover
+- **Primary Button**: Cyan glow chases counter-clockwise around border on hover, lifts 3px
+- **Secondary Button**: Pink glow chases clockwise around border on hover, lifts 3px
+- **High Contrast**: Lift effect disabled in high contrast modes for accessibility
 
 ### Security Measures
 
@@ -125,7 +126,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 - Scroll-aware navbar with dynamic opacity
 - Arcade carpet gradient background on scroll
 - Mobile hamburger menu with chasing pink border animation on expanded nav
-- Heat glow effect follows cursor on desktop
+- Heat glow effect follows cursor on desktop (contained within nav boundaries)
 - Navigation links: Home, About, Experience, Projects, GitHub, Contact
 
 ### GitHub Integration
@@ -145,7 +146,7 @@ src/
 │   ├── github/          # GitHub heatmap (React)
 │   ├── hero/            # Hero section with typewriter & word animations
 │   ├── sections/        # About, Experience, Projects, Contact
-│   └── ui/              # Reusable UI components (Icon)
+│   └── ui/              # Reusable UI components (Icon, ToggleSwitch, SocialLink)
 ├── data/
 │   ├── experience.ts    # Work history & education
 │   ├── navigation.ts    # Nav menu items
@@ -158,7 +159,7 @@ src/
 │   ├── contact.ts       # Email/phone unscrambling utilities
 │   ├── icon-flip.ts     # Shared icon flip animation logic
 │   ├── parallax.ts      # Section-based parallax for decorations
-│   ├── theme.ts         # Theme state management (normal, high-contrast, high-contrast-light)
+│   ├── theme.ts         # Theme & animations state management
 │   ├── timeline-eyes.ts # Timeline eye direction & blink logic
 │   └── typewriter.ts    # Natural typing delay utilities
 ├── pages/
@@ -214,6 +215,62 @@ Usage example:
 .glow-cyan-lg /* 30px cyan glow */
 ```
 
+### Reusable UI Components
+
+#### ToggleSwitch
+A styled toggle switch component for boolean settings.
+
+```astro
+---
+import ToggleSwitch from '@/components/ui/ToggleSwitch.astro';
+---
+
+<ToggleSwitch checked={false} class="my-custom-class" />
+```
+
+Props:
+- `checked` (boolean, default: `false`) - Initial toggle state
+- `class` (string, optional) - Additional CSS classes
+
+State is managed via `data-checked` attribute. Update with JavaScript:
+```javascript
+const toggle = document.querySelector('.toggle-switch');
+toggle.setAttribute('data-checked', 'true');
+toggle.querySelector('.toggle-switch-knob').classList.add('translate-x-4');
+```
+
+#### SocialLink
+A reusable social link button with platform-specific icons and hover colors.
+
+```astro
+---
+import SocialLink from '@/components/ui/SocialLink.astro';
+---
+
+<SocialLink platform="github" href="https://github.com/user" size="md" />
+<SocialLink platform="linkedin" href="https://linkedin.com/in/user" size="lg" />
+<SocialLink platform="email" href="mailto:user@example.com" size="sm" />
+```
+
+Props:
+- `platform` (`'github' | 'linkedin' | 'email'`) - Platform type (required)
+- `href` (string) - Link URL (required)
+- `size` (`'sm' | 'md' | 'lg'`, default: `'md'`) - Icon and container size
+- `class` (string, optional) - Additional CSS classes
+
+| Size | Container | Icon |
+|------|-----------|------|
+| sm | 32px (w-8) | 16px (w-4) |
+| md | 40px (w-10) | 20px (w-5) |
+| lg | 48px (w-12) | 24px (w-6) |
+
+Platform hover colors:
+- GitHub: Neon pink (`hover:text-neon-pink`)
+- LinkedIn: Neon purple (`hover:text-neon-purple`)
+- Email: Neon yellow (`hover:text-neon-yellow`)
+
+External links (GitHub, LinkedIn) automatically include `target="_blank"` and `rel="noopener noreferrer"`.
+
 ## Image Guidelines
 
 ### Project Images
@@ -258,6 +315,7 @@ A theme toggle dropdown in the navigation provides three contrast options:
 Features:
 - **Theme Persistence**: Selection saved to localStorage, persists across sessions
 - **No Flash**: Inline script in `<head>` applies theme before first paint
+- **Smooth Transitions**: 1-second loading overlay with spinner during theme changes for smoother UX
 - **Disabled Animations**: All decorative animations stopped for reduced distraction
 - **Timeline Eyes Exception**: Eyes continue animating in grayscale for visual interest
 - **Mobile Optimizations**: High contrast light mode adjusts hero section with gradient background
@@ -266,7 +324,30 @@ Features:
 CSS files:
 - `src/styles/high-contrast.css` - Dark high contrast theme
 - `src/styles/high-contrast-light.css` - Light high contrast theme
-- `src/lib/theme.ts` - Theme state management (getTheme, setTheme, toggleTheme)
+- `src/lib/theme.ts` - Theme and animations state management
+
+#### Animations Toggle
+A toggle switch inside the contrast dropdown allows users to disable all animations:
+
+- **Global Disable**: Stops all CSS animations and transitions site-wide
+- **Static Backgrounds**: Parallax backgrounds remain visible but without parallax movement
+- **Static Text**: Hero typewriter shows "Full Stack Software Developer" without typing animation
+- **Re-triggerable**: Turning animations back on restarts the typewriter effect
+- **Timeline Eyes Hidden**: Animated eye emojis are removed from the timeline
+- **Cursor Visibility**: Typewriter cursors are hidden when animations are disabled
+- **Persistence**: Setting saved to localStorage, applies immediately on page load
+
+Implementation:
+```typescript
+// src/lib/theme.ts
+getAnimationsEnabled()    // Returns boolean
+setAnimationsEnabled(enabled: boolean)
+toggleAnimations()        // Returns new state
+
+// Dispatches 'animations-change' custom event for React components
+```
+
+CSS uses `[data-animations="disabled"]` attribute on `<html>` to disable animations globally.
 
 #### Other Accessibility Features
 - Semantic HTML structure

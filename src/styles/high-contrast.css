@@ -38,7 +38,7 @@
 }
 
 /* Hide decorative bg-neon elements but not interactive ones */
-[data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot),
+[data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot):not(.toggle-switch),
 [data-theme="high-contrast"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor):not(.subtitle-cursor) {
   display: none !important;
   visibility: hidden !important;
@@ -46,11 +46,9 @@
 }
 
 /* Typewriter cursors - white in high contrast */
-[data-theme="high-contrast"] #typewriter-cursor,
-[data-theme="high-contrast"] .subtitle-cursor {
-  display: inline-block !important;
+[data-theme="high-contrast"] #typewriter-cursor:not([style*="display: none"]),
+[data-theme="high-contrast"] .subtitle-cursor:not([style*="display: none"]) {
   visibility: visible !important;
-  opacity: 1 !important;
   background: #ffffff !important;
   box-shadow: none !important;
 }
@@ -144,6 +142,15 @@
   color: #ffffff !important;
 }
 
+/* Wave letters inside gradient-text - override inline styles */
+[data-theme="high-contrast"] .gradient-text .wave-letter {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
 /* Cards and glass effects */
 [data-theme="high-contrast"] .card,
 [data-theme="high-contrast"] .glass {
@@ -169,6 +176,7 @@
 [data-theme="high-contrast"] button:hover {
   background: #ffffff !important;
   color: #000000 !important;
+  transform: none !important;
 }
 
 /* Secondary buttons - same hover effect as primary */
@@ -274,15 +282,20 @@
   filter: none !important;
 }
 
-/* Project section glow effects */
+/* Project section glow effects - hide blur elements */
 [data-theme="high-contrast"] .project-image-wrapper .blur-xl,
-[data-theme="high-contrast"] .project-image-wrapper [class*="blur-"],
+[data-theme="high-contrast"] .project-image-wrapper [class*="blur-"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Glow text - remove glow but keep text visible */
 [data-theme="high-contrast"] .glow-text-pink,
 [data-theme="high-contrast"] .glow-text-cyan,
 [data-theme="high-contrast"] .glow-text-purple,
 [data-theme="high-contrast"] [class*="glow-text-"] {
-  display: none !important;
-  opacity: 0 !important;
+  text-shadow: none !important;
+  color: #ffffff !important;
 }
 
 /* Modal tile hover shadows */
@@ -515,6 +528,19 @@
   transition-duration: 0.01ms !important;
 }
 
+/* Hero content - make visible and animate */
+[data-theme="high-contrast"] #home .rounded-2xl > p,
+[data-theme="high-contrast"] #home .rounded-2xl > h1,
+[data-theme="high-contrast"] #home .rounded-2xl > h2,
+[data-theme="high-contrast"] #home .rounded-2xl > .flex,
+[data-theme="high-contrast"] #home .rounded-2xl > .grid {
+  animation-name: fadeInUp !important;
+  animation-duration: 0.6s !important;
+  animation-timing-function: ease !important;
+  animation-iteration-count: 1 !important;
+  animation-fill-mode: forwards !important;
+}
+
 /* Re-enable timeline eyes animations - must come after the disable rule */
 /* Use individual properties to preserve inline animation-delay */
 [data-theme="high-contrast"] .timeline-traveler {
@@ -535,9 +561,12 @@
 }
 
 /* Typewriter cursor blink animation - must be after animation disable rule */
-[data-theme="high-contrast"] #typewriter-cursor,
-[data-theme="high-contrast"] .subtitle-cursor {
-  animation: cursor-blink 1s step-end infinite !important;
+[data-theme="high-contrast"] #typewriter-cursor:not([style*="display: none"]),
+[data-theme="high-contrast"] .subtitle-cursor:not([style*="display: none"]) {
+  animation-name: cursor-blink !important;
+  animation-duration: 1s !important;
+  animation-timing-function: step-end !important;
+  animation-iteration-count: infinite !important;
 }
 
 /* Keep essential transitions for usability */
@@ -625,6 +654,25 @@
   color: #ffffff !important;
 }
 
+/* Ensure toggle switch in dropdown has correct colors */
+/* OFF state - dark track, white knob (must override bg-neon-cyan which becomes white in high contrast) */
+[data-theme="high-contrast"] .theme-dropdown .toggle-switch[data-checked="false"] {
+  background-color: #333333 !important;
+}
+
+[data-theme="high-contrast"] .theme-dropdown .toggle-switch[data-checked="false"] .toggle-switch-knob {
+  background-color: #ffffff !important;
+}
+
+/* ON state - white track, black knob */
+[data-theme="high-contrast"] .theme-dropdown .toggle-switch[data-checked="true"] {
+  background-color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] .theme-dropdown .toggle-switch[data-checked="true"] .toggle-switch-knob {
+  background-color: #000000 !important;
+}
+
 [data-theme="high-contrast"] .theme-option {
   color: #ffffff !important;
   background: transparent !important;
@@ -648,6 +696,64 @@
 
 [data-theme="high-contrast"] .theme-option:hover svg {
   color: #000000 !important;
+}
+
+/* Animations toggle */
+[data-theme="high-contrast"] .animations-toggle {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+[data-theme="high-contrast"] .animations-toggle:hover,
+[data-theme="high-contrast"] .animations-toggle:hover * {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast"] .animations-toggle:hover svg {
+  color: #000000 !important;
+}
+
+[data-theme="high-contrast"] .animations-toggle {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Toggle switch in high contrast */
+[data-theme="high-contrast"] .toggle-switch {
+  width: 44px !important;
+  height: 24px !important;
+  background: #333333 !important;
+  border: 1px solid #ffffff !important;
+}
+
+[data-theme="high-contrast"] .toggle-switch.checked,
+[data-theme="high-contrast"] .toggle-switch[data-checked="true"] {
+  background: #ffffff !important;
+}
+
+/* Toggle switch knob - base styles */
+[data-theme="high-contrast"] .toggle-switch .toggle-switch-knob {
+  position: absolute !important;
+  width: 20px !important;
+  height: 20px !important;
+  top: 1px !important;
+  left: 2px !important;
+  border-radius: 9999px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+  background-color: #ffffff !important;
+  transform: translateX(0) !important;
+}
+
+/* ON state - black knob on white track */
+[data-theme="high-contrast"] .toggle-switch.checked .toggle-switch-knob,
+[data-theme="high-contrast"] .toggle-switch[data-checked="true"] .toggle-switch-knob {
+  background-color: #000000 !important;
+  transform: translateX(20px) !important;
 }
 
 /* Scrollbar - high contrast */

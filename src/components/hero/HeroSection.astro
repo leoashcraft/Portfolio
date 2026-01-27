@@ -305,6 +305,9 @@ import { heroTitles } from '../../data/hero';
   }
 
   // Typewriter effect for title
+  let typewriterTimeout: number | null = null;
+  let typewriterRunning = false;
+
   function initTypewriter() {
     const element = document.getElementById('typewriter');
     const cursor = document.getElementById('typewriter-cursor');
@@ -312,6 +315,27 @@ import { heroTitles } from '../../data/hero';
 
     const titlesData = element.getAttribute('data-titles');
     const titles: string[] = titlesData ? JSON.parse(titlesData) : ['Full Stack Software Developer'];
+
+    // Check if animations are disabled
+    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+    if (animationsDisabled) {
+      // Stop any running typewriter
+      if (typewriterTimeout) {
+        clearTimeout(typewriterTimeout);
+        typewriterTimeout = null;
+      }
+      typewriterRunning = false;
+      // Just show the first title, no animation
+      element.textContent = titles[0];
+      if (cursor) {
+        cursor.classList.add('hidden');
+      }
+      return;
+    }
+
+    // If already running, don't restart
+    if (typewriterRunning) return;
+    typewriterRunning = true;
 
     // Start with first title complete, ready to delete
     let titleIndex = 0;
@@ -341,12 +365,19 @@ import { heroTitles } from '../../data/hero';
     }
 
     function type() {
+      // Stop if animations were disabled
+      if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+        element.textContent = titles[0];
+        typewriterRunning = false;
+        return;
+      }
+
       const currentTitle = titles[titleIndex];
 
       if (isPaused) {
         isPaused = false;
         isDeleting = true;
-        setTimeout(type, pauseTime);
+        typewriterTimeout = window.setTimeout(type, pauseTime);
         return;
       }
 
@@ -357,7 +388,7 @@ import { heroTitles } from '../../data/hero';
         if (charIndex === 0) {
           isDeleting = false;
           titleIndex = (titleIndex + 1) % titles.length;
-          setTimeout(type, 500);
+          typewriterTimeout = window.setTimeout(type, 500);
           return;
         }
       } else {
@@ -367,22 +398,35 @@ import { heroTitles } from '../../data/hero';
 
         if (charIndex === currentTitle.length) {
           isPaused = true;
-          setTimeout(type, 100);
+          typewriterTimeout = window.setTimeout(type, 100);
           return;
         }
-        setTimeout(type, getRandomTypeDelay(currentChar));
+        typewriterTimeout = window.setTimeout(type, getRandomTypeDelay(currentChar));
         return;
       }
 
-      setTimeout(type, deleteSpeed);
+      typewriterTimeout = window.setTimeout(type, deleteSpeed);
     }
 
     // Show cursor immediately, wait 4 seconds before erasing
     if (cursor) {
       cursor.classList.remove('hidden');
     }
-    setTimeout(type, 4000);
+    typewriterTimeout = window.setTimeout(type, 4000);
   }
+
+  // Listen for animations toggle
+  window.addEventListener('animations-change', (e: Event) => {
+    const customEvent = e as CustomEvent<{ enabled: boolean }>;
+    if (customEvent.detail.enabled) {
+      // Re-enable animations - restart typewriter
+      typewriterRunning = false;
+      initTypewriter();
+    } else {
+      // Disable animations - stop typewriter and show static text
+      initTypewriter();
+    }
+  });
 
   // Explicit scroll handler for contact button
   function initContactButton() {
@@ -400,6 +444,9 @@ import { heroTitles } from '../../data/hero';
 
   // Tagline word grow animation
   function animateTaglineWords(startDelay: number = 1400) {
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') return;
+
     const words = document.querySelectorAll('.tagline-word') as NodeListOf<HTMLElement>;
     if (words.length === 0) return;
 
@@ -450,9 +497,10 @@ import { heroTitles } from '../../data/hero';
     const heroSection = document.getElementById('home');
     if (!parallaxBg || !heroSection) return;
 
-    // Check for reduced motion preference
+    // Check for reduced motion preference or animations disabled
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+    if (prefersReducedMotion || animationsDisabled) return;
 
     let ticking = false;
 
@@ -499,8 +547,10 @@ import { heroTitles } from '../../data/hero';
     const section = document.getElementById('home');
     if (!section) return;
 
+    // Check for reduced motion preference or animations disabled
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+    if (prefersReducedMotion || animationsDisabled) return;
 
     const parallaxElements = section.querySelectorAll('[data-parallax]') as NodeListOf<HTMLElement>;
     if (parallaxElements.length === 0) return;

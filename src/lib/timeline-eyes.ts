@@ -8,6 +8,9 @@ interface TravelerState {
 }
 
 export function initTimelineEyes(): (() => void) | undefined {
+  // Skip if animations disabled
+  if (document.documentElement.getAttribute('data-animations') === 'disabled') return;
+
   const timelineLine = document.getElementById('timeline-line');
   const timelineEyes = document.getElementById('timeline-eyes');
   if (!timelineLine || !timelineEyes) return;

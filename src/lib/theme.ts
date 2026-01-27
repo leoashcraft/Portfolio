@@ -1,10 +1,12 @@
 /**
  * Theme utility for toggling between normal, high contrast dark, and high contrast light modes
+ * Also handles animation preferences
  */
 
 export type Theme = 'normal' | 'high-contrast' | 'high-contrast-light';
 
 const STORAGE_KEY = 'portfolio-theme';
+const ANIMATIONS_KEY = 'portfolio-animations';
 
 // Theme cycle order
 const THEME_ORDER: Theme[] = ['normal', 'high-contrast', 'high-contrast-light'];
@@ -37,4 +39,29 @@ export function toggleTheme(): Theme {
 export function initTheme(): void {
   const theme = getTheme();
   document.documentElement.setAttribute('data-theme', theme);
+
+  // Also init animations preference
+  const animationsEnabled = getAnimationsEnabled();
+  document.documentElement.setAttribute('data-animations', animationsEnabled ? 'enabled' : 'disabled');
+}
+
+// Animation preference functions
+export function getAnimationsEnabled(): boolean {
+  if (typeof window === 'undefined') return true;
+  const stored = localStorage.getItem(ANIMATIONS_KEY);
+  // Default to enabled if not set
+  return stored !== 'disabled';
+}
+
+export function setAnimationsEnabled(enabled: boolean): void {
+  localStorage.setItem(ANIMATIONS_KEY, enabled ? 'enabled' : 'disabled');
+  document.documentElement.setAttribute('data-animations', enabled ? 'enabled' : 'disabled');
+  window.dispatchEvent(new CustomEvent('animations-change', { detail: { enabled } }));
+}
+
+export function toggleAnimations(): boolean {
+  const current = getAnimationsEnabled();
+  const next = !current;
+  setAnimationsEnabled(next);
+  return next;
 }

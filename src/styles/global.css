@@ -339,6 +339,14 @@ code, pre, kbd {
   background-image: linear-gradient(135deg, var(--color-neon-pink), var(--color-neon-purple));
 }
 
+/* Ensure wave-letter spans inside gradient-text get the gradient via CSS */
+.gradient-text .wave-letter {
+  background-image: linear-gradient(135deg, var(--color-neon-pink), var(--color-neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .gradient-text-animated {
   @apply bg-clip-text text-transparent;
   background-size: 300% 300%;
@@ -835,6 +843,7 @@ code, pre, kbd {
 }
 
 .btn-primary:hover {
+  transform: translateY(-3px);
   box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
 }
 
@@ -888,6 +897,7 @@ code, pre, kbd {
 }
 
 .btn-secondary:hover {
+  transform: translateY(-3px);
   border-color: rgba(255, 0, 255, 0.2);
   background-color: transparent;
   box-shadow: 0 0 15px rgba(255, 0, 255, 0.15);
@@ -1895,3 +1905,59 @@ code, pre, kbd {
 /* High Contrast Theme */
 @import "./high-contrast.css";
 @import "./high-contrast-light.css";
+
+/* ============================================
+   Animations Disabled Mode
+   ============================================ */
+[data-animations="disabled"] *,
+[data-animations="disabled"] *::before,
+[data-animations="disabled"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Hide floating shapes when animations disabled, but keep backgrounds visible */
+[data-animations="disabled"] #hero-shapes {
+  display: none !important;
+}
+
+/* Disable parallax transform on backgrounds when animations disabled */
+[data-animations="disabled"] #hero-parallax-container,
+[data-animations="disabled"] #hero-parallax-bg,
+[data-animations="disabled"] #contact-parallax-bg {
+  transform: none !important;
+}
+
+/* Make hero content immediately visible */
+[data-animations="disabled"] #home .rounded-2xl > p,
+[data-animations="disabled"] #home .rounded-2xl > h1,
+[data-animations="disabled"] #home .rounded-2xl > h2,
+[data-animations="disabled"] #home .rounded-2xl > .flex,
+[data-animations="disabled"] #home .rounded-2xl > .grid {
+  opacity: 1 !important;
+}
+
+/* Hide typewriter cursor when animations disabled */
+[data-animations="disabled"] #typewriter-cursor,
+[data-animations="disabled"] .subtitle-cursor {
+  display: none !important;
+}
+
+/* Disable floating decorations */
+[data-animations="disabled"] .drift-1,
+[data-animations="disabled"] .drift-2,
+[data-animations="disabled"] .drift-3,
+[data-animations="disabled"] .drift-slow,
+[data-animations="disabled"] .drift-diagonal,
+[data-animations="disabled"] .spin-slow,
+[data-animations="disabled"] .wobble {
+  animation: none !important;
+}
+
+/* Hide timeline traveler eyes when animations disabled */
+[data-animations="disabled"] .timeline-traveler {
+  display: none !important;
+}

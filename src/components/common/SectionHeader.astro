@@ -28,13 +28,25 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
   function initSubtitleTypewriters() {
     const containers = document.querySelectorAll('.section-header-container');
 
+    // Check if animations are disabled
+    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+
     containers.forEach((container) => {
       const textEl = container.querySelector('.subtitle-text') as HTMLElement;
       const cursorEl = container.querySelector('.subtitle-cursor') as HTMLElement;
 
-      if (!textEl || !cursorEl || textEl.dataset.animated === 'true') return;
+      if (!textEl || textEl.dataset.animated === 'true') return;
 
       const subtitle = textEl.dataset.subtitle || '';
+
+      // If animations disabled, just show text immediately
+      if (animationsDisabled) {
+        textEl.textContent = subtitle;
+        textEl.dataset.animated = 'true';
+        return;
+      }
+
+      if (!cursorEl) return;
 
       const observer = new IntersectionObserver(
         (entries) => {

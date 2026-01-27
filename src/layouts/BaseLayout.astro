@@ -25,11 +25,14 @@ const props = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <SEOHead {...props} />
-    <!-- Prevent flash of wrong theme -->
+    <!-- Prevent flash of wrong theme/animations -->
     <script is:inline>
       (function() {
         const theme = localStorage.getItem('portfolio-theme') || 'normal';
         document.documentElement.setAttribute('data-theme', theme);
+
+        const animations = localStorage.getItem('portfolio-animations');
+        document.documentElement.setAttribute('data-animations', animations === 'disabled' ? 'disabled' : 'enabled');
       })();
     </script>
   </head>

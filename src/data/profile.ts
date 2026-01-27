@@ -5,15 +5,7 @@ export const profile = {
   tagline: 'I Cultivate Digital Excellence',
   description:
     'Full Stack Software Developer with 15+ years of IT experience, specializing in clean, maintainable PHP and JavaScript code. Currently developing solutions at Parker University.',
-  bio: `I'm Leo Ashcraft, a software engineer with 15+ years of IT experience and 5+ years of dedicated software engineering.
-
-I've been programming as a hobby since before my technical career began, and have written production PHP, JavaScript, HTML/CSS, and SQL across healthcare, education, government, and private-sector organizations - building intranets, portals, automation tools, and customer-facing applications that replaced manual workflows and delivered measurable outcomes. I've had the privilege of building solutions for organizations like The Smithsonian Institute, Mayo Clinic, and Texas Parks and Wildlife.
-
-My career has consistently involved building and maintaining software systems, even before my roles were formally titled "Software Developer." Over the last 5–6 years, development became my primary focus, reflected in my roles at SFG and Parker University.
-
-Currently at Parker University, I develop front-end and PHP-based back-end systems, create custom WordPress plugins, and architect API integrations. My focus is on creating clean, efficient, and maintainable code that solves real business problems.
-
-Outside of work, I build React-based side projects to stay sharp and explore modern tooling - from trip planners to community platforms to family organizers.`,
+  bio: `I'm Leo Ashcraft, a full-stack developer with 15+ years turning ideas into polished digital experiences. My focus: clean code, smooth animations, intuitive user interfaces, and seamless user experiences—all built with SEO and AI visibility in mind. Currently at Parker University building solutions that matter. Whether you have a project in mind or just want to connect—I'd love to hear from you.`,
 
   availability: ['Open to W2 Roles', 'Accepting Select Freelance'],
 

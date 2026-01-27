@@ -180,16 +180,15 @@ import { heroTitles } from '../../data/hero';
   >
   </div>
 
-  <!-- Mascot Image (behind text, off-center left) -->
-  <img
-    src="/img/leo-mascot.avif"
-    alt="Hyper-realistic Portrait of Leo Ashcraft"
-    class="hero-mascot absolute top-[42%] md:top-[53%] left-1/2 md:left-[7%] lg:left-[8%] xl:left-[13%] 2xl:left-[19%] w-[250px] xl:w-[300px] min-[2200px]:w-[400px] min-[2500px]:w-[500px] h-auto pointer-events-none z-[5]"
-    aria-hidden="true"
-  />
-
-  <!-- Content -->
+  <!-- Content Container (centered) -->
   <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-20">
+    <!-- Mascot: Absolute positioned, behind content on mobile, to the left on desktop -->
+    <img
+      src="/img/leo-mascot.avif"
+      alt="Hyper-realistic Portrait of Leo Ashcraft"
+      class="hero-mascot absolute top-[44%] md:top-[37%] lg:top-[45%] xl:top-[55%] left-1/2 md:left-[16%] lg:left-[9%] xl:left-[-1%] -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-[230px] lg:w-[220px] xl:w-[300px] h-auto pointer-events-none -z-10 md:z-[5]"
+      aria-hidden="true"
+    />
     <div class="rounded-2xl p-8 md:p-12 mt-36 md:mt-0 bg-black/70 md:bg-transparent shadow-[0_0_60px_40px_rgba(0,0,0,0.7)] md:shadow-none">
     <!-- Greeting (visible immediately on mobile, fade-in on desktop) -->
     <p
@@ -200,14 +199,14 @@ import { heroTitles } from '../../data/hero';
 
     <!-- Name (LCP element - visible immediately on mobile) -->
     <h1
-      class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
+      class="hero-title text-4xl sm:text-5xl md:text-5xl lg:text-7xl font-bold mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
     >
       <span class="gradient-text-animated">{profile.name}</span><span class="sr-only"> - Full Stack Software Developer</span>
     </h1>
 
     <!-- Title with Typewriter Effect -->
     <h2
-      class="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2.25rem]"
+      class="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-gray-300 mb-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2rem] lg:h-[2.25rem]"
     >
       <span id="typewriter" data-titles={JSON.stringify(heroTitles)}>{heroTitles[0]}</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
@@ -215,7 +214,7 @@ import { heroTitles } from '../../data/hero';
     <!-- Tagline with word-by-word grow animation -->
     <p
       id="hero-tagline"
-      class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
+      class="text-gray-400 text-lg md:text-lg lg:text-xl max-w-2xl mx-auto mb-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
     >
       {profile.tagline.split(' ').map((word, i) => (
         <span class="tagline-word inline-block transition-transform duration-200" data-word-index={i}>{word}{i < profile.tagline.split(' ').length - 1 ? '\u00A0' : ''}</span>
@@ -226,7 +225,7 @@ import { heroTitles } from '../../data/hero';
     <div
       class="flex flex-col sm:flex-row items-center justify-center gap-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1s_forwards]"
     >
-      <a href="#projects" class="btn btn-primary">
+      <a href="#projects" class="btn btn-primary md:text-sm lg:text-base">
         View My Work
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
@@ -237,7 +236,7 @@ import { heroTitles } from '../../data/hero';
         </svg>
       </a>
 
-      <a href="#contact" id="contact-btn" class="btn btn-secondary">
+      <a href="#contact" id="contact-btn" class="btn btn-secondary md:text-sm lg:text-base">
         Get In Touch
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
@@ -252,12 +251,12 @@ import { heroTitles } from '../../data/hero';
 
     <!-- Stats (visible immediately on mobile) -->
     <div
-      class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1.2s_forwards]"
+      class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:w-[120%] md:-ml-[10%] xl:w-full xl:ml-0 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1.2s_forwards]"
     >
       {
         profile.stats.map((stat) => (
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-white">
+            <div class="text-3xl md:text-3xl lg:text-4xl font-bold text-white">
               <span class="counter" data-target={stat.value}>
                 0
               </span>

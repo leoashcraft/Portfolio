@@ -433,6 +433,15 @@ code, pre, kbd {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.95;
+  }
+}
+
 @keyframes scaleIn {
   from {
     opacity: 0;
@@ -477,12 +486,11 @@ code, pre, kbd {
 /* Hero Mascot Slide-in Animation */
 .hero-mascot {
   opacity: 0.95;
-  transform: translateX(-50%) translateY(-50%);
 }
 
 @media (min-width: 768px) {
   .hero-mascot {
-    animation: slideInFromLeft 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 }
 
@@ -934,6 +942,12 @@ code, pre, kbd {
   background: transparent !important;
 }
 
+/* Nav link hover - bold text */
+#nav-links-inline a:hover,
+#mobile-menu a:hover {
+  font-weight: 700;
+}
+
 /* Chasing border on main-nav when menu is open */
 #main-nav.menu-expanded::before {
   content: '';
@@ -1002,7 +1016,14 @@ code, pre, kbd {
   --chase-radius: 0.75rem;
 }
 
-.modal-tile:hover { border-color: transparent; }
+.modal-tile:hover {
+  border-color: transparent;
+  transform: scale(1.02);
+}
+
+.modal-tile {
+  transition: transform 0.2s ease;
+}
 
 /* Cyan variant */
 .modal-tile-cyan { --chase-color: rgba(0, 255, 247, 0.6); }

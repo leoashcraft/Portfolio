@@ -602,6 +602,21 @@
   border: 1px solid #ffffff !important;
 }
 
+/* Modal tile hover - scale and invert */
+[data-theme="high-contrast"] .modal-tile:hover {
+  transform: scale(1.02) !important;
+  background: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+[data-theme="high-contrast"] .modal-tile:hover *,
+[data-theme="high-contrast"] .modal-tile:hover p,
+[data-theme="high-contrast"] .modal-tile:hover span,
+[data-theme="high-contrast"] .modal-tile:hover h3,
+[data-theme="high-contrast"] .modal-tile:hover h4 {
+  color: #000000 !important;
+}
+
 /* Ensure good focus visibility */
 [data-theme="high-contrast"] *:focus {
   outline: 2px solid #ffffff !important;
@@ -914,5 +929,14 @@ html[data-theme="high-contrast"] {
 [data-theme="high-contrast"] #contact .social-link:hover,
 [data-theme="high-contrast"] #contact a[class*="rounded-full"]:hover,
 [data-theme="high-contrast"] #contact a[class*="border-neon-"]:hover {
-  background: #cccccc !important;
+  background: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme="high-contrast"] #contact a[href*="github"]:hover svg,
+[data-theme="high-contrast"] #contact a[href*="linkedin"]:hover svg,
+[data-theme="high-contrast"] #contact .social-link:hover svg,
+[data-theme="high-contrast"] #contact a[class*="rounded-full"]:hover svg,
+[data-theme="high-contrast"] #contact a[class*="border-neon-"]:hover svg {
+  color: #ffffff !important;
 }

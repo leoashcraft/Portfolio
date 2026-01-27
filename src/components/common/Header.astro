@@ -42,19 +42,19 @@ const mailtoLink = getMailtoLink(profile);
 
     <!-- Right Side -->
     <div class="flex items-center gap-3">
-      <!-- Desktop Social Icons (visible above 950px) -->
+      <!-- Desktop Social Icons (visible above 960px) -->
       <div id="social-icons-desktop" class="social-icons-desktop hidden items-center gap-2">
         <SocialLink platform="github" href={profile.social.github} />
         <SocialLink platform="linkedin" href={profile.social.linkedin} />
         <SocialLink platform="email" href={mailtoLink} />
       </div>
 
-      <!-- Theme Toggle (visible above 950px and below 681px) -->
+      <!-- Theme Toggle (visible above 960px and below 681px) -->
       <div class="theme-toggle-inline">
         <ThemeToggle />
       </div>
 
-      <!-- Info Button (visible 950px - 681px) - shows social icons -->
+      <!-- Info Button (visible 960px - 681px) - shows social icons -->
       <button
         id="info-menu-toggle"
         class="info-menu-toggle hidden w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center text-gray-300 hover:text-neon-pink hover:border-neon-pink hover:bg-neon-pink/10 transition-all duration-200"
@@ -87,7 +87,7 @@ const mailtoLink = getMailtoLink(profile);
       </button>
     </div>
 
-    <!-- Info Menu Dropdown (social icons + theme toggle) - visible 950px - 681px -->
+    <!-- Info Menu Dropdown (social icons + theme toggle) - visible 960px - 681px -->
     <div
       id="info-menu"
       class="info-menu w-full overflow-hidden transition-all duration-300 ease-in-out"
@@ -135,8 +135,8 @@ const mailtoLink = getMailtoLink(profile);
 <style>
   /* Default: hide everything, JS will manage visibility based on breakpoints */
 
-  /* Desktop: >950px - nav links and social icons visible */
-  @media (min-width: 951px) {
+  /* Desktop: >960px - nav links and social icons visible */
+  @media (min-width: 961px) {
     .nav-links-inline {
       display: flex !important;
     }
@@ -157,8 +157,8 @@ const mailtoLink = getMailtoLink(profile);
     }
   }
 
-  /* Medium: 950px - 681px - nav links visible, info button for social icons + theme toggle */
-  @media (min-width: 681px) and (max-width: 950px) {
+  /* Medium: 960px - 681px - nav links visible, info button for social icons + theme toggle */
+  @media (min-width: 681px) and (max-width: 960px) {
     .nav-links-inline {
       display: flex !important;
     }
@@ -455,8 +455,8 @@ const mailtoLink = getMailtoLink(profile);
           }
         }
 
-        // Close info menu when viewport goes outside 681px-950px range
-        if (width <= 680 || width > 950) {
+        // Close info menu when viewport goes outside 681px-960px range
+        if (width <= 680 || width > 960) {
           if (infoMenu.style.maxHeight !== '0px' && infoMenu.style.maxHeight !== '') {
             closeAllMenus();
           }

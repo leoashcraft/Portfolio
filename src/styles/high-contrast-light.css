@@ -625,6 +625,10 @@
   box-shadow: none !important;
 }
 
+[data-theme="high-contrast-light"] .theme-toggle[aria-expanded="true"] {
+  border-color: transparent !important;
+}
+
 [data-theme="high-contrast-light"] .theme-toggle span,
 [data-theme="high-contrast-light"] .theme-toggle .theme-label {
   color: #000000 !important;
@@ -637,8 +641,8 @@
 [data-theme="high-contrast-light"] .theme-toggle:hover {
   background: #000000 !important;
   color: #ffffff !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 0 0 3px #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 [data-theme="high-contrast-light"] .theme-toggle:hover span,
@@ -852,7 +856,7 @@ html[data-theme="high-contrast-light"] {
   }
 }
 
-/* Nav social icons - prevent color on hover */
+/* Nav text links - prevent color on hover */
 [data-theme="high-contrast-light"] header a:hover,
 [data-theme="high-contrast-light"] nav a:hover,
 [data-theme="high-contrast-light"] header a:hover svg,
@@ -867,6 +871,21 @@ html[data-theme="high-contrast-light"] {
 [data-theme="high-contrast-light"] nav a[class*="hover:bg-neon-"]:hover {
   color: #000000 !important;
   background-color: transparent !important;
+}
+
+/* Nav links and social icons - invert on hover with rounded background */
+[data-theme="high-contrast-light"] nav [id*="social-icons"] a:hover,
+[data-theme="high-contrast-light"] .info-menu a:hover,
+[data-theme="high-contrast-light"] #nav-links-inline a:hover,
+[data-theme="high-contrast-light"] #mobile-menu a:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+}
+
+[data-theme="high-contrast-light"] nav [id*="social-icons"] a:hover svg,
+[data-theme="high-contrast-light"] .info-menu a:hover svg {
+  color: #ffffff !important;
 }
 
 /* Timeline line - remove all glow */

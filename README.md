@@ -265,9 +265,7 @@ Props:
 | lg | 48px (w-12) | 24px (w-6) |
 
 Platform hover colors:
-- GitHub: Neon pink (`hover:text-neon-pink`)
-- LinkedIn: Neon purple (`hover:text-neon-purple`)
-- Email: Neon yellow (`hover:text-neon-yellow`)
+- All platforms: Neon pink (`hover:text-neon-pink`) for consistent styling
 
 External links (GitHub, LinkedIn) automatically include `target="_blank"` and `rel="noopener noreferrer"`.
 
@@ -313,13 +311,14 @@ A theme toggle dropdown in the navigation provides three contrast options:
 - **High Contrast Light**: White background, black text, grayscale images
 
 Features:
-- **Theme Persistence**: Selection saved to localStorage, persists across sessions
+- **Theme Persistence**: Selection saved to localStorage (`portfolio-theme`), persists across sessions
 - **No Flash**: Inline script in `<head>` applies theme before first paint
 - **Smooth Transitions**: 1-second loading overlay with spinner during theme changes for smoother UX
 - **Disabled Animations**: All decorative animations stopped for reduced distraction
 - **Timeline Eyes Exception**: Eyes continue animating in grayscale for visual interest
 - **Mobile Optimizations**: High contrast light mode adjusts hero section with gradient background
 - **Keyboard Accessible**: Dropdown supports keyboard navigation and Escape to close
+- **Inverted Hover Effects**: Nav links, social icons, and theme toggle invert colors with rounded background on hover
 
 CSS files:
 - `src/styles/high-contrast.css` - Dark high contrast theme
@@ -335,7 +334,7 @@ A toggle switch inside the contrast dropdown allows users to disable all animati
 - **Re-triggerable**: Turning animations back on restarts the typewriter effect
 - **Timeline Eyes Hidden**: Animated eye emojis are removed from the timeline
 - **Cursor Visibility**: Typewriter cursors are hidden when animations are disabled
-- **Persistence**: Setting saved to localStorage, applies immediately on page load
+- **Persistence**: Setting saved to localStorage (`portfolio-animations`), applies immediately on page load
 
 Implementation:
 ```typescript

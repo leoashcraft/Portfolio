@@ -621,6 +621,10 @@
   box-shadow: none !important;
 }
 
+[data-theme="high-contrast"] .theme-toggle[aria-expanded="true"] {
+  border-color: transparent !important;
+}
+
 [data-theme="high-contrast"] .theme-toggle span,
 [data-theme="high-contrast"] .theme-toggle .theme-label {
   color: #ffffff !important;
@@ -633,8 +637,8 @@
 [data-theme="high-contrast"] .theme-toggle:hover {
   background: #ffffff !important;
   color: #000000 !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 0 0 3px #000000 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 [data-theme="high-contrast"] .theme-toggle:hover span,
@@ -806,7 +810,7 @@ html[data-theme="high-contrast"] {
   scrollbar-color: #ffffff #000000 !important;
 }
 
-/* Nav social icons - prevent color on hover */
+/* Nav text links - prevent color on hover */
 [data-theme="high-contrast"] header a:hover,
 [data-theme="high-contrast"] nav a:hover,
 [data-theme="high-contrast"] header a:hover svg,
@@ -821,6 +825,21 @@ html[data-theme="high-contrast"] {
 [data-theme="high-contrast"] nav a[class*="hover:bg-neon-"]:hover {
   color: #ffffff !important;
   background-color: transparent !important;
+}
+
+/* Nav links and social icons - invert on hover with rounded background */
+[data-theme="high-contrast"] nav [id*="social-icons"] a:hover,
+[data-theme="high-contrast"] .info-menu a:hover,
+[data-theme="high-contrast"] #nav-links-inline a:hover,
+[data-theme="high-contrast"] #mobile-menu a:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 0.5rem !important;
+}
+
+[data-theme="high-contrast"] nav [id*="social-icons"] a:hover svg,
+[data-theme="high-contrast"] .info-menu a:hover svg {
+  color: #000000 !important;
 }
 
 /* Timeline line - remove all glow */

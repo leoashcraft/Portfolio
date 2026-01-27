@@ -93,6 +93,14 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
   </div>
 </div>
 
+<style is:global>
+  .theme-toggle[aria-expanded="true"] {
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+</style>
+
 <script>
   import { setTheme, getTheme, getAnimationsEnabled, setAnimationsEnabled } from '../../lib/theme';
 
@@ -244,6 +252,9 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
             return;
           }
 
+          // Close dropdown immediately before showing overlay
+          closeAllDropdowns();
+
           // Create and show transition overlay
           const overlay = document.createElement('div');
           overlay.id = 'theme-transition-overlay';
@@ -327,8 +338,6 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
               }, 300);
             }, hideDelay);
           }, 300);
-
-          closeAllDropdowns();
         });
       });
 

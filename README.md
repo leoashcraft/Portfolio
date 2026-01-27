@@ -35,7 +35,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 ### Animations & Interactions
 
 #### Hero Section
-- **Mascot Slide-in**: On desktop (768px+), mascot slides in from left with fade-in, decelerating toward the end; static on mobile
+- **Mascot Positioning**: On desktop (768px+), mascot fades in and is positioned relative to centered content; on mobile, mascot appears behind content
 - **Typewriter Effect**: Job titles cycle through with natural typing delays (random variance, extended pauses between words)
 - **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
 - **Re-triggerable**: Clicking the Home nav link or back-to-top button replays the title and tagline animations
@@ -60,9 +60,10 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 #### Timeline Eyes
 The Experience section features animated eye emojis that travel down the timeline:
-- **Direction Flip**: Eyes look toward the content - they flip direction each time they pass a timeline dot
-- **Blinking**: Eyes blink when crossing the midpoint between dots
-- **Dual Travelers**: Two eye emojis travel with offset timing for visual interest
+- **Four Travelers**: Four eye emojis with different colored glows (pink, cyan, yellow, green) travel with 8-second staggered starts
+- **Responsive Timeline**: Hidden below 768px; right-aligned 768-1024px; centered 1024px+
+- **Direction Flip**: At 1024px+, eyes flip direction at the top of each experience container; at 768-1024px, eyes always look left toward content
+- **Slow & Blink**: Eyes slow to 50% speed starting 3% before each dot, blink just before reaching the dot, continue slowly for 3 seconds, then blink again and resume full speed
 
 #### Education Year Counters
 - **Count-Up Animation**: Years count up from 2000 to their target year (e.g., 2007, 2021, 2022, 2023)
@@ -73,6 +74,7 @@ The Experience section features animated eye emojis that travel down the timelin
 #### Project Cards
 - **Random Icon Flip**: Project folder icons randomly flip at intervals
 - **Hover Lift**: Cards lift with enhanced glow on hover (fast 0.4s), smooth 5s return on mouse leave
+- **Modal Tile Hover**: Sub-project tiles scale up slightly on hover; in high contrast modes, colors invert
 - **Clickable Images**: Featured project images are clickable - opens sub-project modal or links to live site
 - **Nested Modals**: Sub-projects can contain their own sub-projects (e.g., Parker.edu umbrella)
 - **Back Navigation**: Nested modals include a back button to return to parent modal
@@ -127,6 +129,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (903) 638-4782
 - Arcade carpet gradient background on scroll
 - Mobile hamburger menu with chasing pink border animation on expanded nav
 - Heat glow effect follows cursor on desktop (contained within nav boundaries)
+- Navigation links bold on hover; inverted colors in high contrast modes
 - Navigation links: Home, About, Experience, Projects, GitHub, Contact
 
 ### GitHub Integration
@@ -331,6 +334,7 @@ A toggle switch inside the contrast dropdown allows users to disable all animati
 - **Global Disable**: Stops all CSS animations and transitions site-wide
 - **Static Backgrounds**: Parallax backgrounds remain visible but without parallax movement
 - **Static Text**: Hero typewriter shows "Full Stack Software Developer" without typing animation
+- **Static Titles**: Hero name and section title wave animations are disabled
 - **Re-triggerable**: Turning animations back on restarts the typewriter effect
 - **Timeline Eyes Hidden**: Animated eye emojis are removed from the timeline
 - **Cursor Visibility**: Typewriter cursors are hidden when animations are disabled

@@ -1608,6 +1608,14 @@ code, pre, kbd {
   transform: translateX(-50%) scaleX(-1);
 }
 
+/* Force eyes to always look left between 768px and 1024px (timeline on right) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .timeline-traveler.look-right,
+  .timeline-traveler.look-left {
+    transform: translateX(-50%) scaleX(1) !important;
+  }
+}
+
 /* Timeline dot pulse animation */
 @keyframes timeline-dot-pulse {
   0%, 100% {
@@ -1895,6 +1903,7 @@ code, pre, kbd {
   }
 
   /* Disable the animated gradient on text (expensive) */
+  /* Disable the animated gradient on text (expensive) */
   .gradient-text-animated {
     animation: none !important;
     background-size: 100% 100% !important;
@@ -1981,4 +1990,18 @@ code, pre, kbd {
 /* Hide timeline traveler eyes when animations disabled */
 [data-animations="disabled"] .timeline-traveler {
   display: none !important;
+}
+
+/* Disable gradient text animation */
+[data-animations="disabled"] .gradient-text-animated {
+  animation: none !important;
+  background-size: 100% 100% !important;
+}
+
+/* Disable section title wave/sheen animations */
+[data-animations="disabled"] .section-title span,
+[data-animations="disabled"] .subsection-title span {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
 }

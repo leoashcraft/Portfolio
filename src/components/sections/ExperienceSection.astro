@@ -24,25 +24,33 @@ import Icon from '../ui/Icon.astro';
 
     <!-- Experience Timeline -->
     <div class="relative">
-      <!-- Timeline Line (hidden on mobile) -->
+      <!-- Timeline Line (hidden below 768px, right side 768-1024px, centered 1024px+) -->
       <div
         id="timeline-line"
-        class="hidden md:block absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2 timeline-gradient"
+        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 timeline-gradient"
         aria-hidden="true"
       ></div>
 
       <!-- Eyes Travelers (separate container for z-index control) -->
       <div
         id="timeline-eyes"
-        class="hidden md:block absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2 z-20 pointer-events-none"
+        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 z-20 pointer-events-none"
         aria-hidden="true"
       >
         <!-- Eyes Traveler 1 -->
-        <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
+        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
           <span class="eyes-blink">👀</span>
         </div>
         <!-- Eyes Traveler 2 -->
-        <div class="absolute left-1/2 timeline-traveler text-2xl look-left" style="animation-delay: -10s; filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
+        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
+          <span class="eyes-blink">👀</span>
+        </div>
+        <!-- Eyes Traveler 3 -->
+        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(255, 255, 0, 0.8));">
+          <span class="eyes-blink">👀</span>
+        </div>
+        <!-- Eyes Traveler 4 -->
+        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.8));">
           <span class="eyes-blink">👀</span>
         </div>
       </div>
@@ -52,20 +60,20 @@ import Icon from '../ui/Icon.astro';
         {
           experience.map((exp, index) => (
             <div
-              class={`relative flex flex-col md:flex-row gap-8 ${
-                index % 2 === 0 ? 'md:flex-row-reverse' : ''
+              class={`relative flex flex-col lg:flex-row gap-8 ${
+                index % 2 === 0 ? 'lg:flex-row-reverse' : ''
               }`}
             >
-              {/* Timeline Dot (hidden on mobile) */}
+              {/* Timeline Dot (hidden below 768px, right side 768-1024px, centered 1024px+) */}
               <div
-                class="hidden md:block absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-neon-pink border-4 border-night-900 md:-translate-x-1/2 z-10 timeline-dot"
+                class="hidden md:block absolute right-[9px] md:left-auto lg:left-1/2 lg:right-auto top-1/2 -translate-y-1/2 lg:-translate-x-1/2 w-4 h-4 rounded-full bg-neon-pink border-4 border-night-900 z-10 timeline-dot"
                 aria-hidden="true"
               />
 
               {/* Content */}
               <div
-                class={`md:w-1/2 ${
-                  index % 2 === 0 ? 'md:pl-6' : 'md:pr-6'
+                class={`md:pr-12 lg:pr-0 lg:w-1/2 ${
+                  index % 2 === 0 ? 'lg:pl-6' : 'lg:pr-6'
                 }`}
               >
                 <div class="card">

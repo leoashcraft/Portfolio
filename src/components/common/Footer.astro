@@ -6,8 +6,8 @@ import SocialIcons from './SocialIcons.astro';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="py-12 px-4 border-t border-neon-pink/20 bg-gradient-to-b from-transparent to-[rgba(10,0,21,0.5)]">
-  <div class="max-w-7xl mx-auto">
+<footer class="footer-container py-12 px-4 border-t border-neon-pink/20 bg-gradient-to-b from-transparent to-[rgba(10,0,21,0.5)]">
+  <div class="footer-content max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <!-- Logo and Copyright -->
       <div class="flex items-center gap-4">
@@ -35,7 +35,7 @@ const currentYear = new Date().getFullYear();
     <div class="mt-8 text-center">
       <a
         href="#home"
-        class="inline-flex items-center gap-2 text-gray-500 hover:text-neon-pink transition-colors text-sm p-3 -m-3"
+        class="back-to-top inline-flex items-center gap-2 text-gray-500 hover:text-neon-pink transition-colors text-sm p-3 -m-3"
         aria-label="Back to top"
       >
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,3 +50,88 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<script>
+  // Footer slide up animation
+  let footerCleanup: (() => void) | undefined;
+
+  function initFooterAnimation() {
+    const footer = document.querySelector('.footer-content') as HTMLElement;
+
+    if (!footer) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      footer.classList.add('visible');
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkFooter = () => {
+      const viewportHeight = window.innerHeight;
+      const triggerPoint = viewportHeight * 0.9;
+      const exitPoint = viewportHeight * 0.95;
+
+      const footerRect = footer.getBoundingClientRect();
+
+      if (footerRect.top < triggerPoint) {
+        footer.classList.add('visible');
+      }
+
+      if (footerRect.top > exitPoint) {
+        footer.classList.remove('visible');
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkFooter);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkFooter();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initFooter() {
+    footerCleanup?.();
+    footerCleanup = initFooterAnimation();
+  }
+
+  initFooter();
+  document.addEventListener('astro:after-swap', initFooter);
+
+  window.addEventListener('animations-change', () => {
+    footerCleanup?.();
+    footerCleanup = initFooterAnimation();
+  });
+</script>
+
+<style>
+  /* Footer slides up from bottom */
+  .footer-content {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .footer-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .footer-content {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

@@ -11,10 +11,10 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
 ---
 
 <div class="text-center mb-16 section-header-container">
-  <h2 id={headingId} class="section-title">
+  <h2 id={headingId} class="section-title section-title-anim">
     {title} <span class="gradient-text">{titleHighlight}</span>
   </h2>
-  <p class="section-subtitle mx-auto relative">
+  <p class="section-subtitle section-subtitle-anim mx-auto relative">
     <span class="subtitle-placeholder invisible" aria-hidden="true">{subtitle}</span>
     <span class="subtitle-typewriter absolute left-0 right-0 top-0">
       <span class="subtitle-text" data-subtitle={subtitle} id={subtitleId}></span><span class="subtitle-cursor hidden inline-block w-[2px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
@@ -124,4 +124,116 @@ const subtitleId = headingId ? `${headingId}-subtitle` : `subtitle-${Math.random
   initSubtitleTypewriters();
   document.addEventListener('astro:after-swap', initSubtitleTypewriters);
   window.addEventListener('animations-change', handleAnimationsChange);
+
+  // Section header cascade animation
+  function initSectionHeaderCascade() {
+    const containers = document.querySelectorAll('.section-header-container');
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      containers.forEach((container) => {
+        const title = container.querySelector('.section-title-anim');
+        const subtitle = container.querySelector('.section-subtitle-anim');
+        if (title) title.classList.add('visible');
+        if (subtitle) subtitle.classList.add('visible');
+      });
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkHeaders = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTrigger = viewportHeight * 0.85;
+      const subtitleTrigger = viewportHeight * 0.75;
+      const exitPoint = viewportHeight * 0.95;
+
+      containers.forEach((container) => {
+        const rect = container.getBoundingClientRect();
+        const title = container.querySelector('.section-title-anim');
+        const subtitle = container.querySelector('.section-subtitle-anim');
+
+        // Title cascades in first
+        if (rect.top < titleTrigger) {
+          if (title) title.classList.add('visible');
+        }
+
+        // Subtitle cascades in after
+        if (rect.top < subtitleTrigger) {
+          if (subtitle) subtitle.classList.add('visible');
+        }
+
+        // Reset when scrolling up
+        if (rect.top > exitPoint) {
+          if (title) title.classList.remove('visible');
+          if (subtitle) subtitle.classList.remove('visible');
+        }
+      });
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkHeaders);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkHeaders();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  let headerCleanup: (() => void) | undefined;
+
+  function initHeaders() {
+    headerCleanup?.();
+    headerCleanup = initSectionHeaderCascade();
+  }
+
+  initHeaders();
+  document.addEventListener('astro:after-swap', initHeaders);
+
+  window.addEventListener('animations-change', () => {
+    headerCleanup?.();
+    headerCleanup = initSectionHeaderCascade();
+  });
 </script>
+
+<style>
+  /* Section header cascade from above */
+  .section-title-anim {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .section-subtitle-anim {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition-delay: 0.15s;
+  }
+
+  .section-title-anim.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-subtitle-anim.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .section-title-anim,
+  [data-animations="disabled"] .section-subtitle-anim {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

@@ -61,21 +61,21 @@ const contributionData = await fetchContributionData();
     </div>
 
     <!-- Contribution Heatmap -->
-    <div class="card mb-12">
+    <div class="github-heatmap card mb-12">
       <ContributionHeatmap client:visible data={contributionData} />
     </div>
 
     <!-- Recent Repositories -->
-    <h3 class="text-xl font-bold text-white mb-6">Recent Repositories</h3>
+    <h3 class="repos-title text-xl font-bold text-white mb-6">Recent Repositories</h3>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="repos-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {repos.length > 0 ? (
-        repos.map((repo) => (
+        repos.map((repo, index) => (
           <a
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            class="card card-highlighted group block"
+            class={`card card-highlighted group block repo-card repo-card-${index}`}
           >
             <div class="flex items-start justify-between mb-3">
               <div class="flex items-center gap-2">
@@ -233,4 +233,140 @@ const contributionData = await fetchContributionData();
 
   initGitHub();
   document.addEventListener('astro:after-swap', initGitHub);
+
+  // GitHub section animations
+  let githubAnimCleanup: (() => void) | undefined;
+
+  function initGitHubAnimations() {
+    const heatmap = document.querySelector('.github-heatmap') as HTMLElement;
+    const reposTitle = document.querySelector('.repos-title') as HTMLElement;
+    const reposGrid = document.querySelector('.repos-grid') as HTMLElement;
+    const repoCards = document.querySelectorAll('.repo-card') as NodeListOf<HTMLElement>;
+
+    if (!heatmap || !reposGrid) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      heatmap.classList.add('visible');
+      if (reposTitle) reposTitle.classList.add('visible');
+      reposGrid.classList.add('repos-visible');
+      return () => {};
+    }
+
+    let ticking = false;
+    let currentRepoIndex = 0;
+
+    const checkGitHub = () => {
+      const viewportHeight = window.innerHeight;
+      const heatmapTrigger = viewportHeight * 0.6;
+      const reposTrigger = viewportHeight * 0.4;
+      const exitPoint = viewportHeight * 0.8;
+
+      const heatmapRect = heatmap.getBoundingClientRect();
+
+      // Heatmap fades in
+      if (heatmapRect.top < heatmapTrigger) {
+        heatmap.classList.add('visible');
+      }
+
+      // Repos title and cards fly out when heatmap is higher
+      if (heatmapRect.top < reposTrigger) {
+        if (reposTitle) reposTitle.classList.add('visible');
+
+        // Trigger repos one by one with delays
+        if (!reposGrid.classList.contains('repos-visible')) {
+          reposGrid.classList.add('repos-visible');
+          repoCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('visible');
+            }, index * 100);
+          });
+        }
+      }
+
+      // Reset when scrolling up
+      if (heatmapRect.top > exitPoint) {
+        heatmap.classList.remove('visible');
+        if (reposTitle) reposTitle.classList.remove('visible');
+        reposGrid.classList.remove('repos-visible');
+        repoCards.forEach((card) => card.classList.remove('visible'));
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkGitHub);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkGitHub();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initGitHubAnim() {
+    githubAnimCleanup?.();
+    githubAnimCleanup = initGitHubAnimations();
+  }
+
+  initGitHubAnim();
+  document.addEventListener('astro:after-swap', initGitHubAnim);
+
+  window.addEventListener('animations-change', () => {
+    githubAnimCleanup?.();
+    githubAnimCleanup = initGitHubAnimations();
+  });
 </script>
+
+<style>
+  /* GitHub heatmap fade in */
+  .github-heatmap {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .github-heatmap.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Repos title fade in */
+  .repos-title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .repos-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Repo cards fly out from beneath heatmap */
+  .repo-card {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+
+  .repo-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .github-heatmap,
+  [data-animations="disabled"] .repos-title,
+  [data-animations="disabled"] .repo-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

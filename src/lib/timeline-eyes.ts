@@ -11,8 +11,6 @@ interface TravelerState {
   blinkedBefore: Set<number>;
   blinkedAfter: Set<number>;
   nextDotIndex: number;
-  startDelay: number; // Delay before this traveler starts (ms)
-  started: boolean;
 }
 
 export function initTimelineEyes(): (() => void) | undefined {
@@ -23,10 +21,10 @@ export function initTimelineEyes(): (() => void) | undefined {
   const timelineEyes = document.getElementById('timeline-eyes');
   if (!timelineLine || !timelineEyes) return;
 
-  const travelers = Array.from(timelineEyes.querySelectorAll('.timeline-traveler')) as HTMLElement[];
+  const traveler = timelineEyes.querySelector('.timeline-traveler') as HTMLElement;
   const dots = document.querySelectorAll('.timeline-dot');
 
-  if (travelers.length === 0 || dots.length === 0) return;
+  if (!traveler || dots.length === 0) return;
 
   // Calculate positions using the eyes container (same dimensions as line)
   const lineRect = timelineEyes.getBoundingClientRect();
@@ -56,32 +54,25 @@ export function initTimelineEyes(): (() => void) | undefined {
   const blinkBeforeOffset = 2; // Blink 2% before dot
   const speed = 100 / travelDuration; // percent per millisecond
 
-  // Initialize state for each traveler
-  const travelerStates = new Map<HTMLElement, TravelerState>();
-  const travelerDelay = 8000; // 8 seconds between each traveler
+  // Initialize state
+  const state: TravelerState = {
+    currentPercent: 0,
+    isSlowed: false,
+    slowEndTime: 0,
+    blinkedBefore: new Set(),
+    blinkedAfter: new Set(),
+    nextDotIndex: 0,
+  };
 
-  travelers.forEach((t, index) => {
-    travelerStates.set(t, {
-      currentPercent: 0,
-      isSlowed: false,
-      slowEndTime: 0,
-      blinkedBefore: new Set(),
-      blinkedAfter: new Set(),
-      nextDotIndex: 0,
-      startDelay: index * travelerDelay,
-      started: index === 0, // First traveler starts immediately
-    });
-    // Disable CSS animation
-    t.style.animation = 'none';
-    t.style.top = '0%';
-    t.style.opacity = index === 0 ? '0' : '0'; // Both start invisible
-  });
+  // Disable CSS animation
+  traveler.style.animation = 'none';
+  traveler.style.top = '0%';
+  traveler.style.opacity = '0';
 
   let lastTime = performance.now();
-  const startTime = performance.now();
   let animationId: number;
 
-  function blink(traveler: HTMLElement) {
+  function blink() {
     const eyesSpan = traveler.querySelector('.eyes-blink') as HTMLElement;
     if (eyesSpan) {
       eyesSpan.classList.add('blinking');
@@ -89,22 +80,23 @@ export function initTimelineEyes(): (() => void) | undefined {
     }
   }
 
-  function updateTraveler(traveler: HTMLElement, deltaTime: number, elapsedTime: number) {
-    const state = travelerStates.get(traveler)!;
+  function update(deltaTime: number) {
     const now = performance.now();
 
-    // Check if traveler should start yet
-    if (!state.started) {
-      if (elapsedTime >= state.startDelay) {
-        state.started = true;
-      } else {
-        return; // Not time to start yet
-      }
+    // Get current timeline line height (dynamic based on visible cards)
+    const lineCurrentHeight = parseFloat(timelineLine.style.height) || 0;
+    const containerHeight = timelineEyes.getBoundingClientRect().height;
+    const maxPercent = containerHeight > 0 ? (lineCurrentHeight / containerHeight) * 100 : 0;
+
+    // Hide traveler if timeline is too short
+    if (maxPercent < 5) {
+      traveler.style.opacity = '0';
+      return;
     }
 
     // Check if slow period ended
     if (state.isSlowed && now >= state.slowEndTime) {
-      blink(traveler);
+      blink();
       state.isSlowed = false;
       state.nextDotIndex++;
     }
@@ -113,15 +105,15 @@ export function initTimelineEyes(): (() => void) | undefined {
     const currentSpeed = state.isSlowed ? speed * 0.5 : speed;
     state.currentPercent += currentSpeed * deltaTime;
 
-    // Check for approaching dots
+    // Check for approaching dots (only dots within current timeline extent)
     const nextDot = dotThresholds[state.nextDotIndex];
-    if (nextDot !== undefined) {
+    if (nextDot !== undefined && nextDot <= maxPercent) {
       const blinkPoint = nextDot - blinkBeforeOffset;
 
       // Blink before dot
       if (state.currentPercent >= blinkPoint && !state.blinkedBefore.has(state.nextDotIndex)) {
         state.blinkedBefore.add(state.nextDotIndex);
-        blink(traveler);
+        blink();
       }
 
       // Start slowing down 3% before dot
@@ -133,8 +125,8 @@ export function initTimelineEyes(): (() => void) | undefined {
       }
     }
 
-    // Reset when reaching the end
-    if (state.currentPercent >= 100) {
+    // Reset when reaching the current max extent (not 100%)
+    if (state.currentPercent >= maxPercent) {
       state.currentPercent = 0;
       state.blinkedBefore.clear();
       state.blinkedAfter.clear();
@@ -145,14 +137,14 @@ export function initTimelineEyes(): (() => void) | undefined {
     // Update position
     traveler.style.top = `${state.currentPercent}%`;
 
-    // Update opacity (fade in/out at edges)
+    // Update opacity (fade in/out at edges of current extent)
     let opacity = 1;
     if (state.currentPercent < 3) {
       opacity = state.currentPercent / 3;
-    } else if (state.currentPercent > 97) {
-      opacity = (100 - state.currentPercent) / 3;
+    } else if (state.currentPercent > maxPercent - 3) {
+      opacity = (maxPercent - state.currentPercent) / 3;
     }
-    traveler.style.opacity = String(opacity);
+    traveler.style.opacity = String(Math.max(0, Math.min(1, opacity)));
 
     // Update look direction
     if (isRightSideTimeline()) {
@@ -171,10 +163,9 @@ export function initTimelineEyes(): (() => void) | undefined {
 
   function animate(currentTime: number) {
     const deltaTime = currentTime - lastTime;
-    const elapsedTime = currentTime - startTime;
     lastTime = currentTime;
 
-    travelers.forEach((traveler) => updateTraveler(traveler, deltaTime, elapsedTime));
+    update(deltaTime);
     animationId = requestAnimationFrame(animate);
   }
 

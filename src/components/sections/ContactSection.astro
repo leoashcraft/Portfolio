@@ -45,16 +45,16 @@ const phone = unscramblePhone(profile);
       headingId="contact-heading"
     />
 
-    <div class="grid lg:grid-cols-2 gap-12">
+    <div class="contact-grid grid lg:grid-cols-2 gap-12">
       <!-- Contact Info -->
-      <div>
-        <h3 class="text-2xl font-bold text-white mb-6">{site.sections.contact.connectTitle}</h3>
-        <p class="text-gray-400 mb-8">
+      <div class="contact-info">
+        <h3 class="contact-connect-title text-2xl font-bold text-white mb-6">{site.sections.contact.connectTitle}</h3>
+        <p class="contact-connect-desc text-gray-400 mb-8">
           {site.sections.contact.connectDescription}
         </p>
 
         <!-- Contact Details -->
-        <div class="space-y-6 mb-8">
+        <div class="contact-details space-y-6 mb-8">
           <div class="flex items-start gap-4">
             <div
               class="w-12 h-12 rounded-xl bg-neon-cyan/10 flex items-center justify-center shrink-0"
@@ -144,7 +144,7 @@ const phone = unscramblePhone(profile);
         </div>
 
         <!-- Social Links -->
-        <div class="flex gap-4">
+        <div class="contact-social flex gap-4">
           <a
             href={profile.social.linkedin}
             target="_blank"
@@ -176,14 +176,14 @@ const phone = unscramblePhone(profile);
       </div>
 
       <!-- Contact Form -->
-      <div class="card">
+      <div class="contact-form-container card">
         <h3 class="text-xl font-bold text-white mb-6">{site.sections.contact.formTitle}</h3>
         <ContactForm client:visible />
       </div>
     </div>
 
     <!-- Disclaimer -->
-    <p class="text-sm text-gray-500 text-center mt-12">
+    <p class="contact-disclaimer text-sm text-gray-500 text-center mt-12">
       {site.footer.disclaimer}
     </p>
   </div>
@@ -235,4 +235,158 @@ const phone = unscramblePhone(profile);
 
   initContact();
   document.addEventListener('astro:after-swap', initContact);
+
+  // Contact section cascade animations
+  let contactAnimCleanup: (() => void) | undefined;
+
+  function initContactAnimations() {
+    const grid = document.querySelector('.contact-grid') as HTMLElement;
+    const connectTitle = document.querySelector('.contact-connect-title') as HTMLElement;
+    const connectDesc = document.querySelector('.contact-connect-desc') as HTMLElement;
+    const details = document.querySelector('.contact-details') as HTMLElement;
+    const social = document.querySelector('.contact-social') as HTMLElement;
+    const formContainer = document.querySelector('.contact-form-container') as HTMLElement;
+    const disclaimer = document.querySelector('.contact-disclaimer') as HTMLElement;
+
+    if (!grid) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      [connectTitle, connectDesc, details, social, formContainer, disclaimer].forEach(el => {
+        if (el) el.classList.add('visible');
+      });
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkContact = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTrigger = viewportHeight * 0.7;
+      const cascadeTrigger = viewportHeight * 0.6;
+      const formTrigger = viewportHeight * 0.5;
+      const disclaimerTrigger = viewportHeight * 0.35;
+      const exitPoint = viewportHeight * 0.85;
+
+      const gridRect = grid.getBoundingClientRect();
+
+      // Title cascades first
+      if (gridRect.top < titleTrigger) {
+        if (connectTitle) connectTitle.classList.add('visible');
+      }
+
+      // Description and details cascade
+      if (gridRect.top < cascadeTrigger) {
+        if (connectDesc) connectDesc.classList.add('visible');
+        setTimeout(() => {
+          if (details) details.classList.add('visible');
+        }, 150);
+        setTimeout(() => {
+          if (social) social.classList.add('visible');
+        }, 300);
+      }
+
+      // Form flies in from right
+      if (gridRect.top < formTrigger) {
+        if (formContainer) formContainer.classList.add('visible');
+      }
+
+      // Disclaimer appears after scrolling a bit more
+      if (gridRect.top < disclaimerTrigger) {
+        if (disclaimer) disclaimer.classList.add('visible');
+      }
+
+      // Reset when scrolling up
+      if (gridRect.top > exitPoint) {
+        [connectTitle, connectDesc, details, social, formContainer, disclaimer].forEach(el => {
+          if (el) el.classList.remove('visible');
+        });
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkContact);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkContact();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initContactAnim() {
+    contactAnimCleanup?.();
+    contactAnimCleanup = initContactAnimations();
+  }
+
+  initContactAnim();
+  document.addEventListener('astro:after-swap', initContactAnim);
+
+  window.addEventListener('animations-change', () => {
+    contactAnimCleanup?.();
+    contactAnimCleanup = initContactAnimations();
+  });
 </script>
+
+<style>
+  /* Contact section cascade animations */
+  .contact-connect-title,
+  .contact-connect-desc,
+  .contact-details,
+  .contact-social {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .contact-connect-title.visible,
+  .contact-connect-desc.visible,
+  .contact-details.visible,
+  .contact-social.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Form flies in from right */
+  .contact-form-container {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .contact-form-container.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Disclaimer flies in from bottom */
+  .contact-disclaimer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .contact-disclaimer.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .contact-connect-title,
+  [data-animations="disabled"] .contact-connect-desc,
+  [data-animations="disabled"] .contact-details,
+  [data-animations="disabled"] .contact-social,
+  [data-animations="disabled"] .contact-form-container,
+  [data-animations="disabled"] .contact-disclaimer {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

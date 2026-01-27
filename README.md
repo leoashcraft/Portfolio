@@ -45,14 +45,25 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Wave Animation**: Each letter scales up to 140% in sequence when scrolling into view
 - **Sheen Effect**: Brightness sweep follows the wave animation
 - **Subtitle Typewriter**: After title animation, subtitle types out character by character with natural delays
+- **Cascade from Above**: Titles and subtitles slide down from above when scrolling into view
 - **Re-triggerable**: Nav link clicks replay the animation for that section
 
 #### Subsection Titles
 "What I Offer", "Education & Certifications", and "More Work" also animate:
 - **Wave + Sheen**: Same letter-by-letter animation as main section titles
+- **Hidden Until Scroll**: Titles remain hidden until scrolling into view
 - **Reset on Navigation**: All three reset when any nav link or back-to-top is clicked
 
+#### About Me Content
+- **Cascade Animation**: Bio, quick info, and CTA slide up and fade in sequentially as you scroll
+
 #### Service Cards ("What I Offer")
+- **Scroll Cascade**: Services appear one by one as you scroll:
+  - "What I Offer" title hidden until scroll
+  - Web & Software Development fades in first (at 40% viewport)
+  - Cloud Solutions flies down from above
+  - CRM slides out from behind Cloud (z-index layering)
+  - Logo & Branding flies in last
 - **Hover Lift**: Cards lift up with neon glow on hover (fast 0.4s), smooth 5s return on mouse leave
 - **Icon Flip**: 3D flip animation on service icons when hovering the card
 - **Staggered Features**: Checkmark items slide right with staggered delays
@@ -65,9 +76,18 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Lightbox Modal**: Clicking a logo opens an in-card modal overlay with larger view
 - **High Contrast Support**: Shimmer disabled, logos display in grayscale, modal has solid background
 
+#### Experience Cards
+- **Slide Animations**: Cards slide in from alternating sides (left/right) as you scroll down
+- **Slide Out**: Cards slide back out when scrolling up past the exit threshold
+- **Dynamic Timeline**: Timeline line grows/shrinks based on visible cards
+
+#### Education Cards
+- **Diagonal Grow**: Cards grow diagonally from the center of all 4 cards
+- **Hidden Title**: "Education & Certifications" title hidden until scroll
+
 #### Timeline Eyes
-The Experience section features animated eye emojis that travel down the timeline:
-- **Four Travelers**: Four eye emojis with different colored glows (pink, cyan, yellow, green) travel with 8-second staggered starts
+The Experience section features an animated eye emoji that travels down the timeline:
+- **Constrained Movement**: Eye travels only within the current timeline extent
 - **Responsive Timeline**: Hidden below 768px; right-aligned 768-1024px; centered 1024px+
 - **Direction Flip**: At 1024px+, eyes flip direction at the top of each experience container; at 768-1024px, eyes always look left toward content
 - **Slow & Blink**: Eyes slow to 50% speed starting 3% before each dot, blink just before reaching the dot, continue slowly for 3 seconds, then blink again and resume full speed
@@ -78,19 +98,36 @@ The Experience section features animated eye emojis that travel down the timelin
 - **Smooth Easing**: Cubic ease-out for natural deceleration
 - **Re-triggerable**: Resets to 2000 on nav clicks, re-animates when scrolling back into view
 
-#### Project Cards
-- **Random Icon Flip**: Project folder icons randomly flip at intervals
-- **Hover Lift**: Cards lift with enhanced glow on hover (fast 0.4s), smooth 5s return on mouse leave
-- **Modal Tile Hover**: Sub-project tiles scale up slightly on hover; in high contrast modes, colors invert
+#### Featured Project Cards
+- **Scroll Cascade Animation**:
+  - Image flies in first (from left or right based on layout)
+  - Title and description slide out from behind the image
+  - Metrics, chips, and buttons cascade from behind the description
+  - When content is on the left, metrics/chips/buttons right-align
 - **Clickable Images**: Featured project images are clickable - opens sub-project modal or links to live site
 - **Nested Modals**: Sub-projects can contain their own sub-projects (e.g., Parker.edu umbrella)
 - **Back Navigation**: Nested modals include a back button to return to parent modal
+
+#### Other Project Cards ("More Work")
+- **Hidden Title**: "More Work" title hidden until scroll
+- **Sequential Fly-In**: Tiles fly in one by one from below as you scroll
+- **Random Icon Flip**: Project folder icons randomly flip at intervals
+- **Hover Lift**: Cards lift with enhanced glow on hover (fast 0.4s), smooth 5s return on mouse leave
+- **Modal Tile Hover**: Sub-project tiles scale up slightly on hover; in high contrast modes, colors invert
 
 #### External Link Confirmation
 - **Exit Warning Modal**: Clicking external links shows a confirmation modal
 - **URL Preview**: Displays the destination URL before navigating
 - **New Tab Opening**: External links open in a new tab after confirmation
 - **Consistent UX**: All external links (Live Site buttons, sub-project tiles, GitHub links) use the same modal
+
+#### Contact Section
+- **Cascade Animation**: "Let's Connect" title, description, contact details, and social links cascade in sequentially
+- **Form Fly-In**: "Send a Message" form container flies in from the right
+- **Disclaimer**: Disclaimer text flies in from the bottom after the form appears
+
+#### Footer
+- **Slide-Up Animation**: Footer content slides up from the bottom when scrolling into view
 
 #### Floating Arcade Decorations
 Each section features floating geometric shapes inspired by 80s arcade carpet patterns:
@@ -143,6 +180,10 @@ const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 - Live contribution heatmap via GitHub GraphQL API
 - Auto-scrolls to show recent activity on mobile
 - Cached responses for performance
+- **Scroll Animations**:
+  - Heatmap hidden until scroll, fades in at 60% viewport
+  - "Recent Repositories" title hidden until scroll
+  - Repository cards fly out one by one from below
 - **Shimmer Animation**: Active tiles randomly shimmer with diagonal light sweep
 - **Inactive Tile Pulse**: Empty tiles subtly pulse opacity (100% to 50%) over 3 seconds
 

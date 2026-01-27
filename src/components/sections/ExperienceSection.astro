@@ -27,30 +27,19 @@ import Icon from '../ui/Icon.astro';
       <!-- Timeline Line (hidden below 768px, right side 768-1024px, centered 1024px+) -->
       <div
         id="timeline-line"
-        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 timeline-gradient"
+        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 w-0.5 lg:-translate-x-1/2 timeline-gradient transition-all duration-500 ease-out"
+        style="height: 0px;"
         aria-hidden="true"
       ></div>
 
-      <!-- Eyes Travelers (separate container for z-index control) -->
+      <!-- Eyes Traveler (separate container for z-index control) -->
       <div
         id="timeline-eyes"
-        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 z-20 pointer-events-none"
+        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 z-20 pointer-events-none transition-opacity duration-500"
+        style="opacity: 0;"
         aria-hidden="true"
       >
-        <!-- Eyes Traveler 1 -->
         <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
-          <span class="eyes-blink">👀</span>
-        </div>
-        <!-- Eyes Traveler 2 -->
-        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(0, 255, 247, 0.8));">
-          <span class="eyes-blink">👀</span>
-        </div>
-        <!-- Eyes Traveler 3 -->
-        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(255, 255, 0, 0.8));">
-          <span class="eyes-blink">👀</span>
-        </div>
-        <!-- Eyes Traveler 4 -->
-        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.8));">
           <span class="eyes-blink">👀</span>
         </div>
       </div>
@@ -60,8 +49,8 @@ import Icon from '../ui/Icon.astro';
         {
           experience.map((exp, index) => (
             <div
-              class={`relative flex flex-col lg:flex-row gap-8 ${
-                index % 2 === 0 ? 'lg:flex-row-reverse' : ''
+              class={`experience-card relative flex flex-col lg:flex-row gap-8 ${
+                index % 2 === 0 ? 'lg:flex-row-reverse slide-from-right' : 'slide-from-left'
               }`}
             >
               {/* Timeline Dot (hidden below 768px, right side 768-1024px, centered 1024px+) */}
@@ -147,15 +136,15 @@ import Icon from '../ui/Icon.astro';
     </div>
 
     <!-- Education Section -->
-    <div class="mt-20">
-      <h3 class="subsection-title text-2xl font-bold text-white text-center mb-8">
+    <div class="education-section mt-20">
+      <h3 class="subsection-title education-title text-2xl font-bold text-white text-center mb-8">
         {site.sections.experience.educationTitle} <span class="gradient-text">{site.sections.experience.educationTitleHighlight}</span>
       </h3>
 
-      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="education-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {
-          education.map((edu) => (
-            <div class="card relative">
+          education.map((edu, index) => (
+            <div class={`card relative edu-card edu-card-${index}`}
               <span class="absolute top-4 right-4 text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full year-counter" data-target-year={edu.year}>
                 2000
               </span>
@@ -194,20 +183,203 @@ import Icon from '../ui/Icon.astro';
   </div>
 </section>
 
+<style>
+  /* Experience card slide animations */
+  .experience-card {
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .experience-card.slide-from-left {
+    transform: translateX(-100px);
+  }
+
+  .experience-card.slide-from-right {
+    transform: translateX(100px);
+  }
+
+  .experience-card.slide-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .experience-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-animations="disabled"] #timeline-line {
+    height: 100% !important;
+    transition: none !important;
+  }
+
+  [data-animations="disabled"] #timeline-eyes {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Education title fade in */
+  .education-title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .education-section.visible .education-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Education cards diagonal grow from center */
+  .edu-card {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  /* Each card starts positioned toward center */
+  .edu-card-0 {
+    transform: scale(0.8) translate(30px, 30px);
+  }
+
+  .edu-card-1 {
+    transform: scale(0.8) translate(-30px, 30px);
+  }
+
+  .edu-card-2 {
+    transform: scale(0.8) translate(30px, -30px);
+  }
+
+  .edu-card-3 {
+    transform: scale(0.8) translate(-30px, -30px);
+  }
+
+  /* Grow out to final position */
+  .education-grid.cards-in .edu-card {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+
+  /* Stagger the animations */
+  .edu-card-0 { transition-delay: 0s; }
+  .edu-card-1 { transition-delay: 0.1s; }
+  .edu-card-2 { transition-delay: 0.2s; }
+  .edu-card-3 { transition-delay: 0.3s; }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .education-title,
+  [data-animations="disabled"] .edu-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>
+
 <script>
   import { initTimelineEyes } from '../../lib/timeline-eyes';
   import { initSectionParallax } from '../../lib/parallax';
 
   let cleanup: (() => void) | undefined;
+  let slideCleanup: (() => void) | undefined;
+
+  function initExperienceSlides() {
+    const cards = document.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
+    const timelineLine = document.getElementById('timeline-line');
+    const timelineEyes = document.getElementById('timeline-eyes');
+    const timelineContainer = document.querySelector('#experience .relative') as HTMLElement;
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      cards.forEach((card) => card.classList.add('slide-in'));
+      if (timelineLine) timelineLine.style.height = '100%';
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const updateTimeline = () => {
+      if (!timelineLine || !timelineContainer) return;
+
+      // Find the last visible card
+      let lastVisibleCard: HTMLElement | null = null;
+      cards.forEach((card) => {
+        if (card.classList.contains('slide-in')) {
+          lastVisibleCard = card;
+        }
+      });
+
+      if (lastVisibleCard) {
+        const containerRect = timelineContainer.getBoundingClientRect();
+        const cardRect = lastVisibleCard.getBoundingClientRect();
+        // Calculate height from container top to card center
+        const height = (cardRect.top + cardRect.height / 2) - containerRect.top;
+        timelineLine.style.height = `${Math.max(0, height)}px`;
+
+        // Show eyes if we have visible cards
+        if (timelineEyes) timelineEyes.style.opacity = '1';
+      } else {
+        timelineLine.style.height = '0px';
+        // Hide eyes if no cards visible
+        if (timelineEyes) timelineEyes.style.opacity = '0';
+      }
+    };
+
+    const checkCards = () => {
+      const viewportHeight = window.innerHeight;
+      const triggerPoint = viewportHeight * 0.85; // Slide in when card is 85% down the viewport
+      const exitPoint = viewportHeight * 0.5; // Slide out when card top goes below 50% of viewport
+
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+
+        // Card should be visible when its top is above the trigger point
+        if (rect.top < triggerPoint) {
+          card.classList.add('slide-in');
+        }
+
+        // Card should slide out when scrolling up and card top goes below exit point
+        if (rect.top > exitPoint) {
+          card.classList.remove('slide-in');
+        }
+      });
+
+      updateTimeline();
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkCards);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkCards(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
 
   function init() {
     cleanup?.();
+    slideCleanup?.();
     cleanup = initTimelineEyes();
+    slideCleanup = initExperienceSlides();
     initSectionParallax('experience');
   }
 
   init();
   document.addEventListener('astro:after-swap', init);
+
+  // Re-init slides when animations toggle changes
+  window.addEventListener('animations-change', () => {
+    slideCleanup?.();
+    slideCleanup = initExperienceSlides();
+  });
 
   // Year counter animation
   function initYearCounters(skipInitialInView = false) {
@@ -298,5 +470,78 @@ import Icon from '../ui/Icon.astro';
   // Reset on nav link clicks and back-to-top button
   document.querySelectorAll('nav a[href^="#"], .back-to-top, a[href="#home"]').forEach((link) => {
     link.addEventListener('click', resetYearCounters);
+  });
+
+  // Education cards diagonal grow animation
+  let eduCleanup: (() => void) | undefined;
+
+  function initEducationCards() {
+    const eduSection = document.querySelector('.education-section') as HTMLElement;
+    const eduGrid = document.querySelector('.education-grid') as HTMLElement;
+    if (!eduSection || !eduGrid) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      eduSection.classList.add('visible');
+      eduGrid.classList.add('cards-in');
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkEducation = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTrigger = viewportHeight * 0.7;
+      const cardsTrigger = viewportHeight * 0.5;
+      const exitPoint = viewportHeight * 0.8;
+
+      const sectionRect = eduSection.getBoundingClientRect();
+      const gridRect = eduGrid.getBoundingClientRect();
+
+      // Title fades in first
+      if (sectionRect.top < titleTrigger) {
+        eduSection.classList.add('visible');
+      }
+
+      // Cards grow after title
+      if (gridRect.top < cardsTrigger) {
+        eduGrid.classList.add('cards-in');
+      }
+
+      // Reset when scrolling up
+      if (sectionRect.top > exitPoint) {
+        eduSection.classList.remove('visible');
+        eduGrid.classList.remove('cards-in');
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkEducation);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkEducation();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initEdu() {
+    eduCleanup?.();
+    eduCleanup = initEducationCards();
+  }
+
+  initEdu();
+  document.addEventListener('astro:after-swap', initEdu);
+
+  window.addEventListener('animations-change', () => {
+    eduCleanup?.();
+    eduCleanup = initEducationCards();
   });
 </script>

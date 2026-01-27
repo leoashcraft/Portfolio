@@ -60,15 +60,15 @@ import Icon from '../ui/Icon.astro';
       */}
 
       <!-- Bio -->
-      <div class="max-w-4xl mx-auto">
-        <div id="about-bio" class="prose prose-xl mb-16 text-gray-300 leading-relaxed text-[24px]">
+      <div class="about-content max-w-4xl mx-auto">
+        <div id="about-bio" class="about-bio prose prose-xl mb-16 text-gray-300 leading-relaxed text-[24px]">
           {profile.bio.split('\n\n').map((paragraph, i) => (
             <p class="bio-line mb-4">{paragraph}</p>
           ))}
         </div>
 
         <!-- Quick Info -->
-        <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="about-quick-info grid grid-cols-2 gap-4 mb-8">
           <div class="glass p-4">
             <span class="text-gray-400 text-sm">Location</span>
             <p class="text-white font-medium">{profile.location}</p>
@@ -80,7 +80,7 @@ import Icon from '../ui/Icon.astro';
         </div>
 
         <!-- CTA -->
-        <div class="flex flex-wrap gap-4">
+        <div class="about-cta flex flex-wrap gap-4">
           <a href={profile.resumeUrl} download class="btn btn-primary">
             Download Resume
             <svg
@@ -154,14 +154,14 @@ import Icon from '../ui/Icon.astro';
     */}
 
     <!-- Services Section -->
-    <div>
-      <h3 class="subsection-title text-2xl font-bold text-white text-center mb-8">
+    <div class="services-section">
+      <h3 class="services-title subsection-title text-2xl font-bold text-white text-center mb-8">
         {site.sections.about.servicesTitle} <span class="gradient-text">{site.sections.about.servicesTitleHighlight}</span>
       </h3>
 
-      <div class="space-y-6">
+      <div class="services-container space-y-6">
         {/* First service - full width */}
-        <div class="card card-highlighted group">
+        <div class="card card-highlighted group service-card service-first">
           <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
             <svg class="w-6 h-6 text-neon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -180,10 +180,10 @@ import Icon from '../ui/Icon.astro';
         </div>
 
         {/* Middle services - half width each */}
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="service-middle grid md:grid-cols-2 gap-6">
         {
           services.slice(1, 3).map((service, index) => (
-            <div class="card card-highlighted group">
+            <div class={`card card-highlighted group service-card service-mid-${index}`}>
               <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
                 {service.icon === 'code' && (
                   <svg
@@ -265,7 +265,7 @@ import Icon from '../ui/Icon.astro';
 
         {/* Logo & Branding - full width */}
         {services[3] && (
-          <div class="card card-highlighted group relative overflow-hidden">
+          <div class="card card-highlighted group relative overflow-hidden service-card service-last">
             <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
               <svg
                 class="w-6 h-6 text-neon-cyan"
@@ -396,6 +396,155 @@ import Icon from '../ui/Icon.astro';
     initLogoShimmer();
   }
 
+  // About content cascade animation
+  let aboutContentCleanup: (() => void) | undefined;
+
+  function initAboutContentCascade() {
+    const aboutContent = document.querySelector('.about-content') as HTMLElement;
+    const bio = document.querySelector('.about-bio') as HTMLElement;
+    const quickInfo = document.querySelector('.about-quick-info') as HTMLElement;
+    const cta = document.querySelector('.about-cta') as HTMLElement;
+
+    if (!aboutContent) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      if (bio) bio.classList.add('visible');
+      if (quickInfo) quickInfo.classList.add('visible');
+      if (cta) cta.classList.add('visible');
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkAboutContent = () => {
+      const viewportHeight = window.innerHeight;
+      const bioTrigger = viewportHeight * 0.7;
+      const quickInfoTrigger = viewportHeight * 0.5;
+      const ctaTrigger = viewportHeight * 0.4;
+      const exitPoint = viewportHeight * 0.85;
+
+      const contentRect = aboutContent.getBoundingClientRect();
+
+      // Bio fades in first
+      if (contentRect.top < bioTrigger && bio) {
+        bio.classList.add('visible');
+      }
+
+      // Quick info cascades next
+      if (contentRect.top < quickInfoTrigger && quickInfo) {
+        quickInfo.classList.add('visible');
+      }
+
+      // CTA cascades last
+      if (contentRect.top < ctaTrigger && cta) {
+        cta.classList.add('visible');
+      }
+
+      // Reset when scrolling up
+      if (contentRect.top > exitPoint) {
+        if (bio) bio.classList.remove('visible');
+        if (quickInfo) quickInfo.classList.remove('visible');
+        if (cta) cta.classList.remove('visible');
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkAboutContent);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkAboutContent();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  // Services cascade animation
+  let servicesCleanup: (() => void) | undefined;
+
+  function initServicesCascade() {
+    const section = document.querySelector('.services-section') as HTMLElement;
+    const title = document.querySelector('.services-title') as HTMLElement;
+    const container = document.querySelector('.services-container') as HTMLElement;
+    if (!section || !container) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      if (title) title.classList.add('visible');
+      container.classList.add('first-in', 'cloud-in', 'crm-in', 'last-in');
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkServices = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTrigger = viewportHeight * 0.6; // Title appears first
+      const firstTrigger = viewportHeight * 0.4; // Web & Software at 40%
+      const cloudTrigger = viewportHeight * 0.15; // Cloud Solutions
+      const crmTrigger = viewportHeight * -0.1; // CRM (need to scroll more)
+      const lastTrigger = viewportHeight * -0.35; // Logo & Branding (scroll even more)
+      const exitPoint = viewportHeight * 0.7;
+
+      const sectionRect = section.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      // Title fades in first
+      if (sectionRect.top < titleTrigger && title) {
+        title.classList.add('visible');
+      }
+
+      // First service fades in at 40%
+      if (containerRect.top < firstTrigger) {
+        container.classList.add('first-in');
+      }
+
+      // Cloud Solutions flies in
+      if (containerRect.top < cloudTrigger) {
+        container.classList.add('cloud-in');
+      }
+
+      // CRM flies in from behind Cloud
+      if (containerRect.top < crmTrigger) {
+        container.classList.add('crm-in');
+      }
+
+      // Logo & Branding flies in last
+      if (containerRect.top < lastTrigger) {
+        container.classList.add('last-in');
+      }
+
+      // Reset when scrolling up
+      if (sectionRect.top > exitPoint) {
+        if (title) title.classList.remove('visible');
+        container.classList.remove('first-in', 'cloud-in', 'crm-in', 'last-in');
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkServices);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkServices();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAbout);
@@ -403,4 +552,130 @@ import Icon from '../ui/Icon.astro';
     initAbout();
   }
   document.addEventListener('astro:after-swap', initAbout);
+
+  function initServicesAnim() {
+    servicesCleanup?.();
+    servicesCleanup = initServicesCascade();
+  }
+
+  initServicesAnim();
+  document.addEventListener('astro:after-swap', initServicesAnim);
+
+  window.addEventListener('animations-change', () => {
+    servicesCleanup?.();
+    servicesCleanup = initServicesCascade();
+    aboutContentCleanup?.();
+    aboutContentCleanup = initAboutContentCascade();
+  });
+
+  function initAboutAnim() {
+    aboutContentCleanup?.();
+    aboutContentCleanup = initAboutContentCascade();
+  }
+
+  initAboutAnim();
+  document.addEventListener('astro:after-swap', initAboutAnim);
 </script>
+
+<style>
+  /* Services title animation */
+  .services-title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .services-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Services cascade animation */
+  .services-container .service-first {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  /* Cloud Solutions - flies out from behind first, stays on top */
+  .services-container .service-mid-0 {
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* CRM - flies out from behind Cloud (starts hidden behind Cloud) */
+  .services-container .service-mid-1 {
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    position: relative;
+    z-index: 5;
+  }
+
+  .services-container .service-last {
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  /* First service fades in */
+  .services-container.first-in .service-first {
+    opacity: 1;
+  }
+
+  /* Cloud Solutions flies in */
+  .services-container.cloud-in .service-mid-0 {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* CRM flies out from behind Cloud */
+  .services-container.crm-in .service-mid-1 {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Last service flies out from behind */
+  .services-container.last-in .service-last {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .services-title,
+  [data-animations="disabled"] .services-container .service-first,
+  [data-animations="disabled"] .services-container .service-mid-0,
+  [data-animations="disabled"] .services-container .service-mid-1,
+  [data-animations="disabled"] .services-container .service-last {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* About content cascade animation */
+  .about-bio,
+  .about-quick-info,
+  .about-cta {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .about-bio.visible,
+  .about-quick-info.visible,
+  .about-cta.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .about-bio,
+  [data-animations="disabled"] .about-quick-info,
+  [data-animations="disabled"] .about-cta {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

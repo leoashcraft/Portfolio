@@ -27,12 +27,13 @@ import Icon from '../ui/Icon.astro';
       {
         featuredProjects.map((project, index) => (
           <div
-            class={`flex flex-col lg:flex-row gap-8 items-center ${
+            class={`featured-project flex flex-col lg:flex-row gap-8 items-center ${
               index % 2 === 1 ? 'lg:flex-row-reverse' : ''
             }`}
+            data-direction={index % 2 === 0 ? 'left' : 'right'}
           >
             {/* Image */}
-            <div class="lg:w-1/2">
+            <div class="lg:w-1/2 project-image">
               <div class="relative group project-image-wrapper">
                 <div class="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {project.subProjects && project.subProjects.length > 0 ? (
@@ -78,17 +79,20 @@ import Icon from '../ui/Icon.astro';
             </div>
 
             {/* Content */}
-            <div class="lg:w-1/2">
-              <span class="text-neon-pink text-sm font-mono mb-2 block glow-text-pink">
-                
-              </span>
-              <p class="text-2xl font-bold text-white mb-4">{project.title}</p>
-              <div class="glass p-6 mb-6">
-                <p class="text-gray-300">{project.description}</p>
+            <div class="lg:w-1/2 project-content">
+              {/* Title & Description - slides out first */}
+              <div class="project-title-desc">
+                <span class="text-neon-pink text-sm font-mono mb-2 block glow-text-pink">
+
+                </span>
+                <p class="text-2xl font-bold text-white mb-4">{project.title}</p>
+                <div class="glass p-6 mb-6">
+                  <p class="text-gray-300">{project.description}</p>
+                </div>
               </div>
 
-              {/* Metrics */}
-              <div class="flex flex-wrap gap-3 mb-6">
+              {/* Metrics - cascades from behind description */}
+              <div class={`project-metrics flex flex-wrap gap-3 mb-6 ${index % 2 === 1 ? 'justify-end' : ''}`}>
                 {project.metrics.map((metric) => (
                   <span class="flex items-center gap-2 text-sm text-neon-green">
                     <svg
@@ -109,8 +113,8 @@ import Icon from '../ui/Icon.astro';
                 ))}
               </div>
 
-              {/* Tags */}
-              <div class="flex flex-wrap gap-2 mb-6">
+              {/* Tags - cascades after metrics */}
+              <div class={`project-tags flex flex-wrap gap-2 mb-6 ${index % 2 === 1 ? 'justify-end' : ''}`}>
                 {project.tags.map((tag) => (
                   <span class="px-3 py-1 text-sm bg-night-700 text-gray-300 rounded-full">
                     {tag}
@@ -118,8 +122,8 @@ import Icon from '../ui/Icon.astro';
                 ))}
               </div>
 
-              {/* Links */}
-              <div class="flex gap-4">
+              {/* Links - cascades last */}
+              <div class={`project-links flex gap-4 ${index % 2 === 1 ? 'justify-end' : ''}`}>
                 {project.github && (
                   <a
                     href={project.github}
@@ -454,15 +458,15 @@ import Icon from '../ui/Icon.astro';
     </div>
 
     <!-- Other Projects -->
-    <div>
-      <h3 class="subsection-title text-2xl font-bold text-white text-center mb-8">
+    <div class="other-projects-section">
+      <h3 class="other-projects-title subsection-title text-2xl font-bold text-white text-center mb-8">
         {site.sections.projects.otherTitle} <span class="gradient-text">{site.sections.projects.otherTitleHighlight}</span>
       </h3>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="other-projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {
-          otherProjects.map((project) => (
-            <div class="card card-highlighted group">
+          otherProjects.map((project, index) => (
+            <div class={`card card-highlighted group other-project-card other-project-card-${index}`}>
               {/* Header */}
               <div class="flex items-start justify-between mb-4">
                 <div class="project-icon w-12 h-12 rounded-xl bg-neon-pink/10 border border-neon-pink/20 flex items-center justify-center">
@@ -705,4 +709,276 @@ import Icon from '../ui/Icon.astro';
 
   initProjects();
   document.addEventListener('astro:after-swap', initProjects);
+
+  // Featured project slide animations
+  let projectSlideCleanup: (() => void) | undefined;
+
+  function initFeaturedProjectSlides() {
+    const projects = document.querySelectorAll('.featured-project') as NodeListOf<HTMLElement>;
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      projects.forEach((project) => {
+        project.classList.add('image-in', 'content-in');
+      });
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkProjects = () => {
+      const viewportHeight = window.innerHeight;
+      const imageTrigger = viewportHeight * 0.85; // Image flies in early
+      const contentTrigger = viewportHeight * 0.5; // Title/desc slides out when halfway
+      const exitPoint = viewportHeight * 0.7;
+
+      projects.forEach((project) => {
+        const rect = project.getBoundingClientRect();
+
+        // Image flies in first
+        if (rect.top < imageTrigger) {
+          project.classList.add('image-in');
+        }
+
+        // Title/description slides out when halfway on screen
+        if (rect.top < contentTrigger) {
+          if (!project.classList.contains('content-in')) {
+            project.classList.add('content-in');
+            // Cascade the rest with delays
+            setTimeout(() => project.classList.add('metrics-in'), 150);
+            setTimeout(() => project.classList.add('tags-in'), 300);
+            setTimeout(() => project.classList.add('links-in'), 450);
+          }
+        }
+
+        // Slide out when scrolling up
+        if (rect.top > exitPoint) {
+          project.classList.remove('content-in', 'metrics-in', 'tags-in', 'links-in', 'image-in');
+        }
+      });
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkProjects);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkProjects(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initProjectSlides() {
+    projectSlideCleanup?.();
+    projectSlideCleanup = initFeaturedProjectSlides();
+  }
+
+  initProjectSlides();
+  document.addEventListener('astro:after-swap', initProjectSlides);
+
+  // Re-init when animations toggle changes
+  window.addEventListener('animations-change', () => {
+    projectSlideCleanup?.();
+    projectSlideCleanup = initFeaturedProjectSlides();
+    otherProjectsCleanup?.();
+    otherProjectsCleanup = initOtherProjectsAnimation();
+  });
+
+  // Other Projects animation (like GitHub repos)
+  let otherProjectsCleanup: (() => void) | undefined;
+
+  function initOtherProjectsAnimation() {
+    const section = document.querySelector('.other-projects-section') as HTMLElement;
+    const title = document.querySelector('.other-projects-title') as HTMLElement;
+    const cards = document.querySelectorAll('.other-project-card') as NodeListOf<HTMLElement>;
+
+    if (!section || !title) return () => {};
+
+    // Skip if animations disabled
+    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
+      title.classList.add('visible');
+      cards.forEach((card) => card.classList.add('visible'));
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const checkOtherProjects = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTrigger = viewportHeight * 0.7;
+      const cardsTrigger = viewportHeight * 0.5;
+      const exitPoint = viewportHeight * 0.8;
+
+      const sectionRect = section.getBoundingClientRect();
+
+      // Title fades in first
+      if (sectionRect.top < titleTrigger) {
+        title.classList.add('visible');
+      }
+
+      // Cards fly out one by one
+      if (sectionRect.top < cardsTrigger) {
+        cards.forEach((card, index) => {
+          if (!card.classList.contains('visible')) {
+            setTimeout(() => {
+              card.classList.add('visible');
+            }, index * 100);
+          }
+        });
+      }
+
+      // Reset when scrolling up
+      if (sectionRect.top > exitPoint) {
+        title.classList.remove('visible');
+        cards.forEach((card) => card.classList.remove('visible'));
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(checkOtherProjects);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    checkOtherProjects();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }
+
+  function initOtherProjects() {
+    otherProjectsCleanup?.();
+    otherProjectsCleanup = initOtherProjectsAnimation();
+  }
+
+  initOtherProjects();
+  document.addEventListener('astro:after-swap', initOtherProjects);
 </script>
+
+<style>
+  /* Featured project animations */
+  .featured-project {
+    position: relative;
+  }
+
+  .featured-project .project-image {
+    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Title/desc slides horizontally from behind image */
+  .featured-project .project-title-desc {
+    opacity: 0;
+    transition: opacity 0.4s ease-out, transform 0.5s ease-out;
+  }
+
+  /* Cascading elements slide down from behind description */
+  .featured-project .project-metrics,
+  .featured-project .project-tags,
+  .featured-project .project-links {
+    opacity: 0;
+    transition: opacity 0.4s ease-out, transform 0.5s ease-out;
+    transform: translateY(-20px);
+  }
+
+  /* Image slides in from the side */
+  .featured-project[data-direction="left"] .project-image {
+    transform: translateX(-100px);
+  }
+
+  .featured-project[data-direction="right"] .project-image {
+    transform: translateX(100px);
+  }
+
+  /* Title/desc starts behind image - slides from same direction */
+  .featured-project[data-direction="left"] .project-title-desc {
+    transform: translateX(-100px);
+  }
+
+  .featured-project[data-direction="right"] .project-title-desc {
+    transform: translateX(100px);
+  }
+
+  /* Image slides in */
+  .featured-project.image-in .project-image {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Cascade animations */
+  .featured-project.content-in .project-title-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .featured-project.metrics-in .project-metrics {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .featured-project.tags-in .project-tags {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .featured-project.links-in .project-links {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .featured-project .project-image,
+  [data-animations="disabled"] .featured-project .project-title-desc,
+  [data-animations="disabled"] .featured-project .project-metrics,
+  [data-animations="disabled"] .featured-project .project-tags,
+  [data-animations="disabled"] .featured-project .project-links {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Other Projects (More Work) animations */
+  .other-projects-title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .other-projects-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .other-project-card {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+
+  .other-project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .other-projects-title,
+  [data-animations="disabled"] .other-project-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+</style>

@@ -321,6 +321,7 @@ Features:
 - **Timeline Eyes Exception**: Eyes continue animating in grayscale for visual interest
 - **Mobile Optimizations**: High contrast light mode adjusts hero section with gradient background
 - **Keyboard Accessible**: Dropdown supports keyboard navigation and Escape to close
+- **Menu Auto-Close**: Info menu and hamburger menu collapse when theme is changed
 - **Inverted Hover Effects**: Nav links, social icons, and theme toggle invert colors with rounded background on hover
 
 CSS files:

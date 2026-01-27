@@ -8,7 +8,7 @@ export const site = {
     about: {
       title: 'About',
       titleHighlight: 'Me',
-      subtitle: 'Building digital solutions with 15+ years of experience',
+      subtitle: 'Building digital solutions with 15+ years of tech experience',
       availabilityText: 'Open to opportunities',
       skillsTitle: 'Technical',
       skillsTitleHighlight: 'Skills',

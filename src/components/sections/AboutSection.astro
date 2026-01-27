@@ -162,18 +162,18 @@ import Icon from '../ui/Icon.astro';
       <div class="services-container space-y-6">
         {/* First service - full width */}
         <div class="card card-highlighted group service-card service-first">
-          <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
+          <div class="service-icon service-icon-anim w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
             <svg class="w-6 h-6 text-neon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
             </svg>
           </div>
-          <p class="service-title text-[24px] font-semibold text-white mb-2">{services[0].title}</p>
-          <p class="text-gray-400 text-[18px] mb-4" set:html={services[0].description}></p>
-          <ul class="space-y-2">
+          <p class="service-card-title text-[24px] font-semibold text-white mb-2" data-title={services[0].title}></p>
+          <p class="service-desc text-gray-400 text-[18px] mb-4" set:html={services[0].description}></p>
+          <ul class="service-features space-y-2">
             {services[0].features.map((feature, index) => (
               <li class="feature-item flex items-center gap-2 text-[18px] text-gray-300" style={`--feature-index: ${index}`}>
                 <Icon name="checkmark" size="sm" class="text-neon-green shrink-0" />
-                {feature}
+                <span class="feature-text">{feature}</span>
               </li>
             ))}
           </ul>
@@ -184,7 +184,7 @@ import Icon from '../ui/Icon.astro';
         {
           services.slice(1, 3).map((service, index) => (
             <div class={`card card-highlighted group service-card service-mid-${index}`}>
-              <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
+              <div class="service-icon service-icon-anim w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
                 {service.icon === 'code' && (
                   <svg
                     class="w-6 h-6 text-neon-pink"
@@ -246,15 +246,14 @@ import Icon from '../ui/Icon.astro';
                   </svg>
                 )}
               </div>
-              <p class="service-title text-[24px] font-semibold text-white mb-2">
-                {service.title}
+              <p class="service-card-title text-[24px] font-semibold text-white mb-2" data-title={service.title}>
               </p>
-              <p class="text-gray-400 text-[18px] mb-4" set:html={service.description}></p>
-              <ul class="space-y-2">
+              <p class="service-desc text-gray-400 text-[18px] mb-4" set:html={service.description}></p>
+              <ul class="service-features space-y-2">
                 {service.features.map((feature, index) => (
                   <li class="feature-item flex items-center gap-2 text-[18px] text-gray-300" style={`--feature-index: ${index}`}>
                     <Icon name="checkmark" size="sm" class="text-neon-green shrink-0" />
-                    {feature}
+                    <span class="feature-text">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -266,7 +265,7 @@ import Icon from '../ui/Icon.astro';
         {/* Logo & Branding - full width */}
         {services[3] && (
           <div class="card card-highlighted group relative overflow-hidden service-card service-last">
-            <div class="service-icon w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
+            <div class="service-icon service-icon-anim w-12 h-12 rounded-xl bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center mb-4 group-hover:from-neon-pink/30 group-hover:to-neon-purple/30 transition-colors border border-neon-pink/20">
               <svg
                 class="w-6 h-6 text-neon-cyan"
                 fill="none"
@@ -281,8 +280,8 @@ import Icon from '../ui/Icon.astro';
                 />
               </svg>
             </div>
-            <p class="service-title text-[24px] font-semibold text-white mb-2">{services[3].title}</p>
-            <p class="text-gray-400 text-[18px] mb-4" set:html={services[3].description}></p>
+            <p class="service-card-title text-[24px] font-semibold text-white mb-2" data-title={services[3].title}></p>
+            <p class="service-desc text-gray-400 text-[18px] mb-4" set:html={services[3].description}></p>
             <div class="grid grid-cols-3 gap-4 md:gap-16 mt-4 px-2 md:px-8">
               <button class="flex items-center justify-center h-[200px] cursor-pointer logo-thumbnail" data-src="/img/logos/golden-lighting-co.avif" data-alt="Golden Lighting Co. logo">
                 <div class="logo-image-wrapper relative">
@@ -471,16 +470,51 @@ import Icon from '../ui/Icon.astro';
   // Services cascade animation
   let servicesCleanup: (() => void) | undefined;
 
+  interface CardState {
+    card: HTMLElement;
+    icon: HTMLElement | null;
+    title: HTMLElement | null;
+    titleText: string;
+    desc: HTMLElement | null;
+    features: HTMLElement[];
+    lastTitleProgress: number;
+  }
+
   function initServicesCascade() {
     const section = document.querySelector('.services-section') as HTMLElement;
     const title = document.querySelector('.services-title') as HTMLElement;
     const container = document.querySelector('.services-container') as HTMLElement;
     if (!section || !container) return () => {};
 
+    const cards = container.querySelectorAll('.service-card') as NodeListOf<HTMLElement>;
+    const cardStates: CardState[] = [];
+
+    // Initialize card states
+    cards.forEach((card) => {
+      const titleEl = card.querySelector('.service-card-title') as HTMLElement;
+      const titleText = titleEl?.dataset.title || '';
+
+      cardStates.push({
+        card,
+        icon: card.querySelector('.service-icon-anim'),
+        title: titleEl,
+        titleText,
+        desc: card.querySelector('.service-desc'),
+        features: Array.from(card.querySelectorAll('.feature-item')),
+        lastTitleProgress: -1
+      });
+    });
+
     // Skip if animations disabled
     if (document.documentElement.getAttribute('data-animations') === 'disabled') {
       if (title) title.classList.add('visible');
       container.classList.add('first-in', 'cloud-in', 'crm-in', 'last-in');
+      cardStates.forEach((state) => {
+        if (state.icon) state.icon.classList.add('visible');
+        if (state.title) state.title.textContent = state.titleText;
+        if (state.desc) state.desc.classList.add('visible');
+        state.features.forEach((f) => f.classList.add('visible'));
+      });
       return () => {};
     }
 
@@ -488,11 +522,11 @@ import Icon from '../ui/Icon.astro';
 
     const checkServices = () => {
       const viewportHeight = window.innerHeight;
-      const titleTrigger = viewportHeight * 0.6; // Title appears first
-      const firstTrigger = viewportHeight * 0.4; // Web & Software at 40%
-      const cloudTrigger = viewportHeight * 0.15; // Cloud Solutions
-      const crmTrigger = viewportHeight * -0.1; // CRM (need to scroll more)
-      const lastTrigger = viewportHeight * -0.35; // Logo & Branding (scroll even more)
+      const titleTrigger = viewportHeight * 0.6;
+      const firstTrigger = viewportHeight * 0.4;
+      const cloudTrigger = viewportHeight * 0.15;
+      const crmTrigger = viewportHeight * -0.1;
+      const lastTrigger = viewportHeight * -0.35;
       const exitPoint = viewportHeight * 0.7;
 
       const sectionRect = section.getBoundingClientRect();
@@ -503,30 +537,118 @@ import Icon from '../ui/Icon.astro';
         title.classList.add('visible');
       }
 
-      // First service fades in at 40%
+      // Cards appear in sequence
       if (containerRect.top < firstTrigger) {
         container.classList.add('first-in');
       }
-
-      // Cloud Solutions flies in
       if (containerRect.top < cloudTrigger) {
         container.classList.add('cloud-in');
       }
 
-      // CRM flies in from behind Cloud
-      if (containerRect.top < crmTrigger) {
+      // Calculate Cloud's progress to determine when CRM should appear
+      const cloudCard = cardStates.find(s => s.card.classList.contains('service-mid-0'));
+      let cloudProgress = 0;
+      if (cloudCard) {
+        const cloudRect = cloudCard.card.getBoundingClientRect();
+        const contentStart = viewportHeight * 0.6;
+        const contentEnd = viewportHeight * 0.1;
+        if (cloudRect.top <= contentStart && cloudRect.top >= contentEnd) {
+          cloudProgress = (contentStart - cloudRect.top) / (contentStart - contentEnd);
+        } else if (cloudRect.top < contentEnd) {
+          cloudProgress = 1;
+        }
+      }
+
+      // CRM appears after Cloud is 50% complete
+      if (cloudProgress >= 0.5) {
         container.classList.add('crm-in');
       }
 
-      // Logo & Branding flies in last
-      if (containerRect.top < lastTrigger) {
+      // Logo & Branding appears after CRM is visible and scrolled more
+      if (containerRect.top < lastTrigger && container.classList.contains('crm-in')) {
         container.classList.add('last-in');
       }
+
+      // Animate each card's content based on its position
+      cardStates.forEach((state) => {
+        const cardRect = state.card.getBoundingClientRect();
+
+        // Card content animation range
+        const contentStart = viewportHeight * 0.6;
+        const contentEnd = viewportHeight * 0.1;
+
+        // Calculate overall progress for this card (0-1)
+        let progress = 0;
+        if (cardRect.top <= contentStart && cardRect.top >= contentEnd) {
+          progress = (contentStart - cardRect.top) / (contentStart - contentEnd);
+        } else if (cardRect.top < contentEnd) {
+          progress = 1;
+        }
+
+        // Icon appears at 0-15% progress
+        if (state.icon) {
+          if (progress >= 0.05) {
+            state.icon.classList.add('visible');
+          } else {
+            state.icon.classList.remove('visible');
+          }
+        }
+
+        // Title types at 15-45% progress
+        if (state.title && state.titleText) {
+          const titleStart = 0.15;
+          const titleEnd = 0.45;
+          let titleProgress = 0;
+          if (progress >= titleStart && progress <= titleEnd) {
+            titleProgress = (progress - titleStart) / (titleEnd - titleStart);
+          } else if (progress > titleEnd) {
+            titleProgress = 1;
+          }
+
+          if (Math.abs(titleProgress - state.lastTitleProgress) > 0.01) {
+            state.lastTitleProgress = titleProgress;
+            if (titleProgress >= 1) {
+              state.title.textContent = state.titleText;
+            } else {
+              const charsToShow = Math.floor(titleProgress * state.titleText.length);
+              state.title.textContent = state.titleText.slice(0, charsToShow);
+            }
+          }
+        }
+
+        // Description appears at 55% progress (after title finishes at 45%)
+        if (state.desc) {
+          if (progress >= 0.55) {
+            state.desc.classList.add('visible');
+          } else {
+            state.desc.classList.remove('visible');
+          }
+        }
+
+        // Features cascade at 70-100% progress (after description)
+        const featuresStart = 0.70;
+        const featuresRange = 0.30;
+        state.features.forEach((feature, index) => {
+          const featureThreshold = featuresStart + (index / state.features.length) * featuresRange;
+          if (progress >= featureThreshold) {
+            feature.classList.add('visible');
+          } else {
+            feature.classList.remove('visible');
+          }
+        });
+      });
 
       // Reset when scrolling up
       if (sectionRect.top > exitPoint) {
         if (title) title.classList.remove('visible');
         container.classList.remove('first-in', 'cloud-in', 'crm-in', 'last-in');
+        cardStates.forEach((state) => {
+          if (state.icon) state.icon.classList.remove('visible');
+          if (state.title) state.title.textContent = '';
+          state.lastTitleProgress = -1;
+          if (state.desc) state.desc.classList.remove('visible');
+          state.features.forEach((f) => f.classList.remove('visible'));
+        });
       }
 
       ticking = false;
@@ -660,12 +782,49 @@ import Icon from '../ui/Icon.astro';
     transform: translateY(0);
   }
 
+  /* Service card content animations */
+  .service-icon-anim {
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .service-icon-anim.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .service-desc {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .service-desc.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .feature-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .feature-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
   /* Disable animations when preference set */
   [data-animations="disabled"] .services-title,
   [data-animations="disabled"] .services-container .service-first,
   [data-animations="disabled"] .services-container .service-mid-0,
   [data-animations="disabled"] .services-container .service-mid-1,
-  [data-animations="disabled"] .services-container .service-last {
+  [data-animations="disabled"] .services-container .service-last,
+  [data-animations="disabled"] .service-icon-anim,
+  [data-animations="disabled"] .service-desc,
+  [data-animations="disabled"] .feature-item {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

@@ -155,24 +155,34 @@ export function initScrollWave(options: ScrollWaveOptions): () => void {
         const totalLetters = state.letters.length;
         const letterWindow = 0.15;
 
-        state.letters.forEach((letter, index) => {
-          const letterPeak = index / totalLetters;
-          const distFromPeak = Math.abs(waveProgress - letterPeak);
+        // When wave is complete, all letters should be at normal scale
+        if (waveProgress >= 1) {
+          state.letters.forEach((letter) => {
+            letter.style.transform = 'scale(1)';
+            letter.style.filter = '';
+          });
+        } else {
+          state.letters.forEach((letter, index) => {
+            // Adjust so the wave completes before progress reaches 1
+            // Map letter peaks to 0 - 0.85 range so wave finishes by progress 0.85
+            const letterPeak = (index / totalLetters) * 0.85;
+            const distFromPeak = Math.abs(waveProgress - letterPeak);
 
-          let scale = 1;
-          if (distFromPeak < letterWindow) {
-            const normalizedDist = distFromPeak / letterWindow;
-            scale = 1 + 0.4 * (1 - normalizedDist * normalizedDist);
-          }
+            let scale = 1;
+            if (distFromPeak < letterWindow) {
+              const normalizedDist = distFromPeak / letterWindow;
+              scale = 1 + 0.4 * (1 - normalizedDist * normalizedDist);
+            }
 
-          let brightness = 1;
-          if (distFromPeak < letterWindow * 0.5) {
-            brightness = 1.3;
-          }
+            let brightness = 1;
+            if (distFromPeak < letterWindow * 0.5) {
+              brightness = 1.3;
+            }
 
-          letter.style.transform = `scale(${scale})`;
-          letter.style.filter = brightness > 1 ? `brightness(${brightness})` : '';
-        });
+            letter.style.transform = `scale(${scale})`;
+            letter.style.filter = brightness > 1 ? `brightness(${brightness})` : '';
+          });
+        }
       }
     });
 

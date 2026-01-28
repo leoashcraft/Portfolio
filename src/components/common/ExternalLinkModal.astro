@@ -1,0 +1,133 @@
+---
+/**
+ * External Link Confirmation Modal
+ * Shows a warning before navigating to external URLs
+ *
+ * Usage:
+ * 1. Add this component to your page
+ * 2. Add class="external-link" and data-external-url="..." to any link
+ * 3. The modal will intercept clicks and show a confirmation
+ */
+---
+
+{/* External Link Confirmation Modal */}
+<div
+  id="external-link-modal"
+  class="fixed inset-0 z-[80] hidden items-center justify-center p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="external-modal-title"
+>
+  {/* Backdrop */}
+  <div class="absolute inset-0 bg-night-900/95 backdrop-blur-sm" data-external-modal-backdrop />
+
+  {/* Modal Content */}
+  <div class="chase-border chase-always modal-container modal-container-warning relative w-full max-w-md rounded-2xl border border-neon-yellow/30 bg-night-800/95 p-6 md:p-8 shadow-2xl text-center">
+    {/* Warning Icon */}
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neon-yellow/10 border border-neon-yellow/30 flex items-center justify-center">
+      <svg class="w-8 h-8 text-neon-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+
+    <h3 id="external-modal-title" class="text-xl font-bold text-white mb-2">
+      Leaving Portfolio
+    </h3>
+    <p class="text-gray-400 mb-6">
+      You're about to visit an external website. This will open in a new tab.
+    </p>
+    <p id="external-link-url" class="text-sm text-neon-cyan font-mono mb-6 break-all"></p>
+
+    {/* Buttons */}
+    <div class="flex gap-4 justify-center">
+      <button
+        type="button"
+        class="btn btn-ghost"
+        data-external-modal-cancel
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-external-modal-confirm
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initExternalLinkModal() {
+    const modal = document.getElementById('external-link-modal');
+    const urlDisplay = document.getElementById('external-link-url');
+    const confirmBtn = document.querySelector('[data-external-modal-confirm]');
+    const cancelBtn = document.querySelector('[data-external-modal-cancel]');
+    const backdrop = document.querySelector('[data-external-modal-backdrop]');
+
+    if (!modal) return;
+
+    let pendingUrl = '';
+
+    function openExternalModal(url: string) {
+      pendingUrl = url;
+      if (urlDisplay) urlDisplay.textContent = url;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeExternalModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      pendingUrl = '';
+    }
+
+    // Intercept external link clicks
+    document.querySelectorAll('.external-link, a[data-external-url]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = link.getAttribute('data-external-url') || link.getAttribute('href');
+        if (url && url !== '#') {
+          openExternalModal(url);
+        }
+      });
+    });
+
+    // Confirm button - open in new tab
+    confirmBtn?.addEventListener('click', () => {
+      if (pendingUrl) {
+        window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+      }
+      closeExternalModal();
+    });
+
+    // Cancel button
+    cancelBtn?.addEventListener('click', closeExternalModal);
+
+    // Backdrop click
+    backdrop?.addEventListener('click', closeExternalModal);
+
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeExternalModal();
+      }
+    });
+  }
+
+  initExternalLinkModal();
+  document.addEventListener('astro:after-swap', initExternalLinkModal);
+</script>
+
+<style>
+  /* Warning modal yellow variant */
+  .modal-container-warning {
+    --chase-color: rgba(255, 255, 0, 0.5);
+  }
+</style>

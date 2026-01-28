@@ -189,12 +189,29 @@ import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
   }
 
   /* High contrast adjustments */
-  [data-theme="high-contrast"] .now-section,
-  [data-theme="high-contrast-light"] .now-section {
-    border-color: currentColor;
+  [data-theme="high-contrast"] .now-section {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  [data-theme="high-contrast"] .now-section:hover {
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   [data-theme="high-contrast-light"] .now-section {
+    border-color: rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.02);
+  }
+
+  [data-theme="high-contrast-light"] .now-section:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Footer border in high contrast */
+  [data-theme="high-contrast"] .border-neon-pink\/20 {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  [data-theme="high-contrast-light"] .border-neon-pink\/20 {
+    border-color: rgba(0, 0, 0, 0.2) !important;
   }
 </style>

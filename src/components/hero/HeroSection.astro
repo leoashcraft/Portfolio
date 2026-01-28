@@ -226,16 +226,6 @@ import { heroTitles } from '../../data/hero';
       <span id="typewriter" data-titles={JSON.stringify(heroTitles)}>{heroTitles[0]}</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
     </h2>
 
-    <!-- Tagline with word-by-word grow animation -->
-    <p
-      id="hero-tagline"
-      class="text-gray-400 text-lg md:text-lg lg:text-xl max-w-2xl mx-auto mb-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.8s_forwards]"
-    >
-      {profile.tagline.split(' ').map((word, i) => (
-        <span class="tagline-word inline-block transition-transform duration-200" data-word-index={i}>{word}{i < profile.tagline.split(' ').length - 1 ? '\u00A0' : ''}</span>
-      ))}
-    </p>
-
     <!-- CTA Buttons -->
     <div
       class="flex flex-col sm:flex-row items-center justify-center gap-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1s_forwards]"
@@ -428,55 +418,6 @@ import { heroTitles } from '../../data/hero';
     }
   }
 
-  // Tagline word grow animation
-  function animateTaglineWords(startDelay: number = 1400) {
-    // Skip if animations disabled
-    if (document.documentElement.getAttribute('data-animations') === 'disabled') return;
-
-    const words = document.querySelectorAll('.tagline-word') as NodeListOf<HTMLElement>;
-    if (words.length === 0) return;
-
-    const wordDelay = 150; // Delay between each word
-
-    // Reset all words first
-    words.forEach((word) => {
-      word.style.transform = 'scale(1)';
-    });
-
-    // Animate each word sequentially
-    words.forEach((word, index) => {
-      setTimeout(() => {
-        // Grow to 103%
-        word.style.transform = 'scale(1.03)';
-        // Shrink back after 200ms
-        setTimeout(() => {
-          word.style.transform = 'scale(1)';
-        }, 200);
-      }, startDelay + (index * wordDelay));
-    });
-  }
-
-  // Initial page load animation (wait for fadeInUp to complete)
-  function initTaglineWordGrow() {
-    animateTaglineWords(1400);
-  }
-
-  // Listen for home navigation clicks to retrigger animation
-  function initHomeNavListener() {
-    // Match home links: "#", "#home", or "/"
-    document.querySelectorAll('a[href="#"], a[href="#home"], a[href="/"]').forEach((link) => {
-      link.addEventListener('click', () => {
-        // Short delay for click retrigger (no need to wait for fadeInUp)
-        setTimeout(() => animateTaglineWords(300), 100);
-      });
-    });
-
-    // Listen for back-to-top button reset event
-    window.addEventListener('reset-hero-tagline', () => {
-      setTimeout(() => animateTaglineWords(300), 800);
-    });
-  }
-
   // Parallax effect for hero background
   function initParallax() {
     const parallaxBg = document.getElementById('hero-parallax-bg');
@@ -513,15 +454,11 @@ import { heroTitles } from '../../data/hero';
 
   initTypewriter();
   initContactButton();
-  initTaglineWordGrow();
-  initHomeNavListener();
   initParallax();
   initShapeParallax();
   document.addEventListener('astro:after-swap', () => {
     initTypewriter();
     initContactButton();
-    initTaglineWordGrow();
-    initHomeNavListener();
     initParallax();
     initShapeParallax();
   });

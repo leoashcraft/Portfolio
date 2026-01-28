@@ -42,6 +42,8 @@ export const schema = {
     'Jenkins',
     'MySQL',
     'PostgreSQL',
+    'SEO',
+    'Web Performance',
   ],
   sameAs: [
     'https://www.linkedin.com/in/leo3',

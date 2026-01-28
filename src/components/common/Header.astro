@@ -11,7 +11,7 @@ const mailtoLink = getMailtoLink(profile);
 <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
   <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between transition-all duration-300 relative overflow-hidden">
     <!-- Heat sensor glow effect - pink to purple left to right -->
-    <div id="nav-heat-glow" class="pointer-events-none absolute w-96 h-40 rounded-full opacity-0 transition-opacity duration-200" style="background: linear-gradient(to right, rgba(255, 0, 255, 0.15), rgba(102, 0, 255, 0.15)); transform: translate(-50%, -50%); filter: blur(30px);"></div>
+    <div id="nav-heat-glow" class="pointer-events-none absolute w-96 h-40 rounded-full opacity-0 transition-opacity duration-200" style="background: linear-gradient(to right, rgba(34, 203, 204, 0.15), rgba(102, 0, 255, 0.15)); transform: translate(-50%, -50%); filter: blur(30px);"></div>
 
     <!-- Left Side: Navigation Links -->
     <div class="flex items-center gap-1">
@@ -236,7 +236,7 @@ const mailtoLink = getMailtoLink(profile);
 <script>
   // Arcade carpet gradient background - shared between functions
   const arcadeGradient = `
-    linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(34, 203, 204, 0.1) 0%, transparent 50%),
     linear-gradient(225deg, rgba(102, 0, 255, 0.1) 0%, transparent 50%),
     linear-gradient(45deg, rgba(255, 255, 0, 0.05) 0%, transparent 50%),
     linear-gradient(315deg, rgba(0, 255, 0, 0.05) 0%, transparent 50%),
@@ -255,7 +255,7 @@ const mailtoLink = getMailtoLink(profile);
     function applyDarkBg() {
       nav.style.background = arcadeGradient;
       nav.style.backgroundColor = 'rgba(10, 0, 21, 0.9)';
-      nav.style.borderColor = 'rgba(255, 0, 255, 0.3)';
+      nav.style.borderColor = 'rgba(34, 203, 204, 0.3)';
     }
 
     function removeDarkBg() {
@@ -311,7 +311,7 @@ const mailtoLink = getMailtoLink(profile);
     function applyDarkBg() {
       nav.style.background = arcadeGradient;
       nav.style.backgroundColor = 'rgba(10, 0, 21, 0.9)';
-      nav.style.borderColor = 'rgba(255, 0, 255, 0.3)';
+      nav.style.borderColor = 'rgba(34, 203, 204, 0.3)';
     }
 
     function removeDarkBg() {
@@ -371,7 +371,7 @@ const mailtoLink = getMailtoLink(profile);
         const bgOpacity = 0.05 + (progress * 0.85);
         nav.style.background = arcadeGradient;
         nav.style.backgroundColor = `rgba(10, 0, 21, ${bgOpacity})`;
-        nav.style.borderColor = `rgba(255, 0, 255, ${0.1 + progress * 0.2})`;
+        nav.style.borderColor = `rgba(34, 203, 204, ${0.1 + progress * 0.2})`;
       } else {
         nav.style.background = '';
         nav.style.backgroundColor = '';

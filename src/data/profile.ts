@@ -5,9 +5,9 @@ export const profile = {
   tagline: 'I Cultivate Digital Excellence',
   description:
     'Full Stack Software Developer with 15+ years of IT experience, specializing in clean, maintainable PHP and JavaScript code. Currently developing solutions at Parker University.',
-  bio: `I'm Leo Ashcraft, a full-stack web developer with 15+ years of experience turning ideas into fast, polished digital experiences. I focus on clean, maintainable code, smooth animations, intuitive UI/UX, and performance-driven websites built with SEO, Core Web Vitals, and AI search visibility in mind. Currently at Parker University, building web solutions that matter.`,
+  bio: `I'm a full-stack web developer with 15+ years of tech experience, turning ideas into fast, polished digital experiences. I focus on clean, maintainable code, smooth animations, intuitive UI/UX, and performance-driven websites built with SEO, Core Web Vitals, and AI search visibility in mind. Currently at Parker University, building web solutions that matter.`,
 
-  availability: ['Open to W2 Roles', 'Accepting Select Freelance'],
+  availability: ['Open to freelance'],
 
   // Obfuscated contact info (reversed for spam protection)
   contact: {

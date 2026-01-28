@@ -1,6 +1,6 @@
 ---
 import { profile } from '../../data/profile';
-import { heroTitles } from '../../data/hero';
+import { site } from '../../data/site';
 ---
 
 <section
@@ -195,68 +195,101 @@ import { heroTitles } from '../../data/hero';
   >
   </div>
 
-  <!-- Content Container (centered) -->
-  <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-20">
-    <!-- Mascot: Absolute positioned, behind content on mobile, to the left on desktop -->
-    <img
-      src="/img/leo-mascot.avif"
-      alt="Hyper-realistic Portrait of Leo Ashcraft"
-      class="hero-mascot absolute top-[44%] md:top-[37%] lg:top-[45%] xl:top-[55%] left-1/2 md:left-[16%] lg:left-[9%] xl:left-[-1%] -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-[230px] lg:w-[220px] xl:w-[300px] h-auto pointer-events-none -z-10 md:z-[5]"
-      aria-hidden="true"
-    />
-    <div class="rounded-2xl px-2 py-4 sm:p-8 md:p-12 mt-36 md:mt-0 bg-black/70 md:bg-transparent shadow-[0_0_60px_40px_rgba(0,0,0,0.7)] md:shadow-none w-[calc(100%+2rem)] -ml-4 sm:w-full sm:ml-0">
-    <!-- Greeting (visible immediately on mobile, fade-in on desktop) -->
-    <p
-      class="text-neon-pink font-mono text-sm md:text-base mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.2s_forwards] glow-text-pink"
-    >
-      Hello, I'm
-    </p>
-
-    <!-- Name (LCP element - visible immediately on mobile) -->
-    <h1
-      class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]"
-    >
-      <span class="gradient-text-animated">{profile.name}</span><span class="sr-only"> - Full Stack Software Developer</span>
-    </h1>
-
-    <!-- Title with Typewriter Effect -->
-    <h2
-      class="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-gray-300 mb-6 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards] h-[1.75rem] sm:h-[2rem] md:h-[2rem] lg:h-[2.25rem]"
-    >
-      <span id="typewriter" data-titles={JSON.stringify(heroTitles)}>{heroTitles[0]}</span><span id="typewriter-cursor" class="hidden inline-block w-[3px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
-    </h2>
-
-    <!-- CTA Buttons -->
-    <div
-      class="flex flex-col sm:flex-row items-center justify-center gap-4 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_1s_forwards] w-[115%] sm:w-full -ml-[7.5%] sm:ml-0"
-    >
-      <a href="#projects" class="btn btn-primary md:text-sm lg:text-base w-full sm:w-1/2 justify-center">
-        View My Work
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </a>
-
-      <a href="#contact" id="contact-btn" class="btn btn-secondary md:text-sm lg:text-base w-full sm:w-1/2 justify-center">
-        Get In Touch
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-          ></path>
-        </svg>
-      </a>
+  <!-- Content Container -->
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-4 pt-20">
+    <!-- Mobile: Centered layout -->
+    <div class="md:hidden text-center">
+      <!-- Mascot behind content on mobile -->
+      <img
+        src="/img/leo-mascot.avif"
+        alt="Hyper-realistic Portrait of Leo Ashcraft"
+        class="hero-mascot absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-auto pointer-events-none -z-10"
+        aria-hidden="true"
+      />
+      <div class="rounded-2xl p-6 mt-36 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
+        <h1 class="hero-title text-4xl sm:text-5xl font-bold mb-6">
+          <span class="gradient-text-animated">Hi, I'm {profile.name}</span><span class="sr-only"> - Full Stack Software Developer</span>
+        </h1>
+        <!-- About content -->
+        <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">{profile.bio}</p>
+        <!-- Quick Info -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div class="glass-light p-3 rounded-lg">
+            <span class="text-gray-400 text-xs">Location</span>
+            <p class="text-white font-medium text-sm">{profile.location}</p>
+          </div>
+          <div class="glass-light p-3 rounded-lg">
+            <span class="text-gray-400 text-xs">Availability</span>
+            <p class="text-neon-green font-medium text-sm">{site.sections.about.availabilityText}</p>
+          </div>
+        </div>
+        <!-- CTA -->
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a href={profile.resumeUrl} download class="btn btn-primary text-sm">
+            Download Resume
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </a>
+          <a href="#contact" class="btn btn-secondary text-sm">
+            Let's Talk
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
+
+    <!-- Desktop: Overlapping layout (768px+) -->
+    <div class="hidden md:block">
+      <!-- About content in glass container -->
+      <div class="hero-about-box relative rounded-2xl p-6 lg:p-8 w-[80%] mx-auto translate-x-[8%] md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards]">
+        <!-- Mascot inside container, positioned behind content -->
+        <img
+          src="/img/leo-mascot.avif"
+          alt="Hyper-realistic Portrait of Leo Ashcraft"
+          class="hero-mascot absolute -left-[22%] -bottom-[5%] h-[135%] max-[1195px]:h-[120%] w-auto pointer-events-none z-0"
+          aria-hidden="true"
+        />
+        <!-- Content wrapper with higher z-index -->
+        <div class="relative z-10">
+          <h1 class="hero-title md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 text-center md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]">
+            <span class="gradient-text-animated">Hi, I'm {profile.name}</span><span class="sr-only"> - Full Stack Software Developer</span>
+          </h1>
+          <p class="text-gray-300 md:text-lg lg:text-xl leading-relaxed mb-6 text-left">{profile.bio}</p>
+          <!-- Quick Info -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="glass-light p-4 rounded-lg text-left">
+              <span class="text-gray-400 text-sm">Location</span>
+              <p class="text-white font-medium">{profile.location}</p>
+            </div>
+            <div class="glass-light p-4 rounded-lg text-left">
+              <span class="text-gray-400 text-sm">Availability</span>
+              <p class="text-neon-green font-medium">{site.sections.about.availabilityText}</p>
+            </div>
+          </div>
+          <!-- CTA -->
+          <div class="flex flex-wrap gap-4 justify-start">
+            <a href={profile.resumeUrl} download class="btn btn-primary">
+              Download Resume
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              Let's Talk
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Scroll Indicator (hidden on mobile to avoid overlap with stats) -->
+  <!-- Scroll Indicator -->
   <div
     class="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_0.6s_ease_1.4s_forwards]"
   >
@@ -280,144 +313,6 @@ import { heroTitles } from '../../data/hero';
 </section>
 
 <script>
-  // Typewriter effect for title
-  let typewriterTimeout: number | null = null;
-  let typewriterRunning = false;
-
-  function initTypewriter() {
-    const element = document.getElementById('typewriter');
-    const cursor = document.getElementById('typewriter-cursor');
-    if (!element) return;
-
-    const titlesData = element.getAttribute('data-titles');
-    const titles: string[] = titlesData ? JSON.parse(titlesData) : ['Full Stack Software Developer'];
-
-    // Check if animations are disabled
-    const animationsDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
-    if (animationsDisabled) {
-      // Stop any running typewriter
-      if (typewriterTimeout) {
-        clearTimeout(typewriterTimeout);
-        typewriterTimeout = null;
-      }
-      typewriterRunning = false;
-      // Just show the first title, no animation
-      element.textContent = titles[0];
-      if (cursor) {
-        cursor.classList.add('hidden');
-      }
-      return;
-    }
-
-    // If already running, don't restart
-    if (typewriterRunning) return;
-    typewriterRunning = true;
-
-    // Start with first title complete, ready to delete
-    let titleIndex = 0;
-    let charIndex = titles[0].length;
-    let isDeleting = true;
-    let isPaused = false;
-
-    const deleteSpeed = 50;
-    const pauseTime = 2000;
-
-    function getRandomTypeDelay(char: string): number {
-      const baseSpeed = 50;
-      const variance = 80;
-      let delay = baseSpeed + Math.random() * variance;
-
-      // Longer pause after spaces
-      if (char === ' ') {
-        delay += Math.random() * 350;
-      }
-
-      // Occasional hesitation
-      if (Math.random() < 0.1) {
-        delay += Math.random() * 200;
-      }
-
-      return delay;
-    }
-
-    function type() {
-      // Stop if animations were disabled
-      if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-        element.textContent = titles[0];
-        typewriterRunning = false;
-        return;
-      }
-
-      const currentTitle = titles[titleIndex];
-
-      if (isPaused) {
-        isPaused = false;
-        isDeleting = true;
-        typewriterTimeout = window.setTimeout(type, pauseTime);
-        return;
-      }
-
-      if (isDeleting) {
-        element.textContent = currentTitle.substring(0, charIndex - 1);
-        charIndex--;
-
-        if (charIndex === 0) {
-          isDeleting = false;
-          titleIndex = (titleIndex + 1) % titles.length;
-          typewriterTimeout = window.setTimeout(type, 500);
-          return;
-        }
-      } else {
-        const currentChar = currentTitle[charIndex] || '';
-        element.textContent = currentTitle.substring(0, charIndex + 1);
-        charIndex++;
-
-        if (charIndex === currentTitle.length) {
-          isPaused = true;
-          typewriterTimeout = window.setTimeout(type, 100);
-          return;
-        }
-        typewriterTimeout = window.setTimeout(type, getRandomTypeDelay(currentChar));
-        return;
-      }
-
-      typewriterTimeout = window.setTimeout(type, deleteSpeed);
-    }
-
-    // Show cursor immediately, wait 4 seconds before erasing
-    if (cursor) {
-      cursor.classList.remove('hidden');
-    }
-    typewriterTimeout = window.setTimeout(type, 4000);
-  }
-
-  // Listen for animations toggle
-  window.addEventListener('animations-change', (e: Event) => {
-    const customEvent = e as CustomEvent<{ enabled: boolean }>;
-    if (customEvent.detail.enabled) {
-      // Re-enable animations - restart typewriter
-      typewriterRunning = false;
-      initTypewriter();
-    } else {
-      // Disable animations - stop typewriter and show static text
-      initTypewriter();
-    }
-  });
-
-  // Explicit scroll handler for contact button
-  function initContactButton() {
-    const contactBtn = document.getElementById('contact-btn');
-    if (contactBtn) {
-      contactBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-          contactSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    }
-  }
-
   // Parallax effect for hero background
   function initParallax() {
     const parallaxBg = document.getElementById('hero-parallax-bg');
@@ -452,13 +347,9 @@ import { heroTitles } from '../../data/hero';
     }, { passive: true });
   }
 
-  initTypewriter();
-  initContactButton();
   initParallax();
   initShapeParallax();
   document.addEventListener('astro:after-swap', () => {
-    initTypewriter();
-    initContactButton();
     initParallax();
     initShapeParallax();
   });
@@ -504,3 +395,97 @@ import { heroTitles } from '../../data/hero';
     }, { passive: true });
   }
 </script>
+
+<style>
+  @media (max-width: 1195px) {
+    .hero-about-box .hero-mascot {
+      height: 120% !important;
+    }
+    .hero-about-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .hero-about-box .hero-title {
+      font-size: 2.75rem !important;
+    }
+    .hero-about-box > .relative > p:first-of-type::before {
+      content: '';
+      float: left;
+      width: 10%;
+      height: 2.5em;
+    }
+    .hero-about-box p {
+      font-size: 1.125rem !important;
+    }
+    .hero-about-box .glass-light {
+      padding: 0.75rem !important;
+    }
+    .hero-about-box .glass-light span {
+      font-size: 0.8rem !important;
+    }
+    .hero-about-box .glass-light p {
+      font-size: 0.9rem !important;
+    }
+    .hero-about-box .glass-light p::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero-about-box > .relative > p:first-of-type {
+      padding-left: 5%;
+    }
+  }
+
+  @media (max-width: 1008px) {
+    .hero-about-box .hero-mascot {
+      left: -25% !important;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .hero-about-box .hero-mascot {
+      left: -28% !important;
+    }
+  }
+
+  @media (max-width: 859px) {
+    .hero-about-box .hero-mascot {
+      left: -31% !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero-about-box > .relative > p:first-of-type {
+      padding-left: 7%;
+    }
+    .hero-about-box > .relative > p:first-of-type::before {
+      width: 7%;
+    }
+  }
+
+  @media (min-width: 781px) and (max-width: 861px) {
+    .hero-about-box > .relative > p:first-of-type {
+      padding-left: 10%;
+      hyphens: auto;
+    }
+    .hero-about-box > .relative > p:first-of-type::before {
+      width: 8%;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .hero-about-box > .relative > p:first-of-type {
+      padding-left: 3%;
+    }
+    .hero-about-box > .relative > p:first-of-type::before {
+      width: 10%;
+      height: 3.75em;
+    }
+    .hero-about-box .hero-mascot {
+      left: -34% !important;
+      bottom: -7% !important;
+    }
+  }
+</style>

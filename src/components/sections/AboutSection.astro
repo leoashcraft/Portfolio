@@ -1,6 +1,5 @@
 ---
-import { profile } from '../../data/profile';
-import { skills, services } from '../../data/skills';
+import { services } from '../../data/skills';
 import { site } from '../../data/site';
 import SectionHeader from '../common/SectionHeader.astro';
 import ArcadeDecorations from '../common/ArcadeDecorations.astro';
@@ -22,95 +21,6 @@ import Icon from '../ui/Icon.astro';
       subtitle={site.sections.about.subtitle}
       headingId="about-heading"
     />
-
-    <!-- Content -->
-    <div class="mb-20">
-      {/* Photo - COMMENTED OUT
-      <div class="relative max-w-[70%] mx-auto lg:ml-12 lg:order-2">
-        <div
-          class="relative z-10 rounded-2xl overflow-hidden border-2 border-neon-pink/30"
-        >
-          <img
-            src={profile.photoUrl}
-            alt={`${profile.name} - ${profile.title}`}
-            class="w-full h-auto"
-            loading="lazy"
-          />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-night-900/80 via-transparent to-transparent"
-          >
-          </div>
-        </div>
-        <div
-          class="absolute -top-3 -right-3 w-[calc(100%+6px)] h-[calc(100%+6px)] border-2 border-neon-purple/40 rounded-2xl -z-10"
-          aria-hidden="true"
-        >
-        </div>
-        <div
-          class="absolute -bottom-3 -left-3 w-24 h-24 bg-neon-pink/15 rounded-full blur-2xl"
-          aria-hidden="true"
-        >
-        </div>
-        <div
-          class="absolute top-1/3 -right-2 w-16 h-16 bg-neon-yellow/10 rounded-full blur-xl"
-          aria-hidden="true"
-        >
-        </div>
-      </div>
-      */}
-
-      <!-- Bio -->
-      <div class="about-content max-w-4xl mx-auto">
-        <div id="about-bio" class="about-bio prose prose-xl mb-16 text-gray-300 leading-relaxed text-[24px]">
-          {profile.bio.split('\n\n').map((paragraph, i) => (
-            <p class="bio-line mb-4">{paragraph}</p>
-          ))}
-        </div>
-
-        <!-- Quick Info -->
-        <div class="about-quick-info grid grid-cols-2 gap-4 mb-8">
-          <div class="glass p-4">
-            <span class="text-gray-400 text-sm">Location</span>
-            <p class="text-white font-medium">{profile.location}</p>
-          </div>
-          <div class="glass p-4">
-            <span class="text-gray-400 text-sm">Availability</span>
-            <p class="text-neon-green font-medium">{site.sections.about.availabilityText}</p>
-          </div>
-        </div>
-
-        <!-- CTA -->
-        <div class="about-cta flex flex-wrap gap-4">
-          <a href={profile.resumeUrl} download class="btn btn-primary">
-            Download Resume
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              ></path>
-            </svg>
-          </a>
-          <a href="#contact" class="btn btn-secondary">
-            Let's Talk
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              ></path>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
 
     {/* Skills Section - COMMENTED OUT
     <div class="mb-20">
@@ -155,10 +65,6 @@ import Icon from '../ui/Icon.astro';
 
     <!-- Services Section -->
     <div class="services-section">
-      <h3 class="services-title subsection-title text-2xl font-bold text-white text-center mb-8">
-        {site.sections.about.servicesTitle} <span class="gradient-text">{site.sections.about.servicesTitleHighlight}</span>
-      </h3>
-
       <div class="services-container space-y-6">
         {/* First service - full width */}
         <div class="card card-highlighted group service-card service-first">
@@ -318,10 +224,8 @@ import Icon from '../ui/Icon.astro';
 <script>
   import { initIconFlips } from '../../lib/icon-flip';
   import { initSectionParallax } from '../../lib/parallax';
-  import { initScrollWave } from '../../lib/scroll-wave';
 
   let iconCleanup: () => void;
-  let waveCleanup: (() => void) | undefined;
 
   function initServiceIconFlips() {
     iconCleanup?.();
@@ -397,76 +301,6 @@ import Icon from '../ui/Icon.astro';
     initLogoShimmer();
   }
 
-  // About content cascade animation
-  let aboutContentCleanup: (() => void) | undefined;
-
-  function initAboutContentCascade() {
-    const aboutContent = document.querySelector('.about-content') as HTMLElement;
-    const bio = document.querySelector('.about-bio') as HTMLElement;
-    const quickInfo = document.querySelector('.about-quick-info') as HTMLElement;
-    const cta = document.querySelector('.about-cta') as HTMLElement;
-
-    if (!aboutContent) return () => {};
-
-    // Skip if animations disabled
-    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      if (bio) bio.classList.add('visible');
-      if (quickInfo) quickInfo.classList.add('visible');
-      if (cta) cta.classList.add('visible');
-      return () => {};
-    }
-
-    let ticking = false;
-
-    const checkAboutContent = () => {
-      const viewportHeight = window.innerHeight;
-      const bioTrigger = viewportHeight * 0.7;
-      const quickInfoTrigger = viewportHeight * 0.5;
-      const ctaTrigger = viewportHeight * 0.4;
-      const exitPoint = viewportHeight * 0.85;
-
-      const contentRect = aboutContent.getBoundingClientRect();
-
-      // Bio fades in first
-      if (contentRect.top < bioTrigger && bio) {
-        bio.classList.add('visible');
-      }
-
-      // Quick info cascades next
-      if (contentRect.top < quickInfoTrigger && quickInfo) {
-        quickInfo.classList.add('visible');
-      }
-
-      // CTA cascades last
-      if (contentRect.top < ctaTrigger && cta) {
-        cta.classList.add('visible');
-      }
-
-      // Reset when scrolling up
-      if (contentRect.top > exitPoint) {
-        if (bio) bio.classList.remove('visible');
-        if (quickInfo) quickInfo.classList.remove('visible');
-        if (cta) cta.classList.remove('visible');
-      }
-
-      ticking = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(checkAboutContent);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    checkAboutContent();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }
-
   // Services cascade animation
   let servicesCleanup: (() => void) | undefined;
 
@@ -483,7 +317,6 @@ import Icon from '../ui/Icon.astro';
 
   function initServicesCascade() {
     const section = document.querySelector('.services-section') as HTMLElement;
-    const title = document.querySelector('.services-title') as HTMLElement;
     const container = document.querySelector('.services-container') as HTMLElement;
     if (!section || !container) return () => {};
 
@@ -509,7 +342,6 @@ import Icon from '../ui/Icon.astro';
 
     // Skip if animations disabled
     if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      if (title) title.classList.add('visible');
       container.classList.add('first-in', 'cloud-in', 'crm-in', 'last-in');
       cardStates.forEach((state) => {
         if (state.icon) state.icon.classList.add('visible');
@@ -525,7 +357,6 @@ import Icon from '../ui/Icon.astro';
 
     const checkServices = () => {
       const viewportHeight = window.innerHeight;
-      const titleTrigger = viewportHeight * 0.6;
       const firstTrigger = viewportHeight * 0.4;
       const cloudTrigger = viewportHeight * 0.15;
       const crmTrigger = viewportHeight * -0.1;
@@ -534,11 +365,6 @@ import Icon from '../ui/Icon.astro';
 
       const sectionRect = section.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-
-      // Title fades in first
-      if (sectionRect.top < titleTrigger && title) {
-        title.classList.add('visible');
-      }
 
       // Cards appear in sequence
       if (containerRect.top < firstTrigger) {
@@ -658,7 +484,6 @@ import Icon from '../ui/Icon.astro';
 
       // Reset when scrolling up
       if (sectionRect.top > exitPoint) {
-        if (title) title.classList.remove('visible');
         container.classList.remove('first-in', 'cloud-in', 'crm-in', 'last-in');
         cardStates.forEach((state) => {
           if (state.icon) state.icon.classList.remove('visible');
@@ -698,13 +523,7 @@ import Icon from '../ui/Icon.astro';
 
   function initServicesAnim() {
     servicesCleanup?.();
-    waveCleanup?.();
     servicesCleanup = initServicesCascade();
-    waveCleanup = initScrollWave({
-      selector: '.services-title',
-      waveStart: 0.75,
-      waveEnd: 0.35
-    });
   }
 
   initServicesAnim();
@@ -712,42 +531,11 @@ import Icon from '../ui/Icon.astro';
 
   window.addEventListener('animations-change', () => {
     servicesCleanup?.();
-    waveCleanup?.();
     servicesCleanup = initServicesCascade();
-    waveCleanup = initScrollWave({
-      selector: '.services-title',
-      waveStart: 0.75,
-      waveEnd: 0.35
-    });
-    aboutContentCleanup?.();
-    aboutContentCleanup = initAboutContentCascade();
   });
-
-  function initAboutAnim() {
-    aboutContentCleanup?.();
-    aboutContentCleanup = initAboutContentCascade();
-  }
-
-  initAboutAnim();
-  document.addEventListener('astro:after-swap', initAboutAnim);
 </script>
 
 <style>
-  /* Services title animation */
-  .services-title {
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-  }
-
-  .services-title.visible {
-    opacity: 1;
-  }
-
-  /* Wave letter transitions */
-  .services-title .wave-letter {
-    transition: transform 0.1s ease-out, filter 0.1s ease-out;
-  }
-
   /* Services cascade animation */
   .services-container .service-first {
     opacity: 0;
@@ -848,7 +636,6 @@ import Icon from '../ui/Icon.astro';
   }
 
   /* Disable animations when preference set */
-  [data-animations="disabled"] .services-title,
   [data-animations="disabled"] .services-container .service-first,
   [data-animations="disabled"] .services-container .service-mid-0,
   [data-animations="disabled"] .services-container .service-mid-1,
@@ -857,31 +644,6 @@ import Icon from '../ui/Icon.astro';
   [data-animations="disabled"] .service-desc,
   [data-animations="disabled"] .feature-item,
   [data-animations="disabled"] .logo-item {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  /* About content cascade animation */
-  .about-bio,
-  .about-quick-info,
-  .about-cta {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  }
-
-  .about-bio.visible,
-  .about-quick-info.visible,
-  .about-cta.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Disable animations when preference set */
-  [data-animations="disabled"] .about-bio,
-  [data-animations="disabled"] .about-quick-info,
-  [data-animations="disabled"] .about-cta {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

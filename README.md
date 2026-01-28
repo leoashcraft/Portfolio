@@ -14,7 +14,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 ### Styling & Animation
 - **[Tailwind CSS 4](https://tailwindcss.com)** - Utility-first CSS with custom theme configuration
 - **Custom CSS Animations** - Floating geometric shapes, drift effects, wobble animations
-- **Arcade Carpet Theme** - 80s-inspired neon color palette (pink, purple, cyan, yellow, green, orange)
+- **Arcade Carpet Theme** - 80s-inspired neon color palette with teal accent (#22CBCC) for headings, buttons, and highlights
 
 ### SEO
 - **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** - Automatic sitemap generation
@@ -35,10 +35,9 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 ### Animations & Interactions
 
 #### Hero Section
-- **Mascot Positioning**: On desktop (768px+), mascot fades in and is positioned relative to centered content; on mobile, mascot appears behind content
-- **Typewriter Effect**: Job titles cycle through with natural typing delays (random variance, extended pauses between words)
-- **Word-by-Word Grow**: Tagline words scale up sequentially (103%) after page load
-- **Re-triggerable**: Clicking the Home nav link or back-to-top button replays the title and tagline animations
+- **Above-the-Fold Content**: Hero includes name, bio, location, availability, and CTA buttons in a glass container
+- **Mascot Positioning**: On desktop (768px+), mascot overlaps the content container from the left with responsive sizing; on mobile, mascot appears centered behind content
+- **Responsive Breakpoints**: Multiple breakpoints (1195px, 1008px, 899px, 859px, 780px) adjust mascot position and text layout
 - **4K Scaling**: Glowing orbs double in size and blur on screens above 2000px for consistent visual impact
 
 #### Section Titles (Scroll-Driven)
@@ -149,8 +148,8 @@ Each section features floating geometric shapes inspired by 80s arcade carpet pa
 - **Mouse Heatmap**: Subtle glowing dots trail behind cursor, fading out over 8 seconds
 
 #### Button Hover Effects
-- **Primary Button**: Cyan glow chases counter-clockwise around border on hover, lifts 3px
-- **Secondary Button**: Pink glow chases clockwise around border on hover, lifts 3px
+- **Primary Button**: Teal (#22CBCC) gradient with glow, lifts 3px on hover
+- **Secondary Button**: Teal border with glow on hover, lifts 3px
 - **High Contrast**: Lift effect disabled in high contrast modes for accessibility
 
 ### Security Measures
@@ -177,7 +176,7 @@ const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 ### Responsive Navigation
 - Scroll-aware navbar with dynamic opacity
 - Arcade carpet gradient background on scroll
-- Mobile hamburger menu with chasing pink border animation on expanded nav
+- Mobile hamburger menu with chasing teal border animation on expanded nav
 - Heat glow effect follows cursor on desktop (contained within nav boundaries)
 - Navigation links bold on hover; inverted colors in high contrast modes
 - Navigation links: Home, About, Projects, Experience, GitHub, Contact
@@ -372,7 +371,8 @@ Recommended sizes for optimal display and retina support:
 ### Visual Theme
 The design draws inspiration from 80s arcade carpet patterns, featuring:
 - Deep purple/black backgrounds (`#0a0015`)
-- Neon accent colors (pink `#ff00ff`, cyan `#00fff7`, yellow `#ffff00`)
+- Teal accent color (`#22CBCC`) for section headings, buttons, nav borders, and highlights
+- Neon accent colors for decorations (cyan `#00fff7`, yellow `#ffff00`, pink `#ff00ff`)
 - Floating geometric shapes (triangles, squares, circles, squiggly lines)
 - Glassmorphism cards with gradient borders
 - Subtle glow effects and animations

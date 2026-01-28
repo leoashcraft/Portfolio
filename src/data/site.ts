@@ -6,10 +6,10 @@ export const site = {
   },
   sections: {
     about: {
-      title: 'About',
-      titleHighlight: 'Me',
+      title: 'What I',
+      titleHighlight: 'Offer',
       subtitle: 'Building digital solutions with 15+ years of tech experience',
-      availabilityText: 'Open to opportunities',
+      availabilityText: 'Open to freelance',
       skillsTitle: 'Technical',
       skillsTitleHighlight: 'Skills',
       servicesTitle: 'What I',

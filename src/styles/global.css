@@ -93,6 +93,13 @@ body {
   min-height: 100vh;
 }
 
+/* Clearfix utility for float layouts */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* ============================================
    Chasing Border System
    Reusable animated border with color variants
@@ -286,6 +293,14 @@ code, pre, kbd {
   border-radius: 1rem;
 }
 
+.glass-light {
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+}
+
 .glass-heavy {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(40px);
@@ -336,12 +351,12 @@ code, pre, kbd {
 
 .gradient-text {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(135deg, var(--color-neon-pink), var(--color-neon-purple));
+  background-image: linear-gradient(135deg, #22CBCC, #1a9a9b);
 }
 
 /* Ensure wave-letter spans inside gradient-text get the gradient via CSS */
 .gradient-text .wave-letter {
-  background-image: linear-gradient(135deg, var(--color-neon-pink), var(--color-neon-purple));
+  background-image: linear-gradient(135deg, #22CBCC, #1a9a9b);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -352,9 +367,9 @@ code, pre, kbd {
   background-size: 300% 300%;
   background-image: linear-gradient(
     135deg,
-    var(--color-neon-yellow),
-    var(--color-neon-orange),
-    var(--color-neon-yellow)
+    #22CBCC,
+    #1a9a9b,
+    #22CBCC
   );
   animation: var(--animate-gradient);
 }
@@ -815,7 +830,7 @@ code, pre, kbd {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #ff00ff, #6600ff);
+  background: linear-gradient(135deg, #22CBCC, #1a9a9b);
   color: #ffffff;
   border: none;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -832,7 +847,7 @@ code, pre, kbd {
     from 0deg,
     transparent 0deg,
     transparent 270deg,
-    rgba(0, 255, 247, 0.6) 330deg,
+    rgba(34, 203, 204, 0.6) 330deg,
     transparent 360deg
   );
   border-radius: inherit;
@@ -845,14 +860,14 @@ code, pre, kbd {
   content: '';
   position: absolute;
   inset: 2px;
-  background: linear-gradient(135deg, #ff00ff, #6600ff);
+  background: linear-gradient(135deg, #22CBCC, #1a9a9b);
   border-radius: calc(0.75rem - 2px);
   z-index: -1;
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+  box-shadow: 0 0 20px rgba(34, 203, 204, 0.3);
 }
 
 .btn-primary:hover::before {
@@ -872,7 +887,7 @@ code, pre, kbd {
 .btn-secondary {
   background-color: rgba(10, 0, 21, 0.8);
   color: #f3f4f6;
-  border: 1px solid rgba(255, 0, 255, 0.3);
+  border: 1px solid rgba(34, 203, 204, 0.3);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -886,7 +901,7 @@ code, pre, kbd {
     from 0deg,
     transparent 0deg,
     transparent 270deg,
-    rgba(255, 0, 255, 0.5) 330deg,
+    rgba(34, 203, 204, 0.5) 330deg,
     transparent 360deg
   );
   border-radius: inherit;
@@ -906,9 +921,9 @@ code, pre, kbd {
 
 .btn-secondary:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 0, 255, 0.2);
+  border-color: rgba(34, 203, 204, 0.4);
   background-color: transparent;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.15);
+  box-shadow: 0 0 15px rgba(34, 203, 204, 0.15);
 }
 
 .btn-secondary:hover::before {

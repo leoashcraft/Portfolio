@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+import ArcadeDecorations from '../components/common/ArcadeDecorations.astro';
+---
+
+<BaseLayout
+  title="Now - Leo Ashcraft"
+  description="What I'm currently focused on - work, learning, travel, projects, and hobbies."
+>
+  <section class="relative min-h-screen py-24 px-4 overflow-hidden">
+    <!-- Arcade decorations -->
+    <ArcadeDecorations variant="sparse" />
+
+    <div class="max-w-3xl mx-auto relative z-10">
+      <!-- Breadcrumbs -->
+      <nav class="mb-8" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-gray-400">
+          <li>
+            <a href="/" class="hover:text-neon-pink transition-colors">{profile.name}</a>
+          </li>
+          <li class="text-gray-600">/</li>
+          <li class="text-neon-cyan">Now</li>
+        </ol>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="gradient-text">Now</span>
+        </h1>
+        <p class="text-gray-400 text-sm">
+          Updated January 27, 2026
+        </p>
+      </header>
+
+      <!-- Content -->
+      <div class="space-y-10 now-content">
+        <!-- I'm employed -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-pink mb-3 flex items-center gap-2">
+            <span class="text-2xl">💼</span>
+            I'm employed
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I work full-time as a full-stack software developer at Parker University in Dallas, TX. I'm living my best life with a four-day remote schedule and a once-a-week (Tuesday) hour-plus drive into the office. It's a balance that works surprisingly well.
+          </p>
+        </article>
+
+        <!-- I'm planning -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">📋</span>
+            I'm planning
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I'm deep in planning mode for our annual Parker Seminars Las Vegas event - a world-class production that brings together roughly 5,000 dedicated professionals each year. I genuinely enjoy the full lifecycle: setup, execution, and teardown. Last year I also had the opportunity to assist with seminars in Las Vegas, Dallas, and Miami.
+          </p>
+        </article>
+
+        <!-- I'm learning -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-yellow mb-3 flex items-center gap-2">
+            <span class="text-2xl">📚</span>
+            I'm learning
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I attended Jenzabar's Annual Meeting (JAM 2025) in Nashville, TN, where I expanded my understanding of Jenzabar and Salesforce while connecting with like-minded folks focused on higher education and student success.
+          </p>
+        </article>
+
+        <!-- I'm traveling -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-orange mb-3 flex items-center gap-2">
+            <span class="text-2xl">✈️</span>
+            I'm traveling
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I flew my family into Miami on the final day of Parker Seminars Miami, rented a BMW X6, and drove straight to Disney World. We stayed at Animal Kingdom Lodge and hit Animal Kingdom, Magic Kingdom, and EPCOT - equal parts chaos, magic, and core memories.
+          </p>
+        </article>
+
+        <!-- I'm adopting AI -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-purple mb-3 flex items-center gap-2">
+            <span class="text-2xl">🤖</span>
+            I'm adopting AI
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            After years of deliberately avoiding AI-assisted coding out of fear of dulling my own skills, Anthropic's Claude Code has slowly crept into my workflow. I finally gave in - cautiously - and it's been a net positive. I mostly use it for wireframing ideas and quickly diagnosing issues like mismatched arrays or malformed JSON. Full-on "vibe coding" is still discouraged (for me), but the power is undeniable - and ignoring it entirely feels riskier than learning to use it well.
+          </p>
+        </article>
+
+        <!-- I'm creating -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-green mb-3 flex items-center gap-2">
+            <span class="text-2xl">🛠️</span>
+            I'm creating
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I have several side projects in motion, including this portfolio. My most significant project right now is Roadtrip Beaver, followed by Navarro County, and then Clan Compass. Each scratches a different itch and keeps me building outside of work.
+          </p>
+        </article>
+
+        <!-- I'm owning it -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-pink mb-3 flex items-center gap-2">
+            <span class="text-2xl">🎯</span>
+            I'm owning it
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I genuinely love the work I do at Parker University and the people I work with on the marketing team. My favorite project has been integrating SearchStax into the site, building modal-based, asynchronous instant search for a smoother user experience. A close second is the Career Pathways application, which helps prospective students explore where their education can take them. Third - and arguably most impactful - is the Parker Student Application, which integrates Salesforce Communities directly into the site and has significantly improved both user experience and enrollment numbers.
+          </p>
+        </article>
+
+        <!-- I'm hobbying -->
+        <article class="now-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">🐔</span>
+            I'm hobbying
+          </h2>
+          <div class="text-gray-300 leading-relaxed space-y-4">
+            <p>
+              Despite a busy year, I managed to build a chicken run using a greenhouse frame connected to an insulated metal building. I added an Omlet automatic door (chosen specifically for its exposed API, which I still haven't explored). Seasonal tweaks include dark plastic roofing for winter heat absorption and a white tarp in summer to reflect sunlight. We now have a dozen chickens, including one rooster.
+            </p>
+            <p>
+              I'm also nearly finished insulating my daughter's playhouse, and I've had a great time designing and building a solar power system: 24V, 1180W of 25% high-efficiency panels, and a 200Ah LiFePO4 battery. I'm already eyeing a battery upgrade - ideally doubling or tripling capacity. Eventually, this system will power the playhouse along with fans and lighting for the chicken coop.
+            </p>
+          </div>
+        </article>
+
+        <!-- What is a Now page? -->
+        <div class="mt-16 pt-8 border-t border-neon-pink/20">
+          <p class="text-gray-500 text-sm">
+            This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-neon-cyan hover:text-neon-pink transition-colors">Now page</a>. If you have your own site, you should make one too.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .now-section {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 0, 255, 0.1);
+    border-radius: 0.75rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .now-section:hover {
+    border-color: rgba(255, 0, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Cascade animation on page load */
+  .now-content .now-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .now-content .now-section:nth-child(1) { animation-delay: 0.1s; }
+  .now-content .now-section:nth-child(2) { animation-delay: 0.2s; }
+  .now-content .now-section:nth-child(3) { animation-delay: 0.3s; }
+  .now-content .now-section:nth-child(4) { animation-delay: 0.4s; }
+  .now-content .now-section:nth-child(5) { animation-delay: 0.5s; }
+  .now-content .now-section:nth-child(6) { animation-delay: 0.6s; }
+  .now-content .now-section:nth-child(7) { animation-delay: 0.7s; }
+  .now-content .now-section:nth-child(8) { animation-delay: 0.8s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .now-content .now-section {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* High contrast adjustments */
+  [data-theme="high-contrast"] .now-section,
+  [data-theme="high-contrast-light"] .now-section {
+    border-color: currentColor;
+  }
+
+  [data-theme="high-contrast-light"] .now-section {
+    background: rgba(0, 0, 0, 0.02);
+  }
+</style>

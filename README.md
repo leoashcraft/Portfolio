@@ -193,12 +193,35 @@ const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 - **Shimmer Animation**: Active tiles randomly shimmer with diagonal light sweep
 - **Inactive Tile Pulse**: Empty tiles subtly pulse opacity (100% to 50%) over 3 seconds
 
+### Now Page
+
+A dedicated [/now](https://leoashcraft.com/now) page inspired by the [nownownow.com](https://nownownow.com/about) movement - a snapshot of what I'm currently focused on, updated periodically.
+
+#### Content Sections
+- **I'm employed** - Current work at Parker University
+- **I'm planning** - Upcoming events and projects
+- **I'm learning** - Conferences, certifications, skill development
+- **I'm traveling** - Recent trips and adventures
+- **I'm adopting AI** - Thoughts on AI-assisted development
+- **I'm creating** - Side projects in progress
+- **I'm owning it** - Favorite work projects and accomplishments
+- **I'm hobbying** - Personal projects outside of software
+
+#### Features
+- **Cascade Animation**: Sections fade in sequentially on page load
+- **External Link Modal**: All external links trigger a confirmation modal before leaving the site
+- **Hobby Image Previews**: Hover over hobby project links to see a floating thumbnail preview
+- **Hobby Image Modal**: Click hobby links to view full-size images in a lightbox modal
+- **Lazy Loading**: Thumbnail images load on hover, full images load on click
+- **High Contrast Support**: Grayscale borders, adjusted backgrounds for accessibility
+- **Footer Link**: Accessible via `/now` link in the site footer
+
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── common/          # Header, Footer, SocialIcons, SectionHeader, ArcadeDecorations, ThemeToggle
+│   ├── common/          # Header, Footer, SocialIcons, SectionHeader, ArcadeDecorations, ThemeToggle, ExternalLinkModal
 │   ├── contact/         # Contact form (React)
 │   ├── github/          # GitHub heatmap (React)
 │   ├── hero/            # Hero section with typewriter & word animations
@@ -222,7 +245,8 @@ src/
 │   └── typewriter.ts    # Natural typing delay utilities
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
-│   └── index.astro      # Single-page portfolio
+│   ├── index.astro      # Single-page portfolio
+│   └── now.astro        # Now page - current focus & updates
 └── styles/
     ├── global.css              # Theme, animations & chasing border utilities
     ├── high-contrast.css       # High contrast dark mode styles

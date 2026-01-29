@@ -9,7 +9,7 @@ export const seo = {
 
 export const schema = {
   personId: 'https://leoashcraft.com/#person',
-  jobTitle: 'Software Engineer',
+  jobTitle: 'Full Stack Software Developer',
   worksFor: {
     type: 'Organization' as const,
     name: 'Parker University',
@@ -44,6 +44,23 @@ export const schema = {
     'PostgreSQL',
     'SEO',
     'Web Performance',
+    'SCSS',
+    'Astro',
+    'Markdown',
+    'Python',
+    'UI',
+    'UX',
+    'Android',
+    'iOS',
+    'Railway',
+    'SQL',
+    'HTML5',
+    'CSS3',
+    'Frontend',
+    'Backend',
+    'Full Stack',
+    'Software Developer',
+    'Software Engineer',
   ],
   sameAs: [
     'https://www.linkedin.com/in/leo3',

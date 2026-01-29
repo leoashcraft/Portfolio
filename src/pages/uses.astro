@@ -1,0 +1,222 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+import ArcadeDecorations from '../components/common/ArcadeDecorations.astro';
+import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
+---
+
+<BaseLayout
+  title="Uses - Leo Ashcraft"
+  description="The tools, hardware, software, and services I use daily for full-stack development, design, and productivity."
+>
+  <section class="relative min-h-screen py-24 px-4 overflow-hidden">
+    <!-- Arcade decorations -->
+    <ArcadeDecorations variant="sparse" />
+
+    <div class="max-w-3xl mx-auto relative z-10">
+      <!-- Breadcrumbs -->
+      <nav class="mb-8" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-gray-400">
+          <li>
+            <a href="/" class="hover:text-neon-pink transition-colors">{profile.name}</a>
+          </li>
+          <li class="text-gray-600">/</li>
+          <li class="text-neon-cyan">Uses</li>
+        </ol>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="gradient-text">Uses</span>
+        </h1>
+        <p class="text-gray-400 text-sm">
+          Updated January 28, 2026
+        </p>
+      </header>
+
+      <!-- Content -->
+      <div class="space-y-10 uses-content">
+        <!-- Editor & Terminal -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-pink mb-3 flex items-center gap-2">
+            <span class="text-2xl">⌨️</span>
+            Editor & Terminal
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">VS Code</strong> — Primary editor with Tiny Light theme</li>
+            <li><strong class="text-white">Claude Code</strong> — AI-assisted development via CLI</li>
+            <li><strong class="text-white">iTerm2</strong> — Terminal emulator with Oh My Zsh</li>
+            <li><strong class="text-white">GitHub Copilot</strong> — Autocomplete and suggestions in VS Code</li>
+          </ul>
+        </article>
+
+        <!-- Languages & Frameworks -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">🧱</span>
+            Languages & Frameworks
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">PHP / Laravel</strong> — Primary back-end stack</li>
+            <li><strong class="text-white">JavaScript / TypeScript</strong> — Front-end and full-stack</li>
+            <li><strong class="text-white">React / Next.js</strong> — Interactive UIs and SSR apps</li>
+            <li><strong class="text-white">Astro</strong> — Static site generation (this portfolio)</li>
+            <li><strong class="text-white">Tailwind CSS</strong> — Utility-first styling</li>
+            <li><strong class="text-white">WordPress</strong> — CMS development and custom themes</li>
+          </ul>
+        </article>
+
+        <!-- DevOps & Infrastructure -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-yellow mb-3 flex items-center gap-2">
+            <span class="text-2xl">☁️</span>
+            DevOps & Infrastructure
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">Docker</strong> — Containerized development environments</li>
+            <li><strong class="text-white">AWS</strong> — EC2, S3, CloudFront, Route 53</li>
+            <li><strong class="text-white">Jenkins</strong> — CI/CD pipelines</li>
+            <li><strong class="text-white">Git / GitHub</strong> — Version control and collaboration</li>
+            <li><strong class="text-white">Cloudflare</strong> — DNS, CDN, and security</li>
+          </ul>
+        </article>
+
+        <!-- Platforms & Services -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-orange mb-3 flex items-center gap-2">
+            <span class="text-2xl">🔗</span>
+            Platforms & Services
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">Salesforce</strong> — CRM integration and Communities</li>
+            <li><strong class="text-white">Jenzabar</strong> — Higher education ERP</li>
+            <li><strong class="text-white">SearchStax</strong> — Site search powered by Solr</li>
+            <li><strong class="text-white">Mailtrap</strong> — Email testing and delivery</li>
+            <li><strong class="text-white">Twilio</strong> — SMS and communication APIs</li>
+          </ul>
+        </article>
+
+        <!-- Design -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-purple mb-3 flex items-center gap-2">
+            <span class="text-2xl">🎨</span>
+            Design
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">Adobe Illustrator</strong> — Logo and vector design</li>
+            <li><strong class="text-white">Adobe Photoshop</strong> — Image editing and mockups</li>
+            <li><strong class="text-white">Figma</strong> — UI/UX prototyping</li>
+          </ul>
+        </article>
+
+        <!-- Hardware -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-green mb-3 flex items-center gap-2">
+            <span class="text-2xl">🖥️</span>
+            Hardware
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">MacBook Pro</strong> — Daily driver</li>
+            <li><strong class="text-white">Triple monitors</strong> — Extended workspace</li>
+          </ul>
+        </article>
+
+        <!-- Productivity -->
+        <article class="uses-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">📋</span>
+            Productivity
+          </h2>
+          <ul class="text-gray-300 leading-relaxed space-y-2">
+            <li><strong class="text-white">Notion</strong> — Notes, docs, and project management</li>
+            <li><strong class="text-white">Slack</strong> — Team communication</li>
+            <li><strong class="text-white">Microsoft Teams</strong> — Meetings and collaboration</li>
+            <li><strong class="text-white">Postman</strong> — API testing and documentation</li>
+            <li><strong class="text-white">TablePlus</strong> — Database management GUI</li>
+          </ul>
+        </article>
+
+        <!-- What is a Uses page? -->
+        <div class="mt-16 pt-8 border-t border-neon-pink/20">
+          <p class="text-gray-500 text-sm">
+            <a href="https://uses.tech" class="external-link hover:text-neon-pink transition-colors" data-external-url="https://uses.tech">What is a uses page?</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- External Link Modal -->
+  <ExternalLinkModal />
+</BaseLayout>
+
+<style>
+  .uses-section {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 0, 255, 0.1);
+    border-radius: 0.75rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .uses-section:hover {
+    border-color: rgba(255, 0, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Cascade animation on page load */
+  .uses-content .uses-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .uses-content .uses-section:nth-child(1) { animation-delay: 0.1s; }
+  .uses-content .uses-section:nth-child(2) { animation-delay: 0.2s; }
+  .uses-content .uses-section:nth-child(3) { animation-delay: 0.3s; }
+  .uses-content .uses-section:nth-child(4) { animation-delay: 0.4s; }
+  .uses-content .uses-section:nth-child(5) { animation-delay: 0.5s; }
+  .uses-content .uses-section:nth-child(6) { animation-delay: 0.6s; }
+  .uses-content .uses-section:nth-child(7) { animation-delay: 0.7s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .uses-content .uses-section {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* High contrast adjustments */
+  [data-theme="high-contrast"] .uses-section {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  [data-theme="high-contrast"] .uses-section:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  [data-theme="high-contrast-light"] .uses-section {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  [data-theme="high-contrast-light"] .uses-section:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+
+  [data-theme="high-contrast"] .border-neon-pink\/20 {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  [data-theme="high-contrast-light"] .border-neon-pink\/20 {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+</style>

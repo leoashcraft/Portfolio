@@ -2033,12 +2033,14 @@ code, pre, kbd {
 }
 
 /* Make hero content immediately visible */
-[data-animations="disabled"] #home .rounded-2xl > p,
-[data-animations="disabled"] #home .rounded-2xl > h1,
-[data-animations="disabled"] #home .rounded-2xl > h2,
-[data-animations="disabled"] #home .rounded-2xl > .flex,
-[data-animations="disabled"] #home .rounded-2xl > .grid {
+[data-animations="disabled"] .hero-about-box,
+[data-animations="disabled"] .hero-about-box .hero-title,
+[data-animations="disabled"] #home .h-card > h1,
+[data-animations="disabled"] #home .h-card > p,
+[data-animations="disabled"] #home .h-card > .flex,
+[data-animations="disabled"] #home .h-card > .grid {
   opacity: 1 !important;
+  animation: none !important;
 }
 
 /* Hide typewriter cursor when animations disabled */

@@ -120,12 +120,12 @@ const props = Astro.props;
               const text = node.textContent;
               const fragment = document.createDocumentFragment();
 
-              // Check if parent has gradient-text class and get its gradient
-              const isGradient = parentElement?.classList.contains('gradient-text') ||
-                                 parentElement?.classList.contains('gradient-text-animated');
+              // Check if any ancestor has gradient-text class and get its gradient
+              const gradientAncestor = parentElement?.closest('.gradient-text, .gradient-text-animated');
+              const isGradient = !!gradientAncestor;
               let gradientStyle = '';
-              if (isGradient && parentElement) {
-                gradientStyle = getComputedStyle(parentElement).backgroundImage;
+              if (isGradient && gradientAncestor) {
+                gradientStyle = getComputedStyle(gradientAncestor).backgroundImage;
               }
 
               for (const char of text) {

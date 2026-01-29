@@ -399,6 +399,36 @@ import { schema } from '../../data/seo';
       }
     }, { passive: true });
   }
+
+  // Handle animations toggle: ensure hero content stays visible
+  function initHeroAnimationsToggle() {
+    window.addEventListener('animations-change', ((e: CustomEvent) => {
+      const aboutBox = document.querySelector('.hero-about-box') as HTMLElement;
+      const heroTitle = aboutBox?.querySelector('.hero-title') as HTMLElement;
+      if (!aboutBox) return;
+
+      if (!e.detail.enabled) {
+        // Disabled: force visible immediately
+        aboutBox.style.opacity = '1';
+        if (heroTitle) heroTitle.style.opacity = '1';
+      } else {
+        // Re-enabled: clear inline overrides and restart CSS animations
+        aboutBox.style.opacity = '';
+        aboutBox.style.animation = 'none';
+        if (heroTitle) {
+          heroTitle.style.opacity = '';
+          heroTitle.style.animation = 'none';
+        }
+        // Force reflow then remove animation override to restart
+        void aboutBox.offsetHeight;
+        aboutBox.style.animation = '';
+        if (heroTitle) heroTitle.style.animation = '';
+      }
+    }) as EventListener);
+  }
+
+  initHeroAnimationsToggle();
+  document.addEventListener('astro:after-swap', initHeroAnimationsToggle);
 </script>
 
 <style>

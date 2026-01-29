@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+import ArcadeDecorations from '../components/common/ArcadeDecorations.astro';
+import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
+---
+
+<BaseLayout
+  title="Interview - Leo Ashcraft"
+  description="A Q&A about building my developer portfolio - the skills, challenges, inspiration, and lessons learned along the way."
+>
+  <section class="relative min-h-screen py-24 px-4 overflow-hidden">
+    <!-- Arcade decorations -->
+    <ArcadeDecorations variant="sparse" />
+
+    <div class="max-w-3xl mx-auto relative z-10">
+      <!-- Breadcrumbs -->
+      <nav class="mb-8" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-gray-400">
+          <li>
+            <a href="/" class="hover:text-neon-pink transition-colors">{profile.name}</a>
+          </li>
+          <li class="text-gray-600">/</li>
+          <li class="text-neon-cyan">Interview</li>
+        </ol>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          <span class="gradient-text">Interview</span>
+        </h1>
+        <p class="text-gray-400 text-sm">
+          Updated January 28, 2026
+        </p>
+      </header>
+
+      <!-- Content -->
+      <div class="space-y-10 interview-content">
+        <!-- Skills I Used to Build My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">🛠️</span>
+            Skills I Used to Build My Portfolio
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            {['React', 'Astro', 'Node.js', 'Railway', 'Git', 'GitHub', 'Vite', 'ESLint', 'Prettier', 'TypeScript'].map((skill) => (
+              <span class="inline-block px-3 py-1 text-sm font-medium text-neon-cyan bg-neon-cyan/10 border border-neon-cyan/20 rounded-full">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </article>
+
+        <!-- Why I Built My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-yellow mb-3 flex items-center gap-2">
+            <span class="text-2xl">💡</span>
+            Why I Built My Portfolio
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I built my portfolio to showcase actual projects that I'm proud of - not just have my few pinned GitHub repos speak for me. A repository list doesn't convey design decisions, problem-solving, or the full scope of what I can do. I wanted a single place that presents my work, experience, and skills with the context they deserve, while also serving as a project itself - demonstrating my frontend abilities, attention to accessibility, and care for performance and SEO in a way a resume simply can't do.
+          </p>
+        </article>
+
+        <!-- How I Built My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-pink mb-3 flex items-center gap-2">
+            <span class="text-2xl">🔧</span>
+            How I Built My Portfolio
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            Built with Astro 5 and Tailwind CSS 4, using React islands for interactive pieces like the contact form and GitHub contribution heatmap. TypeScript throughout. I used Sharp for AVIF/WebP image optimization, GSAP for timeline animations, and Three.js for a subtle 3D hero scene. SEO is handled with JSON-LD structured data, Open Graph, and IndieWeb microformats. Deployed on Railway with gzip compression middleware. The data layer is fully separated so content changes never touch markup.
+          </p>
+        </article>
+
+        <!-- Challenges in Creating My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-orange mb-3 flex items-center gap-2">
+            <span class="text-2xl">🧗</span>
+            Challenges in Creating My Portfolio
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            The biggest challenge was the animation system. I wanted scroll-driven letter-by-letter wave effects, parallax on decorative shapes, cascade reveals, and timeline-tracking - but all of it had to gracefully degrade. Supporting multiple theme modes (normal, high-contrast dark and light), a manual animations toggle, AND supporting prefers-reduced-motion meant every animation needed a clean off-state. Getting the hero's CSS animation to survive toggling animations on and off was particularly tricky!
+          </p>
+        </article>
+
+        <!-- How I Overcame Those Challenges -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-green mb-3 flex items-center gap-2">
+            <span class="text-2xl">✅</span>
+            How I Overcame Those Challenges
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I built a centralized data-animations attribute on the document root that every animation checks before running. CSS rules force visibility on animated elements when disabled, and each section listens for an animations-change event to cleanly re-init or tear down its scroll observers. For the hero title, I used JavaScript to restart CSS animations via a forced reflow when toggling back on. For the theme modes, I isolated high-contrast styles to override the neon aesthetic with clean black/white palettes.
+          </p>
+        </article>
+
+        <!-- Where I Found Inspiration -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-purple mb-3 flex items-center gap-2">
+            <span class="text-2xl">✨</span>
+            Where I Found Inspiration
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            80's arcade carpet patterns and neon signage. I wanted the site to feel like walking into a retro arcade - glowing neon accents (cyan, pink, purple, orange) against deep dark purples, floating geometric shapes (triangles, diamonds, circles, zigzag lines), and glass-morphism containers with backdrop blur. The mascot portrait grounds it as a personal space rather than a pure design exercise. Fonts are Inter for readability and JetBrains Mono for code elements, keeping it professional underneath.
+          </p>
+        </article>
+
+        <!-- What I Learned from Building My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+            <span class="text-2xl">📚</span>
+            What I Learned from Building My Portfolio
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            Astro's islands architecture taught me how much JavaScript you can avoid shipping while still having rich interactivity where it counts. I deepened my understanding of Intersection Observer patterns for scroll-driven animations, the nuances of CSS animation fill-modes and how they interact with class-based state, and the IndieWeb stack (IndieAuth, h-card microformats, rel="me" verification). I also learned that accessibility shouldn't be an afterthought and can help shape solid architectural decisions.
+          </p>
+        </article>
+
+        <!-- Future Plans for My Portfolio -->
+        <article class="interview-section">
+          <h2 class="text-xl font-semibold text-neon-pink mb-3 flex items-center gap-2">
+            <span class="text-2xl">🔮</span>
+            Future Plans for My Portfolio
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            I've considered a blog section using Astro's content collections with full BlogPosting structured data (the schema is already templated). I want to integrate the interactive terminal component that's currently stubbed out and expand the /now page with live data. I'm also planning to connect the GitHub heatmap to live API data instead of generated data, and improve Core Web Vitals scores on mobile by further reducing main-thread animation work (though I'm currently in the green across the board).
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- External Link Modal -->
+  <ExternalLinkModal />
+</BaseLayout>
+
+<style>
+  .interview-section {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 0, 255, 0.1);
+    border-radius: 0.75rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .interview-section:hover {
+    border-color: rgba(255, 0, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Cascade animation on page load */
+  .interview-content .interview-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .interview-content .interview-section:nth-child(1) { animation-delay: 0.1s; }
+  .interview-content .interview-section:nth-child(2) { animation-delay: 0.2s; }
+  .interview-content .interview-section:nth-child(3) { animation-delay: 0.3s; }
+  .interview-content .interview-section:nth-child(4) { animation-delay: 0.4s; }
+  .interview-content .interview-section:nth-child(5) { animation-delay: 0.5s; }
+  .interview-content .interview-section:nth-child(6) { animation-delay: 0.6s; }
+  .interview-content .interview-section:nth-child(7) { animation-delay: 0.7s; }
+  .interview-content .interview-section:nth-child(8) { animation-delay: 0.8s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .interview-content .interview-section {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* High contrast adjustments */
+  [data-theme="high-contrast"] .interview-section {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  [data-theme="high-contrast"] .interview-section:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  [data-theme="high-contrast-light"] .interview-section {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  [data-theme="high-contrast-light"] .interview-section:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+
+  [data-theme="high-contrast"] .border-neon-pink\/20 {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  [data-theme="high-contrast-light"] .border-neon-pink\/20 {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+</style>

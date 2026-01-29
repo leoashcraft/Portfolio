@@ -467,9 +467,9 @@ import Icon from '../ui/Icon.astro';
           }
         });
 
-        // Logos cascade at 90-100% progress (after features, for logo card only)
+        // Logos cascade at 55-65% progress (alongside description)
         if (state.logos.length > 0) {
-          const logosStart = 0.90;
+          const logosStart = 0.55;
           const logosRange = 0.10;
           state.logos.forEach((logo, index) => {
             const logoThreshold = logosStart + (index / state.logos.length) * logosRange;

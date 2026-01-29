@@ -1,7 +1,7 @@
 export const seo = {
   siteTitle: 'Leo Ashcraft | Software Engineer',
   siteDescription:
-    'Full Stack Software Developer with 15+ years experience in PHP, React, and Salesforce integrations. Based in Dallas-Fort Worth.',
+    'Full Stack Software Developer with 17+ years experience in PHP, React, and Salesforce integrations. Based in Dallas-Fort Worth.',
   keywords:
     'Leo Ashcraft, Software Developer, Full Stack Developer, PHP, JavaScript, Laravel, React, Dallas, Web Development',
   themeColor: '#0a0a0f',

@@ -946,7 +946,7 @@ Done! All content extracted. Type 'help' to explore.`,
 ==> portfolio.txt <==
 Leo Ashcraft
 Full Stack Developer
-15+ years of experience
+17+ years of experience
 ...
 
 Use 'about' for the full story!`,

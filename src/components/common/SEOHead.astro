@@ -3,7 +3,7 @@ import { profile } from '../../data/profile';
 import { seo, schema } from '../../data/seo';
 import { experience, education, certifications } from '../../data/experience';
 import { projects } from '../../data/projects';
-import { services } from '../../data/skills';
+import { services, skills } from '../../data/skills';
 
 interface Props {
   title?: string;
@@ -95,7 +95,7 @@ const personSchema = {
   name: profile.name,
   url: siteUrl,
   image: new URL(profile.photoUrl, Astro.site).href,
-  description: 'Full-stack software developer with 5+ years of development experience and 15+ years in technology. Specializes in PHP, React, and Salesforce integrations. Based in Dallas–Fort Worth.',
+  description: 'Full-stack software developer with 5+ years of development experience and 17+ years in technology. Specializes in PHP, React, and Salesforce integrations. Based in Dallas–Fort Worth.',
   jobTitle: schema.jobTitle,
   address: {
     '@type': schema.address.type,
@@ -114,7 +114,7 @@ const personSchema = {
   })),
   hasCredential: credentialSchemas,
   hasOccupation: occupationSchemas,
-  knowsAbout: schema.knowsAbout,
+  knowsAbout: [...new Set([...schema.knowsAbout, ...skills.flatMap(cat => cat.skills.map(s => s.name))])],
   sameAs: schema.sameAs,
 };
 

@@ -4,8 +4,8 @@ export const profile = {
   location: 'Dallas-Fort Worth, TX',
   tagline: 'I Cultivate Digital Excellence',
   description:
-    'Full Stack Software Developer with 15+ years of IT experience, specializing in clean, maintainable PHP and JavaScript code. Currently developing solutions at Parker University.',
-  bio: `I'm a full-stack web developer with 5+ years of professional software development experience and 15+ years in technology overall, turning ideas into fast, polished digital experiences. I focus on clean, maintainable code, smooth animations, intuitive UI/UX, and performance-driven websites built with SEO, Core Web Vitals, and AI search visibility in mind. Currently at Parker University, building web solutions that matter.`,
+    'Full Stack Software Developer with 17+ years of IT experience, specializing in clean, maintainable PHP and JavaScript code. Currently developing solutions at Parker University.',
+  bio: `I'm a full-stack web developer with 5+ years of professional software development experience and 17+ years in technology overall, turning ideas into fast, polished digital experiences. I focus on clean, maintainable code, smooth animations, intuitive UI/UX, and performance-driven websites built with SEO, Core Web Vitals, and AI search visibility in mind. Currently at Parker University, building web solutions that matter.`,
 
   availability: ['Open to freelance'],
 
@@ -21,7 +21,7 @@ export const profile = {
   },
 
   stats: [
-    { value: 15, suffix: '+', label: 'Years Tech Experience' },
+    { value: 17, suffix: '+', label: 'Years Tech Experience' },
     { value: 5, suffix: '+', label: 'Years Development' },
     { value: 6, suffix: '+', label: 'Years Managerial' },
     { value: 33, suffix: '+', label: 'Products Launched' },

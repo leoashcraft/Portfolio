@@ -245,6 +245,15 @@ const schemas = [
 />
 <link rel="canonical" href={canonicalURL} />
 
+<!-- IndieAuth endpoints -->
+<link rel="authorization_endpoint" href="https://indieauth.com/auth" />
+<link rel="token_endpoint" href="https://tokens.indieauth.com/token" />
+
+<!-- rel="me" identity links (generated from schema.sameAs) -->
+{schema.sameAs.map((url) => (
+  <link rel="me" href={url} />
+))}
+
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Favicon -->

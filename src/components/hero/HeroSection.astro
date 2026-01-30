@@ -199,7 +199,7 @@ import { schema } from '../../data/seo';
   <!-- Content Container -->
   <div class="relative z-10 w-full max-w-7xl mx-auto px-4 pt-20">
     <!-- Mobile: Centered layout -->
-    <div class="md:hidden text-center">
+    <div class="md:hidden">
       <!-- Mascot behind content on mobile -->
       <img
         src="/img/leo-mascot.avif"
@@ -207,7 +207,7 @@ import { schema } from '../../data/seo';
         class="hero-mascot absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-auto pointer-events-none -z-10"
         aria-hidden="true"
       />
-      <div class="h-card rounded-2xl p-6 mt-36 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
+      <div class="h-card rounded-2xl p-6 mt-56 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
         <h1 class="hero-title text-4xl sm:text-5xl font-bold mb-6">
           <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
         </h1>
@@ -248,12 +248,12 @@ import { schema } from '../../data/seo';
     <!-- Desktop: Overlapping layout (768px+) -->
     <div class="hidden md:block">
       <!-- About content in glass container -->
-      <div class="h-card hero-about-box relative rounded-2xl p-6 lg:p-8 w-[80%] mx-auto translate-x-[8%] md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards]">
+      <div class="h-card hero-about-box relative rounded-2xl p-6 lg:p-8 w-[80%] mx-auto translate-x-[13%] md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards]">
         <!-- Mascot inside container, positioned behind content -->
         <img
           src="/img/leo-mascot.avif"
           alt="Hyper-realistic Portrait of Leo Ashcraft"
-          class="hero-mascot absolute -left-[22%] -bottom-[5%] h-[135%] max-[1195px]:h-[120%] w-auto pointer-events-none z-0"
+          class="hero-mascot absolute -left-[26%] max-[1221px]:-left-[30%] max-[1196px]:-left-[27%] max-[1036px]:-left-[24%] max-[1195px]:-left-[22%] -bottom-[5%] h-[135%] max-[1195px]:h-[120%] w-auto pointer-events-none z-0"
           aria-hidden="true"
         />
         <!-- Content wrapper with higher z-index -->
@@ -451,6 +451,22 @@ import { schema } from '../../data/seo';
       float: left;
       width: 10%;
       height: 2.5em;
+    }
+    @media (min-width: 768px) {
+      .hero-about-box > .relative > p:first-of-type::before {
+        width: 18% !important;
+        height: 6rem !important;
+      }
+      @media (min-width: 900px) {
+        .hero-about-box > .relative > p:first-of-type::before {
+          height: 4.5rem !important;
+        }
+      }
+      @media (min-width: 942px) {
+        .hero-about-box > .relative > p:first-of-type::before {
+          width: 13% !important;
+        }
+      }
     }
     .hero-about-box p {
       font-size: 1.125rem !important;

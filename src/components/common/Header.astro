@@ -24,6 +24,7 @@ const mailtoLink = getMailtoLink(profile);
                 href={item.href}
                 class="px-4 py-2 rounded-lg text-gray-300 hover:text-neon-pink transition-all duration-200"
                 aria-label={item.label}
+                title={item.label === 'Home' ? 'Dawn of the Devs Webring Homepage' : item.label}
               >
                 {item.label}
               </a>

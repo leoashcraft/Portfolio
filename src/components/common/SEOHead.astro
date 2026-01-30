@@ -29,6 +29,8 @@ const {
 
 const pageTitle = title ? `Leo Ashcraft | ${title}` : seo.siteTitle;
 const metaDescription = description || seo.siteDescription;
+const umamiWebsiteId = import.meta.env.UMAMI_WEBSITE_ID;
+const umamiScriptUrl = import.meta.env.UMAMI_SCRIPT_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const siteUrl = Astro.site?.href || 'https://leoashcraft.com';
@@ -301,6 +303,11 @@ const schemas = [
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   ))
 }
+
+<!-- Umami Analytics -->
+{umamiWebsiteId && umamiScriptUrl && (
+  <script defer src={umamiScriptUrl} data-website-id={umamiWebsiteId}></script>
+)}
 
 <!-- Critical inline styles for fastest FCP -->
 <style>

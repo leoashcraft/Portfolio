@@ -1,5 +1,5 @@
 export const seo = {
-  siteTitle: 'Leo Ashcraft | Software Engineer',
+  siteTitle: 'Leo Ashcraft | Full-Stack Software Developer',
   siteDescription:
     'Full Stack Software Developer with 17+ years experience in PHP, React, and Salesforce integrations. Based in Dallas-Fort Worth.',
   keywords:
@@ -60,7 +60,7 @@ export const schema = {
     'Backend',
     'Full Stack',
     'Software Developer',
-    'Software Engineer',
+    'Full-Stack Software Developer',
   ],
   sameAs: [
     'https://www.linkedin.com/in/leo3',

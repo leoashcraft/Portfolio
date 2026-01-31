@@ -6,32 +6,34 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 import Icon from '../ui/Icon.astro';
 ---
 
-<section id="projects" class="section section-arcade px-4 overflow-hidden" aria-labelledby="projects-heading">
+<section id="projects" class="section section-arcade" aria-labelledby="projects-heading">
   <!-- Neon Top Border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
   <ArcadeDecorations variant="projects" />
 
-  <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Section Header -->
-    <SectionHeader
-      title={site.sections.projects.title}
-      titleHighlight={site.sections.projects.titleHighlight}
-      subtitle={site.sections.projects.subtitle}
-      headingId="projects-heading"
-    />
+  <!-- Featured Projects — horizontal scroll -->
+  <div class="projects-hscroll-section relative z-10">
+    <div class="projects-hscroll-container">
+      <!-- Section Header pinned inside sticky -->
+      <div class="projects-hscroll-header">
+        <SectionHeader
+          title={site.sections.projects.title}
+          titleHighlight={site.sections.projects.titleHighlight}
+          subtitle={site.sections.projects.subtitle}
+          headingId="projects-heading"
+        />
+      </div>
 
-    <!-- Featured Projects -->
-    <div class="space-y-20 mb-20">
-      {
-        featuredProjects.map((project, index) => (
-          <div
-            class={`featured-project flex flex-col lg:flex-row gap-8 items-center ${
-              index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-            }`}
-            data-direction={index % 2 === 0 ? 'left' : 'right'}
-          >
+      <div class="projects-hscroll-track">
+        {
+          featuredProjects.map((project, index) => (
+            <div class="projects-hscroll-panel">
+              <div
+                class="featured-project flex flex-col lg:flex-row gap-8 items-center"
+                data-direction="left"
+              >
             {/* Image */}
             <div class="lg:w-1/2 project-image">
               <div class="relative group project-image-wrapper">
@@ -92,7 +94,7 @@ import Icon from '../ui/Icon.astro';
               </div>
 
               {/* Metrics - cascades from behind description */}
-              <div class={`project-metrics flex flex-wrap gap-3 mb-6 ${index % 2 === 1 ? 'justify-end' : ''}`}>
+              <div class="project-metrics flex flex-wrap gap-3 mb-6">
                 {project.metrics.map((metric) => (
                   <span class="flex items-center gap-2 text-sm text-neon-green">
                     <svg
@@ -114,7 +116,7 @@ import Icon from '../ui/Icon.astro';
               </div>
 
               {/* Tags - cascades after metrics */}
-              <div class={`project-tags flex flex-wrap gap-2 mb-6 ${index % 2 === 1 ? 'justify-end' : ''}`}>
+              <div class="project-tags flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag) => (
                   <span class="px-3 py-1 text-sm bg-night-700 text-gray-300 rounded-full">
                     {tag}
@@ -123,7 +125,7 @@ import Icon from '../ui/Icon.astro';
               </div>
 
               {/* Links - cascades last */}
-              <div class={`project-links flex gap-4 ${index % 2 === 1 ? 'justify-end' : ''}`}>
+              <div class="project-links flex gap-4">
                 {project.github && (
                   <a
                     href={project.github}
@@ -185,11 +187,22 @@ import Icon from '../ui/Icon.astro';
                 )}
               </div>
             </div>
-          </div>
-        ))
-      }
-    </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>{/* end .projects-hscroll-track */}
 
+      {/* Panel indicator dots */}
+      <div class="projects-hscroll-indicators">
+        {featuredProjects.map((_, i) => (
+          <button class={`projects-hscroll-dot${i === 0 ? ' active' : ''}`} data-panel={i} aria-label={`Go to project ${i + 1}`}></button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto relative z-10 px-4">
     {/* Sub-Projects Modals */}
     {
       featuredProjects.map((project, index) => (
@@ -457,9 +470,14 @@ import Icon from '../ui/Icon.astro';
       </div>
     </div>
 
-    <!-- Other Projects -->
+  </div>
+</section>
+
+<!-- More Work — own section, 100vh, snaps -->
+<section id="more-work" class="more-work-section section section-arcade" aria-labelledby="more-work-heading">
+  <div class="more-work-inner max-w-6xl mx-auto relative z-10 px-4">
     <div class="other-projects-section">
-      <h3 class="other-projects-title subsection-title text-2xl font-bold text-white text-center mb-8">
+      <h3 id="more-work-heading" class="other-projects-title subsection-title text-2xl font-bold text-white text-center mb-8">
         {site.sections.projects.otherTitle} <span class="gradient-text">{site.sections.projects.otherTitleHighlight}</span>
       </h3>
 
@@ -712,74 +730,208 @@ import Icon from '../ui/Icon.astro';
   initProjects();
   document.addEventListener('astro:after-swap', initProjects);
 
-  // Featured project slide animations
-  let projectSlideCleanup: (() => void) | undefined;
+  // ============================================
+  // Featured Projects Horizontal Scroll
+  // ============================================
+  let projectsHscrollCleanup: (() => void) | undefined;
 
-  function initFeaturedProjectSlides() {
-    const projects = document.querySelectorAll('.featured-project') as NodeListOf<HTMLElement>;
+  // Preload snap sound
+  let snapSound: HTMLAudioElement | null = null;
+  try {
+    snapSound = new Audio('/sounds/menu-back-384929.mp3');
+    snapSound.preload = 'auto';
+    snapSound.volume = 0.3;
+  } catch (_) {}
 
-    // Skip if animations disabled
-    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      projects.forEach((project) => {
-        project.classList.add('image-in', 'content-in');
+  let lastSoundTime = 0;
+  function playSnapSound() {
+    if (!snapSound) return;
+    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
+    const now = Date.now();
+    if (now - lastSoundTime < 1000) return;
+    lastSoundTime = now;
+    snapSound.currentTime = 0;
+    snapSound.play().catch(() => {});
+  }
+
+  function isMobile(): boolean {
+    return false; // scroll panels now work on all screen sizes
+  }
+
+  function initProjectsHscroll() {
+    const section = document.querySelector('.projects-hscroll-section') as HTMLElement;
+    const container = document.querySelector('.projects-hscroll-container') as HTMLElement;
+    const track = document.querySelector('.projects-hscroll-track') as HTMLElement;
+    const dots = document.querySelectorAll('.projects-hscroll-dot') as NodeListOf<HTMLElement>;
+
+    if (!section || !container || !track) return () => {};
+
+    const panels = track.querySelectorAll('.projects-hscroll-panel') as NodeListOf<HTMLElement>;
+    const projects = track.querySelectorAll('.featured-project') as NodeListOf<HTMLElement>;
+    const panelCount = panels.length;
+
+    if (panelCount === 0) return () => {};
+
+    const animDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+
+    // Show all content on mobile or animations disabled
+    if (animDisabled || isMobile()) {
+      projects.forEach((p) => {
+        p.classList.add('image-in', 'content-in', 'metrics-in', 'tags-in', 'links-in');
       });
-      return () => {};
+      if (isMobile()) {
+        section.style.height = '';
+        return () => {};
+      }
     }
 
-    let ticking = false;
+    // Measure nav height
+    const nav = document.getElementById('main-nav');
+    const navH = nav ? nav.offsetHeight : 60;
+    container.style.setProperty('--nav-h', `${navH}px`);
 
-    const checkProjects = () => {
-      const viewportHeight = window.innerHeight;
-      const imageTrigger = viewportHeight * 0.85; // Image flies in early
-      const contentTrigger = viewportHeight * 0.5; // Title/desc slides out when halfway
-      const exitPoint = viewportHeight * 0.7;
-
-      projects.forEach((project) => {
-        const rect = project.getBoundingClientRect();
-
-        // Image flies in first
-        if (rect.top < imageTrigger) {
-          project.classList.add('image-in');
-        }
-
-        // Title/description slides out when halfway on screen
-        if (rect.top < contentTrigger) {
-          if (!project.classList.contains('content-in')) {
-            project.classList.add('content-in');
-            // Cascade the rest with delays
-            setTimeout(() => project.classList.add('metrics-in'), 150);
-            setTimeout(() => project.classList.add('tags-in'), 300);
-            setTimeout(() => project.classList.add('links-in'), 450);
-          }
-        }
-
-        // Slide out when scrolling up
-        if (rect.top > exitPoint) {
-          project.classList.remove('content-in', 'metrics-in', 'tags-in', 'links-in', 'image-in');
-        }
+    // Equalize panel heights
+    panels.forEach((p) => { p.style.minHeight = ''; });
+    // Temporarily show content for measurement
+    projects.forEach((p) => {
+      p.classList.add('image-in', 'content-in', 'metrics-in', 'tags-in', 'links-in');
+    });
+    let maxH = 0;
+    panels.forEach((p) => {
+      if (p.scrollHeight > maxH) maxH = p.scrollHeight;
+    });
+    panels.forEach((p) => { p.style.minHeight = `${maxH}px`; });
+    // Reset if animations enabled
+    if (!animDisabled) {
+      projects.forEach((p) => {
+        p.classList.remove('image-in', 'content-in', 'metrics-in', 'tags-in', 'links-in');
       });
+    }
 
-      ticking = false;
-    };
+    // Each panel is 100% of container width
+    const stepPx = container.offsetWidth;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(checkProjects);
-        ticking = true;
-      }
-    };
+    // Section height: 1 viewport + (n-1) * 40vh scroll per panel
+    const scrollPerPanel = window.innerHeight * 0.4;
+    section.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel}px`;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    checkProjects(); // Initial check
+    let ticking = false;
+    let snappedPanel = -1;
+
+    // Track active timers so we can clear on reset
+    let activeTimers: ReturnType<typeof setTimeout>[] = [];
+
+    function revealPanel(index: number) {
+      const project = projects[index];
+      if (!project) return;
+
+      project.classList.add('image-in');
+      activeTimers.push(setTimeout(() => project.classList.add('content-in'), 200));
+      activeTimers.push(setTimeout(() => project.classList.add('metrics-in'), 350));
+      activeTimers.push(setTimeout(() => project.classList.add('tags-in'), 500));
+      activeTimers.push(setTimeout(() => project.classList.add('links-in'), 650));
+    }
+
+    function resetAllPanels() {
+      activeTimers.forEach((t) => clearTimeout(t));
+      activeTimers = [];
+      projects.forEach((p) => {
+        p.classList.remove('image-in', 'content-in', 'metrics-in', 'tags-in', 'links-in');
+      });
+    }
+
+    function updateDots(activeIndex: number) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    function snapTo(panelIndex: number) {
+      const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+      if (clamped === snappedPanel) return;
+      snappedPanel = clamped;
+
+      playSnapSound();
+
+      // Reset all panels so the incoming one replays its animation fresh
+      resetAllPanels();
+
+      const translatePx = clamped * stepPx;
+      track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      track.style.transform = `translateX(-${translatePx}px)`;
+
+      updateDots(clamped);
+      revealPanel(clamped);
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const sectionRect = section.getBoundingClientRect();
+        const sectionTop = -sectionRect.top;
+        const totalScrollable = section.offsetHeight - window.innerHeight;
+
+        if (sectionTop < 0) {
+          if (snappedPanel !== 0) {
+            snappedPanel = 0;
+            track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            track.style.transform = 'translateX(0)';
+            updateDots(0);
+          }
+
+          if (sectionRect.top > window.innerHeight * 0.5) {
+            resetAllPanels();
+          } else {
+            revealPanel(0);
+          }
+        } else if (sectionTop >= totalScrollable) {
+          snapTo(panelCount - 1);
+        } else {
+          const progress = sectionTop / totalScrollable;
+          const targetPanel = Math.round(progress * (panelCount - 1));
+          snapTo(targetPanel);
+        }
+
+        ticking = false;
+      });
+    }
+
+    // Dot click handlers
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const panelIndex = parseInt(dot.dataset.panel || '0', 10);
+        const totalScrollable = section.offsetHeight - window.innerHeight;
+        const targetScroll = section.offsetTop + (panelIndex / (panelCount - 1)) * totalScrollable;
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+      });
+    });
+
+    // Resize: full reinit
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        projectsHscrollCleanup?.();
+        projectsHscrollCleanup = initProjectsHscroll();
+      }, 200);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    onScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      clearTimeout(resizeTimer);
     };
   }
 
   function initProjectSlides() {
-    projectSlideCleanup?.();
-    projectSlideCleanup = initFeaturedProjectSlides();
+    projectsHscrollCleanup?.();
+    projectsHscrollCleanup = initProjectsHscroll();
   }
 
   initProjectSlides();
@@ -787,8 +939,8 @@ import Icon from '../ui/Icon.astro';
 
   // Re-init when animations toggle changes
   window.addEventListener('animations-change', () => {
-    projectSlideCleanup?.();
-    projectSlideCleanup = initFeaturedProjectSlides();
+    projectsHscrollCleanup?.();
+    projectsHscrollCleanup = initProjectsHscroll();
     otherProjectsCleanup?.();
     otherProjectsCleanup = initOtherProjectsAnimation();
   });
@@ -887,6 +1039,96 @@ import Icon from '../ui/Icon.astro';
 </script>
 
 <style>
+  /* ============================================
+     Projects Horizontal Scroll
+     ============================================ */
+  :global(#projects) {
+    scroll-snap-align: none;
+    min-height: auto;
+  }
+
+  .projects-hscroll-section {
+    position: relative;
+  }
+
+  .projects-hscroll-container {
+    position: sticky;
+    top: var(--nav-h, 60px);
+    height: calc(100vh - var(--nav-h, 60px));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .projects-hscroll-header {
+    flex-shrink: 0;
+    padding: 2rem 5% 0;
+  }
+
+  .projects-hscroll-track {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    will-change: transform;
+    flex: 1;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Each panel takes full container width so adjacent panels are off-screen */
+  .projects-hscroll-panel {
+    flex: 0 0 100%;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    padding: 0 5%;
+  }
+
+  /* Featured project content inside each panel capped at 1000px */
+  .projects-hscroll-panel > .featured-project {
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .projects-hscroll-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    z-index: 20;
+  }
+
+  .projects-hscroll-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(128, 0, 255, 0.4);
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .projects-hscroll-dot.active {
+    background: var(--color-neon-purple);
+    border-color: var(--color-neon-purple);
+    box-shadow: 0 0 10px rgba(128, 0, 255, 0.6);
+  }
+
+  /* Mobile: tighter padding for scroll panels */
+  @media (max-width: 767px) {
+    .projects-hscroll-header {
+      padding: 1rem 1rem 0;
+    }
+
+    .projects-hscroll-panel {
+      padding: 0 1rem;
+    }
+  }
+
   /* Featured project animations */
   .featured-project {
     position: relative;
@@ -899,13 +1141,8 @@ import Icon from '../ui/Icon.astro';
     z-index: 10;
   }
 
-  /* Title/desc slides horizontally from behind image */
-  .featured-project .project-title-desc {
-    opacity: 0;
-    transition: opacity 0.4s ease-out, transform 0.5s ease-out;
-  }
-
-  /* Cascading elements slide down from behind description */
+  /* Title/desc and cascading elements all slide down */
+  .featured-project .project-title-desc,
   .featured-project .project-metrics,
   .featured-project .project-tags,
   .featured-project .project-links {
@@ -914,22 +1151,9 @@ import Icon from '../ui/Icon.astro';
     transform: translateY(-20px);
   }
 
-  /* Image slides in from the side */
-  .featured-project[data-direction="left"] .project-image {
+  /* Image slides in from left */
+  .featured-project .project-image {
     transform: translateX(-100px);
-  }
-
-  .featured-project[data-direction="right"] .project-image {
-    transform: translateX(100px);
-  }
-
-  /* Title/desc starts behind image - slides from same direction */
-  .featured-project[data-direction="left"] .project-title-desc {
-    transform: translateX(-100px);
-  }
-
-  .featured-project[data-direction="right"] .project-title-desc {
-    transform: translateX(100px);
   }
 
   /* Image slides in */
@@ -968,6 +1192,22 @@ import Icon from '../ui/Icon.astro';
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  /* ============================================
+     More Work — own snapping section, 100vh
+     ============================================ */
+  .more-work-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .more-work-inner {
+    width: 100%;
   }
 
   /* Other Projects (More Work) animations */

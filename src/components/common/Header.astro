@@ -8,8 +8,8 @@ import SocialLink from '../ui/SocialLink.astro';
 const mailtoLink = getMailtoLink(profile);
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8">
-  <nav id="main-nav" class="glass max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between transition-all duration-300 relative overflow-hidden">
+<header class="fixed top-0 left-0 right-0 z-50">
+  <nav id="main-nav" class="glass w-full px-4 md:px-8 py-2 flex flex-wrap items-center justify-between transition-all duration-300 relative overflow-hidden rounded-none border-t-0 border-l-0 border-r-0">
     <!-- Heat sensor glow effect - pink to purple left to right -->
     <div id="nav-heat-glow" class="pointer-events-none absolute w-96 h-40 rounded-full opacity-0 transition-opacity duration-200" style="background: linear-gradient(to right, rgba(34, 203, 204, 0.15), rgba(102, 0, 255, 0.15)); transform: translate(-50%, -50%); filter: blur(30px);"></div>
 
@@ -231,6 +231,13 @@ const mailtoLink = getMailtoLink(profile);
     .mobile-menu-theme-toggle {
       display: block !important;
     }
+  }
+
+  #main-nav {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
   }
 </style>
 

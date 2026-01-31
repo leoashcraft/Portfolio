@@ -33,6 +33,9 @@ const props = Astro.props;
 
         const animations = localStorage.getItem('portfolio-animations');
         document.documentElement.setAttribute('data-animations', animations === 'disabled' ? 'disabled' : 'enabled');
+
+        const sounds = localStorage.getItem('portfolio-sounds');
+        document.documentElement.setAttribute('data-sounds', sounds === 'disabled' ? 'disabled' : 'enabled');
       })();
     </script>
   </head>
@@ -441,6 +444,9 @@ const props = Astro.props;
         initSectionTitleWave();
         handleMobileCardFloat();
       });
+
+      // Scroll-snap sound removed — sounds are now handled
+      // by the individual horizontal scroll sections
     </script>
   </body>
 </html>

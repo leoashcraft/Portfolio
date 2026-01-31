@@ -1,12 +1,13 @@
 /**
  * Theme utility for toggling between normal, high contrast dark, and high contrast light modes
- * Also handles animation preferences
+ * Also handles animation and sound preferences
  */
 
 export type Theme = 'normal' | 'high-contrast' | 'high-contrast-light';
 
 const STORAGE_KEY = 'portfolio-theme';
 const ANIMATIONS_KEY = 'portfolio-animations';
+const SOUNDS_KEY = 'portfolio-sounds';
 
 // Theme cycle order
 const THEME_ORDER: Theme[] = ['normal', 'high-contrast', 'high-contrast-light'];
@@ -63,5 +64,25 @@ export function toggleAnimations(): boolean {
   const current = getAnimationsEnabled();
   const next = !current;
   setAnimationsEnabled(next);
+  return next;
+}
+
+// Sound preference functions
+export function getSoundsEnabled(): boolean {
+  if (typeof window === 'undefined') return true;
+  const stored = localStorage.getItem(SOUNDS_KEY);
+  return stored !== 'disabled';
+}
+
+export function setSoundsEnabled(enabled: boolean): void {
+  localStorage.setItem(SOUNDS_KEY, enabled ? 'enabled' : 'disabled');
+  document.documentElement.setAttribute('data-sounds', enabled ? 'enabled' : 'disabled');
+  window.dispatchEvent(new CustomEvent('sounds-change', { detail: { enabled } }));
+}
+
+export function toggleSounds(): boolean {
+  const current = getSoundsEnabled();
+  const next = !current;
+  setSoundsEnabled(next);
   return next;
 }

@@ -6,205 +6,353 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 import Icon from '../ui/Icon.astro';
 ---
 
-<section id="experience" class="section section-arcade-alt px-4 overflow-hidden" aria-labelledby="experience-heading">
+<section id="experience" class="section section-arcade-alt" aria-labelledby="experience-heading">
   <!-- Neon Top Border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-pink/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
   <ArcadeDecorations variant="experience" />
 
-  <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Section Header -->
-    <SectionHeader
-      title={site.sections.experience.title}
-      titleHighlight={site.sections.experience.titleHighlight}
-      subtitle={site.sections.experience.subtitle}
-      headingId="experience-heading"
-    />
+  <!-- Experience Timeline — vertical scroll panels -->
+  <div class="exp-vscroll-section relative z-10">
+    <div class="exp-vscroll-container">
+      <!-- Section Header pinned inside sticky -->
+      <div class="exp-vscroll-header">
+        <SectionHeader
+          title={site.sections.experience.title}
+          titleHighlight={site.sections.experience.titleHighlight}
+          subtitle={site.sections.experience.subtitle}
+          headingId="experience-heading"
+        />
+      </div>
 
-    <!-- Experience Timeline -->
-    <div class="relative">
-      <!-- Timeline Line (hidden below 768px, right side 768-1024px, centered 1024px+) -->
-      <div
-        id="timeline-line"
-        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 w-0.5 lg:-translate-x-1/2 timeline-gradient transition-all duration-500 ease-out"
-        style="height: 0px;"
-        aria-hidden="true"
-      ></div>
+      <div class="exp-vscroll-viewport">
+        <!-- Timeline Line -->
+        <div
+          id="timeline-line"
+          class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 w-0.5 lg:-translate-x-1/2 timeline-gradient"
+          style="height: 0px;"
+          aria-hidden="true"
+        ></div>
 
-      <!-- Eyes Traveler (separate container for z-index control) -->
-      <div
-        id="timeline-eyes"
-        class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 bottom-0 w-0.5 lg:-translate-x-1/2 z-20 pointer-events-none transition-opacity duration-500"
-        style="opacity: 0;"
-        aria-hidden="true"
-      >
-        <div class="absolute left-1/2 timeline-traveler text-[1.81rem] look-left" style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8));">
+        <!-- Eyes — positioned independently, JS syncs to line tip -->
+        <div
+          id="timeline-eyes"
+          class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto timeline-traveler text-[1.81rem] look-left pointer-events-none z-20"
+          style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8)); opacity: 0; top: 0px;"
+          aria-hidden="true"
+        >
           <span class="eyes-blink">👀</span>
         </div>
-      </div>
 
-      <!-- Experience Items -->
-      <div class="space-y-12">
-        {
-          experience.map((exp, index) => (
-            <div
-              class={`experience-card relative flex flex-col lg:flex-row gap-8 ${
-                index % 2 === 0 ? 'lg:flex-row-reverse slide-from-right' : 'slide-from-left'
-              }`}
-            >
-              {/* Timeline Dot (hidden below 768px, right side 768-1024px, centered 1024px+) */}
-              <div
-                class="hidden md:block absolute right-[9px] md:left-auto lg:left-1/2 lg:right-auto top-1/2 -translate-y-1/2 lg:-translate-x-1/2 w-4 h-4 rounded-full bg-neon-pink border-4 border-night-900 z-10 timeline-dot"
-                aria-hidden="true"
-              />
+        <div class="exp-vscroll-track">
+          {
+            experience.map((exp, index) => (
+              <div class="exp-vscroll-panel">
+                <div
+                  class={`experience-item relative flex flex-col lg:flex-row gap-8 ${
+                    index % 2 === 0 ? 'lg:flex-row-reverse' : ''
+                  }`}
+                >
+                  {/* Content side */}
+                  <div
+                    class={`md:pr-12 lg:pr-0 lg:w-1/2 ${
+                      index % 2 === 0 ? 'lg:pl-6' : 'lg:pr-6'
+                    }`}
+                  >
+                    <div class="experience-card card" data-index={index}>
+                      {/* Header */}
+                      <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                        <div>
+                          <p class="exp-title text-xl font-bold text-white">{exp.position}</p>
+                          <p class="exp-company font-medium" style="color: #22CBCC;">{exp.company}</p>
+                        </div>
+                        <span class="exp-period text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
+                          {exp.period}
+                        </span>
+                      </div>
 
-              {/* Content */}
-              <div
-                class={`md:pr-12 lg:pr-0 lg:w-1/2 ${
-                  index % 2 === 0 ? 'lg:pl-6' : 'lg:pr-6'
-                }`}
-              >
-                <div class="card">
-                  {/* Header */}
-                  <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                    <div>
-                      <p class="text-xl font-bold text-white">{exp.position}</p>
-                      <p class="font-medium" style="color: #22CBCC;">{exp.company}</p>
+                      {/* Location */}
+                      {exp.location && (
+                        <p class="exp-location text-gray-400 text-sm mb-4 flex items-center gap-2">
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                          </svg>
+                          {exp.location}
+                        </p>
+                      )}
+
+                      {/* Highlights */}
+                      <ul class="exp-highlights space-y-2">
+                        {exp.highlights.map((highlight) => (
+                          <li class="exp-highlight flex items-start gap-3 text-gray-300 text-sm">
+                            <svg
+                              class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <span class="text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
-                      {exp.period}
-                    </span>
                   </div>
 
-                  {/* Location */}
-                  {exp.location && (
-                    <p class="text-gray-400 text-sm mb-4 flex items-center gap-2">
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      {exp.location}
-                    </p>
-                  )}
-
-                  {/* Highlights */}
-                  <ul class="space-y-2">
-                    {exp.highlights.map((highlight) => (
-                      <li class="flex items-start gap-3 text-gray-300 text-sm">
-                        <svg
-                          class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Spacer for opposite side */}
+                  <div class="hidden lg:block lg:w-1/2" />
                 </div>
               </div>
+            ))
+          }
+        </div>
+      </div>{/* end .exp-vscroll-viewport */}
 
-              {/* Spacer for opposite side */}
-              <div class="hidden md:block md:w-1/2" />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-
-    <!-- Education Section -->
-    <div class="education-section mt-20">
-      <h3 class="subsection-title education-title text-2xl font-bold text-white text-center mb-8">
-        {site.sections.experience.educationTitle} <span class="gradient-text">{site.sections.experience.educationTitleHighlight}</span>
-      </h3>
-
-      <div class="education-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-          education.map((edu, index) => (
-            <div class={`card relative edu-card edu-card-${index}`}
-              <span class="absolute top-4 right-4 text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full year-counter" data-target-year={edu.year}>
-                2000
-              </span>
-              <div class="pr-20 mb-4">
-                <p class="text-lg font-bold text-white">{edu.degree}</p>
-                <p class="text-neon-yellow">{edu.institution}</p>
-              </div>
-
-              <p class="text-gray-400 text-sm mb-4">{edu.description}</p>
-
-              <div class="flex flex-wrap items-center gap-2">
-                {edu.skills.map((skill) => (
-                  <span class="px-3 py-1 text-xs bg-neon-pink/10 text-neon-pink rounded-full border border-neon-pink/20">
-                    {skill}
-                  </span>
-                ))}
-                {edu.credentialUrl && (
-                  <a
-                    href={edu.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="ml-auto inline-flex items-center gap-1 text-sm text-neon-cyan hover:text-neon-cyan/80 transition-colors"
-                  >
-                    View Credential
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                )}
-              </div>
-            </div>
-          ))
-        }
+      {/* Panel indicator dots */}
+      <div class="exp-vscroll-indicators">
+        {experience.map((_, i) => (
+          <button class={`exp-vscroll-dot${i === 0 ? ' active' : ''}`} data-panel={i} aria-label={`Go to experience ${i + 1}`}></button>
+        ))}
       </div>
     </div>
   </div>
 </section>
 
+<!-- Education — own section, 100vh, snaps -->
+<section id="education" class="education-section section section-arcade-alt" aria-labelledby="education-heading">
+  <div class="education-inner max-w-6xl mx-auto relative z-10 px-4">
+    <h3 id="education-heading" class="subsection-title education-title text-2xl font-bold text-white text-center mb-8">
+      {site.sections.experience.educationTitle} <span class="gradient-text">{site.sections.experience.educationTitleHighlight}</span>
+    </h3>
+
+    <div class="education-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        education.map((edu, index) => (
+          <div class={`card relative edu-card edu-card-${index}`}>
+            <span class="absolute top-4 right-4 text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full year-counter" data-target-year={edu.year}>
+              2000
+            </span>
+            <div class="pr-20 mb-4">
+              <p class="text-lg font-bold text-white">{edu.degree}</p>
+              <p class="text-neon-yellow">{edu.institution}</p>
+            </div>
+
+            <p class="text-gray-400 text-sm mb-4">{edu.description}</p>
+
+            <div class="flex flex-wrap items-center gap-2">
+              {edu.skills.map((skill) => (
+                <span class="px-3 py-1 text-xs bg-neon-pink/10 text-neon-pink rounded-full border border-neon-pink/20">
+                  {skill}
+                </span>
+              ))}
+              {edu.credentialUrl && (
+                <a
+                  href={edu.credentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="ml-auto inline-flex items-center gap-1 text-sm text-neon-cyan hover:text-neon-cyan/80 transition-colors"
+                >
+                  View Credential
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
 <style>
-  /* Experience card slide animations */
-  .experience-card {
+  /* ============================================
+     Experience Vertical Scroll Section
+     ============================================ */
+  :global(#experience) {
+    scroll-snap-align: none;
+    min-height: auto;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .exp-vscroll-section {
+    position: relative;
+  }
+
+  .exp-vscroll-container {
+    position: sticky;
+    top: var(--nav-h, 60px);
+    height: calc(100vh - var(--nav-h, 60px));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-vscroll-header {
+    flex-shrink: 0;
+    padding: 2rem 5% 0;
+  }
+
+  /* Track area fills remaining space after header */
+  .exp-vscroll-viewport {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .exp-vscroll-track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    width: 100%;
+  }
+
+  /* Each panel fills the viewport area height and centers its card */
+  .exp-vscroll-panel {
+    width: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
+    box-sizing: border-box;
+    /* Height set by JS to match viewport area */
+  }
+
+  /* Experience item layout (the flex row around timeline) */
+  .experience-item {
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+  }
+
+  /* Card content animations */
+  .experience-card .exp-title,
+  .experience-card .exp-company,
+  .experience-card .exp-period,
+  .experience-card .exp-location {
     opacity: 0;
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease-out, transform 0.5s ease-out;
   }
 
-  .experience-card.slide-from-left {
-    transform: translateX(-100px);
+  .experience-card .exp-highlight {
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: opacity 0.3s ease-out, transform 0.4s ease-out;
   }
 
-  .experience-card.slide-from-right {
-    transform: translateX(100px);
+  .experience-card.content-in .exp-title,
+  .experience-card.content-in .exp-company,
+  .experience-card.content-in .exp-period,
+  .experience-card.content-in .exp-location {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .experience-card.slide-in {
+  .experience-card.highlights-in .exp-highlight {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide animation for card entering from left/right */
+  .experience-item {
+    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  /* Even index (flex-row-reverse) — card is on right, slides from right */
+  .experience-item.lg\:flex-row-reverse {
+    transform: translateX(60px);
+  }
+
+  /* Odd index — card is on left, slides from left */
+  .experience-item:not(.lg\:flex-row-reverse) {
+    transform: translateX(-60px);
+  }
+
+  .experience-item.slide-in {
     opacity: 1;
     transform: translateX(0);
   }
 
-  /* Disable animations when preference set */
-  [data-animations="disabled"] .experience-card {
+  /* Indicator dots — vertical on the right */
+  .exp-vscroll-indicators {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 20;
+  }
+
+  .exp-vscroll-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 0, 255, 0.4);
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .exp-vscroll-dot.active {
+    background: var(--color-neon-pink);
+    border-color: var(--color-neon-pink);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+  }
+
+  /* Mobile: tighter padding for scroll panels */
+  @media (max-width: 767px) {
+    .exp-vscroll-header {
+      padding: 1rem 1rem 0;
+    }
+
+    .exp-vscroll-panel {
+      padding: 0 1rem;
+    }
+  }
+
+  /* Disable animations */
+  [data-animations="disabled"] .experience-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-animations="disabled"] .experience-card .exp-title,
+  [data-animations="disabled"] .experience-card .exp-company,
+  [data-animations="disabled"] .experience-card .exp-period,
+  [data-animations="disabled"] .experience-card .exp-location,
+  [data-animations="disabled"] .experience-card .exp-highlight {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -217,7 +365,22 @@ import Icon from '../ui/Icon.astro';
 
   [data-animations="disabled"] #timeline-eyes {
     opacity: 1 !important;
-    transition: none !important;
+  }
+
+  /* ============================================
+     Education — own snapping section, 100vh
+     ============================================ */
+  .education-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .education-inner {
+    width: 100%;
   }
 
   /* Education title animation */
@@ -230,7 +393,6 @@ import Icon from '../ui/Icon.astro';
     opacity: 1;
   }
 
-  /* Wave letter transitions */
   .education-title .wave-letter {
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
   }
@@ -242,36 +404,21 @@ import Icon from '../ui/Icon.astro';
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
 
-  /* Each card starts positioned toward center */
-  .edu-card-0 {
-    transform: scale(0.8) translate(30px, 30px);
-  }
+  .edu-card-0 { transform: scale(0.8) translate(30px, 30px); }
+  .edu-card-1 { transform: scale(0.8) translate(-30px, 30px); }
+  .edu-card-2 { transform: scale(0.8) translate(30px, -30px); }
+  .edu-card-3 { transform: scale(0.8) translate(-30px, -30px); }
 
-  .edu-card-1 {
-    transform: scale(0.8) translate(-30px, 30px);
-  }
-
-  .edu-card-2 {
-    transform: scale(0.8) translate(30px, -30px);
-  }
-
-  .edu-card-3 {
-    transform: scale(0.8) translate(-30px, -30px);
-  }
-
-  /* Grow out to final position */
   .education-grid.cards-in .edu-card {
     opacity: 1;
     transform: scale(1) translate(0, 0);
   }
 
-  /* Stagger the animations */
   .edu-card-0 { transition-delay: 0s; }
   .edu-card-1 { transition-delay: 0.1s; }
   .edu-card-2 { transition-delay: 0.2s; }
   .edu-card-3 { transition-delay: 0.3s; }
 
-  /* Disable animations when preference set */
   [data-animations="disabled"] .education-title,
   [data-animations="disabled"] .edu-card {
     opacity: 1 !important;
@@ -281,223 +428,438 @@ import Icon from '../ui/Icon.astro';
 </style>
 
 <script>
-  import { initTimelineEyes } from '../../lib/timeline-eyes';
   import { initSectionParallax } from '../../lib/parallax';
   import { initScrollWave } from '../../lib/scroll-wave';
 
-  let cleanup: (() => void) | undefined;
-  let slideCleanup: (() => void) | undefined;
-  let waveCleanup: (() => void) | undefined;
+  // Preload snap sound
+  let snapSound: HTMLAudioElement | null = null;
+  try {
+    snapSound = new Audio('/sounds/menu-back-384929.mp3');
+    snapSound.preload = 'auto';
+    snapSound.volume = 0.3;
+  } catch (_) {}
 
-  function initExperienceSlides() {
-    const cards = document.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
+  let lastSoundTime = 0;
+  function playSnapSound() {
+    if (!snapSound) return;
+    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
+    const now = Date.now();
+    if (now - lastSoundTime < 1000) return;
+    lastSoundTime = now;
+    snapSound.currentTime = 0;
+    snapSound.play().catch(() => {});
+  }
+
+  function isMobile(): boolean {
+    return false; // scroll panels now work on all screen sizes
+  }
+
+  // ============================================
+  // Timeline Eyes (independent element, JS-positioned)
+  // ============================================
+  let hoverAnimId: number | null = null;
+  let eyesBaseTop = 0; // the "rest" top position in px
+
+  function startEyesHover(eyesEl: HTMLElement) {
+    if (hoverAnimId !== null) return;
+    const startTime = performance.now();
+    function hover(now: number) {
+      const t = (now - startTime) / 1000;
+      const y = Math.sin(t * 2.5) * 4; // 4px bob
+      eyesEl.style.top = `${eyesBaseTop + y}px`;
+      hoverAnimId = requestAnimationFrame(hover);
+    }
+    hoverAnimId = requestAnimationFrame(hover);
+  }
+
+  function stopEyesHover() {
+    if (hoverAnimId !== null) {
+      cancelAnimationFrame(hoverAnimId);
+      hoverAnimId = null;
+    }
+  }
+
+  function setEyesDirection(eyesEl: HTMLElement, activeIndex: number) {
+    const isRightSide = window.innerWidth >= 768 && window.innerWidth < 1024;
+    if (isRightSide) {
+      eyesEl.classList.add('look-right');
+      eyesEl.classList.remove('look-left');
+    } else {
+      const cardOnRight = activeIndex % 2 === 0;
+      eyesEl.classList.toggle('look-left', cardOnRight);
+      eyesEl.classList.toggle('look-right', !cardOnRight);
+    }
+  }
+
+  function blinkEyes(eyesEl: HTMLElement) {
+    const eyesSpan = eyesEl.querySelector('.eyes-blink') as HTMLElement;
+    if (eyesSpan) {
+      eyesSpan.classList.add('blinking');
+      setTimeout(() => eyesSpan.classList.remove('blinking'), 200);
+    }
+  }
+
+  // ============================================
+  // Experience Vertical Scroll
+  // ============================================
+  let expCleanup: (() => void) | undefined;
+
+  function initExpVscroll() {
+    const section = document.querySelector('.exp-vscroll-section') as HTMLElement;
+    const container = document.querySelector('.exp-vscroll-container') as HTMLElement;
+    const track = document.querySelector('.exp-vscroll-track') as HTMLElement;
+    const dots = document.querySelectorAll('.exp-vscroll-dot') as NodeListOf<HTMLElement>;
     const timelineLine = document.getElementById('timeline-line');
     const timelineEyes = document.getElementById('timeline-eyes');
-    const timelineContainer = document.querySelector('#experience .relative') as HTMLElement;
 
-    // Skip if animations disabled
-    if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      cards.forEach((card) => card.classList.add('slide-in'));
+    if (!section || !container || !track) return () => {};
+
+    const panels = track.querySelectorAll('.exp-vscroll-panel') as NodeListOf<HTMLElement>;
+    const items = track.querySelectorAll('.experience-item') as NodeListOf<HTMLElement>;
+    const cards = track.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
+    const panelCount = panels.length;
+
+    if (panelCount === 0) return () => {};
+
+    const animDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+
+    if (animDisabled || isMobile()) {
+      items.forEach((item) => item.classList.add('slide-in'));
+      cards.forEach((c) => c.classList.add('content-in', 'highlights-in'));
       if (timelineLine) timelineLine.style.height = '100%';
-      return () => {};
+      if (timelineEyes) timelineEyes.style.opacity = '1';
+      if (isMobile()) {
+        section.style.height = '';
+        return () => {};
+      }
     }
+
+    // Reset timeline to initial state
+    if (timelineLine) {
+      timelineLine.style.height = '0px';
+      timelineLine.style.transition = 'height 0.5s ease-out';
+    }
+    if (timelineEyes) {
+      timelineEyes.style.opacity = '0';
+      timelineEyes.style.top = '0px';
+      timelineEyes.style.fontSize = '';
+    }
+    eyesBaseTop = 0;
+    stopEyesHover();
+
+    // Measure nav height
+    const nav = document.getElementById('main-nav');
+    const navH = nav ? nav.offsetHeight : 60;
+    container.style.setProperty('--nav-h', `${navH}px`);
+
+    // Calculate viewport height deterministically:
+    // The sticky container is calc(100vh - navH), the header takes some of that,
+    // and the rest is the viewport area for panels.
+    const headerEl = container.querySelector('.exp-vscroll-header') as HTMLElement;
+    const headerH = headerEl ? headerEl.offsetHeight : 0;
+    const containerH = window.innerHeight - navH;
+    const viewportH = containerH - headerH;
+
+    // Set each panel to fill the viewport height
+    panels.forEach((p) => { p.style.height = `${viewportH}px`; });
+
+
+
+    // Step = viewport height (each panel is one viewport tall)
+    const stepPx = viewportH;
+
+    // Section height — add extra scroll space after last panel for the exit animation
+    const scrollPerPanel = window.innerHeight * 0.4;
+    const exitScrollPx = window.innerHeight * 0.4;
+    section.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel + exitScrollPx}px`;
+
+    // Line extends to center of viewport minus 75px, eyes sit at the tip
+    const lineRestHeight = (viewportH / 2) - 75;
 
     let ticking = false;
+    let snappedPanel = -1;
+    let activeTimers: ReturnType<typeof setTimeout>[] = [];
+    let hasExited = false;
 
-    const updateTimeline = () => {
-      if (!timelineLine || !timelineContainer) return;
+    function showTimeline(panelIndex: number) {
+      if (!timelineLine) return;
+      // Draw line down to rest position
+      timelineLine.style.transition = 'height 0.5s ease-out';
+      timelineLine.style.height = `${lineRestHeight}px`;
 
-      // Find the last visible card
-      let lastVisibleCard: HTMLElement | null = null;
-      cards.forEach((card) => {
-        if (card.classList.contains('slide-in')) {
-          lastVisibleCard = card;
-        }
-      });
-
-      if (lastVisibleCard) {
-        const containerRect = timelineContainer.getBoundingClientRect();
-        const cardRect = lastVisibleCard.getBoundingClientRect();
-        // Calculate height from container top to card center
-        const height = (cardRect.top + cardRect.height / 2) - containerRect.top;
-        timelineLine.style.height = `${Math.max(0, height)}px`;
-
-        // Show eyes if we have visible cards
-        if (timelineEyes) timelineEyes.style.opacity = '1';
-      } else {
-        timelineLine.style.height = '0px';
-        // Hide eyes if no cards visible
-        if (timelineEyes) timelineEyes.style.opacity = '0';
-      }
-    };
-
-    const checkCards = () => {
-      const viewportHeight = window.innerHeight;
-      const triggerPoint = viewportHeight * 0.85; // Slide in when card is 85% down the viewport
-      const exitPoint = viewportHeight * 0.5; // Slide out when card top goes below 50% of viewport
-
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-
-        // Card should be visible when its top is above the trigger point
-        if (rect.top < triggerPoint) {
-          card.classList.add('slide-in');
-        }
-
-        // Card should slide out when scrolling up and card top goes below exit point
-        if (rect.top > exitPoint) {
-          card.classList.remove('slide-in');
-        }
-      });
-
-      updateTimeline();
-      ticking = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(checkCards);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    checkCards(); // Initial check
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }
-
-  function init() {
-    cleanup?.();
-    slideCleanup?.();
-    waveCleanup?.();
-    cleanup = initTimelineEyes();
-    slideCleanup = initExperienceSlides();
-    waveCleanup = initScrollWave({
-      selector: '.education-title',
-      waveStart: 0.75,
-      waveEnd: 0.35
-    });
-    initSectionParallax('experience');
-  }
-
-  init();
-  document.addEventListener('astro:after-swap', init);
-
-  // Re-init slides and eyes when animations toggle changes
-  window.addEventListener('animations-change', () => {
-    cleanup?.();
-    slideCleanup?.();
-    waveCleanup?.();
-    cleanup = initTimelineEyes();
-    slideCleanup = initExperienceSlides();
-    waveCleanup = initScrollWave({
-      selector: '.education-title',
-      waveStart: 0.75,
-      waveEnd: 0.35
-    });
-  });
-
-  // Re-init eyes when theme changes (high contrast may affect layout)
-  window.addEventListener('theme-change', () => {
-    cleanup?.();
-    cleanup = initTimelineEyes();
-  });
-
-  // Year counter animation
-  function initYearCounters(skipInitialInView = false) {
-    const counters = document.querySelectorAll('.year-counter');
-    const animatedCounters = new Set<Element>();
-    const wasOutOfView = new Set<Element>();
-    const pendingTimeouts: number[] = [];
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          // Track when element leaves viewport
-          wasOutOfView.add(entry.target);
-        } else if (entry.isIntersecting && !animatedCounters.has(entry.target)) {
-          // Only animate if element was out of view first (or not skipping initial)
-          if (!skipInitialInView || wasOutOfView.has(entry.target)) {
-            animatedCounters.add(entry.target);
-            const target = entry.target as HTMLElement;
-            const targetYear = parseInt(target.dataset.targetYear || '2000', 10);
-            // 1 second delay before starting animation
-            const timeoutId = window.setTimeout(() => {
-              animateCounter(target, 2000, targetYear);
-            }, 1000);
-            pendingTimeouts.push(timeoutId);
-          }
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach((counter) => {
-      // Reset to 2000 for re-initialization
-      counter.textContent = '2000';
-      observer.observe(counter);
-    });
-
-    return () => {
-      observer.disconnect();
-      animatedCounters.clear();
-      wasOutOfView.clear();
-      pendingTimeouts.forEach((id) => clearTimeout(id));
-      pendingTimeouts.length = 0;
-    };
-  }
-
-  function animateCounter(element: HTMLElement, start: number, end: number) {
-    const duration = 1500; // 1.5 seconds
-    const startTime = performance.now();
-    const range = end - start;
-
-    function update(currentTime: number) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Easing function for smooth deceleration
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(start + range * easeOut);
-
-      element.textContent = current.toString();
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
+      if (timelineEyes && !isMobile()) {
+        // Eyes ride down with the line tip
+        eyesBaseTop = lineRestHeight;
+        timelineEyes.style.transition = 'top 0.5s ease-out';
+        timelineEyes.style.top = `${eyesBaseTop}px`;
+        timelineEyes.style.opacity = '1';
+        timelineEyes.style.fontSize = '';
+        setEyesDirection(timelineEyes, panelIndex);
+        // Start hovering after line finishes drawing
+        activeTimers.push(setTimeout(() => {
+          if (!timelineEyes) return;
+          timelineEyes.style.transition = '';
+          blinkEyes(timelineEyes);
+          startEyesHover(timelineEyes);
+        }, 520));
       }
     }
 
-    requestAnimationFrame(update);
-  }
+    function hideTimeline() {
+      stopEyesHover();
+      if (timelineLine) {
+        timelineLine.style.transition = 'height 0.5s ease-out';
+        timelineLine.style.height = '0px';
+      }
+      if (timelineEyes) {
+        timelineEyes.style.transition = 'top 0.5s ease-out, opacity 0.3s ease-out';
+        timelineEyes.style.top = '0px';
+        timelineEyes.style.opacity = '0';
+        timelineEyes.style.fontSize = '';
+        eyesBaseTop = 0;
+      }
+    }
 
-  let yearCleanup: (() => void) | undefined;
+    function exitTimeline() {
+      stopEyesHover();
 
-  function initYears() {
-    yearCleanup?.();
-    yearCleanup = initYearCounters();
-  }
+      // Phase 1 (0–0.6s): Eyes move to top of line + grow 50%, line extends full viewport
+      if (timelineEyes) {
+        eyesBaseTop = 0;
+        timelineEyes.style.transition = 'top 0.6s ease-in-out, font-size 0.6s ease-in-out';
+        timelineEyes.style.top = '0px';
+        timelineEyes.style.fontSize = '2.715rem';
+      }
 
-  function resetYearCounters() {
-    yearCleanup?.();
-    // Reset all counters to 2000
-    document.querySelectorAll('.year-counter').forEach((counter) => {
-      counter.textContent = '2000';
+      if (timelineLine) {
+        timelineLine.style.transition = 'height 0.6s ease-in-out';
+        timelineLine.style.height = `${viewportH}px`;
+      }
+
+      // Phase 2 (0.6–2.5s): Eyes travel down the full line and fade out
+      activeTimers.push(setTimeout(() => {
+        if (!timelineEyes) return;
+        const travelDuration = 1.9; // remaining time: 2.5 - 0.6 = 1.9s
+        timelineEyes.style.transition = `top ${travelDuration}s ease-in, opacity ${travelDuration * 0.6}s ease-in ${travelDuration * 0.4}s`;
+        eyesBaseTop = viewportH + 50; // past the bottom edge
+        timelineEyes.style.top = `${eyesBaseTop}px`;
+        timelineEyes.style.opacity = '0';
+      }, 620));
+    }
+
+    function updateEyesForPanel(panelIndex: number) {
+      if (!timelineEyes || isMobile()) return;
+      setEyesDirection(timelineEyes, panelIndex);
+
+      // Peek up 75px quickly, then ease back to line tip, blink once settled, then hover
+      stopEyesHover();
+      const peekTop = eyesBaseTop - 75;
+      timelineEyes.style.transition = 'top 0.15s ease-out';
+      timelineEyes.style.top = `${peekTop}px`;
+      activeTimers.push(setTimeout(() => {
+        if (!timelineEyes) return;
+        timelineEyes.style.transition = 'top 0.35s ease-in-out';
+        timelineEyes.style.top = `${eyesBaseTop}px`;
+        activeTimers.push(setTimeout(() => {
+          if (!timelineEyes) return;
+          blinkEyes(timelineEyes);
+          timelineEyes.style.transition = '';
+          startEyesHover(timelineEyes);
+        }, 380));
+      }, 170));
+    }
+
+    function revealPanel(index: number) {
+      const item = items[index];
+      const card = cards[index];
+      if (!item || !card) return;
+
+      activeTimers.push(setTimeout(() => {
+        item.classList.add('slide-in');
+      }, 50));
+
+      activeTimers.push(setTimeout(() => {
+        card.classList.add('content-in');
+      }, 200));
+
+      const highlights = card.querySelectorAll('.exp-highlight');
+      highlights.forEach((h, i) => {
+        activeTimers.push(setTimeout(() => {
+          h.classList.add('visible');
+        }, 400 + i * 80));
+      });
+      activeTimers.push(setTimeout(() => {
+        card.classList.add('highlights-in');
+      }, 300));
+    }
+
+    function resetAllPanels() {
+      activeTimers.forEach((t) => clearTimeout(t));
+      activeTimers = [];
+      items.forEach((item) => {
+        item.classList.remove('slide-in');
+        item.style.transform = '';
+        item.style.transition = '';
+      });
+      cards.forEach((c) => {
+        c.classList.remove('content-in', 'highlights-in');
+      });
+    }
+
+    function updateDots(activeIndex: number) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    function snapTo(panelIndex: number) {
+      const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+      if (clamped === snappedPanel) return;
+
+      snappedPanel = clamped;
+
+      playSnapSound();
+      resetAllPanels();
+
+      const translatePx = clamped * stepPx;
+      track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      track.style.transform = `translateY(-${translatePx}px)`;
+
+      updateDots(clamped);
+      updateEyesForPanel(clamped);
+      revealPanel(clamped);
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const sectionRect = section.getBoundingClientRect();
+        const sectionTop = -sectionRect.top;
+        const totalScrollable = section.offsetHeight - window.innerHeight;
+        // Where the last panel snap ends (before exit zone)
+        const lastPanelEnd = (panelCount - 1) * scrollPerPanel;
+
+        if (sectionTop < 0) {
+          // Section hasn't scrolled to top yet
+          if (sectionRect.top > window.innerHeight * 0.5) {
+            // Section is far away — hide everything
+            if (snappedPanel !== -1 || hasExited) {
+              snappedPanel = -1;
+              hasExited = false;
+              resetAllPanels();
+              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              track.style.transform = 'translateY(0)';
+              updateDots(0);
+            }
+            hideTimeline();
+          } else {
+            // Section is entering view — show first panel with timeline draw
+            if (snappedPanel !== 0) {
+              snappedPanel = 0;
+              hasExited = false;
+              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              track.style.transform = 'translateY(0)';
+              updateDots(0);
+              showTimeline(0);
+              resetAllPanels();
+              revealPanel(0);
+            }
+          }
+        } else if (sectionTop > lastPanelEnd) {
+          // We're past the last panel — enter exit zone
+          // First snap to last panel if not already there
+          if (snappedPanel !== panelCount - 1) {
+            snapTo(panelCount - 1);
+          }
+
+          if (!hasExited) {
+            // Calculate exit progress (0 = just passed last panel, 1 = end of section)
+            const exitProgress = Math.min((sectionTop - lastPanelEnd) / exitScrollPx, 1);
+
+            if (exitProgress > 0.15) {
+              hasExited = true;
+              // Animate last card upward out of sight
+              const lastItem = items[panelCount - 1];
+              if (lastItem) {
+                lastItem.style.transition = 'transform 0.5s ease-in, opacity 0.5s ease-in';
+                lastItem.style.transform = 'translateY(-120%) translateX(0)';
+                lastItem.classList.remove('slide-in');
+              }
+              // After card exits, animate timeline down and out
+              setTimeout(() => {
+                exitTimeline();
+              }, 300);
+            }
+          }
+        } else {
+          // Normal panel scrolling zone
+          if (hasExited) {
+            // Returning from exit — recover gracefully
+            hasExited = false;
+            stopEyesHover();
+
+            // Animate eyes + line back to rest position
+            eyesBaseTop = lineRestHeight;
+            if (timelineEyes) {
+              timelineEyes.style.transition = 'top 0.3s ease-out, font-size 0.3s ease-out';
+              timelineEyes.style.top = `${eyesBaseTop}px`;
+              timelineEyes.style.fontSize = '';
+            }
+            if (timelineLine) {
+              timelineLine.style.transition = 'height 0.3s ease-out';
+              timelineLine.style.height = `${lineRestHeight}px`;
+            }
+
+            // Force re-snap by resetting snappedPanel so snapTo runs
+            snappedPanel = -1;
+          }
+          const progress = sectionTop / lastPanelEnd;
+          const targetPanel = Math.round(progress * (panelCount - 1));
+          snapTo(targetPanel);
+        }
+
+        ticking = false;
+      });
+    }
+
+    // Dot click handlers
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const panelIndex = parseInt(dot.dataset.panel || '0', 10);
+        const lastPanelEnd = (panelCount - 1) * scrollPerPanel;
+        const targetScroll = section.offsetTop + (panelIndex / (panelCount - 1)) * lastPanelEnd;
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+      });
     });
-    // Re-init but skip animating elements already in view - wait for them to scroll out and back in
-    yearCleanup = initYearCounters(true);
+
+    // Resize: full reinit
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        expCleanup?.();
+        expCleanup = initExpVscroll();
+      }, 200);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      clearTimeout(resizeTimer);
+      stopEyesHover();
+    };
   }
 
-  initYears();
-  document.addEventListener('astro:after-swap', initYears);
-
-  // Reset on nav link clicks and back-to-top button
-  document.querySelectorAll('nav a[href^="#"], .back-to-top, a[href="#home"]').forEach((link) => {
-    link.addEventListener('click', resetYearCounters);
-  });
-
-  // Education cards diagonal grow animation
+  // ============================================
+  // Education
+  // ============================================
+  let waveCleanup: (() => void) | undefined;
   let eduCleanup: (() => void) | undefined;
 
   function initEducationCards() {
@@ -505,7 +867,6 @@ import Icon from '../ui/Icon.astro';
     const eduGrid = document.querySelector('.education-grid') as HTMLElement;
     if (!eduSection || !eduGrid) return () => {};
 
-    // Skip if animations disabled
     if (document.documentElement.getAttribute('data-animations') === 'disabled') {
       eduSection.classList.add('visible');
       eduGrid.classList.add('cards-in');
@@ -523,17 +884,8 @@ import Icon from '../ui/Icon.astro';
       const sectionRect = eduSection.getBoundingClientRect();
       const gridRect = eduGrid.getBoundingClientRect();
 
-      // Title fades in first
-      if (sectionRect.top < titleTrigger) {
-        eduSection.classList.add('visible');
-      }
-
-      // Cards grow after title
-      if (gridRect.top < cardsTrigger) {
-        eduGrid.classList.add('cards-in');
-      }
-
-      // Reset when scrolling up
+      if (sectionRect.top < titleTrigger) eduSection.classList.add('visible');
+      if (gridRect.top < cardsTrigger) eduGrid.classList.add('cards-in');
       if (sectionRect.top > exitPoint) {
         eduSection.classList.remove('visible');
         eduGrid.classList.remove('cards-in');
@@ -557,16 +909,115 @@ import Icon from '../ui/Icon.astro';
     };
   }
 
-  function initEdu() {
-    eduCleanup?.();
-    eduCleanup = initEducationCards();
+  // Year counter animation
+  function initYearCounters(skipInitialInView = false) {
+    const counters = document.querySelectorAll('.year-counter');
+    const animatedCounters = new Set<Element>();
+    const wasOutOfView = new Set<Element>();
+    const pendingTimeouts: number[] = [];
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          wasOutOfView.add(entry.target);
+        } else if (entry.isIntersecting && !animatedCounters.has(entry.target)) {
+          if (!skipInitialInView || wasOutOfView.has(entry.target)) {
+            animatedCounters.add(entry.target);
+            const target = entry.target as HTMLElement;
+            const targetYear = parseInt(target.dataset.targetYear || '2000', 10);
+            const timeoutId = window.setTimeout(() => {
+              animateCounter(target, 2000, targetYear);
+            }, 1000);
+            pendingTimeouts.push(timeoutId);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach((counter) => {
+      counter.textContent = '2000';
+      observer.observe(counter);
+    });
+
+    return () => {
+      observer.disconnect();
+      animatedCounters.clear();
+      wasOutOfView.clear();
+      pendingTimeouts.forEach((id) => clearTimeout(id));
+      pendingTimeouts.length = 0;
+    };
   }
 
-  initEdu();
-  document.addEventListener('astro:after-swap', initEdu);
+  function animateCounter(element: HTMLElement, start: number, end: number) {
+    const duration = 1500;
+    const startTime = performance.now();
+    const range = end - start;
 
-  window.addEventListener('animations-change', () => {
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + range * easeOut);
+      element.textContent = current.toString();
+      if (progress < 1) requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  let yearCleanup: (() => void) | undefined;
+
+  function initYears() {
+    yearCleanup?.();
+    yearCleanup = initYearCounters();
+  }
+
+  function resetYearCounters() {
+    yearCleanup?.();
+    document.querySelectorAll('.year-counter').forEach((counter) => {
+      counter.textContent = '2000';
+    });
+    yearCleanup = initYearCounters(true);
+  }
+
+  // ============================================
+  // Init all
+  // ============================================
+  function initAll() {
+    expCleanup?.();
+    expCleanup = initExpVscroll();
+    initSectionParallax('experience');
+    waveCleanup?.();
+    waveCleanup = initScrollWave({
+      selector: '.education-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
     eduCleanup?.();
     eduCleanup = initEducationCards();
+    initYears();
+  }
+
+  initAll();
+  document.addEventListener('astro:after-swap', initAll);
+
+  window.addEventListener('animations-change', () => {
+    expCleanup?.();
+    expCleanup = initExpVscroll();
+    waveCleanup?.();
+    waveCleanup = initScrollWave({
+      selector: '.education-title',
+      waveStart: 0.75,
+      waveEnd: 0.35
+    });
+    eduCleanup?.();
+    eduCleanup = initEducationCards();
+  });
+
+  initYears();
+  document.addEventListener('astro:after-swap', initYears);
+
+  document.querySelectorAll('nav a[href^="#"], .back-to-top, a[href="#home"]').forEach((link) => {
+    link.addEventListener('click', resetYearCounters);
   });
 </script>

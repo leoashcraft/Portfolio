@@ -62,6 +62,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -968,7 +969,7 @@ code, pre, kbd {
   content: '';
   position: absolute;
   inset: -2px;
-  border-radius: calc(1rem + 2px);
+  border-radius: 0;
   background: conic-gradient(
     from var(--border-angle, 0deg),
     transparent 0deg,
@@ -984,7 +985,7 @@ code, pre, kbd {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 1rem;
+  border-radius: 0;
   background: #0a0015;
   z-index: -1;
 }
@@ -1265,6 +1266,8 @@ code, pre, kbd {
   padding-top: 5rem;
   padding-bottom: 5rem;
   position: relative;
+  min-height: 100vh;
+  scroll-snap-align: start;
 }
 
 @media (min-width: 768px) {
@@ -1609,7 +1612,7 @@ code, pre, kbd {
 }
 
 .timeline-traveler {
-  animation: travel-down 20s linear infinite;
+  animation: none;
   transform: translateX(-50%);
   transition: transform 0.15s ease-out;
   z-index: 20;
@@ -1684,6 +1687,14 @@ code, pre, kbd {
 }
 
 .timeline-gradient {
+  /* No position: relative here — the element is already position: absolute
+     (set via Tailwind), which also serves as containing block for ::before. */
+}
+
+.timeline-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
     180deg,
     #ff00ff 0%,
@@ -1695,6 +1706,8 @@ code, pre, kbd {
   background-size: 100% 200%;
   animation: timeline-gradient-shift 8s ease-in-out infinite;
   box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, white 30px, white calc(100% - 30px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, white 30px, white calc(100% - 30px), transparent 100%);
 }
 
 /* ============================================

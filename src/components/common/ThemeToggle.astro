@@ -91,6 +91,19 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
       <!-- Toggle switch -->
       <ToggleSwitch checked={true} class="ml-auto animations-switch" />
     </button>
+
+    <!-- Sounds toggle -->
+    <button
+      class="sounds-toggle w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors outline-none border-none focus:outline-none"
+    >
+      <!-- Speaker icon -->
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z" />
+      </svg>
+      <span>Sounds</span>
+      <!-- Toggle switch -->
+      <ToggleSwitch checked={true} class="ml-auto sounds-switch" />
+    </button>
   </div>
 </div>
 
@@ -103,7 +116,7 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
 </style>
 
 <script>
-  import { setTheme, getTheme, getAnimationsEnabled, setAnimationsEnabled } from '../../lib/theme';
+  import { setTheme, getTheme, getAnimationsEnabled, setAnimationsEnabled, getSoundsEnabled, setSoundsEnabled } from '../../lib/theme';
 
   function initThemeToggles() {
     const containers = document.querySelectorAll('.theme-toggle-container');
@@ -112,6 +125,21 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
     function updateAnimationsToggle() {
       const enabled = getAnimationsEnabled();
       document.querySelectorAll('.animations-toggle').forEach((toggle) => {
+        const switchEl = toggle.querySelector('.toggle-switch') as HTMLElement;
+        if (switchEl) {
+          switchEl.dataset.checked = enabled ? 'true' : 'false';
+          if (enabled) {
+            switchEl.classList.add('checked');
+          } else {
+            switchEl.classList.remove('checked');
+          }
+        }
+      });
+    }
+
+    function updateSoundsToggle() {
+      const enabled = getSoundsEnabled();
+      document.querySelectorAll('.sounds-toggle').forEach((toggle) => {
         const switchEl = toggle.querySelector('.toggle-switch') as HTMLElement;
         if (switchEl) {
           switchEl.dataset.checked = enabled ? 'true' : 'false';
@@ -380,6 +408,17 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
           updateAnimationsToggle();
         });
       }
+
+      // Handle sounds toggle (don't close dropdown)
+      const soundsToggle = dropdown.querySelector('.sounds-toggle');
+      if (soundsToggle) {
+        soundsToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const enabled = getSoundsEnabled();
+          setSoundsEnabled(!enabled);
+          updateSoundsToggle();
+        });
+      }
     });
 
     // Close dropdown when clicking outside
@@ -402,11 +441,13 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
       (window as any).__themeChangeListenerAdded = true;
       window.addEventListener('theme-change', updateAllIcons);
       window.addEventListener('animations-change', updateAnimationsToggle);
+      window.addEventListener('sounds-change', updateSoundsToggle);
     }
 
     // Initial state
     updateAllIcons();
     updateAnimationsToggle();
+    updateSoundsToggle();
   }
 
   initThemeToggles();

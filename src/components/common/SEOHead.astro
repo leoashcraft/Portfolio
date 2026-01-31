@@ -203,8 +203,8 @@ const profilePageSchema = {
   name: pageTitle,
   url: siteUrl,
   mainEntity: { '@id': schema.personId },
-  dateCreated: '2024-01-01',
-  dateModified: new Date().toISOString().split('T')[0],
+  dateCreated: '2024-01-01T00:00:00-06:00',
+  dateModified: '2026-01-30T12:00:00-06:00',
 };
 
 // JSON-LD: Article schema (for blog posts if used)
@@ -217,8 +217,8 @@ const articleSchema =
         description,
         image: imageURL.href,
         author: { '@id': schema.personId },
-        datePublished: publishedTime.toISOString(),
-        dateModified: (modifiedTime || publishedTime).toISOString(),
+        datePublished: publishedTime ? publishedTime.toISOString() : undefined,
+        dateModified: (modifiedTime || publishedTime) ? (modifiedTime || publishedTime).toISOString() : undefined,
         keywords: tags.join(', '),
       }
     : null;
@@ -279,9 +279,9 @@ const schemas = [
 {
   type === 'article' && publishedTime && (
     <>
-      <meta property="article:published_time" content={publishedTime.toISOString()} />
+      <meta property="article:published_time" content={publishedTime ? publishedTime.toISOString() : ''} />
       {modifiedTime && (
-        <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+        <meta property="article:modified_time" content={modifiedTime ? modifiedTime.toISOString() : ''} />
       )}
       {tags.map((tag) => (
         <meta property="article:tag" content={tag} />

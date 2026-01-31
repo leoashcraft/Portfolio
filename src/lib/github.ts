@@ -197,7 +197,7 @@ export function generateContributionData(): GitHubStats {
       }
 
       days.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString(),
         count,
         level,
       });

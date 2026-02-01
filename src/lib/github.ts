@@ -27,23 +27,34 @@ export interface GitHubStats {
   weeks: ContributionWeek[];
 }
 
+// Specific repos to display
+const FEATURED_REPOS = [
+  'Portfolio',
+  'Dawn-of-the-Devs',
+  'Now-Then-Begin',
+];
+
 // Fetch public repos (no token needed for public data)
 export async function getPublicRepos(): Promise<GitHubRepo[]> {
   try {
-    const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=3&type=owner`,
-      {
+    // Fetch each specific repo
+    const repoPromises = FEATURED_REPOS.map(repoName =>
+      fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}`, {
         headers: {
           Accept: 'application/vnd.github.v3+json',
         },
-      }
+      }).then(res => {
+        if (!res.ok) throw new Error(`Failed to fetch ${repoName}`);
+        return res.json();
+      }).catch(err => {
+        console.error(`Failed to fetch repo ${repoName}:`, err);
+        return null;
+      })
     );
 
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    return response.json();
+    const repos = await Promise.all(repoPromises);
+    // Filter out any failed fetches
+    return repos.filter((repo): repo is GitHubRepo => repo !== null);
   } catch (error) {
     console.error('Failed to fetch GitHub repos:', error);
     return [];

@@ -119,7 +119,7 @@ export default function ContactForm() {
           required
           rows={5}
           maxLength={5000}
-          className="w-full px-4 py-3 bg-night-700 border border-night-600 rounded-xl text-white placeholder-gray-500 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan transition-colors resize-none"
+          className="w-full px-4 py-3 bg-night-700 border border-night-600 rounded-xl text-white placeholder-gray-500 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan transition-colors resize-none contact-message-input"
           placeholder="Tell me about your project..."
         />
       </div>

@@ -148,21 +148,32 @@ import Icon from '../ui/Icon.astro';
       {site.sections.experience.educationTitle} <span class="gradient-text">{site.sections.experience.educationTitleHighlight}</span>
     </h3>
 
-    <div class="education-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="education-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
       {
         education.map((edu, index) => (
-          <div class={`card relative edu-card edu-card-${index}`}>
+          <div class={`card relative edu-card edu-card-${index} flex flex-col`}>
             <span class="absolute top-4 right-4 text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full year-counter" data-target-year={edu.year}>
               2000
             </span>
-            <div class="pr-20 mb-4">
-              <p class="text-lg font-bold text-white">{edu.degree}</p>
-              <p class="text-neon-yellow">{edu.institution}</p>
-            </div>
+            <p class="text-lg font-bold text-white edu-degree-title mb-4">{edu.degree}</p>
 
-            <p class="text-gray-400 text-sm mb-4">{edu.description}</p>
+            <div class="flex-1 flex flex-col justify-end">
+              <p class="text-neon-yellow mb-2">
+                {edu.institution === 'Meta' ? (
+                  <a href="https://meta.com" target="_blank" rel="noopener noreferrer" class="text-neon-yellow hover:text-neon-yellow/80 transition-colors">
+                    {edu.institution}
+                  </a>
+                ) : edu.institution === 'Coding Temple' ? (
+                  <a href="https://codingtemple.com" target="_blank" rel="noopener noreferrer" class="text-neon-yellow hover:text-neon-yellow/80 transition-colors">
+                    {edu.institution}
+                  </a>
+                ) : (
+                  edu.institution
+                )}
+              </p>
+              <p class="text-gray-400 text-sm mb-4">{edu.description}</p>
 
-            <div class="flex flex-wrap items-center gap-2">
+              <div class="flex flex-wrap items-center gap-2">
               {edu.skills.map((skill) => (
                 <span class="px-3 py-1 text-xs bg-neon-pink/10 text-neon-pink rounded-full border border-neon-pink/20">
                   {skill}
@@ -181,6 +192,7 @@ import Icon from '../ui/Icon.astro';
                   </svg>
                 </a>
               )}
+              </div>
             </div>
           </div>
         ))
@@ -194,7 +206,7 @@ import Icon from '../ui/Icon.astro';
      Experience Vertical Scroll Section
      ============================================ */
   :global(#experience) {
-    scroll-snap-align: none;
+    scroll-snap-align: start;
     min-height: auto;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -404,14 +416,12 @@ import Icon from '../ui/Icon.astro';
     transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   }
 
-  /* Top-left card flies in from top-left corner */
+  /* Left card flies in from top-left */
   .edu-card-0 { transform: scale(0.8) translate(-60px, -60px); }
-  /* Top-right card flies in from top-right corner */
-  .edu-card-1 { transform: scale(0.8) translate(60px, -60px); }
-  /* Bottom-left card flies in from bottom-left corner */
-  .edu-card-2 { transform: scale(0.8) translate(-60px, 60px); }
-  /* Bottom-right card flies in from bottom-right corner */
-  .edu-card-3 { transform: scale(0.8) translate(60px, 60px); }
+  /* Center card flies in from top */
+  .edu-card-1 { transform: scale(0.8) translate(0, -60px); }
+  /* Right card flies in from top-right */
+  .edu-card-2 { transform: scale(0.8) translate(60px, -60px); }
 
   .education-grid.cards-in .edu-card {
     opacity: 1;
@@ -426,13 +436,22 @@ import Icon from '../ui/Icon.astro';
   .edu-card-0 { transition-delay: 0s; }
   .edu-card-1 { transition-delay: 0.1s; }
   .edu-card-2 { transition-delay: 0.2s; }
-  .edu-card-3 { transition-delay: 0.3s; }
 
   /* Reverse stagger on exit — last card leaves first */
-  .education-grid.cards-out .edu-card-0 { transition-delay: 0.3s; }
-  .education-grid.cards-out .edu-card-1 { transition-delay: 0.2s; }
-  .education-grid.cards-out .edu-card-2 { transition-delay: 0.1s; }
-  .education-grid.cards-out .edu-card-3 { transition-delay: 0s; }
+  .education-grid.cards-out .edu-card-0 { transition-delay: 0.2s; }
+  .education-grid.cards-out .edu-card-1 { transition-delay: 0.1s; }
+  .education-grid.cards-out .edu-card-2 { transition-delay: 0s; }
+
+  /* Year chip only affects first line of degree title */
+  .edu-card .year-counter {
+    float: right;
+    shape-outside: margin-box;
+  }
+
+  .edu-degree-title {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
 
   [data-animations="disabled"] .education-title,
   [data-animations="disabled"] .edu-card {

@@ -14,7 +14,7 @@ const phone = unscramblePhone(profile);
 
 <section
   id="contact"
-  class="contact-section section section-arcade-alt px-4 overflow-hidden scroll-mt-28"
+  class="contact-section section section-arcade-alt px-4 overflow-hidden"
   aria-labelledby="contact-heading"
 >
   <!-- Graffiti background image with parallax -->
@@ -332,8 +332,8 @@ const phone = unscramblePhone(profile);
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
     box-sizing: border-box;
   }
 
@@ -365,6 +365,12 @@ const phone = unscramblePhone(profile);
   .contact-form-container.visible {
     opacity: 1;
     transform: translateX(0);
+  }
+
+  /* Reduce message textarea height by 30% */
+  :global(.contact-message-input) {
+    height: calc(5 * 1.5em * 0.7) !important;
+    min-height: calc(5 * 1.5em * 0.7) !important;
   }
 
   /* Disable animations when preference set */

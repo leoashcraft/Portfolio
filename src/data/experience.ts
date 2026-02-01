@@ -127,13 +127,6 @@ export const education: Education[] = [
     skills: ['Docker', 'TypeScript', 'React', 'MySQL', 'GitHub'],
     credentialUrl: 'https://www.credly.com/users/leo-ashcraft/badges',
   },
-  {
-    institution: 'Penn Foster',
-    degree: 'High School Diploma',
-    year: '2007',
-    description: 'Computer Programming and Information Technology/Computer Science were among my chosen electives.',
-    skills: ['Computer Programming', 'Information Technology'],
-  },
 ];
 
 export const certifications = [

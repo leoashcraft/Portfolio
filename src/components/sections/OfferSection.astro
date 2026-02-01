@@ -6,12 +6,12 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 import Icon from '../ui/Icon.astro';
 ---
 
-<section id="about" class="section section-arcade" aria-labelledby="about-heading">
+<section id="offer" class="section section-arcade" aria-labelledby="offer-heading">
   <!-- Neon Top Border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
-  <ArcadeDecorations variant="about" />
+  <ArcadeDecorations variant="offer" />
 
   <div class="max-w-6xl mx-auto relative z-10">
     {/* Skills Section - COMMENTED OUT
@@ -65,7 +65,7 @@ import Icon from '../ui/Icon.astro';
           title={site.sections.about.title}
           titleHighlight={site.sections.about.titleHighlight}
           subtitle={site.sections.about.subtitle}
-          headingId="about-heading"
+          headingId="offer-heading"
         />
       </div>
 
@@ -290,7 +290,7 @@ import Icon from '../ui/Icon.astro';
 
   function initAbout() {
     initServiceIconFlips();
-    initSectionParallax('about');
+    initSectionParallax('offer');
     initLogoModal();
     initLogoShimmer();
   }
@@ -659,10 +659,9 @@ import Icon from '../ui/Icon.astro';
   /* The outer section creates vertical scroll space.
      Height = (number of panels) * 100vh so that scrolling
      through this tall section drives the horizontal movement. */
-  /* Override scroll-snap on the about section since it uses
-     a tall sticky container for horizontal scrolling */
-  :global(#about) {
-    scroll-snap-align: none;
+  /* Offer section with scroll-hijacked horizontal panels */
+  :global(#offer) {
+    scroll-snap-align: start;
     min-height: auto;
   }
 

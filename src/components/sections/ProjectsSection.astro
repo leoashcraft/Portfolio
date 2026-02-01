@@ -1118,7 +1118,7 @@ import Icon from '../ui/Icon.astro';
      Projects Horizontal Scroll
      ============================================ */
   :global(#projects) {
-    scroll-snap-align: none;
+    scroll-snap-align: start;
     min-height: auto;
   }
 
@@ -1138,6 +1138,13 @@ import Icon from '../ui/Icon.astro';
   .projects-hscroll-header {
     flex-shrink: 0;
     padding: 2rem 5% 0;
+  }
+
+  /* Reduce top padding on 1440x900 screens */
+  @media (width: 1440px) and (height: 900px) {
+    .projects-hscroll-header {
+      padding-top: calc(2rem - 30px);
+    }
   }
 
   .projects-hscroll-track {

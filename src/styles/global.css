@@ -509,11 +509,7 @@ code, pre, kbd {
   opacity: 0.95;
 }
 
-@media (min-width: 768px) {
-  .hero-mascot {
-    animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-}
+/* hero-mascot-visual animation is now in HeroSection.astro styles */
 
 /* ============================================
    Custom Cursor (Desktop Only)

@@ -70,11 +70,18 @@
 }
 
 /* Keep mascot visible - grayscale only, no invert */
-[data-theme="high-contrast-light"] .hero-mascot {
+[data-theme="high-contrast-light"] .hero-mascot,
+[data-theme="high-contrast-light"] .hero-mascot-visual {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   filter: grayscale(100%) contrast(1.2);
+}
+
+/* Ensure hero content is visible */
+[data-theme="high-contrast-light"] .hero-wrap-container,
+[data-theme="high-contrast-light"] .hero-title {
+  opacity: 1 !important;
 }
 
 /* Section backgrounds */
@@ -642,7 +649,7 @@
 }
 
 /* Image treatment - keep visible but grayscale */
-[data-theme="high-contrast-light"] img:not(.hero-mascot) {
+[data-theme="high-contrast-light"] img:not(.hero-mascot):not(.hero-mascot-visual) {
   filter: grayscale(100%);
 }
 

@@ -200,7 +200,7 @@ import { schema } from '../../data/seo';
   <!-- Content Container -->
   <div class="relative z-10 w-full max-w-7xl mx-auto px-4 pt-20">
     <!-- Mobile: Centered layout -->
-    <div class="md:hidden">
+    <div class="hero-mobile md:hidden">
       <!-- Mascot behind content on mobile -->
       <img
         src="/img/leo-mascot.avif"
@@ -209,7 +209,7 @@ import { schema } from '../../data/seo';
         aria-hidden="true"
       />
       <div class="h-card rounded-2xl p-6 mt-56 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
-        <h1 class="hero-title text-4xl sm:text-5xl font-bold mb-6">
+        <h1 class="hero-title font-bold mb-6">
           <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
         </h1>
         <!-- About content -->
@@ -246,53 +246,57 @@ import { schema } from '../../data/seo';
       </div>
     </div>
 
-    <!-- Desktop: Overlapping layout (768px+) -->
-    <div class="hidden md:block">
-      <!-- About content in glass container -->
-      <div class="h-card hero-about-box relative rounded-2xl p-6 lg:p-8 w-[80%] mx-auto translate-x-[13%] md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards]">
-        <!-- Mascot inside container, positioned behind content -->
+    <!-- Desktop: Text wrapping layout with shape-outside (840px+) -->
+    <div class="hero-desktop hidden md:block">
+      <div class="h-card hero-wrap-container w-[90%] max-w-7xl mx-auto rounded-2xl p-6 lg:p-8 md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.6s_forwards]">
+        <!-- Floated mascot shape image (invisible, defines text wrapping zone) -->
+        <img
+          src="/img/leo-mascot-shape.png"
+          alt=""
+          class="hero-mascot-shape"
+          aria-hidden="true"
+        />
+        <!-- Actual mascot image (positioned absolutely for visual, doesn't affect flow) -->
         <img
           src="/img/leo-mascot.avif"
           alt="Hyper-realistic Portrait of Leo Ashcraft"
-          class="hero-mascot absolute -left-[26%] max-[1221px]:-left-[30%] max-[1196px]:-left-[27%] max-[1036px]:-left-[24%] max-[1195px]:-left-[22%] -bottom-[5%] h-[135%] max-[1195px]:h-[120%] w-auto pointer-events-none z-0"
-          aria-hidden="true"
+          class="hero-mascot-visual"
         />
-        <!-- Content wrapper with higher z-index -->
-        <div class="relative z-10">
-          <h1 class="hero-title md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 text-center md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]">
-            <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
-          </h1>
-          <p class="p-note text-gray-300 md:text-lg lg:text-xl leading-relaxed mb-6 text-left">{profile.bio}</p>
-          <!-- Quick Info -->
-          <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="glass-light p-4 rounded-lg text-left">
-              <span class="text-gray-400 text-sm">Location</span>
-              <p class="p-adr text-white font-medium"><span class="p-locality">{schema.address.addressLocality}</span>, <span class="p-region">{schema.address.addressRegion}</span> <span class="p-country-name sr-only">{schema.address.addressCountry}</span></p>
-            </div>
-            <div class="glass-light p-4 rounded-lg text-left">
-              <span class="text-gray-400 text-sm">Availability</span>
-              <p class="font-medium" style="color: #22CBCC;">{site.sections.about.availabilityText}</p>
-            </div>
+        
+        <!-- Content flows around the shape -->
+        <h1 class="hero-title font-bold mb-6 mt-2 text-right md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]">
+          <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
+        </h1>
+        <p class="p-note text-gray-300 md:text-lg lg:text-xl leading-relaxed mb-6">{profile.bio}</p>
+        <!-- Quick Info -->
+        <div class="hero-info-grid grid grid-cols-2 gap-4 mb-6">
+          <div class="glass-light p-4 rounded-lg">
+            <span class="text-gray-400 text-sm">Location</span>
+            <p class="p-adr text-white font-medium"><span class="p-locality">{schema.address.addressLocality}</span>, <span class="p-region">{schema.address.addressRegion}</span> <span class="p-country-name sr-only">{schema.address.addressCountry}</span></p>
           </div>
-          <!-- CTA -->
-          <div class="flex flex-wrap gap-4 justify-start">
-            <a href={profile.resumeUrl} download class="btn btn-primary">
-              Download Resume
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-              </svg>
-            </a>
-            <a href="#contact" class="btn btn-secondary">
-              Let's Talk
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-            </a>
+          <div class="glass-light p-4 rounded-lg">
+            <span class="text-gray-400 text-sm">Availability</span>
+            <p class="font-medium" style="color: #22CBCC;">{site.sections.about.availabilityText}</p>
           </div>
-          <a class="u-url u-uid" href="https://leoashcraft.com" hidden>leoashcraft.com</a>
-          <img class="u-photo" src="/img/selfie.avif" alt="Leo Ashcraft" hidden />
-          <data class="p-org" value={schema.worksFor.name}></data>
         </div>
+        <!-- CTA -->
+        <div class="hero-cta flex flex-wrap gap-4">
+          <a href={profile.resumeUrl} download class="btn btn-primary">
+            Download Resume
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            Let's Talk
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          </a>
+        </div>
+        <a class="u-url u-uid" href="https://leoashcraft.com" hidden>leoashcraft.com</a>
+        <img class="u-photo" src="/img/selfie.avif" alt="Leo Ashcraft" hidden />
+        <data class="p-org" value={schema.worksFor.name}></data>
       </div>
     </div>
   </div>
@@ -302,9 +306,9 @@ import { schema } from '../../data/seo';
     class="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_0.6s_ease_1.4s_forwards]"
   >
     <a
-      href="#about"
+      href="#offer"
       class="flex flex-col items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors"
-      aria-label="Scroll to about section"
+      aria-label="Scroll to offers section"
     >
       <span class="text-xs font-mono">SCROLL</span>
       <div class="w-6 h-10 border-2 border-current rounded-full flex justify-center pt-2">
@@ -406,25 +410,25 @@ import { schema } from '../../data/seo';
   // Handle animations toggle: ensure hero content stays visible
   function initHeroAnimationsToggle() {
     window.addEventListener('animations-change', ((e: CustomEvent) => {
-      const aboutBox = document.querySelector('.hero-about-box') as HTMLElement;
-      const heroTitle = aboutBox?.querySelector('.hero-title') as HTMLElement;
-      if (!aboutBox) return;
+      const wrapContainer = document.querySelector('.hero-wrap-container') as HTMLElement;
+      const heroTitle = wrapContainer?.querySelector('.hero-title') as HTMLElement;
+      if (!wrapContainer) return;
 
       if (!e.detail.enabled) {
         // Disabled: force visible immediately
-        aboutBox.style.opacity = '1';
+        wrapContainer.style.opacity = '1';
         if (heroTitle) heroTitle.style.opacity = '1';
       } else {
         // Re-enabled: clear inline overrides and restart CSS animations
-        aboutBox.style.opacity = '';
-        aboutBox.style.animation = 'none';
+        wrapContainer.style.opacity = '';
+        wrapContainer.style.animation = 'none';
         if (heroTitle) {
           heroTitle.style.opacity = '';
           heroTitle.style.animation = 'none';
         }
         // Force reflow then remove animation override to restart
-        void aboutBox.offsetHeight;
-        aboutBox.style.animation = '';
+        void wrapContainer.offsetHeight;
+        wrapContainer.style.animation = '';
         if (heroTitle) heroTitle.style.animation = '';
       }
     }) as EventListener);
@@ -435,111 +439,120 @@ import { schema } from '../../data/seo';
 </script>
 
 <style>
-  @media (max-width: 1195px) {
-    .hero-about-box .hero-mascot {
-      height: 120% !important;
-    }
-    .hero-about-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .hero-about-box .hero-title {
-      font-size: 2.75rem !important;
-    }
-    .hero-about-box > .relative > p:first-of-type::before {
-      content: '';
-      float: left;
-      width: 10%;
-      height: 2.5em;
-    }
-    @media (min-width: 768px) {
-      .hero-about-box > .relative > p:first-of-type::before {
-        width: 18% !important;
-        height: 6rem !important;
-      }
-      @media (min-width: 900px) {
-        .hero-about-box > .relative > p:first-of-type::before {
-          height: 4.5rem !important;
-        }
-      }
-      @media (min-width: 942px) {
-        .hero-about-box > .relative > p:first-of-type::before {
-          width: 13% !important;
-        }
-      }
-    }
-    .hero-about-box p {
-      font-size: 1.125rem !important;
-    }
-    .hero-about-box .glass-light {
-      padding: 0.75rem !important;
-    }
-    .hero-about-box .glass-light span {
-      font-size: 0.8rem !important;
-    }
-    .hero-about-box .glass-light p {
-      font-size: 0.9rem !important;
-    }
-    .hero-about-box .glass-light p::before {
-      display: none;
+  /* Container with glass background */
+  .hero-wrap-container {
+    position: relative;
+    min-height: 60vh;
+    overflow: hidden;
+  }
+
+  /* Shape image - floated left, invisible, defines wrapping boundary */
+  .hero-mascot-shape {
+    float: left;
+    width: 316px;
+    max-width: 35%;
+    height: auto;
+    opacity: 0;
+    pointer-events: none;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    
+    /* This is the magic - tells content to wrap around the image shape */
+    shape-outside: url('/img/leo-mascot-shape.png');
+    shape-margin: 1.5rem; /* Space between mascot and text */
+    shape-image-threshold: 0.1; /* Lower threshold - pixels >10% opacity block text flow */
+  }
+
+  /* Visual mascot - positioned absolutely, matches the float's position */
+  .hero-mascot-visual {
+    position: absolute;
+    left: 1.5rem; /* match p-6 padding */
+    top: 1.5rem; /* match p-6 padding — float starts at top of content area */
+    width: 316px;
+    max-width: 35%;
+    height: auto;
+    opacity: 0.95;
+    pointer-events: none;
+    animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 0;
+  }
+
+  /* Ensure content is above mascot visual */
+  .hero-wrap-container > h1,
+  .hero-wrap-container > p,
+  .hero-info-grid,
+  .hero-cta {
+    position: relative;
+    z-index: 1;
+  }
+
+
+  /* At lg+ the container uses p-8 (2rem), so shift the visual to match */
+  @media (min-width: 1024px) {
+    .hero-mascot-visual {
+      left: 2rem;
+      top: 2rem;
     }
   }
 
-  @media (max-width: 1023px) {
-    .hero-about-box > .relative > p:first-of-type {
-      padding-left: 5%;
+  .hero-title {
+    font-size: clamp(1.5rem, -0.25rem + 5.94vw, 4.5rem);
+    white-space: nowrap;
+  }
+
+  .hero-mobile .h-card {
+    container-type: inline-size;
+  }
+
+  .hero-mobile .hero-title {
+    font-size: 8.5cqi;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1200px) {
+    .hero-mascot-shape,
+    .hero-mascot-visual {
+      width: 289px;
+      max-width: 33%;
     }
   }
 
-  @media (max-width: 1008px) {
-    .hero-about-box .hero-mascot {
-      left: -25% !important;
+  @media (max-width: 1024px) {
+    .hero-title {
+      margin-top: 0;
     }
+
+    .hero-mascot-shape,
+    .hero-mascot-visual {
+      width: 253px;
+      max-width: 30%;
+    }
+
   }
 
-  @media (max-width: 899px) {
-    .hero-about-box .hero-mascot {
-      left: -28% !important;
-    }
-  }
-
-  @media (max-width: 859px) {
-    .hero-about-box .hero-mascot {
-      left: -31% !important;
+  @media (max-width: 940px) {
+    .hero-title {
+      margin-top: -0.75rem;
     }
   }
 
   @media (max-width: 900px) {
-    .hero-about-box > .relative > p:first-of-type {
-      padding-left: 7%;
+    .hero-title {
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
     }
-    .hero-about-box > .relative > p:first-of-type::before {
-      width: 7%;
+
+    .hero-mascot-shape,
+    .hero-mascot-visual {
+      width: 226px;
+      max-width: 28%;
     }
   }
 
-  @media (min-width: 781px) and (max-width: 861px) {
-    .hero-about-box > .relative > p:first-of-type {
-      padding-left: 10%;
-      hyphens: auto;
-    }
-    .hero-about-box > .relative > p:first-of-type::before {
-      width: 8%;
-    }
-  }
-
-  @media (max-width: 780px) {
-    .hero-about-box > .relative > p:first-of-type {
-      padding-left: 3%;
-    }
-    .hero-about-box > .relative > p:first-of-type::before {
-      width: 10%;
-      height: 3.75em;
-    }
-    .hero-about-box .hero-mascot {
-      left: -34% !important;
-      bottom: -7% !important;
+  @media (max-width: 840px) {
+    .hero-title {
+      margin-top: -1rem;
+      margin-bottom: 1rem;
     }
   }
 </style>

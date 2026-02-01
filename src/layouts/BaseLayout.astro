@@ -36,6 +36,32 @@ const props = Astro.props;
 
         const sounds = localStorage.getItem('portfolio-sounds');
         document.documentElement.setAttribute('data-sounds', sounds === 'disabled' ? 'disabled' : 'enabled');
+
+        // Unlock Web Audio on first user gesture so scroll-triggered sounds work.
+        // Browsers block audio.play() unless a user gesture has occurred first.
+        // We create and play a silent buffer on the first click/touch/keydown,
+        // which unlocks the audio context for all subsequent play() calls.
+        var unlocked = false;
+        function unlockAudio() {
+          if (unlocked) return;
+          unlocked = true;
+          var ctx = new (window.AudioContext || window.webkitAudioContext)();
+          var buf = ctx.createBuffer(1, 1, 22050);
+          var src = ctx.createBufferSource();
+          src.buffer = buf;
+          src.connect(ctx.destination);
+          src.start(0);
+          // Also try playing a silent HTML audio element to unlock that path
+          var a = new Audio();
+          a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+          a.play().catch(function(){});
+          document.removeEventListener('click', unlockAudio, true);
+          document.removeEventListener('touchstart', unlockAudio, true);
+          document.removeEventListener('keydown', unlockAudio, true);
+        }
+        document.addEventListener('click', unlockAudio, true);
+        document.addEventListener('touchstart', unlockAudio, true);
+        document.addEventListener('keydown', unlockAudio, true);
       })();
     </script>
   </head>

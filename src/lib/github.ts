@@ -31,7 +31,7 @@ export interface GitHubStats {
 export async function getPublicRepos(): Promise<GitHubRepo[]> {
   try {
     const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6&type=owner`,
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=3&type=owner`,
       {
         headers: {
           Accept: 'application/vnd.github.v3+json',

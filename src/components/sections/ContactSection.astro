@@ -14,7 +14,7 @@ const phone = unscramblePhone(profile);
 
 <section
   id="contact"
-  class="section section-arcade-alt px-4 overflow-hidden scroll-mt-28"
+  class="contact-section section section-arcade-alt px-4 overflow-hidden scroll-mt-28"
   aria-labelledby="contact-heading"
 >
   <!-- Graffiti background image with parallax -->
@@ -182,10 +182,6 @@ const phone = unscramblePhone(profile);
       </div>
     </div>
 
-    <!-- Disclaimer -->
-    <p class="contact-disclaimer text-sm text-gray-500 text-center mt-12">
-      {site.footer.disclaimer}
-    </p>
   </div>
 </section>
 
@@ -246,13 +242,12 @@ const phone = unscramblePhone(profile);
     const details = document.querySelector('.contact-details') as HTMLElement;
     const social = document.querySelector('.contact-social') as HTMLElement;
     const formContainer = document.querySelector('.contact-form-container') as HTMLElement;
-    const disclaimer = document.querySelector('.contact-disclaimer') as HTMLElement;
 
     if (!grid) return () => {};
 
     // Skip if animations disabled
     if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      [connectTitle, connectDesc, details, social, formContainer, disclaimer].forEach(el => {
+      [connectTitle, connectDesc, details, social, formContainer].forEach(el => {
         if (el) el.classList.add('visible');
       });
       return () => {};
@@ -265,7 +260,6 @@ const phone = unscramblePhone(profile);
       const titleTrigger = viewportHeight * 0.7;
       const cascadeTrigger = viewportHeight * 0.6;
       const formTrigger = viewportHeight * 0.5;
-      const disclaimerTrigger = viewportHeight * 0.35;
       const exitPoint = viewportHeight * 0.85;
 
       const gridRect = grid.getBoundingClientRect();
@@ -291,14 +285,9 @@ const phone = unscramblePhone(profile);
         if (formContainer) formContainer.classList.add('visible');
       }
 
-      // Disclaimer appears after scrolling a bit more
-      if (gridRect.top < disclaimerTrigger) {
-        if (disclaimer) disclaimer.classList.add('visible');
-      }
-
       // Reset when scrolling up
       if (gridRect.top > exitPoint) {
-        [connectTitle, connectDesc, details, social, formContainer, disclaimer].forEach(el => {
+        [connectTitle, connectDesc, details, social, formContainer].forEach(el => {
           if (el) el.classList.remove('visible');
         });
       }
@@ -336,6 +325,18 @@ const phone = unscramblePhone(profile);
 </script>
 
 <style>
+  .contact-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+  }
+
   /* Contact section cascade animations */
   .contact-connect-title,
   .contact-connect-desc,
@@ -366,25 +367,12 @@ const phone = unscramblePhone(profile);
     transform: translateX(0);
   }
 
-  /* Disclaimer flies in from bottom */
-  .contact-disclaimer {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .contact-disclaimer.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   /* Disable animations when preference set */
   [data-animations="disabled"] .contact-connect-title,
   [data-animations="disabled"] .contact-connect-desc,
   [data-animations="disabled"] .contact-details,
   [data-animations="disabled"] .contact-social,
-  [data-animations="disabled"] .contact-form-container,
-  [data-animations="disabled"] .contact-disclaimer {
+  [data-animations="disabled"] .contact-form-container {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

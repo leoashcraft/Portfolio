@@ -397,27 +397,42 @@ import Icon from '../ui/Icon.astro';
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
   }
 
-  /* Education cards diagonal grow from center */
+  /* Education cards fly in from their respective corners */
   .edu-card {
     opacity: 0;
     transform: scale(0.8);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   }
 
-  .edu-card-0 { transform: scale(0.8) translate(30px, 30px); }
-  .edu-card-1 { transform: scale(0.8) translate(-30px, 30px); }
-  .edu-card-2 { transform: scale(0.8) translate(30px, -30px); }
-  .edu-card-3 { transform: scale(0.8) translate(-30px, -30px); }
+  /* Top-left card flies in from top-left corner */
+  .edu-card-0 { transform: scale(0.8) translate(-60px, -60px); }
+  /* Top-right card flies in from top-right corner */
+  .edu-card-1 { transform: scale(0.8) translate(60px, -60px); }
+  /* Bottom-left card flies in from bottom-left corner */
+  .edu-card-2 { transform: scale(0.8) translate(-60px, 60px); }
+  /* Bottom-right card flies in from bottom-right corner */
+  .edu-card-3 { transform: scale(0.8) translate(60px, 60px); }
 
   .education-grid.cards-in .edu-card {
     opacity: 1;
     transform: scale(1) translate(0, 0);
   }
 
+  /* Slower exit transition so fly-out is visible */
+  .education-grid.cards-out .edu-card {
+    transition-duration: 0.4s;
+  }
+
   .edu-card-0 { transition-delay: 0s; }
   .edu-card-1 { transition-delay: 0.1s; }
   .edu-card-2 { transition-delay: 0.2s; }
   .edu-card-3 { transition-delay: 0.3s; }
+
+  /* Reverse stagger on exit — last card leaves first */
+  .education-grid.cards-out .edu-card-0 { transition-delay: 0.3s; }
+  .education-grid.cards-out .edu-card-1 { transition-delay: 0.2s; }
+  .education-grid.cards-out .edu-card-2 { transition-delay: 0.1s; }
+  .education-grid.cards-out .edu-card-3 { transition-delay: 0s; }
 
   [data-animations="disabled"] .education-title,
   [data-animations="disabled"] .edu-card {
@@ -431,23 +446,50 @@ import Icon from '../ui/Icon.astro';
   import { initSectionParallax } from '../../lib/parallax';
   import { initScrollWave } from '../../lib/scroll-wave';
 
-  // Preload snap sound
+  // Lazy-loaded sounds — created on first play to avoid autoplay restrictions
   let snapSound: HTMLAudioElement | null = null;
-  try {
-    snapSound = new Audio('/sounds/menu-back-384929.mp3');
-    snapSound.preload = 'auto';
-    snapSound.volume = 0.3;
-  } catch (_) {}
+  let exitSlideSound: HTMLAudioElement | null = null;
+  const SNAP_SOUND_URL = '/sounds/very-fast-cinematic-whoosh-327345.mp3';
+  const EXIT_SLIDE_SOUND_URL = '/sounds/paper-slide-102746.mp3';
+
+  function getSnapSound(): HTMLAudioElement | null {
+    if (!snapSound) {
+      try {
+        snapSound = new Audio(SNAP_SOUND_URL);
+        snapSound.volume = 0.3;
+      } catch (_) { return null; }
+    }
+    return snapSound;
+  }
+
+  function getExitSlideSound(): HTMLAudioElement | null {
+    if (!exitSlideSound) {
+      try {
+        exitSlideSound = new Audio(EXIT_SLIDE_SOUND_URL);
+        exitSlideSound.volume = 0.3;
+      } catch (_) { return null; }
+    }
+    return exitSlideSound;
+  }
 
   let lastSoundTime = 0;
   function playSnapSound() {
-    if (!snapSound) return;
     if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
     const now = Date.now();
     if (now - lastSoundTime < 1000) return;
     lastSoundTime = now;
-    snapSound.currentTime = 0;
-    snapSound.play().catch(() => {});
+    const snd = getSnapSound();
+    if (!snd) return;
+    snd.currentTime = 0;
+    snd.play().catch(() => {});
+  }
+
+  function playExitSlideSound() {
+    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
+    const snd = getExitSlideSound();
+    if (!snd) return;
+    snd.currentTime = 0;
+    snd.play().catch(() => {});
   }
 
   function isMobile(): boolean {
@@ -569,7 +611,7 @@ import Icon from '../ui/Icon.astro';
     const stepPx = viewportH;
 
     // Section height — add extra scroll space after last panel for the exit animation
-    const scrollPerPanel = window.innerHeight * 0.4;
+    const scrollPerPanel = window.innerHeight * 0.7;
     const exitScrollPx = window.innerHeight * 0.4;
     section.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel + exitScrollPx}px`;
 
@@ -580,6 +622,7 @@ import Icon from '../ui/Icon.astro';
     let snappedPanel = -1;
     let activeTimers: ReturnType<typeof setTimeout>[] = [];
     let hasExited = false;
+    let isRecovering = false;
 
     function showTimeline(panelIndex: number) {
       if (!timelineLine) return;
@@ -639,6 +682,7 @@ import Icon from '../ui/Icon.astro';
       // Phase 2 (0.6–2.5s): Eyes travel down the full line and fade out
       activeTimers.push(setTimeout(() => {
         if (!timelineEyes) return;
+        playExitSlideSound();
         const travelDuration = 1.9; // remaining time: 2.5 - 0.6 = 1.9s
         timelineEyes.style.transition = `top ${travelDuration}s ease-in, opacity ${travelDuration * 0.6}s ease-in ${travelDuration * 0.4}s`;
         eyesBaseTop = viewportH + 50; // past the bottom edge
@@ -743,6 +787,7 @@ import Icon from '../ui/Icon.astro';
 
         if (sectionTop < 0) {
           // Section hasn't scrolled to top yet
+          isRecovering = false; // cancel any in-flight recovery
           if (sectionRect.top > window.innerHeight * 0.5) {
             // Section is far away — hide everything
             if (snappedPanel !== -1 || hasExited) {
@@ -759,6 +804,7 @@ import Icon from '../ui/Icon.astro';
             if (snappedPanel !== 0) {
               snappedPanel = 0;
               hasExited = false;
+              playSnapSound();
               track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
               track.style.transform = 'translateY(0)';
               updateDots(0);
@@ -769,6 +815,9 @@ import Icon from '../ui/Icon.astro';
           }
         } else if (sectionTop > lastPanelEnd) {
           // We're past the last panel — enter exit zone
+          // Cancel any in-flight recovery animation
+          isRecovering = false;
+
           // First snap to last panel if not already there
           if (snappedPanel !== panelCount - 1) {
             snapTo(panelCount - 1);
@@ -788,32 +837,81 @@ import Icon from '../ui/Icon.astro';
                 lastItem.classList.remove('slide-in');
               }
               // After card exits, animate timeline down and out
-              setTimeout(() => {
+              activeTimers.push(setTimeout(() => {
+                if (!hasExited) return; // cancelled if we scrolled back
                 exitTimeline();
-              }, 300);
+              }, 300));
             }
           }
         } else {
           // Normal panel scrolling zone
+
+          // While recovery animation is playing, ignore normal scroll logic
+          if (isRecovering) {
+            ticking = false;
+            return;
+          }
+
           if (hasExited) {
-            // Returning from exit — recover gracefully
+            // Returning from exit — cancel all pending exit animations,
+            // shrink line up, fade eyes out, then replay entrance.
             hasExited = false;
+            isRecovering = true;
+
+            // Cancel ALL pending timers (exit animation chain, etc.)
+            activeTimers.forEach((t) => clearTimeout(t));
+            activeTimers = [];
             stopEyesHover();
 
-            // Animate eyes + line back to rest position
-            eyesBaseTop = lineRestHeight;
+            // Phase 1: Eyes travel up to top and fade out, line shrinks to 0
             if (timelineEyes) {
-              timelineEyes.style.transition = 'top 0.3s ease-out, font-size 0.3s ease-out';
-              timelineEyes.style.top = `${eyesBaseTop}px`;
+              timelineEyes.style.transition = 'top 0.4s ease-in, opacity 0.3s ease-in 0.1s, font-size 0.3s ease-out';
+              timelineEyes.style.top = '0px';
+              timelineEyes.style.opacity = '0';
               timelineEyes.style.fontSize = '';
+              eyesBaseTop = 0;
             }
             if (timelineLine) {
-              timelineLine.style.transition = 'height 0.3s ease-out';
-              timelineLine.style.height = `${lineRestHeight}px`;
+              timelineLine.style.transition = 'height 0.4s ease-in';
+              timelineLine.style.height = '0px';
             }
 
-            // Force re-snap by resetting snappedPanel so snapTo runs
-            snappedPanel = -1;
+            // Phase 2: After fade-out, snap eyes+line to top instantly, then replay entrance
+            activeTimers.push(setTimeout(() => {
+              if (!isRecovering) return;
+              isRecovering = false;
+
+              // Instantly reset eyes and line to starting position (no transition)
+              if (timelineEyes) {
+                timelineEyes.style.transition = 'none';
+                timelineEyes.style.top = '0px';
+                timelineEyes.style.opacity = '0';
+                timelineEyes.style.fontSize = '';
+                eyesBaseTop = 0;
+              }
+              if (timelineLine) {
+                timelineLine.style.transition = 'none';
+                timelineLine.style.height = '0px';
+              }
+
+              // Force layout so the instant reset takes effect before animating
+              void container.offsetHeight;
+
+              // Now replay the entrance — line draws down, eyes ride down
+              // Always snap to last panel since we're coming back from exit
+              const targetPanel = panelCount - 1;
+
+              snappedPanel = targetPanel;
+              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              track.style.transform = `translateY(-${targetPanel * stepPx}px)`;
+              updateDots(targetPanel);
+              resetAllPanels();
+              revealPanel(targetPanel);
+              showTimeline(targetPanel);
+            }, 450));
+
+            ticking = false;
+            return;
           }
           const progress = sectionTop / lastPanelEnd;
           const targetPanel = Math.round(progress * (panelCount - 1));
@@ -862,6 +960,30 @@ import Icon from '../ui/Icon.astro';
   let waveCleanup: (() => void) | undefined;
   let eduCleanup: (() => void) | undefined;
 
+  // Lazy-loaded education card tap sound
+  let eduTapSound: HTMLAudioElement | null = null;
+  const EDU_TAP_SOUND_URL = '/sounds/step_1-389275.mp3';
+
+  function getEduTapSound(): HTMLAudioElement | null {
+    if (!eduTapSound) {
+      try {
+        eduTapSound = new Audio(EDU_TAP_SOUND_URL);
+        eduTapSound.volume = 0.25;
+      } catch (_) { return null; }
+    }
+    return eduTapSound;
+  }
+
+  function playEduTapSound() {
+    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
+    const snd = getEduTapSound();
+    if (!snd) return;
+    // Clone the audio so overlapping plays work
+    const clone = snd.cloneNode() as HTMLAudioElement;
+    clone.volume = snd.volume;
+    clone.play().catch(() => {});
+  }
+
   function initEducationCards() {
     const eduSection = document.querySelector('.education-section') as HTMLElement;
     const eduGrid = document.querySelector('.education-grid') as HTMLElement;
@@ -874,21 +996,60 @@ import Icon from '../ui/Icon.astro';
     }
 
     let ticking = false;
+    let eduSoundsPlayed = false;
+    let eduSoundTimers: ReturnType<typeof setTimeout>[] = [];
+
+    function playEduCardSounds() {
+      if (eduSoundsPlayed) return;
+      eduSoundsPlayed = true;
+      // Play a tap for each card, offset to match their CSS transition-delays
+      const delays = [250, 350, 450, 550];
+      delays.forEach((delay) => {
+        eduSoundTimers.push(setTimeout(() => {
+          playEduTapSound();
+        }, delay));
+      });
+    }
+
+    let cardsVisible = false;
 
     const checkEducation = () => {
       const viewportHeight = window.innerHeight;
       const titleTrigger = viewportHeight * 0.7;
       const cardsTrigger = viewportHeight * 0.5;
-      const exitPoint = viewportHeight * 0.8;
+      const exitUpPoint = viewportHeight * 0.8;
+      // Fire exit while section is still mostly visible
+      const exitDownPoint = viewportHeight * 0.65;
 
       const sectionRect = eduSection.getBoundingClientRect();
       const gridRect = eduGrid.getBoundingClientRect();
 
-      if (sectionRect.top < titleTrigger) eduSection.classList.add('visible');
-      if (gridRect.top < cardsTrigger) eduGrid.classList.add('cards-in');
-      if (sectionRect.top > exitPoint) {
-        eduSection.classList.remove('visible');
-        eduGrid.classList.remove('cards-in');
+      // Scrolled up past section — section top is below threshold
+      const exitUp = sectionRect.top > exitUpPoint;
+      // Scrolled down past section — section top is above threshold (still visible)
+      const exitDown = sectionRect.top < -sectionRect.height * 0.35;
+
+      if (exitUp || exitDown) {
+        if (cardsVisible) {
+          cardsVisible = false;
+          eduSection.classList.remove('visible');
+          eduGrid.classList.add('cards-out');
+          eduGrid.classList.remove('cards-in');
+          eduSoundsPlayed = false;
+          eduSoundTimers.forEach((t) => clearTimeout(t));
+          eduSoundTimers = [];
+        }
+      } else {
+        // Remove cards-out when re-entering
+        if (!cardsVisible && eduGrid.classList.contains('cards-out')) {
+          eduGrid.classList.remove('cards-out');
+        }
+        if (sectionRect.top < titleTrigger) eduSection.classList.add('visible');
+        if (gridRect.top < cardsTrigger && !cardsVisible) {
+          cardsVisible = true;
+          eduGrid.classList.add('cards-in');
+          playEduCardSounds();
+        }
       }
 
       ticking = false;

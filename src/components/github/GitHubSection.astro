@@ -1,31 +1,28 @@
 ---
 import ContributionHeatmap from './ContributionHeatmap';
+import SectionHeader from '../common/SectionHeader.astro';
 import { getPublicRepos, fetchContributionData, languageColors } from '../../lib/github';
+import { site } from '../../data/site';
 
 // Fetch data at build time
 const repos = await getPublicRepos();
 const contributionData = await fetchContributionData();
 ---
 
-<section id="github" class="section section-arcade px-4 overflow-hidden" aria-labelledby="github-heading">
+<section id="github" class="github-section section section-arcade" aria-labelledby="github-heading">
   <!-- Neon Top Border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent"></div>
 
   <!-- Floating Arcade Decorations -->
   <div class="absolute inset-0 pointer-events-none overflow-hidden arcade-decorations" aria-hidden="true" data-section="github">
-    <!-- Glowing orbs with parallax -->
     <div class="absolute top-32 left-20 w-72 h-72 rounded-full bg-neon-green/8 blur-3xl" data-parallax="0.3"></div>
     <div class="absolute bottom-40 right-10 w-64 h-64 rounded-full bg-neon-pink/8 blur-3xl" data-parallax="0.4" data-parallax-dir="down"></div>
     <div class="absolute top-1/2 right-1/4 w-48 h-48 rounded-full bg-neon-purple/5 blur-2xl" data-parallax="0.5"></div>
-
-    <!-- Geometric shapes with CSS animations + parallax -->
     <div class="absolute top-24 right-[10%] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[20px] border-b-neon-green/40 drift-1" data-parallax="0.7" data-parallax-x="0.3"></div>
     <div class="absolute top-[50%] left-[5%] w-7 h-7 border-2 border-neon-pink/35 rounded-full pulse-drift" data-parallax="0.6" data-parallax-x="0.2"></div>
     <div class="absolute bottom-[35%] right-[6%] w-6 h-6 bg-neon-yellow/25 rotate-45 float-rotate" data-parallax="0.8" data-parallax-dir="down"></div>
     <div class="absolute top-[30%] left-[8%] w-5 h-5 border-2 border-neon-purple/35 rotate-45 sway" data-parallax="0.5" data-parallax-x="-0.2"></div>
     <div class="absolute bottom-28 left-[20%] w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[17px] border-b-neon-orange/30 wobble" data-parallax="0.9" data-parallax-dir="down"></div>
-
-    <!-- Binary-like dots pattern -->
     <div class="absolute top-[40%] right-[3%] flex flex-col gap-2 opacity-30 drift-2" data-parallax="0.6" data-parallax-x="-0.3">
       <div class="flex gap-2">
         <div class="w-2 h-2 bg-neon-green rounded-full"></div>
@@ -36,142 +33,99 @@ const contributionData = await fetchContributionData();
         <div class="w-2 h-2 bg-neon-green rounded-full"></div>
       </div>
     </div>
-
-    <!-- Squiggly line -->
     <svg class="absolute bottom-[45%] left-[2%] w-8 h-16 text-neon-pink/25 wobble" data-parallax="0.7" data-parallax-x="0.4" viewBox="0 0 32 64">
       <path d="M16 0 Q0 16 16 32 Q32 48 16 64" fill="none" stroke="currentColor" stroke-width="2"/>
     </svg>
-
-    <!-- Circle ring -->
     <div class="absolute top-[65%] right-[8%] w-10 h-10 border-2 border-neon-green/30 rounded-full drift-3 spin-slow" data-parallax="0.8" data-parallax-x="-0.2"></div>
   </div>
 
-  <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Section Header -->
-    <div class="text-center mb-16 section-header-container">
-      <h2 id="github-heading" class="section-title section-title-anim">
-        GitHub <span class="gradient-text">Activity</span>
-      </h2>
-      <p class="section-subtitle section-subtitle-anim mx-auto relative">
-        <span class="subtitle-placeholder invisible" aria-hidden="true">Open source contributions and personal projects</span>
-        <span class="subtitle-typewriter absolute left-0 right-0 top-0">
-          <span class="subtitle-text" data-subtitle="Open source contributions and personal projects" id="github-heading-subtitle"></span><span class="subtitle-cursor hidden inline-block w-[2px] h-[1em] bg-neon-cyan ml-1 align-middle animate-[cursor-blink_1s_step-end_infinite]"></span>
-        </span>
-      </p>
-    </div>
+  <div class="github-inner max-w-6xl mx-auto relative z-10 px-4">
+    <SectionHeader
+      title="GitHub"
+      titleHighlight="Activity"
+      subtitle="Open source contributions and personal projects"
+      headingId="github-heading"
+    />
 
     <!-- Contribution Heatmap -->
-    <div class="github-heatmap card mb-12">
-      <ContributionHeatmap client:visible data={contributionData} />
+    <div class="gh-block gh-heatmap mb-8">
+      <div class="github-heatmap card">
+        <ContributionHeatmap client:visible data={contributionData} />
+      </div>
     </div>
 
     <!-- Recent Repositories -->
-    <h3 class="repos-title text-xl font-bold text-white mb-6">Recent Repositories</h3>
-
-    <div class="repos-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {repos.length > 0 ? (
-        repos.map((repo, index) => (
-          <a
-            href={repo.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class={`card card-highlighted group block repo-card repo-card-${index}`}
-          >
-            <div class="flex items-start justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <svg
-                  class="w-5 h-5 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                  />
-                </svg>
-                <span class="font-medium text-white group-hover:text-neon-pink transition-colors">
-                  {repo.name}
-                </span>
-              </div>
-              <svg
-                class="w-4 h-4 text-gray-500 group-hover:text-neon-pink transition-colors"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            </div>
-
-            <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-              {repo.description || 'No description provided'}
-            </p>
-
-            <div class="flex items-center gap-4 text-sm">
-              {repo.language && (
-                <span class="flex items-center gap-1">
-                  <span
-                    class="w-3 h-3 rounded-full"
-                    style={`background-color: ${languageColors[repo.language] || '#8b8b8b'}`}
-                  />
-                  <span class="text-gray-400">{repo.language}</span>
-                </span>
-              )}
-
-              {repo.stargazers_count > 0 && (
-                <span class="flex items-center gap-1 text-gray-400">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
-                  </svg>
-                  {repo.stargazers_count}
-                </span>
-              )}
-
-              {repo.forks_count > 0 && (
-                <span class="flex items-center gap-1 text-gray-400">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                    />
-                  </svg>
-                  {repo.forks_count}
-                </span>
-              )}
-            </div>
-          </a>
-        ))
-      ) : (
-        <div class="col-span-full text-center py-12">
-          <p class="text-gray-400">Loading repositories...</p>
-          <p class="text-gray-500 text-sm mt-2">
-            Visit{' '}
+    <div class="gh-block gh-repos mb-8">
+      <h3 class="repos-title text-xl font-bold text-white mb-6">Recent Repositories</h3>
+      <div class="repos-grid grid md:grid-cols-3 gap-6">
+        {repos.length > 0 ? (
+          repos.map((repo, index) => (
             <a
-              href="https://github.com/leoashcraft"
+              href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-neon-pink hover:underline"
+              class={`card card-highlighted group block repo-card repo-card-${index}`}
             >
-              github.com/leoashcraft
-            </a>{' '}
-            to see all projects
-          </p>
-        </div>
-      )}
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                  <span class="font-medium text-white group-hover:text-neon-pink transition-colors">
+                    {repo.name}
+                  </span>
+                </div>
+                <svg class="w-4 h-4 text-gray-500 group-hover:text-neon-pink transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+              <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                {repo.description || 'No description provided'}
+              </p>
+              <div class="flex items-center gap-4 text-sm">
+                {repo.language && (
+                  <span class="flex items-center gap-1">
+                    <span class="w-3 h-3 rounded-full" style={`background-color: ${languageColors[repo.language] || '#8b8b8b'}`} />
+                    <span class="text-gray-400">{repo.language}</span>
+                  </span>
+                )}
+                {repo.stargazers_count > 0 && (
+                  <span class="flex items-center gap-1 text-gray-400">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
+                    </svg>
+                    {repo.stargazers_count}
+                  </span>
+                )}
+                {repo.forks_count > 0 && (
+                  <span class="flex items-center gap-1 text-gray-400">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    {repo.forks_count}
+                  </span>
+                )}
+              </div>
+            </a>
+          ))
+        ) : (
+          <div class="col-span-full text-center py-12">
+            <p class="text-gray-400">Loading repositories...</p>
+            <p class="text-gray-500 text-sm mt-2">
+              Visit{' '}
+              <a href="https://github.com/leoashcraft" target="_blank" rel="noopener noreferrer" class="text-neon-pink hover:underline">
+                github.com/leoashcraft
+              </a>{' '}
+              to see all projects
+            </p>
+          </div>
+        )}
+      </div>
     </div>
 
     <!-- GitHub CTA -->
-    <div class="text-center mt-12">
+    <div class="gh-block gh-cta text-center">
+      <p class="text-gray-300 text-lg mb-6">Want to see more of my work?</p>
       <a
         href="https://github.com/leoashcraft"
         target="_blank"
@@ -197,137 +151,111 @@ const contributionData = await fetchContributionData();
   initGitHub();
   document.addEventListener('astro:after-swap', initGitHub);
 
-  // GitHub section animations
-  let githubAnimCleanup: (() => void) | undefined;
+  // ============================================
+  // Scroll-triggered reveal for GitHub blocks
+  // ============================================
+  let ghCleanup: (() => void) | undefined;
 
-  function initGitHubAnimations() {
-    const heatmap = document.querySelector('.github-heatmap') as HTMLElement;
-    const reposTitle = document.querySelector('.repos-title') as HTMLElement;
-    const reposGrid = document.querySelector('.repos-grid') as HTMLElement;
-    const repoCards = document.querySelectorAll('.repo-card') as NodeListOf<HTMLElement>;
+  function initGitHubReveal() {
+    const section = document.querySelector('.github-section') as HTMLElement;
+    const blocks = document.querySelectorAll('.gh-block') as NodeListOf<HTMLElement>;
 
-    if (!heatmap || !reposGrid) return () => {};
+    if (!section || blocks.length === 0) return () => {};
 
-    // Skip if animations disabled
     if (document.documentElement.getAttribute('data-animations') === 'disabled') {
-      heatmap.classList.add('visible');
-      if (reposTitle) reposTitle.classList.add('visible');
-      reposGrid.classList.add('repos-visible');
+      blocks.forEach((b) => b.classList.add('visible'));
       return () => {};
     }
 
     let ticking = false;
-    let currentRepoIndex = 0;
+    const checkBlocks = () => {
+      const viewportH = window.innerHeight;
+      const trigger = viewportH * 0.75;
+      const exitPoint = viewportH * 0.9;
 
-    const checkGitHub = () => {
-      const viewportHeight = window.innerHeight;
-      const heatmapTrigger = viewportHeight * 0.6;
-      const reposTrigger = viewportHeight * 0.4;
-      const exitPoint = viewportHeight * 0.8;
+      const sectionRect = section.getBoundingClientRect();
 
-      const heatmapRect = heatmap.getBoundingClientRect();
-
-      // Heatmap fades in
-      if (heatmapRect.top < heatmapTrigger) {
-        heatmap.classList.add('visible');
-      }
-
-      // Repos title and cards fly out when heatmap is higher
-      if (heatmapRect.top < reposTrigger) {
-        if (reposTitle) reposTitle.classList.add('visible');
-
-        // Trigger repos one by one with delays
-        if (!reposGrid.classList.contains('repos-visible')) {
-          reposGrid.classList.add('repos-visible');
-          repoCards.forEach((card, index) => {
-            setTimeout(() => {
-              card.classList.add('visible');
-            }, index * 100);
-          });
-        }
-      }
-
-      // Reset when scrolling up
-      if (heatmapRect.top > exitPoint) {
-        heatmap.classList.remove('visible');
-        if (reposTitle) reposTitle.classList.remove('visible');
-        reposGrid.classList.remove('repos-visible');
-        repoCards.forEach((card) => card.classList.remove('visible'));
+      if (sectionRect.top > exitPoint) {
+        // Reset when scrolled well above
+        blocks.forEach((b) => b.classList.remove('visible'));
+      } else {
+        blocks.forEach((block) => {
+          const blockRect = block.getBoundingClientRect();
+          if (blockRect.top < trigger) {
+            block.classList.add('visible');
+          }
+        });
       }
 
       ticking = false;
     };
 
-    const handleScroll = () => {
+    const onScroll = () => {
       if (!ticking) {
-        requestAnimationFrame(checkGitHub);
+        requestAnimationFrame(checkBlocks);
         ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    checkGitHub();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    checkBlocks();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', onScroll);
     };
   }
 
-  function initGitHubAnim() {
-    githubAnimCleanup?.();
-    githubAnimCleanup = initGitHubAnimations();
+  function initAll() {
+    ghCleanup?.();
+    ghCleanup = initGitHubReveal();
   }
 
-  initGitHubAnim();
-  document.addEventListener('astro:after-swap', initGitHubAnim);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:after-swap', initAll);
 
   window.addEventListener('animations-change', () => {
-    githubAnimCleanup?.();
-    githubAnimCleanup = initGitHubAnimations();
+    ghCleanup?.();
+    ghCleanup = initGitHubReveal();
   });
 </script>
 
 <style>
-  /* GitHub heatmap fade in */
-  .github-heatmap {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  .github-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
   }
 
-  .github-heatmap.visible {
-    opacity: 1;
-    transform: translateY(0);
+  .github-inner {
+    width: 100%;
   }
 
-  /* Repos title fade in */
-  .repos-title {
+  /* Scroll-triggered block reveals */
+  .gh-block {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
 
-  .repos-title.visible {
+  .gh-block.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* Repo cards fly out from beneath heatmap */
-  .repo-card {
-    opacity: 0;
-    transform: translateY(-30px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-  }
-
-  .repo-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* Stagger the blocks */
+  .gh-heatmap { transition-delay: 0s; }
+  .gh-repos { transition-delay: 0.15s; }
+  .gh-cta { transition-delay: 0.3s; }
 
   /* Disable animations when preference set */
-  [data-animations="disabled"] .github-heatmap,
-  [data-animations="disabled"] .repos-title,
-  [data-animations="disabled"] .repo-card {
+  [data-animations="disabled"] .gh-block {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

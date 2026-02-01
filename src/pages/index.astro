@@ -7,6 +7,7 @@ import ProjectsSection from '../components/sections/ProjectsSection.astro';
 import GitHubSection from '../components/github/GitHubSection.astro';
 import ContactSection from '../components/sections/ContactSection.astro';
 import InteractiveTerminal from '../components/terminal/InteractiveTerminal';
+import { site } from '../data/site';
 ---
 
 <BaseLayout>
@@ -40,4 +41,22 @@ import InteractiveTerminal from '../components/terminal/InteractiveTerminal';
 
   <!-- Contact Section -->
   <ContactSection />
+
+  <!-- Disclaimer — visually part of contact area, outside the section -->
+  <div class="contact-disclaimer-strip">
+    <p class="text-sm text-gray-500 text-center px-4">
+      {site.footer.disclaimer}
+    </p>
+  </div>
 </BaseLayout>
+
+<style>
+  .contact-disclaimer-strip {
+    padding: 2rem 0 3rem;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(10, 0, 21, 0.5) 0%, rgba(26, 10, 42, 0.3) 50%, rgba(10, 0, 21, 0.5) 100%),
+      radial-gradient(ellipse at 30% 70%, rgba(0, 255, 0, 0.05) 0%, transparent 40%),
+      radial-gradient(ellipse at 70% 30%, rgba(255, 255, 0, 0.05) 0%, transparent 40%);
+  }
+</style>

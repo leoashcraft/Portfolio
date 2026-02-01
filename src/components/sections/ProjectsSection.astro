@@ -735,23 +735,30 @@ import Icon from '../ui/Icon.astro';
   // ============================================
   let projectsHscrollCleanup: (() => void) | undefined;
 
-  // Preload snap sound
+  // Lazy-loaded snap sound — created on first play to avoid autoplay restrictions
   let snapSound: HTMLAudioElement | null = null;
-  try {
-    snapSound = new Audio('/sounds/menu-back-384929.mp3');
-    snapSound.preload = 'auto';
-    snapSound.volume = 0.3;
-  } catch (_) {}
+  const SNAP_SOUND_URL = '/sounds/movement-101711.mp3';
+
+  function getSnapSound(): HTMLAudioElement | null {
+    if (!snapSound) {
+      try {
+        snapSound = new Audio(SNAP_SOUND_URL);
+        snapSound.volume = 0.3;
+      } catch (_) { return null; }
+    }
+    return snapSound;
+  }
 
   let lastSoundTime = 0;
   function playSnapSound() {
-    if (!snapSound) return;
     if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
     const now = Date.now();
     if (now - lastSoundTime < 1000) return;
     lastSoundTime = now;
-    snapSound.currentTime = 0;
-    snapSound.play().catch(() => {});
+    const snd = getSnapSound();
+    if (!snd) return;
+    snd.currentTime = 0;
+    snd.play().catch(() => {});
   }
 
   function isMobile(): boolean {
@@ -812,11 +819,12 @@ import Icon from '../ui/Icon.astro';
     const stepPx = container.offsetWidth;
 
     // Section height: 1 viewport + (n-1) * 40vh scroll per panel
-    const scrollPerPanel = window.innerHeight * 0.4;
+    const scrollPerPanel = window.innerHeight * 0.7;
     section.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel}px`;
 
     let ticking = false;
     let snappedPanel = -1;
+    let panel0Revealed = false;
 
     // Track active timers so we can clear on reset
     let activeTimers: ReturnType<typeof setTimeout>[] = [];
@@ -846,22 +854,32 @@ import Icon from '../ui/Icon.astro';
       });
     }
 
+    let pendingSnapTimer: ReturnType<typeof setTimeout> | null = null;
+
     function snapTo(panelIndex: number) {
       const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
       if (clamped === snappedPanel) return;
       snappedPanel = clamped;
 
+      // Play sound 250ms before the visual snap
       playSnapSound();
 
-      // Reset all panels so the incoming one replays its animation fresh
-      resetAllPanels();
+      // Clear any previously pending snap
+      if (pendingSnapTimer) clearTimeout(pendingSnapTimer);
 
-      const translatePx = clamped * stepPx;
-      track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      track.style.transform = `translateX(-${translatePx}px)`;
+      pendingSnapTimer = setTimeout(() => {
+        pendingSnapTimer = null;
 
-      updateDots(clamped);
-      revealPanel(clamped);
+        // Reset all panels so the incoming one replays its animation fresh
+        resetAllPanels();
+
+        const translatePx = clamped * stepPx;
+        track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        track.style.transform = `translateX(-${translatePx}px)`;
+
+        updateDots(clamped);
+        revealPanel(clamped);
+      }, 250);
     }
 
     function onScroll() {
@@ -876,14 +894,18 @@ import Icon from '../ui/Icon.astro';
         if (sectionTop < 0) {
           if (snappedPanel !== 0) {
             snappedPanel = 0;
+            panel0Revealed = false;
             track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             track.style.transform = 'translateX(0)';
             updateDots(0);
           }
 
           if (sectionRect.top > window.innerHeight * 0.5) {
+            panel0Revealed = false;
             resetAllPanels();
-          } else {
+          } else if (!panel0Revealed) {
+            panel0Revealed = true;
+            playSnapSound();
             revealPanel(0);
           }
         } else if (sectionTop >= totalScrollable) {
@@ -948,9 +970,34 @@ import Icon from '../ui/Icon.astro';
   // Other Projects animation (like GitHub repos)
   let otherProjectsCleanup: (() => void) | undefined;
 
+  // Lazy-loaded card tap sound for More Work cards
+  let moreWorkTapSound: HTMLAudioElement | null = null;
+  const MORE_WORK_TAP_SOUND_URL = '/sounds/step_1-389275.mp3';
+
+  function getMoreWorkTapSound(): HTMLAudioElement | null {
+    if (!moreWorkTapSound) {
+      try {
+        moreWorkTapSound = new Audio(MORE_WORK_TAP_SOUND_URL);
+        moreWorkTapSound.volume = 0.25;
+      } catch (_) { return null; }
+    }
+    return moreWorkTapSound;
+  }
+
+  function playMoreWorkTapSound() {
+    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
+    const snd = getMoreWorkTapSound();
+    if (!snd) return;
+    // Clone the audio so overlapping plays work
+    const clone = snd.cloneNode() as HTMLAudioElement;
+    clone.volume = snd.volume;
+    clone.play().catch(() => {});
+  }
+
   function initOtherProjectsAnimation() {
     const section = document.querySelector('.other-projects-section') as HTMLElement;
     const title = document.querySelector('.other-projects-title') as HTMLElement;
+    const grid = document.querySelector('.other-projects-grid') as HTMLElement;
     const cards = document.querySelectorAll('.other-project-card') as NodeListOf<HTMLElement>;
 
     if (!section || !title) return () => {};
@@ -963,35 +1010,62 @@ import Icon from '../ui/Icon.astro';
     }
 
     let ticking = false;
+    let cardSoundsPlayed = false;
+    let cardSoundTimers: ReturnType<typeof setTimeout>[] = [];
+    let cardsVisible = false;
+
+    function playCardSounds() {
+      if (cardSoundsPlayed) return;
+      cardSoundsPlayed = true;
+      // Play a tap for each card, offset to match their CSS transition-delays
+      const delays = [250, 350, 450, 550];
+      delays.forEach((delay) => {
+        cardSoundTimers.push(setTimeout(() => {
+          playMoreWorkTapSound();
+        }, delay));
+      });
+    }
 
     const checkOtherProjects = () => {
       const viewportHeight = window.innerHeight;
       const titleTrigger = viewportHeight * 0.7;
       const cardsTrigger = viewportHeight * 0.5;
-      const exitPoint = viewportHeight * 0.8;
+      const exitUpPoint = viewportHeight * 0.8;
 
       const sectionRect = section.getBoundingClientRect();
 
-      // Title fades in first
-      if (sectionRect.top < titleTrigger) {
-        title.classList.add('visible');
-      }
+      // Scrolled up past section — section top is below threshold
+      const exitUp = sectionRect.top > exitUpPoint;
+      // Scrolled down past section — section has scrolled up enough
+      const exitDown = sectionRect.top < -sectionRect.height * 0.35;
 
-      // Cards fly out one by one
-      if (sectionRect.top < cardsTrigger) {
-        cards.forEach((card, index) => {
-          if (!card.classList.contains('visible')) {
-            setTimeout(() => {
-              card.classList.add('visible');
-            }, index * 100);
-          }
-        });
-      }
+      if (exitUp || exitDown) {
+        if (cardsVisible) {
+          cardsVisible = false;
+          title.classList.remove('visible');
+          if (grid) grid.classList.add('cards-out');
+          cards.forEach((card) => card.classList.remove('visible'));
+          cardSoundsPlayed = false;
+          cardSoundTimers.forEach((t) => clearTimeout(t));
+          cardSoundTimers = [];
+        }
+      } else {
+        // Remove cards-out when re-entering
+        if (!cardsVisible && grid && grid.classList.contains('cards-out')) {
+          grid.classList.remove('cards-out');
+        }
 
-      // Reset when scrolling up
-      if (sectionRect.top > exitPoint) {
-        title.classList.remove('visible');
-        cards.forEach((card) => card.classList.remove('visible'));
+        // Title fades in first
+        if (sectionRect.top < titleTrigger) {
+          title.classList.add('visible');
+        }
+
+        // Cards fly in via CSS transition-delays (class added to all at once)
+        if (sectionRect.top < cardsTrigger && !cardsVisible) {
+          cardsVisible = true;
+          cards.forEach((card) => card.classList.add('visible'));
+          playCardSounds();
+        }
       }
 
       ticking = false;
@@ -1009,6 +1083,7 @@ import Icon from '../ui/Icon.astro';
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      cardSoundTimers.forEach((t) => clearTimeout(t));
     };
   }
 
@@ -1227,14 +1302,30 @@ import Icon from '../ui/Icon.astro';
 
   .other-project-card {
     opacity: 0;
-    transform: translateY(-30px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transform: scale(0.8) translateY(-30px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   }
 
   .other-project-card.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
   }
+
+  .other-project-card-0 { transition-delay: 0s; }
+  .other-project-card-1 { transition-delay: 0.1s; }
+  .other-project-card-2 { transition-delay: 0.2s; }
+  .other-project-card-3 { transition-delay: 0.3s; }
+
+  /* Slower exit transition so fly-out is visible */
+  .other-projects-grid.cards-out .other-project-card {
+    transition-duration: 0.4s;
+  }
+
+  /* Reverse stagger on exit — last card leaves first */
+  .other-projects-grid.cards-out .other-project-card-0 { transition-delay: 0.3s; }
+  .other-projects-grid.cards-out .other-project-card-1 { transition-delay: 0.2s; }
+  .other-projects-grid.cards-out .other-project-card-2 { transition-delay: 0.1s; }
+  .other-projects-grid.cards-out .other-project-card-3 { transition-delay: 0s; }
 
   /* Disable animations when preference set */
   [data-animations="disabled"] .other-projects-title,

@@ -208,7 +208,7 @@ import ToggleSwitch from '../ui/ToggleSwitch.astro';
     function positionDropdown(toggle: Element, dropdown: HTMLElement) {
       const rect = toggle.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
-      const dropdownWidth = 160;
+      const dropdownWidth = dropdown.offsetWidth || 160;
 
       // Position below the toggle button
       dropdown.style.top = `${rect.bottom + 8}px`;

@@ -14,13 +14,14 @@ interface Props {
   modifiedTime?: Date;
   tags?: string[];
   noindex?: boolean;
+  snapScroll?: boolean;
 }
 
 const props = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class={`dark${props.snapScroll ? ' snap-scroll' : ''}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

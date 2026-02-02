@@ -825,6 +825,8 @@ import Icon from '../ui/Icon.astro';
     let ticking = false;
     let snappedPanel = -1;
     let panel0Revealed = false;
+    let wasPastSection = false;
+    let resetLock = false;
 
     // Track active timers so we can clear on reset
     let activeTimers: ReturnType<typeof setTimeout>[] = [];
@@ -887,6 +889,8 @@ import Icon from '../ui/Icon.astro';
       ticking = true;
 
       requestAnimationFrame(() => {
+        if (resetLock) { ticking = false; return; }
+
         const sectionRect = section.getBoundingClientRect();
         const sectionTop = -sectionRect.top;
         const totalScrollable = section.offsetHeight - window.innerHeight;
@@ -900,6 +904,8 @@ import Icon from '../ui/Icon.astro';
             updateDots(0);
           }
 
+          wasPastSection = false;
+
           if (sectionRect.top > window.innerHeight * 0.5) {
             panel0Revealed = false;
             resetAllPanels();
@@ -909,11 +915,30 @@ import Icon from '../ui/Icon.astro';
             revealPanel(0);
           }
         } else if (sectionTop >= totalScrollable) {
+          wasPastSection = true;
           snapTo(panelCount - 1);
         } else {
-          const progress = sectionTop / totalScrollable;
-          const targetPanel = Math.round(progress * (panelCount - 1));
-          snapTo(targetPanel);
+          if (wasPastSection) {
+            // Returning from below — lock scroll, reset to panel 0
+            wasPastSection = false;
+            resetLock = true;
+            snappedPanel = 0;
+            panel0Revealed = false;
+            resetAllPanels();
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            updateDots(0);
+            void track.offsetHeight;
+            setTimeout(() => {
+              panel0Revealed = true;
+              revealPanel(0);
+              resetLock = false;
+            }, 600);
+          } else {
+            const progress = sectionTop / totalScrollable;
+            const targetPanel = Math.round(progress * (panelCount - 1));
+            snapTo(targetPanel);
+          }
         }
 
         ticking = false;

@@ -642,6 +642,7 @@ import Icon from '../ui/Icon.astro';
     let activeTimers: ReturnType<typeof setTimeout>[] = [];
     let hasExited = false;
     let isRecovering = false;
+    let resetLock = false;
 
     function showTimeline(panelIndex: number) {
       if (!timelineLine) return;
@@ -798,6 +799,8 @@ import Icon from '../ui/Icon.astro';
       ticking = true;
 
       requestAnimationFrame(() => {
+        if (resetLock) { ticking = false; return; }
+
         const sectionRect = section.getBoundingClientRect();
         const sectionTop = -sectionRect.top;
         const totalScrollable = section.offsetHeight - window.innerHeight;
@@ -872,62 +875,43 @@ import Icon from '../ui/Icon.astro';
           }
 
           if (hasExited) {
-            // Returning from exit — cancel all pending exit animations,
-            // shrink line up, fade eyes out, then replay entrance.
+            // Returning from exit — lock scroll, reset to panel 0
             hasExited = false;
-            isRecovering = true;
+            isRecovering = false;
+            resetLock = true;
 
-            // Cancel ALL pending timers (exit animation chain, etc.)
+            // Cancel ALL pending timers
             activeTimers.forEach((t) => clearTimeout(t));
             activeTimers = [];
             stopEyesHover();
 
-            // Phase 1: Eyes travel up to top and fade out, line shrinks to 0
+            // Instantly reset timeline
             if (timelineEyes) {
-              timelineEyes.style.transition = 'top 0.4s ease-in, opacity 0.3s ease-in 0.1s, font-size 0.3s ease-out';
+              timelineEyes.style.transition = 'none';
               timelineEyes.style.top = '0px';
               timelineEyes.style.opacity = '0';
               timelineEyes.style.fontSize = '';
               eyesBaseTop = 0;
             }
             if (timelineLine) {
-              timelineLine.style.transition = 'height 0.4s ease-in';
+              timelineLine.style.transition = 'none';
               timelineLine.style.height = '0px';
             }
 
-            // Phase 2: After fade-out, snap eyes+line to top instantly, then replay entrance
+            // Reset track to panel 0
+            snappedPanel = 0;
+            resetAllPanels();
+            track.style.transition = 'none';
+            track.style.transform = 'translateY(0)';
+            updateDots(0);
+            void container.offsetHeight;
+
+            // Replay entrance after snap settles
             activeTimers.push(setTimeout(() => {
-              if (!isRecovering) return;
-              isRecovering = false;
-
-              // Instantly reset eyes and line to starting position (no transition)
-              if (timelineEyes) {
-                timelineEyes.style.transition = 'none';
-                timelineEyes.style.top = '0px';
-                timelineEyes.style.opacity = '0';
-                timelineEyes.style.fontSize = '';
-                eyesBaseTop = 0;
-              }
-              if (timelineLine) {
-                timelineLine.style.transition = 'none';
-                timelineLine.style.height = '0px';
-              }
-
-              // Force layout so the instant reset takes effect before animating
-              void container.offsetHeight;
-
-              // Now replay the entrance — line draws down, eyes ride down
-              // Always snap to last panel since we're coming back from exit
-              const targetPanel = panelCount - 1;
-
-              snappedPanel = targetPanel;
-              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-              track.style.transform = `translateY(-${targetPanel * stepPx}px)`;
-              updateDots(targetPanel);
-              resetAllPanels();
-              revealPanel(targetPanel);
-              showTimeline(targetPanel);
-            }, 450));
+              revealPanel(0);
+              showTimeline(0);
+              resetLock = false;
+            }, 600));
 
             ticking = false;
             return;

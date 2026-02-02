@@ -70,7 +70,7 @@ import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
             How I Built My Portfolio
           </h2>
           <p class="text-gray-300 leading-relaxed">
-            Built with Astro 5 and Tailwind CSS 4, using React islands for interactive pieces like the contact form and GitHub contribution heatmap. TypeScript throughout. I used Sharp for AVIF/WebP image optimization, GSAP for timeline animations, and Three.js for a subtle 3D hero scene. SEO is handled with JSON-LD structured data, Open Graph, and IndieWeb microformats. Deployed on Railway with gzip compression middleware. The data layer is fully separated so content changes never touch markup.
+            Built with Astro 5 and Tailwind CSS 4, using React islands for interactive pieces like the contact form and GitHub contribution heatmap. TypeScript throughout. I used Sharp for AVIF/WebP image optimization, GSAP for timeline animations, and Three.js for a subtle 3D hero scene. The hero section uses a CSS shape-outside float with a silhouette PNG so text content wraps naturally around the mascot illustration rather than sitting in rigid columns. The entire homepage uses scroll-snap for a polished section-by-section navigation feel. I also built in optional sound effects tied to UI interactions - button hovers, theme toggles, and section transitions - with a user-controlled toggle to keep it accessible. SEO is handled with JSON-LD structured data, Open Graph, and IndieWeb microformats. Deployed on Railway with gzip compression middleware. The data layer is fully separated so content changes never touch markup.
           </p>
         </article>
 
@@ -81,7 +81,7 @@ import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
             Challenges in Creating My Portfolio
           </h2>
           <p class="text-gray-300 leading-relaxed">
-            The biggest challenge was the animation system. I wanted scroll-driven letter-by-letter wave effects, parallax on decorative shapes, cascade reveals, and timeline-tracking - but all of it had to gracefully degrade. Supporting multiple theme modes (normal, high-contrast dark and light), a manual animations toggle, AND supporting prefers-reduced-motion meant every animation needed a clean off-state. Getting the hero's CSS animation to survive toggling animations on and off was particularly tricky!
+            The biggest challenge was the animation system. I wanted scroll-driven letter-by-letter wave effects, parallax on decorative shapes, cascade reveals, and timeline-tracking - but all of it had to gracefully degrade. Supporting multiple theme modes (normal, high-contrast dark and light), a manual animations toggle, AND supporting prefers-reduced-motion meant every animation needed a clean off-state. Getting the hero's CSS animation to survive toggling animations on and off was particularly tricky! Scroll-snap also introduced headaches - with mandatory snapping, every section needs to fit within the viewport, but device viewport heights vary wildly (mobile browser chrome, tablet orientations, ultrawide monitors). A section that fits perfectly on a 900px-tall screen overflows on a 700px one, and mandatory snap won't let you scroll through the overflow.
           </p>
         </article>
 
@@ -92,7 +92,7 @@ import ExternalLinkModal from '../components/common/ExternalLinkModal.astro';
             How I Overcame Those Challenges
           </h2>
           <p class="text-gray-300 leading-relaxed">
-            I built a centralized data-animations attribute on the document root that every animation checks before running. CSS rules force visibility on animated elements when disabled, and each section listens for an animations-change event to cleanly re-init or tear down its scroll observers. For the hero title, I used JavaScript to restart CSS animations via a forced reflow when toggling back on. For the theme modes, I isolated high-contrast styles to override the neon aesthetic with clean black/white palettes.
+            I built a centralized data-animations attribute on the document root that every animation checks before running. CSS rules force visibility on animated elements when disabled, and each section listens for an animations-change event to cleanly re-init or tear down its scroll observers. For the hero title, I used JavaScript to restart CSS animations via a forced reflow when toggling back on. For the theme modes, I isolated high-contrast styles to override the neon aesthetic with clean black/white palettes. For the snap-scroll viewport issue, I focused on limiting complexity within each section - keeping content concise, using collapsible panels where content could grow tall, and scoping scroll-snap exclusively to the homepage so subpages with longer free-flowing content aren't locked to a single snap point.
           </p>
         </article>
 

@@ -65,7 +65,7 @@ html {
 }
 
 @media (min-width: 768px) {
-  html {
+  html.snap-scroll {
     scroll-snap-type: y mandatory;
   }
 }

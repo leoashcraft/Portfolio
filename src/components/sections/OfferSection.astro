@@ -451,6 +451,8 @@ import Icon from '../ui/Icon.astro';
     let currentPanel = 0;
     let snappedPanel = 0;
     let panel0Revealed = false;
+    let wasPastSection = false;
+    let resetLock = false;
 
     // Track active timeouts/intervals so we can clear them on reset
     let activeTimers: ReturnType<typeof setTimeout>[] = [];
@@ -559,6 +561,8 @@ import Icon from '../ui/Icon.astro';
       ticking = true;
 
       requestAnimationFrame(() => {
+        if (resetLock) { ticking = false; return; }
+
         const sectionRect = servicesSection.getBoundingClientRect();
         const sectionTop = -sectionRect.top;
         const totalScrollable = servicesSection.offsetHeight - window.innerHeight;
@@ -574,6 +578,8 @@ import Icon from '../ui/Icon.astro';
             updateDots(0);
           }
 
+          wasPastSection = false;
+
           // Reset all panels when scrolled well above
           if (sectionRect.top > window.innerHeight * 0.5) {
             panel0Revealed = false;
@@ -585,12 +591,33 @@ import Icon from '../ui/Icon.astro';
           }
         } else if (sectionTop >= totalScrollable) {
           // Past the section — snap to last
+          wasPastSection = true;
           snapTo(panelCount - 1);
         } else {
-          // In the sticky range — determine which panel to snap to
-          const progress = sectionTop / totalScrollable;
-          const targetPanel = Math.round(progress * (panelCount - 1));
-          snapTo(targetPanel);
+          // In the sticky range
+          if (wasPastSection) {
+            // Returning from below — lock scroll, reset to panel 0
+            wasPastSection = false;
+            resetLock = true;
+            snappedPanel = 0;
+            currentPanel = 0;
+            panel0Revealed = false;
+            panelStates.forEach((state) => resetPanelContent(state));
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            updateDots(0);
+            void track.offsetHeight;
+            setTimeout(() => {
+              panel0Revealed = true;
+              revealPanelContent(panelStates[0]);
+              resetLock = false;
+            }, 600);
+          } else {
+            // Normal scrolling — determine which panel to snap to
+            const progress = sectionTop / totalScrollable;
+            const targetPanel = Math.round(progress * (panelCount - 1));
+            snapTo(targetPanel);
+          }
         }
 
         ticking = false;

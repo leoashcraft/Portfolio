@@ -373,9 +373,8 @@ code, pre, kbd {
   background-size: 300% 300%;
   background-image: linear-gradient(
     135deg,
-    #22CBCC,
-    #1a9a9b,
-    #22CBCC
+    #30FEFF,
+    #1B9C9D
   );
   animation: var(--animate-gradient);
 }

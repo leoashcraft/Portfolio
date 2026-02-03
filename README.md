@@ -40,6 +40,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Mascot Positioning**: On desktop (768px+), mascot overlaps the content container from the left with responsive sizing; on mobile, mascot appears centered behind content
 - **Responsive Breakpoints**: Multiple breakpoints (1195px, 1008px, 899px, 859px, 780px) adjust mascot position and text layout
 - **4K Scaling**: Glowing orbs double in size and blur on screens above 2000px for consistent visual impact
+- **Navigation Hint**: Scroll indicator shows both mouse scroll icon and animated spacebar key to indicate navigation options
 
 #### Section Titles (Scroll-Driven)
 - **Wave Animation**: Letters scale up to 140% as a "wave" passes through based on scroll position
@@ -143,6 +144,12 @@ Each section features floating geometric shapes inspired by 80s arcade carpet pa
 - GPU-accelerated transforms with `will-change-transform`
 - Respects `prefers-reduced-motion` accessibility preference
 
+#### Keyboard Navigation
+- **Spacebar Snapping**: Press spacebar to snap to the next section or panel
+- **Horizontal Scroll Sections**: Within Offer, Projects, and Experience sections, spacebar advances through panels
+- **Section Transitions**: After the last panel in a horizontal scroll section, spacebar advances to the next major section
+- **Input Awareness**: Spacebar navigation is disabled when focused on input fields or textareas
+
 #### Custom Cursor & Mouse Heatmap (Desktop)
 - **Custom Cursor**: Neon cyan dot with trailing ring that expands on interactive elements
 - **Mouse Heatmap**: Subtle glowing dots trail behind cursor, fading out over 8 seconds
@@ -237,6 +244,7 @@ src/
 ├── lib/
 │   ├── contact.ts       # Email/phone unscrambling utilities
 │   ├── icon-flip.ts     # Shared icon flip animation logic
+│   ├── keyboard-nav.ts  # Spacebar keyboard navigation for sections
 │   ├── parallax.ts      # Section-based parallax for decorations
 │   ├── scroll-wave.ts   # Scroll-driven wave animation for titles
 │   ├── theme.ts         # Theme & animations state management

@@ -205,26 +205,15 @@ import { schema } from '../../data/seo';
       <img
         src="/img/leo-mascot.avif"
         alt="Hyper-realistic Portrait of Leo Ashcraft"
-        class="hero-mascot absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-auto pointer-events-none -z-10"
+        class="hero-mascot absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-auto pointer-events-none -z-10"
         aria-hidden="true"
       />
-      <div class="h-card rounded-2xl p-6 mt-56 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
+      <div class="h-card rounded-2xl p-6 mt-44 bg-black/70 shadow-[0_0_60px_40px_rgba(0,0,0,0.7)]">
         <h1 class="hero-title font-bold mb-6">
-          <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
+          <span class="gradient-text-animated">Lead the web with <span class="p-name">Leo</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
         </h1>
         <!-- About content -->
-        <p class="p-note text-gray-300 text-base sm:text-lg leading-relaxed mb-6">{profile.bio}</p>
-        <!-- Quick Info -->
-        <div class="grid grid-cols-2 gap-3 mb-6">
-          <div class="glass-light p-3 rounded-lg">
-            <span class="text-gray-400 text-xs">Location</span>
-            <p class="p-adr text-white font-medium text-sm"><span class="p-locality">{schema.address.addressLocality}</span>, <span class="p-region">{schema.address.addressRegion}</span> <span class="p-country-name sr-only">{schema.address.addressCountry}</span></p>
-          </div>
-          <div class="glass-light p-3 rounded-lg">
-            <span class="text-gray-400 text-xs">Availability</span>
-            <p class="font-medium text-sm" style="color: #22CBCC;">{site.sections.about.availabilityText}</p>
-          </div>
-        </div>
+        <p class="p-note text-gray-300 text-base sm:text-lg leading-relaxed mb-6 text-justify hyphens-auto" lang="en">{profile.bio}</p>
         <!-- CTA -->
         <div class="flex flex-wrap gap-3 justify-center">
           <a href={profile.resumeUrl} download class="btn btn-primary text-sm">
@@ -233,7 +222,7 @@ import { schema } from '../../data/seo';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
           </a>
-          <a href="#contact" class="btn btn-secondary text-sm">
+          <a href="#contact" class="btn btn-secondary text-sm min-w-[196px]">
             Let's Talk
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -264,30 +253,19 @@ import { schema } from '../../data/seo';
         />
         
         <!-- Content flows around the shape -->
-        <h1 class="hero-title font-bold mb-6 mt-2 text-right md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]">
-          <span class="gradient-text-animated">Hi, I'm <span class="p-name">{profile.name}</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
+        <h1 class="hero-title font-bold mb-10 mt-2 text-right md:opacity-0 md:animate-[fadeInUp_0.6s_ease_0.4s_forwards]">
+          <span class="gradient-text-animated">Lead the web with <span class="p-name">Leo</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
         </h1>
-        <p class="p-note text-gray-300 md:text-lg lg:text-xl leading-relaxed mb-6">{profile.bio}</p>
-        <!-- Quick Info -->
-        <div class="hero-info-grid grid grid-cols-2 gap-4 mb-6">
-          <div class="glass-light p-4 rounded-lg">
-            <span class="text-gray-400 text-sm">Location</span>
-            <p class="p-adr text-white font-medium"><span class="p-locality">{schema.address.addressLocality}</span>, <span class="p-region">{schema.address.addressRegion}</span> <span class="p-country-name sr-only">{schema.address.addressCountry}</span></p>
-          </div>
-          <div class="glass-light p-4 rounded-lg">
-            <span class="text-gray-400 text-sm">Availability</span>
-            <p class="font-medium" style="color: #22CBCC;">{site.sections.about.availabilityText}</p>
-          </div>
-        </div>
+        <p class="p-note text-gray-300 md:text-lg lg:text-xl leading-relaxed mb-8 min-[769px]:mb-16 text-justify hyphens-auto" lang="en">{profile.bio}</p>
         <!-- CTA -->
-        <div class="hero-cta flex flex-wrap gap-4">
-          <a href={profile.resumeUrl} download class="btn btn-primary">
+        <div class="hero-cta flex flex-nowrap gap-4 justify-center min-[863px]:justify-end min-[863px]:pr-0 lg:pr-[17%] max-[862px]:clear-left">
+          <a href={profile.resumeUrl} download class="btn btn-primary whitespace-nowrap shrink-0">
             Download Resume
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
           </a>
-          <a href="#contact" class="btn btn-secondary">
+          <a href="#contact" class="btn btn-secondary whitespace-nowrap shrink-0">
             Let's Talk
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -303,22 +281,36 @@ import { schema } from '../../data/seo';
 
   <!-- Scroll Indicator -->
   <div
-    class="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_0.6s_ease_1.4s_forwards]"
+    class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_0.6s_ease_1.4s_forwards] flex-col items-center gap-3"
   >
-    <a
-      href="#offer"
-      class="flex flex-col items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors"
-      aria-label="Scroll to offers section"
-    >
-      <span class="text-xs font-mono">SCROLL</span>
-      <div class="w-6 h-10 border-2 border-current rounded-full flex justify-center pt-2">
-        <div
-          class="w-1 h-2 bg-current rounded-full animate-bounce"
-          aria-hidden="true"
-        >
+    <div class="flex items-center gap-3 text-gray-400">
+      <!-- Mouse scroll icon -->
+      <a
+        href="#offer"
+        class="flex flex-col items-center gap-1 hover:text-neon-cyan transition-colors"
+        aria-label="Scroll to offers section"
+      >
+        <div class="w-5 h-8 border-2 border-current rounded-full flex justify-center pt-1.5">
+          <div
+            class="w-0.5 h-1.5 bg-current rounded-full animate-bounce"
+            aria-hidden="true"
+          >
+          </div>
+        </div>
+      </a>
+
+      <span class="text-xs font-mono text-gray-500">or</span>
+
+      <!-- Spacebar icon with press animation -->
+      <div class="flex flex-col items-center gap-1 group cursor-default">
+        <div class="spacebar-key relative">
+          <div class="spacebar-surface w-16 h-5 border-2 border-current rounded flex items-center justify-center text-[10px] font-mono transition-all duration-100">
+            SPACE
+          </div>
         </div>
       </div>
-    </a>
+    </div>
+    <span class="text-[10px] font-mono text-gray-500 tracking-wider">TO NAVIGATE</span>
   </div>
   <!-- Neon Bottom Border -->
   <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent"></div>
@@ -480,7 +472,6 @@ import { schema } from '../../data/seo';
   /* Ensure content is above mascot visual */
   .hero-wrap-container > h1,
   .hero-wrap-container > p,
-  .hero-info-grid,
   .hero-cta {
     position: relative;
     z-index: 1;
@@ -496,7 +487,7 @@ import { schema } from '../../data/seo';
   }
 
   .hero-title {
-    font-size: clamp(1.5rem, -0.25rem + 5.94vw, 4.5rem);
+    font-size: clamp(1.375rem, -0.25rem + 5vw, 4rem);
     white-space: nowrap;
   }
 
@@ -553,6 +544,20 @@ import { schema } from '../../data/seo';
     .hero-title {
       margin-top: -1rem;
       margin-bottom: 1rem;
+    }
+  }
+
+  /* Spacebar press animation - synced with Tailwind's animate-bounce (1s) */
+  .spacebar-surface {
+    animation: spacebar-press 1s infinite;
+  }
+
+  @keyframes spacebar-press {
+    0%, 100% {
+      transform: translateY(-2px);
+    }
+    50% {
+      transform: translateY(2px);
     }
   }
 </style>

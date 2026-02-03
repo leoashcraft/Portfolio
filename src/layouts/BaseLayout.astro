@@ -475,5 +475,11 @@ const props = Astro.props;
       // Scroll-snap sound removed — sounds are now handled
       // by the individual horizontal scroll sections
     </script>
+
+    <script>
+      import { initKeyboardNav } from '../lib/keyboard-nav';
+      initKeyboardNav();
+      document.addEventListener('astro:after-swap', initKeyboardNav);
+    </script>
   </body>
 </html>

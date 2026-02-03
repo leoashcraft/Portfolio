@@ -93,6 +93,7 @@ function initExpHscroll() {
   let wasPastSection = false;
   let resetLock = false;
   const previewOffset = 50; // pixels of preview movement
+  let snapTime = 0; // timestamp of last snap for lockout
 
   function revealPanelContent(state: PanelState) {
     if (state.revealed) return;
@@ -135,6 +136,7 @@ function initExpHscroll() {
     snappedPanel = clamped;
 
     playSnapSound();
+    snapTime = Date.now();
 
     resetAllPanels();
 
@@ -209,8 +211,9 @@ function initExpHscroll() {
         const progress = sectionTop / totalScrollable;
         const targetPanel = Math.round(progress * (panelCount - 1));
 
-        // Show continuous preview movement while scrolling
-        if (targetPanel === snappedPanel) {
+        // Show continuous preview movement while scrolling (with lockout after snap)
+        const timeSinceSnap = Date.now() - snapTime;
+        if (targetPanel === snappedPanel && timeSinceSnap > 500) {
           const exactProgress = progress * (panelCount - 1);
           const subProgress = exactProgress - snappedPanel;
           const previewPx = subProgress * previewOffset * 2;

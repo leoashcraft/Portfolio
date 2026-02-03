@@ -211,6 +211,7 @@ function initHorizontalScroll() {
   let wasPastSection = false;
   let resetLock = false;
   const previewOffset = 50; // pixels of preview movement
+  let snapTime = 0; // timestamp of last snap for lockout
 
   // Track active timeouts/intervals so we can clear them on reset
   let activeTimers: ReturnType<typeof setTimeout>[] = [];
@@ -290,6 +291,7 @@ function initHorizontalScroll() {
     snappedPanel = clamped;
 
     playSnapSound();
+    snapTime = Date.now();
 
     resetAllPanels();
 
@@ -356,8 +358,9 @@ function initHorizontalScroll() {
         const progress = sectionTop / totalScrollable;
         const targetPanel = Math.round(progress * (panelCount - 1));
 
-        // Show continuous preview movement while scrolling
-        if (targetPanel === snappedPanel) {
+        // Show continuous preview movement while scrolling (with lockout after snap)
+        const timeSinceSnap = Date.now() - snapTime;
+        if (targetPanel === snappedPanel && timeSinceSnap > 500) {
           const exactProgress = progress * (panelCount - 1);
           const subProgress = exactProgress - snappedPanel;
           // subProgress: -0.5 to 0.5 range around current panel

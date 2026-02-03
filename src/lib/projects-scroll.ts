@@ -216,6 +216,7 @@ function initProjectsHscroll() {
   let panel0Revealed = false;
   let wasPastSection = false;
   let resetLock = false;
+  const previewOffset = 50; // pixels of preview movement
 
   let activeTimers: ReturnType<typeof setTimeout>[] = [];
 
@@ -323,6 +324,17 @@ function initProjectsHscroll() {
         } else {
           const progress = sectionTop / totalScrollable;
           const targetPanel = Math.round(progress * (panelCount - 1));
+
+          // Show continuous preview movement while scrolling
+          if (targetPanel === snappedPanel && snappedPanel >= 0) {
+            const exactProgress = progress * (panelCount - 1);
+            const subProgress = exactProgress - snappedPanel;
+            const previewPx = subProgress * previewOffset * 2;
+            const basePx = snappedPanel * stepPx;
+            track.style.transition = 'none';
+            track.style.transform = `translateX(-${basePx + previewPx}px)`;
+          }
+
           snapTo(targetPanel);
         }
       }

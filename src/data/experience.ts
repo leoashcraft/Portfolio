@@ -18,7 +18,7 @@ export const experience: Experience[] = [
     location: 'Dallas, TX',
     highlights: [
       'Constructed front-end and PHP-based back-end systems for Parker.edu, ParkerSeminars.com, and TheInvictaProject.org',
-      'Fabricated custom WordPress plugins for Salesforce, Twilio, and SearchStax integration, boosting student enrollment by 25%',
+      'Fabricated custom WordPress plugins for Salesforce, Twilio, and SearchStax integration, boosting student enrollment 25%',
       'Devised advanced student registration with Salesforce API/SOQL, integrating Jenzabar, TargetX, and Salesforce Communities',
       'Orchestrated SMS campaign API with 10DLC authorization via The Campaign Registry',
       'Introduced multi-domain search functionality via SearchStax API',
@@ -48,7 +48,7 @@ export const experience: Experience[] = [
     highlights: [
       'Piloted project planning, execution, and troubleshooting for the HHSC IT enterprise network',
       'Optimized monitoring systems for 40,000+ devices across 700 locations, identifying and resolving 150+ network issues monthly',
-      'Oversaw major network outages and led recovery efforts, minimizing downtime and ensuring business continuity',
+      'Oversaw major network outages and led recovery efforts, minimizing downtime and ensuring continuity',
       'Directed ServiceNow ticket queues, coordinating with cross-functional teams for efficient issue resolution',
     ],
   },

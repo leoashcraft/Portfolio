@@ -313,6 +313,7 @@ function initProjectsHscroll() {
           resetLock = true;
           snappedPanel = 0;
           panel0Revealed = false;
+          snapTime = Date.now(); // Prevent preview from applying during reset
           resetAllPanels();
           track.style.transition = 'none';
           track.style.transform = 'translateX(0)';
@@ -321,6 +322,7 @@ function initProjectsHscroll() {
           setTimeout(() => {
             panel0Revealed = true;
             revealPanel(0);
+            snapTime = Date.now(); // Reset again after reveal
             resetLock = false;
           }, 600);
         } else {

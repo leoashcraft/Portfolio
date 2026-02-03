@@ -344,6 +344,7 @@ function initHorizontalScroll() {
         snappedPanel = 0;
         currentPanel = 0;
         panel0Revealed = false;
+        snapTime = Date.now(); // Prevent preview from applying during reset
         panelStates.forEach((state) => resetPanelContent(state));
         track.style.transition = 'none';
         track.style.transform = 'translateX(0)';
@@ -352,6 +353,7 @@ function initHorizontalScroll() {
         setTimeout(() => {
           panel0Revealed = true;
           revealPanelContent(panelStates[0]);
+          snapTime = Date.now(); // Reset again after reveal
           resetLock = false;
         }, 600);
       } else {

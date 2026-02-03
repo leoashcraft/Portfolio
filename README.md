@@ -1,8 +1,19 @@
 # Leo Ashcraft - Portfolio
 
-A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic.
+A modern, performant single-page portfolio built with Astro, featuring an 80s arcade aesthetic with custom scroll-driven animations, horizontal panel navigation, and comprehensive accessibility support.
 
 **Live Site:** [leoashcraft.com](https://leoashcraft.com)
+
+## Technical Highlights
+
+This portfolio demonstrates proficiency in:
+
+- **Modern Frontend Architecture** - Astro 5 with islands architecture, React 19 for interactive components, TypeScript throughout
+- **Custom Animation Systems** - Scroll-driven horizontal panels with CSS sticky positioning, preview movement feedback, touch swipe gestures
+- **Performance Optimization** - Zero-dependency horizontal scroll (no GSAP for core navigation), lazy loading, critical CSS inlining
+- **Accessibility-First Design** - Three contrast modes, animations toggle, keyboard navigation, screen reader support
+- **Mobile-First Responsive** - Touch swipe support, progressive enhancement, breakpoint-specific optimizations
+- **Clean Code Practices** - Modular TypeScript utilities, shared scroll/reveal patterns, separation of concerns
 
 ## Tech Stack
 
@@ -13,7 +24,9 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 ### Styling & Animation
 - **[Tailwind CSS 4](https://tailwindcss.com)** - Utility-first CSS with custom theme configuration
-- **[GSAP](https://gsap.com)** - ScrollTrigger-driven horizontal scroll for the Experience section
+- **Custom Scroll-Driven Animations** - CSS sticky + transform-based horizontal scroll with no heavy dependencies
+- **Touch Swipe Support** - Native touch gesture handling for mobile horizontal navigation
+- **Sound Effects** - Audio feedback for panel snaps and card reveals (user-controllable)
 - **Custom CSS Animations** - Floating geometric shapes, drift effects, wobble animations
 - **Arcade Carpet Theme** - 80s-inspired neon color palette with teal accent (#22CBCC) for headings, buttons, and highlights
 
@@ -83,16 +96,19 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Lightbox Modal**: Clicking a logo opens an in-card modal overlay with larger view
 - **High Contrast Support**: Shimmer disabled, logos display in grayscale, modal has solid background
 
-#### Experience Cards (GSAP Horizontal Scroll)
-The Work Experience section uses GSAP ScrollTrigger to convert vertical scrolling into horizontal card navigation:
-- **Pin & Scrub**: Section pins in the viewport while vertical scroll drives horizontal movement
-- **Gentle Snap**: Cards snap to the nearest panel after scrolling stops, with configurable duration and easing
-- **Horizontal Input**: Trackpad/wheel horizontal gestures also drive the scroll
-- **Timeline Progress Bar**: Neon gradient progress bar at the bottom fills as you scroll through cards
-- **Marker Dots**: Timeline markers activate as each card comes into view
-- **Scroll-Snap Toggle**: Page-level scroll-snap is temporarily disabled during the pinned section to prevent conflicts
-- **Panel Height Matching**: Experience panels are equalized to match the Offer section's rendered panel height
-- **All Screen Sizes**: GSAP ScrollTrigger runs on both desktop and mobile
+#### Horizontal Scroll Sections (Offer, Projects, Experience)
+All three horizontal scroll sections use a custom CSS sticky + transform system for smooth panel navigation:
+
+- **CSS Sticky Container**: Section pins in viewport while vertical scroll drives horizontal panel movement
+- **Scroll Preview Movement**: Panels shift up to 50px in scroll direction for visual feedback before snapping
+- **Snap-to-Panel**: Automatic snap with 450ms eased transition when crossing panel thresholds
+- **Touch Swipe Support**: Horizontal swipe gestures navigate between panels on mobile
+- **Sound Effects**: Audio feedback on panel transitions (respects user sound preferences)
+- **Timeline Progress Bar** (Experience): Neon gradient progress bar fills as you scroll through cards
+- **Marker Dots**: Visual indicators activate as each panel comes into view
+- **Panel Height Equalization**: Panels match heights across sections for consistent UX
+- **Progressive Enhancement**: Falls back to inline layout on very small screens (374px and below)
+- **500ms Snap Lockout**: Prevents preview movement from interfering with snap transitions
 
 #### Education Cards
 - **Diagonal Grow**: Cards grow diagonally from the center of all 4 cards
@@ -242,13 +258,21 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro # Main layout with SEO
 ├── lib/
-│   ├── contact.ts       # Email/phone unscrambling utilities
-│   ├── icon-flip.ts     # Shared icon flip animation logic
-│   ├── keyboard-nav.ts  # Spacebar keyboard navigation for sections
-│   ├── parallax.ts      # Section-based parallax for decorations
-│   ├── scroll-wave.ts   # Scroll-driven wave animation for titles
-│   ├── theme.ts         # Theme & animations state management
-│   └── typewriter.ts    # Natural typing delay utilities
+│   ├── contact.ts          # Email/phone unscrambling utilities
+│   ├── education.ts        # Education section scroll reveal & year counters
+│   ├── experience-scroll.ts # Experience horizontal scroll controller
+│   ├── icon-flip.ts        # Shared icon flip animation logic
+│   ├── keyboard-nav.ts     # Spacebar keyboard navigation for sections
+│   ├── offer-scroll.ts     # Offer section horizontal scroll controller
+│   ├── parallax.ts         # Section-based parallax for decorations
+│   ├── projects-scroll.ts  # Projects horizontal scroll controller
+│   ├── scroll-reveal.ts    # Shared scroll-triggered reveal animations
+│   ├── scroll-wave.ts      # Scroll-driven wave animation for titles
+│   ├── section-utils.ts    # Shared helpers (nav height, animations check)
+│   ├── sounds.ts           # Sound effect utilities (snap, tap, cascade)
+│   ├── theme.ts            # Theme & animations state management
+│   ├── touch-swipe.ts      # Touch swipe gesture detection
+│   └── typewriter.ts       # Natural typing delay utilities
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
 │   ├── index.astro      # Single-page portfolio
@@ -258,6 +282,44 @@ src/
     ├── high-contrast.css       # High contrast dark mode styles
     └── high-contrast-light.css # High contrast light mode styles
 ```
+
+## Code Architecture
+
+### Horizontal Scroll System
+The horizontal scroll sections demonstrate a clean separation of concerns:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Section Component (.astro)                                 │
+│  - HTML structure & CSS styling                             │
+│  - Imports and initializes scroll controller                │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Scroll Controller (lib/*-scroll.ts)                        │
+│  - Panel state management                                   │
+│  - Scroll position calculation                              │
+│  - Preview movement & snap logic                            │
+│  - Touch swipe integration                                  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│  touch-swipe.ts │ │  sounds.ts      │ │  section-utils  │
+│  Gesture detect │ │  Audio feedback │ │  Nav height,    │
+│  Swipe threshold│ │  Debouncing     │ │  anim checks    │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+```
+
+### Shared Utilities Pattern
+Common functionality is extracted into reusable modules:
+
+- **`sounds.ts`** - Factory functions for snap/tap sounds with debouncing and user preference checks
+- **`scroll-reveal.ts`** - Configurable scroll-triggered reveal for card grids
+- **`section-utils.ts`** - Shared helpers used across all scroll sections
+- **`touch-swipe.ts`** - Reusable touch gesture handler with configurable thresholds
 
 ## CSS Architecture
 
@@ -474,10 +536,46 @@ RECAPTCHA_SECRET=6Lxxx
 MAILTRAP_TOKEN=xxx
 ```
 
+## What This Codebase Demonstrates
+
+### For Hiring Managers & Technical Reviewers
+
+This portfolio showcases:
+
+**Frontend Engineering**
+- Custom scroll-driven animations without heavy animation libraries
+- Touch gesture handling with proper threshold detection
+- State management for complex UI interactions (panel states, reveal tracking)
+- Performance-conscious patterns (rAF throttling, lazy loading, CSS transforms)
+
+**Code Quality**
+- TypeScript throughout with proper interfaces and type safety
+- Modular architecture with clear separation of concerns
+- Reusable utility functions and shared patterns
+- Consistent naming conventions and code organization
+
+**User Experience**
+- Progressive enhancement (graceful degradation on small screens)
+- Comprehensive accessibility (contrast modes, keyboard nav, screen readers)
+- Visual feedback systems (preview movement, sound effects)
+- Mobile-first responsive design with touch support
+
+**Technical Decision-Making**
+- Replaced GSAP dependency with custom CSS sticky + transform solution
+- Extracted shared scroll/reveal patterns to reduce code duplication
+- Implemented snap lockout to prevent animation conflicts
+- Balanced visual polish with performance considerations
+
+### Key Files to Review
+- `src/lib/offer-scroll.ts` - Core horizontal scroll implementation
+- `src/lib/touch-swipe.ts` - Clean touch gesture detection
+- `src/lib/sounds.ts` - Audio utility with factory pattern
+- `src/components/sections/ProjectsSection.astro` - Complex component example
+
 ## License
 
 This project is open source and available for reference. Feel free to use it as inspiration for your own portfolio.
 
 ---
 
-Built with Astro and lots of caffeine.
+Built with Astro, TypeScript, and attention to detail.

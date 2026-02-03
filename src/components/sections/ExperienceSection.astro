@@ -12,67 +12,41 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
   <!-- Floating Arcade Decorations -->
   <ArcadeDecorations variant="experience" />
 
-  <!-- Experience Horizontal Scroll Timeline -->
+  <!-- Experience Horizontal Scroll Section (same pattern as Offer) -->
   <div class="exp-hscroll-section relative z-10">
-    <!-- Section Header -->
-    <div class="exp-hscroll-header">
-      <SectionHeader
-        title={site.sections.experience.title}
-        titleHighlight={site.sections.experience.titleHighlight}
-        subtitle={site.sections.experience.subtitle}
-        headingId="experience-heading"
-      />
-    </div>
-
-    <!-- Horizontal scrolling track -->
     <div class="exp-hscroll-container">
-      {
-        experience.map((exp, index) => (
-          <div class="exp-hscroll-panel" data-index={index}>
-            <div class="experience-card card" data-index={index}>
-              {/* Header */}
-              <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                <div>
-                  <p class="exp-title text-xl font-bold text-white">{exp.position}</p>
-                  <p class="exp-company font-medium" style="color: #22CBCC;">{exp.company}</p>
+      <!-- Section Header pinned inside the sticky container -->
+      <div class="exp-hscroll-header">
+        <SectionHeader
+          title={site.sections.experience.title}
+          titleHighlight={site.sections.experience.titleHighlight}
+          subtitle={site.sections.experience.subtitle}
+          headingId="experience-heading"
+        />
+      </div>
+
+      <!-- Horizontal scrolling track -->
+      <div class="exp-hscroll-track">
+        {
+          experience.map((exp, index) => (
+            <div class="exp-hscroll-panel" data-index={index}>
+              <div class="experience-card card" data-index={index}>
+                {/* Header */}
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                  <div>
+                    <p class="exp-title text-[24px] font-bold text-white">{exp.position}</p>
+                    <p class="exp-company text-[20px] font-medium" style="color: #22CBCC;">{exp.company}</p>
+                  </div>
+                  <span class="exp-period text-base text-gray-400 bg-night-700 px-4 py-1.5 rounded-full">
+                    {exp.period}
+                  </span>
                 </div>
-                <span class="exp-period text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
-                  {exp.period}
-                </span>
-              </div>
 
-              {/* Location */}
-              {exp.location && (
-                <p class="exp-location text-gray-400 text-sm mb-4 flex items-center gap-2">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {exp.location}
-                </p>
-              )}
-
-              {/* Highlights */}
-              <ul class="exp-highlights space-y-2">
-                {exp.highlights.map((highlight) => (
-                  <li class="exp-highlight flex items-start gap-3 text-gray-300 text-sm">
+                {/* Location */}
+                {exp.location && (
+                  <p class="exp-location text-gray-400 text-[18px] mb-6 flex items-center gap-2">
                     <svg
-                      class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
+                      class="w-5 h-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -81,36 +55,71 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))
-      }
-    </div>
+                    {exp.location}
+                  </p>
+                )}
 
-    <!-- Timeline progress bar -->
-    <div class="exp-hscroll-timeline">
-      <div class="exp-hscroll-progress-track">
-        <div class="exp-hscroll-progress-fill"></div>
-      </div>
-      <div class="exp-hscroll-markers">
-        {
-          experience.map((exp, index) => (
-            <div
-              class="exp-hscroll-marker"
-              style={`left: ${experience.length > 1 ? (index / (experience.length - 1)) * 100 : 0}%`}
-            >
-              <div class="exp-hscroll-marker-dot"></div>
-              <span class="exp-hscroll-marker-label">{exp.period.split(' - ')[0]}</span>
+                {/* Highlights */}
+                <ul class="exp-highlights space-y-3">
+                  {exp.highlights.map((highlight) => (
+                    <li class="exp-highlight flex items-start gap-3 text-gray-300 text-[18px]">
+                      <svg
+                        class="w-6 h-6 text-neon-green shrink-0 mt-0.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ))
         }
+      </div>
+
+      <!-- Timeline progress bar -->
+      <div class="exp-hscroll-timeline">
+        <div class="exp-hscroll-progress-track">
+          <div class="exp-hscroll-progress-fill"></div>
+        </div>
+        <div class="exp-hscroll-markers">
+          {
+            experience.map((exp, index) => (
+              <div
+                class="exp-hscroll-marker"
+                style={`left: ${experience.length > 1 ? (index / (experience.length - 1)) * 100 : 0}%`}
+              >
+                <div class="exp-hscroll-marker-dot"></div>
+                <span class="exp-hscroll-marker-label">{exp.period.split(' - ')[0]}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Panel indicator dots -->
+      <div class="exp-hscroll-indicators">
+        {experience.map((_, i) => (
+          <button class={`exp-hscroll-dot${i === 0 ? ' active' : ''}`} data-panel={i} aria-label={`Go to experience ${i + 1}`}></button>
+        ))}
       </div>
     </div>
   </div>
@@ -119,6 +128,7 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
 <style>
   /* ============================================
      Experience Horizontal Scroll Section
+     (Same pattern as Offer section)
      ============================================ */
   :global(#experience) {
     scroll-snap-align: start;
@@ -127,59 +137,72 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
     padding-bottom: 0 !important;
   }
 
-  /* The pinned section fills the viewport below nav */
+  /* The outer section creates vertical scroll space.
+     Height = (number of panels) * scroll multiplier so that scrolling
+     through this tall section drives the horizontal movement. */
   .exp-hscroll-section {
+    position: relative;
+    /* JS will set height dynamically based on panel count */
+  }
+
+  /* Sticky container pins at the top of the viewport,
+     offset below the nav bar (--nav-h set by JS) */
+  .exp-hscroll-container {
+    position: sticky;
+    top: var(--nav-h, 60px);
     height: calc(100vh - var(--nav-h, 60px));
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    position: relative;
   }
 
+  /* Header stays at top inside sticky */
   .exp-hscroll-header {
     flex-shrink: 0;
-    padding: 5rem 5% 0;
+    padding: 2rem 5% 0;
   }
 
-  /* Horizontal scroll container — flex row of panels */
-  .exp-hscroll-container {
-    flex: 1;
+  /* The inner track that gets translated horizontally */
+  .exp-hscroll-track {
     display: flex;
-    align-items: center;
-    min-height: 0;
-    padding-bottom: 4rem; /* space for the absolute-positioned timeline */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    will-change: transform;
+    flex: 1;
+    align-items: flex-start;
+    width: 100%;
   }
 
-  /* Each panel fills the viewport width */
+  /* Each panel takes full container width so adjacent panels are off-screen */
   .exp-hscroll-panel {
-    width: 100vw;
-    flex-shrink: 0;
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     padding: 1.5rem 5%;
-    box-sizing: border-box;
   }
 
-  /* Card sizing — match Offer section cards.
-     flex-column + justify-center keeps content vertically centered
-     when the card stretches taller than its natural content. */
+  /* Card sizing — match Offer section cards */
   .experience-card {
     width: 100%;
     max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* Card entrance animation — swipes in from right */
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  /* Timeline progress bar — absolute so it doesn't steal flex space
-     (matches Offer section where dots are position: absolute) */
+  .experience-card.card-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Timeline progress bar — part of flex flow at bottom */
   .exp-hscroll-timeline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0 5% 2rem;
-    z-index: 2;
+    flex-shrink: 0;
+    padding: 1rem 5% 1.5rem;
+    z-index: 20;
   }
 
   .exp-hscroll-progress-track {
@@ -197,13 +220,13 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
     transform-origin: left;
     transform: scaleX(0);
     border-radius: 2px;
-    transition: transform 0.1s linear;
+    transition: transform 0.3s ease-out;
   }
 
   /* Markers along the timeline */
   .exp-hscroll-markers {
     position: relative;
-    height: 32px;
+    height: 24px;
   }
 
   .exp-hscroll-marker {
@@ -232,9 +255,30 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
   }
 
   .exp-hscroll-marker-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: rgba(255, 255, 255, 0.4);
     white-space: nowrap;
+  }
+
+  /* Panel indicator dots - hidden since timeline markers serve this purpose */
+  .exp-hscroll-indicators {
+    display: none;
+  }
+
+  .exp-hscroll-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 0, 255, 0.4);
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .exp-hscroll-dot.active {
+    background: var(--color-neon-pink);
+    border-color: var(--color-neon-pink);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
   }
 
   /* Mobile: tighter padding */
@@ -244,15 +288,21 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
     }
 
     .exp-hscroll-panel {
-      padding: 1rem;
+      padding: 0 1rem;
     }
 
     .exp-hscroll-timeline {
-      padding: 0 1rem 1.5rem;
+      padding: 0 1rem;
     }
   }
 
-  /* Disable animations */
+  /* Disable animations when preference set */
+  [data-animations="disabled"] .experience-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
   [data-animations="disabled"] .exp-hscroll-progress-fill {
     transform: scaleX(1) !important;
   }
@@ -261,7 +311,6 @@ import ArcadeDecorations from '../common/ArcadeDecorations.astro';
     background: var(--color-neon-pink) !important;
     border-color: var(--color-neon-pink) !important;
   }
-
 </style>
 
 <script>

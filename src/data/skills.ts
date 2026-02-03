@@ -79,7 +79,7 @@ export const services = [
   {
     title: 'Web & Software Development',
     description:
-      'Building <span class="hover-underline-trigger">clean, maintainable code</span> for web applications, custom software solutions, and API integrations is what I do best. From front-end interfaces with React and Next.js to robust back-end systems with Laravel and PHP, I deliver performant, scalable solutions that <span class="hover-underline-trigger">meet real business needs</span>. Whether it\'s a customer-facing portal, internal workflow tool, or complex data-driven platform, I focus on writing code that\'s built to last and easy to extend.',
+      'Building <span class="hover-underline-trigger">clean, maintainable code</span> for web applications, custom software, and API integrations is what I do best. From front-end interfaces with React and Next.js to robust back-end systems using Laravel and PHP, I deliver performant, scalable solutions that <span class="hover-underline-trigger">meet real business needs</span>. Whether it\'s a customer-facing portal, internal workflow tool, or data-driven platform, I focus on code built to last and easy to extend.',
     icon: 'code',
     features: [
       'Full-stack web applications',

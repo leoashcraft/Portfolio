@@ -1,43 +1,67 @@
 /**
- * Experience section — GSAP horizontal scroll timeline
+ * Experience section — CSS sticky horizontal scroll timeline (no GSAP)
+ * Uses same scroll-hijack pattern as Offer section
  */
 
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initSectionParallax } from './parallax';
+import { createSnapSound } from './sounds';
 import { isAnimationsDisabled, setNavHeightVar } from './section-utils';
+import { initTouchSwipe } from './touch-swipe';
 
-gsap.registerPlugin(ScrollTrigger);
+// ── Sound ────────────────────────────────────────────────────────────
+const playSnapSound = createSnapSound('/sounds/fast-swipe-48158.mp3');
 
 // ── Horizontal scroll ────────────────────────────────────────────────
 let expCleanup: (() => void) | undefined;
 
+interface PanelState {
+  panel: HTMLElement;
+  card: HTMLElement | null;
+  revealed: boolean;
+}
+
 function initExpHscroll() {
-  const section = document.querySelector('.exp-hscroll-section') as HTMLElement;
+  const expSection = document.querySelector('.exp-hscroll-section') as HTMLElement;
   const container = document.querySelector('.exp-hscroll-container') as HTMLElement;
+  const track = document.querySelector('.exp-hscroll-track') as HTMLElement;
   const progressFill = document.querySelector('.exp-hscroll-progress-fill') as HTMLElement;
-  const panels = document.querySelectorAll('.exp-hscroll-panel') as NodeListOf<HTMLElement>;
-  const cards = document.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
   const markerDots = document.querySelectorAll('.exp-hscroll-marker-dot') as NodeListOf<HTMLElement>;
+  const dots = document.querySelectorAll('.exp-hscroll-dot') as NodeListOf<HTMLElement>;
 
-  if (!section || !container) return () => {};
+  if (!expSection || !container || !track) return () => {};
 
-  // Measure nav height so CSS calc(100vh - var(--nav-h)) works
-  setNavHeightVar(section);
+  const panels = track.querySelectorAll('.exp-hscroll-panel') as NodeListOf<HTMLElement>;
+  const panelCount = panels.length;
+
+  if (panelCount === 0) return () => {};
+
+  // Build panel states for content animation
+  const panelStates: PanelState[] = [];
+  panels.forEach((panel) => {
+    panelStates.push({
+      panel,
+      card: panel.querySelector('.experience-card'),
+      revealed: false,
+    });
+  });
 
   const animDisabled = isAnimationsDisabled();
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Animations disabled or reduced motion — show everything immediately
+  // If animations disabled or prefers-reduced-motion, show all content immediately
   if (animDisabled || prefersReduced) {
-    cards.forEach((c) => {
-      c.style.opacity = '1';
-      c.style.transform = 'none';
+    panelStates.forEach((state) => {
+      if (state.card) {
+        state.card.classList.add('card-in');
+      }
+      state.revealed = true;
     });
     if (progressFill) progressFill.style.transform = 'scaleX(1)';
     markerDots.forEach((d) => d.classList.add('active'));
-    return () => {};
   }
+
+  // Measure nav height and set CSS variable so sticky offsets below it
+  setNavHeightVar(container);
 
   // Match panel height to the Offer section's rendered panel height
   const offerPanel = document.querySelector('.services-hscroll-track .service-panel') as HTMLElement;
@@ -45,6 +69,7 @@ function initExpHscroll() {
     const targetH = offerPanel.offsetHeight;
     panels.forEach((p) => { p.style.minHeight = `${targetH}px`; });
   } else {
+    // Fallback: equalize Experience panel heights among themselves
     let maxH = 0;
     panels.forEach((p) => {
       if (p.scrollHeight > maxH) maxH = p.scrollHeight;
@@ -52,86 +77,193 @@ function initExpHscroll() {
     panels.forEach((p) => { p.style.minHeight = `${maxH}px`; });
   }
 
-  // Desktop: GSAP ScrollTrigger horizontal scroll
-  const tweens: gsap.core.Tween[] = [];
-  const triggers: ScrollTrigger[] = [];
+  // Each panel is 100% of container width
+  const stepPx = container.offsetWidth;
 
-  const panelCount = panels.length;
-  const snapIncrement = panelCount > 1 ? 1 / (panelCount - 1) : 1;
+  // Set the section height to create scroll space
+  const scrollPerPanel = window.innerHeight * 0.7;
+  expSection.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel}px`;
 
-  const scrollTween = gsap.to(container, {
-    x: () => -(container.scrollWidth - window.innerWidth),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      pin: true,
-      scrub: 0.3,
-      invalidateOnRefresh: true,
-      end: () => '+=' + container.scrollWidth,
-      snap: {
-        snapTo: snapIncrement,
-        duration: { min: 0.2, max: 0.45 },
-        delay: 0.05,
-        ease: 'power2.inOut',
-      },
-      onEnter: () => document.documentElement.classList.remove('snap-scroll'),
-      onLeave: () => {},
-      onEnterBack: () => document.documentElement.classList.remove('snap-scroll'),
-      onLeaveBack: () => document.documentElement.classList.add('snap-scroll'),
-      onUpdate: (self) => {
-        if (progressFill) {
-          progressFill.style.transform = `scaleX(${self.progress})`;
-        }
-        markerDots.forEach((dot, i) => {
-          const threshold = panelCount > 1 ? i / (panelCount - 1) : 0;
-          dot.classList.toggle('active', self.progress >= threshold - 0.02);
-        });
-      },
-    },
-  });
+  let currentPanel = 0;
+  let snappedPanel = 0;
+  let panel0Revealed = false;
+  let wasPastSection = false;
+  let resetLock = false;
 
-  tweens.push(scrollTween);
-  if (scrollTween.scrollTrigger) triggers.push(scrollTween.scrollTrigger);
-
-  // Allow horizontal wheel/trackpad input to drive the scroll
-  function onWheel(e: WheelEvent) {
-    const st = scrollTween.scrollTrigger;
-    if (!st || !st.isActive) return;
-
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 5) {
-      e.preventDefault();
-      window.scrollBy(0, e.deltaX);
+  function revealPanelContent(state: PanelState) {
+    if (state.revealed) return;
+    state.revealed = true;
+    if (state.card) {
+      state.card.classList.add('card-in');
     }
   }
 
-  section.addEventListener('wheel', onWheel, { passive: false });
+  function resetPanelContent(state: PanelState) {
+    state.revealed = false;
+    if (state.card) {
+      state.card.classList.remove('card-in');
+    }
+  }
 
-  // Cards are visible immediately
-  cards.forEach((c) => {
-    c.style.opacity = '1';
+  function resetAllPanels() {
+    panelStates.forEach((state) => resetPanelContent(state));
+  }
+
+  function updateDots(activeIndex: number) {
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === activeIndex);
+    });
+  }
+
+  function updateTimeline(progress: number) {
+    if (progressFill) {
+      progressFill.style.transform = `scaleX(${progress})`;
+    }
+    markerDots.forEach((dot, i) => {
+      const threshold = panelCount > 1 ? i / (panelCount - 1) : 0;
+      dot.classList.toggle('active', progress >= threshold - 0.02);
+    });
+  }
+
+  function snapTo(panelIndex: number) {
+    const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+    if (clamped === snappedPanel) return;
+    snappedPanel = clamped;
+
+    playSnapSound();
+
+    resetAllPanels();
+
+    const translatePx = clamped * stepPx;
+    track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    track.style.transform = `translateX(-${translatePx}px)`;
+
+    updateDots(clamped);
+    currentPanel = clamped;
+
+    // Update timeline progress
+    const progress = panelCount > 1 ? clamped / (panelCount - 1) : 1;
+    updateTimeline(progress);
+
+    revealPanelContent(panelStates[clamped]);
+  }
+
+  function checkScroll() {
+    if (resetLock) return;
+
+    const sectionRect = expSection.getBoundingClientRect();
+    const sectionTop = -sectionRect.top;
+    const totalScrollable = expSection.offsetHeight - window.innerHeight;
+
+    if (sectionTop < 0) {
+      if (snappedPanel !== 0) {
+        snappedPanel = 0;
+        currentPanel = 0;
+        panel0Revealed = false;
+        track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        track.style.transform = 'translateX(0)';
+        updateDots(0);
+        updateTimeline(0);
+      }
+
+      wasPastSection = false;
+
+      if (sectionRect.top > window.innerHeight * 0.5) {
+        panel0Revealed = false;
+        panelStates.forEach((state) => resetPanelContent(state));
+        updateTimeline(0);
+      } else if (!panel0Revealed) {
+        panel0Revealed = true;
+        playSnapSound();
+        revealPanelContent(panelStates[0]);
+        updateTimeline(0);
+      }
+    } else if (sectionTop >= totalScrollable) {
+      snapTo(panelCount - 1);
+      if (!wasPastSection) {
+        wasPastSection = true;
+      }
+    } else {
+      if (wasPastSection) {
+        wasPastSection = false;
+        resetLock = true;
+        snappedPanel = 0;
+        currentPanel = 0;
+        panel0Revealed = false;
+        panelStates.forEach((state) => resetPanelContent(state));
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        updateDots(0);
+        updateTimeline(0);
+        void track.offsetHeight;
+        setTimeout(() => {
+          panel0Revealed = true;
+          revealPanelContent(panelStates[0]);
+          resetLock = false;
+        }, 600);
+      } else {
+        const progress = sectionTop / totalScrollable;
+        const targetPanel = Math.round(progress * (panelCount - 1));
+        snapTo(targetPanel);
+      }
+    }
+  }
+
+  // rAF polling loop
+  let rafId: number;
+  function tick() {
+    checkScroll();
+    rafId = requestAnimationFrame(tick);
+  }
+  rafId = requestAnimationFrame(tick);
+
+  // Dot click handlers (both timeline markers and indicator dots)
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const panelIndex = parseInt(dot.dataset.panel || '0', 10);
+      const totalScrollable = expSection.offsetHeight - window.innerHeight;
+      const targetScroll = expSection.offsetTop + (panelIndex / (panelCount - 1)) * totalScrollable;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    });
   });
 
-  // Resize handler
+  // Touch swipe handlers for mobile
+  let swipeCleanup: (() => void) | undefined;
+
+  function goToPanel(panelIndex: number) {
+    const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+    const totalScrollable = expSection.offsetHeight - window.innerHeight;
+    const targetScroll = expSection.offsetTop + (clamped / (panelCount - 1)) * totalScrollable;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }
+
+  swipeCleanup = initTouchSwipe({
+    element: container,
+    onSwipeLeft: () => goToPanel(snappedPanel + 1),
+    onSwipeRight: () => goToPanel(snappedPanel - 1),
+    threshold: 50,
+  });
+
+  // Handle resize — full reinit via debounce
   let resizeTimer: ReturnType<typeof setTimeout>;
   function onResize() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
+      expCleanup?.();
+      expCleanup = initExpHscroll();
     }, 200);
   }
 
   window.addEventListener('resize', onResize, { passive: true });
 
+  // Initial state
+  checkScroll();
+
   return () => {
-    clearTimeout(resizeTimer);
+    cancelAnimationFrame(rafId);
     window.removeEventListener('resize', onResize);
-    section.removeEventListener('wheel', onWheel);
-    triggers.forEach((t) => t.kill());
-    tweens.forEach((t) => t.kill());
-    gsap.set(container, { clearProps: 'x' });
-    if (!document.documentElement.classList.contains('snap-scroll')) {
-      document.documentElement.classList.add('snap-scroll');
-    }
+    clearTimeout(resizeTimer);
+    swipeCleanup?.();
   };
 }
 
@@ -144,17 +276,12 @@ export function initExperienceSection() {
     initSectionParallax('experience');
   }
 
-  initAll();
-  document.addEventListener('astro:after-swap', () => {
-    // Kill all experience-related ScrollTrigger instances before re-init
-    ScrollTrigger.getAll().forEach((t) => {
-      const trigger = t.vars?.trigger || t.trigger;
-      if (trigger && (trigger as HTMLElement).classList?.contains('exp-hscroll-section')) {
-        t.kill();
-      }
-    });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
     initAll();
-  });
+  }
+  document.addEventListener('astro:after-swap', initAll);
 
   window.addEventListener('animations-change', () => {
     expCleanup?.();

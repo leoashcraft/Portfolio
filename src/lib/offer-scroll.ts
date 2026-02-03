@@ -6,6 +6,7 @@ import { initIconFlips } from './icon-flip';
 import { initSectionParallax } from './parallax';
 import { createSnapSound } from './sounds';
 import { isAnimationsDisabled, setNavHeightVar } from './section-utils';
+import { initTouchSwipe } from './touch-swipe';
 
 // ── Sound ────────────────────────────────────────────────────────────
 const playSnapSound = createSnapSound('/sounds/fast-swipe-48158.mp3');
@@ -373,6 +374,23 @@ function initHorizontalScroll() {
     });
   });
 
+  // Touch swipe handlers for mobile
+  let swipeCleanup: (() => void) | undefined;
+
+  function goToPanel(panelIndex: number) {
+    const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+    const totalScrollable = servicesSection.offsetHeight - window.innerHeight;
+    const targetScroll = servicesSection.offsetTop + (clamped / (panelCount - 1)) * totalScrollable;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }
+
+  swipeCleanup = initTouchSwipe({
+    element: container,
+    onSwipeLeft: () => goToPanel(snappedPanel + 1),
+    onSwipeRight: () => goToPanel(snappedPanel - 1),
+    threshold: 50,
+  });
+
   // Handle resize — full reinit via debounce
   let resizeTimer: ReturnType<typeof setTimeout>;
   function onResize() {
@@ -392,6 +410,7 @@ function initHorizontalScroll() {
     cancelAnimationFrame(rafId);
     window.removeEventListener('resize', onResize);
     clearTimeout(resizeTimer);
+    swipeCleanup?.();
   };
 }
 

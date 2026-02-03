@@ -9,6 +9,7 @@ import { initScrollWave } from './scroll-wave';
 import { createSnapSound, createTapSound, playSoundCascade } from './sounds';
 import { isAnimationsDisabled, setNavHeightVar } from './section-utils';
 import { initScrollReveal } from './scroll-reveal';
+import { initTouchSwipe } from './touch-swipe';
 
 // ── Sounds ───────────────────────────────────────────────────────────
 const playSnapSound = createSnapSound('/sounds/movement-101711.mp3');
@@ -337,6 +338,23 @@ function initProjectsHscroll() {
     });
   });
 
+  // Touch swipe handlers for mobile
+  let swipeCleanup: (() => void) | undefined;
+
+  function goToPanel(panelIndex: number) {
+    const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
+    const totalScrollable = section.offsetHeight - window.innerHeight;
+    const targetScroll = section.offsetTop + (clamped / (panelCount - 1)) * totalScrollable;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }
+
+  swipeCleanup = initTouchSwipe({
+    element: container,
+    onSwipeLeft: () => goToPanel(snappedPanel + 1),
+    onSwipeRight: () => goToPanel(snappedPanel - 1),
+    threshold: 50,
+  });
+
   // Resize: full reinit
   let resizeTimer: ReturnType<typeof setTimeout>;
   function onResize() {
@@ -355,6 +373,7 @@ function initProjectsHscroll() {
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     clearTimeout(resizeTimer);
+    swipeCleanup?.();
   };
 }
 

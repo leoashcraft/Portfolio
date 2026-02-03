@@ -343,12 +343,11 @@ import Icon from '../ui/Icon.astro';
 
   /* Panel indicator dots */
   .hscroll-indicators {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    flex-shrink: 0;
     display: flex;
+    justify-content: center;
     gap: 0.75rem;
+    padding: 1.5rem 0;
     z-index: 20;
   }
 

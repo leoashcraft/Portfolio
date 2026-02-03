@@ -23,20 +23,18 @@ function getCurrentProjectPanel(): number {
 }
 
 function getCurrentExpPanel(): number {
-  // Calculate current panel based on scroll position, not dot count
+  // Calculate current panel based on scroll position
   const section = document.querySelector('.exp-hscroll-section') as HTMLElement;
   if (!section) return 0;
-  const pinSpacer = section.closest('.pin-spacer') as HTMLElement;
-  if (!pinSpacer) return 0;
 
   const panelCount = document.querySelectorAll('.exp-hscroll-panel').length;
   if (panelCount <= 1) return 0;
 
-  const spacerTop = pinSpacer.getBoundingClientRect().top + window.scrollY;
-  const spacerHeight = pinSpacer.offsetHeight - window.innerHeight;
-  if (spacerHeight <= 0) return 0;
+  const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+  const sectionHeight = section.offsetHeight - window.innerHeight;
+  if (sectionHeight <= 0) return 0;
 
-  const scrollProgress = (window.scrollY - spacerTop) / spacerHeight;
+  const scrollProgress = (window.scrollY - sectionTop) / sectionHeight;
   const rawPanel = scrollProgress * (panelCount - 1);
   const currentPanel = Math.round(rawPanel);
   return Math.max(0, Math.min(currentPanel, panelCount - 1));
@@ -69,13 +67,11 @@ function scrollToExpPanel(index: number) {
   if (!section) return;
   const panelCount = document.querySelectorAll('.exp-hscroll-panel').length;
   if (panelCount <= 1) return;
-  const pinSpacer = section.closest('.pin-spacer') as HTMLElement;
-  if (pinSpacer) {
-    const spacerTop = pinSpacer.getBoundingClientRect().top + window.scrollY;
-    const spacerHeight = pinSpacer.offsetHeight - window.innerHeight;
-    const targetScroll = spacerTop + (index / (panelCount - 1)) * spacerHeight;
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-  }
+
+  const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+  const sectionHeight = section.offsetHeight - window.innerHeight;
+  const targetScroll = sectionTop + (index / (panelCount - 1)) * sectionHeight;
+  window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 }
 
 function handleSpacebar(e: KeyboardEvent): boolean {
@@ -150,9 +146,7 @@ function handleSpacebar(e: KeyboardEvent): boolean {
   // Check if we're in the Experience section
   const expSection = document.querySelector('.exp-hscroll-section') as HTMLElement;
   if (expSection) {
-    const pinSpacer = expSection.closest('.pin-spacer') as HTMLElement;
-    const checkEl = pinSpacer || expSection;
-    const rect = checkEl.getBoundingClientRect();
+    const rect = expSection.getBoundingClientRect();
     if (rect.top < viewportHeight * 0.5 && rect.bottom > viewportHeight * 0.5) {
       const currentPanel = getCurrentExpPanel();
       const panelCount = document.querySelectorAll('.exp-hscroll-panel').length;
@@ -183,7 +177,7 @@ function handleSpacebar(e: KeyboardEvent): boolean {
     { id: 'education', element: document.getElementById('education') },
     { id: 'projects', element: document.querySelector('.projects-hscroll-section') as HTMLElement },
     { id: 'more-work', element: document.getElementById('more-work') },
-    { id: 'experience', element: document.querySelector('.exp-hscroll-section')?.closest('.pin-spacer') as HTMLElement || document.querySelector('.exp-hscroll-section') as HTMLElement },
+    { id: 'experience', element: document.querySelector('.exp-hscroll-section') as HTMLElement },
     { id: 'github', element: document.getElementById('github') },
     { id: 'contact', element: document.getElementById('contact') },
   ].filter(t => t.element) as { id: string; element: HTMLElement }[];
@@ -204,6 +198,15 @@ function handleSpacebar(e: KeyboardEvent): boolean {
 
 function keydownHandler(e: KeyboardEvent) {
   if (e.code === 'Space' && !e.shiftKey) {
+    // Check active element instead of event target for more reliable detection
+    const activeEl = document.activeElement as HTMLElement;
+    const tagName = activeEl?.tagName || '';
+
+    // Skip if focused on form elements
+    if (tagName === 'INPUT' || tagName === 'TEXTAREA' || activeEl?.isContentEditable) {
+      return;
+    }
+
     try {
       const handled = handleSpacebar(e);
       if (handled) {
@@ -221,8 +224,9 @@ export function initKeyboardNav() {
   if (isInitialized) return;
   isInitialized = true;
 
-  // Use window with capture to intercept before other handlers
+  // Listen on both window and document for maximum compatibility
   window.addEventListener('keydown', keydownHandler, { capture: true });
+  document.addEventListener('keydown', keydownHandler, { capture: true });
 }
 
 // Reset initialization flag on page navigation
@@ -231,5 +235,6 @@ if (typeof document !== 'undefined') {
     isInitialized = false;
     isScrolling = false;
     window.removeEventListener('keydown', keydownHandler, { capture: true });
+    document.removeEventListener('keydown', keydownHandler, { capture: true });
   });
 }

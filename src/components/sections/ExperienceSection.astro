@@ -3,7 +3,6 @@ import { experience, education } from '../../data/experience';
 import { site } from '../../data/site';
 import SectionHeader from '../common/SectionHeader.astro';
 import ArcadeDecorations from '../common/ArcadeDecorations.astro';
-import Icon from '../ui/Icon.astro';
 ---
 
 <section id="experience" class="section section-arcade-alt" aria-labelledby="experience-heading">
@@ -13,129 +12,105 @@ import Icon from '../ui/Icon.astro';
   <!-- Floating Arcade Decorations -->
   <ArcadeDecorations variant="experience" />
 
-  <!-- Experience Timeline — vertical scroll panels -->
-  <div class="exp-vscroll-section relative z-10">
-    <div class="exp-vscroll-container">
-      <!-- Section Header pinned inside sticky -->
-      <div class="exp-vscroll-header">
-        <SectionHeader
-          title={site.sections.experience.title}
-          titleHighlight={site.sections.experience.titleHighlight}
-          subtitle={site.sections.experience.subtitle}
-          headingId="experience-heading"
-        />
-      </div>
+  <!-- Experience Horizontal Scroll Timeline -->
+  <div class="exp-hscroll-section relative z-10">
+    <!-- Section Header -->
+    <div class="exp-hscroll-header">
+      <SectionHeader
+        title={site.sections.experience.title}
+        titleHighlight={site.sections.experience.titleHighlight}
+        subtitle={site.sections.experience.subtitle}
+        headingId="experience-heading"
+      />
+    </div>
 
-      <div class="exp-vscroll-viewport">
-        <!-- Timeline Line -->
-        <div
-          id="timeline-line"
-          class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto top-0 w-0.5 lg:-translate-x-1/2 timeline-gradient"
-          style="height: 0px;"
-          aria-hidden="true"
-        ></div>
-
-        <!-- Eyes — positioned independently, JS syncs to line tip -->
-        <div
-          id="timeline-eyes"
-          class="hidden md:block absolute right-4 md:left-auto lg:left-1/2 lg:right-auto timeline-traveler text-[1.81rem] look-left pointer-events-none z-20"
-          style="filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8)); opacity: 0; top: 0px;"
-          aria-hidden="true"
-        >
-          <span class="eyes-blink">👀</span>
-        </div>
-
-        <div class="exp-vscroll-track">
-          {
-            experience.map((exp, index) => (
-              <div class="exp-vscroll-panel">
-                <div
-                  class={`experience-item relative flex flex-col lg:flex-row gap-8 ${
-                    index % 2 === 0 ? 'lg:flex-row-reverse' : ''
-                  }`}
-                >
-                  {/* Content side */}
-                  <div
-                    class={`md:pr-12 lg:pr-0 lg:w-1/2 ${
-                      index % 2 === 0 ? 'lg:pl-6' : 'lg:pr-6'
-                    }`}
-                  >
-                    <div class="experience-card card" data-index={index}>
-                      {/* Header */}
-                      <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                        <div>
-                          <p class="exp-title text-xl font-bold text-white">{exp.position}</p>
-                          <p class="exp-company font-medium" style="color: #22CBCC;">{exp.company}</p>
-                        </div>
-                        <span class="exp-period text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
-                          {exp.period}
-                        </span>
-                      </div>
-
-                      {/* Location */}
-                      {exp.location && (
-                        <p class="exp-location text-gray-400 text-sm mb-4 flex items-center gap-2">
-                          <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
-                          {exp.location}
-                        </p>
-                      )}
-
-                      {/* Highlights */}
-                      <ul class="exp-highlights space-y-2">
-                        {exp.highlights.map((highlight) => (
-                          <li class="exp-highlight flex items-start gap-3 text-gray-300 text-sm">
-                            <svg
-                              class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Spacer for opposite side */}
-                  <div class="hidden lg:block lg:w-1/2" />
+    <!-- Horizontal scrolling track -->
+    <div class="exp-hscroll-container">
+      {
+        experience.map((exp, index) => (
+          <div class="exp-hscroll-panel" data-index={index}>
+            <div class="experience-card card" data-index={index}>
+              {/* Header */}
+              <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                <div>
+                  <p class="exp-title text-xl font-bold text-white">{exp.position}</p>
+                  <p class="exp-company font-medium" style="color: #22CBCC;">{exp.company}</p>
                 </div>
+                <span class="exp-period text-sm text-gray-400 bg-night-700 px-3 py-1 rounded-full">
+                  {exp.period}
+                </span>
               </div>
-            ))
-          }
-        </div>
-      </div>{/* end .exp-vscroll-viewport */}
 
-      {/* Panel indicator dots */}
-      <div class="exp-vscroll-indicators">
-        {experience.map((_, i) => (
-          <button class={`exp-vscroll-dot${i === 0 ? ' active' : ''}`} data-panel={i} aria-label={`Go to experience ${i + 1}`}></button>
-        ))}
+              {/* Location */}
+              {exp.location && (
+                <p class="exp-location text-gray-400 text-sm mb-4 flex items-center gap-2">
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  {exp.location}
+                </p>
+              )}
+
+              {/* Highlights */}
+              <ul class="exp-highlights space-y-2">
+                {exp.highlights.map((highlight) => (
+                  <li class="exp-highlight flex items-start gap-3 text-gray-300 text-sm">
+                    <svg
+                      class="w-5 h-5 text-neon-green shrink-0 mt-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Timeline progress bar -->
+    <div class="exp-hscroll-timeline">
+      <div class="exp-hscroll-progress-track">
+        <div class="exp-hscroll-progress-fill"></div>
+      </div>
+      <div class="exp-hscroll-markers">
+        {
+          experience.map((exp, index) => (
+            <div
+              class="exp-hscroll-marker"
+              style={`left: ${experience.length > 1 ? (index / (experience.length - 1)) * 100 : 0}%`}
+            >
+              <div class="exp-hscroll-marker-dot"></div>
+              <span class="exp-hscroll-marker-label">{exp.period.split(' - ')[0]}</span>
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -203,7 +178,7 @@ import Icon from '../ui/Icon.astro';
 
 <style>
   /* ============================================
-     Experience Vertical Scroll Section
+     Experience Horizontal Scroll Section
      ============================================ */
   :global(#experience) {
     scroll-snap-align: start;
@@ -212,171 +187,139 @@ import Icon from '../ui/Icon.astro';
     padding-bottom: 0 !important;
   }
 
-  .exp-vscroll-section {
-    position: relative;
-  }
-
-  .exp-vscroll-container {
-    position: sticky;
-    top: var(--nav-h, 60px);
+  /* The pinned section fills the viewport below nav */
+  .exp-hscroll-section {
     height: calc(100vh - var(--nav-h, 60px));
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-  }
-
-  .exp-vscroll-header {
-    flex-shrink: 0;
-    padding: 2rem 5% 0;
-  }
-
-  /* Track area fills remaining space after header */
-  .exp-vscroll-viewport {
-    flex: 1 1 0%;
-    min-height: 0;
     overflow: hidden;
     position: relative;
   }
 
-  .exp-vscroll-track {
-    display: flex;
-    flex-direction: column;
-    will-change: transform;
-    width: 100%;
+  .exp-hscroll-header {
+    flex-shrink: 0;
+    padding: 5rem 5% 0;
   }
 
-  /* Each panel fills the viewport area height and centers its card */
-  .exp-vscroll-panel {
-    width: 100%;
-    flex: 0 0 auto;
+  /* Horizontal scroll container — flex row of panels */
+  .exp-hscroll-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-height: 0;
+    padding-bottom: 4rem; /* space for the absolute-positioned timeline */
+  }
+
+  /* Each panel fills the viewport width */
+  .exp-hscroll-panel {
+    width: 100vw;
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 0 5%;
+    padding: 1.5rem 5%;
     box-sizing: border-box;
-    /* Height set by JS to match viewport area */
   }
 
-  /* Experience item layout (the flex row around timeline) */
-  .experience-item {
+  /* Card sizing — match Offer section cards.
+     flex-column + justify-center keeps content vertically centered
+     when the card stretches taller than its natural content. */
+  .experience-card {
     width: 100%;
-    max-width: 1200px;
-    position: relative;
-  }
-
-  /* Card content animations */
-  .experience-card .exp-title,
-  .experience-card .exp-company,
-  .experience-card .exp-period,
-  .experience-card .exp-location {
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.4s ease-out, transform 0.5s ease-out;
-  }
-
-  .experience-card .exp-highlight {
-    opacity: 0;
-    transform: translateY(-15px);
-    transition: opacity 0.3s ease-out, transform 0.4s ease-out;
-  }
-
-  .experience-card.content-in .exp-title,
-  .experience-card.content-in .exp-company,
-  .experience-card.content-in .exp-period,
-  .experience-card.content-in .exp-location {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .experience-card.highlights-in .exp-highlight {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Slide animation for card entering from left/right */
-  .experience-item {
-    opacity: 0;
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  }
-
-  /* Even index (flex-row-reverse) — card is on right, slides from right */
-  .experience-item.lg\:flex-row-reverse {
-    transform: translateX(60px);
-  }
-
-  /* Odd index — card is on left, slides from left */
-  .experience-item:not(.lg\:flex-row-reverse) {
-    transform: translateX(-60px);
-  }
-
-  .experience-item.slide-in {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  /* Indicator dots — vertical on the right */
-  .exp-vscroll-indicators {
-    position: absolute;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    z-index: 20;
+    justify-content: center;
   }
 
-  .exp-vscroll-dot {
+  /* Timeline progress bar — absolute so it doesn't steal flex space
+     (matches Offer section where dots are position: absolute) */
+  .exp-hscroll-timeline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 5% 2rem;
+    z-index: 2;
+  }
+
+  .exp-hscroll-progress-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exp-hscroll-progress-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #ff00ff, #6600ff, #00fff7, #ffff00, #00ff00);
+    transform-origin: left;
+    transform: scaleX(0);
+    border-radius: 2px;
+    transition: transform 0.1s linear;
+  }
+
+  /* Markers along the timeline */
+  .exp-hscroll-markers {
+    position: relative;
+    height: 32px;
+  }
+
+  .exp-hscroll-marker {
+    position: absolute;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .exp-hscroll-marker-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 0, 255, 0.4);
+    border: 2px solid rgba(255, 0, 255, 0.3);
     background: transparent;
     transition: all 0.3s ease;
-    cursor: pointer;
+    margin-top: -7px;
   }
 
-  .exp-vscroll-dot.active {
+  .exp-hscroll-marker-dot.active {
     background: var(--color-neon-pink);
     border-color: var(--color-neon-pink);
     box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
   }
 
-  /* Mobile: tighter padding for scroll panels */
+  .exp-hscroll-marker-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+  }
+
+  /* Mobile: tighter padding */
   @media (max-width: 767px) {
-    .exp-vscroll-header {
+    .exp-hscroll-header {
       padding: 1rem 1rem 0;
     }
 
-    .exp-vscroll-panel {
-      padding: 0 1rem;
+    .exp-hscroll-panel {
+      padding: 1rem;
+    }
+
+    .exp-hscroll-timeline {
+      padding: 0 1rem 1.5rem;
     }
   }
 
   /* Disable animations */
-  [data-animations="disabled"] .experience-item {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  [data-animations="disabled"] .exp-hscroll-progress-fill {
+    transform: scaleX(1) !important;
   }
 
-  [data-animations="disabled"] .experience-card .exp-title,
-  [data-animations="disabled"] .experience-card .exp-company,
-  [data-animations="disabled"] .experience-card .exp-period,
-  [data-animations="disabled"] .experience-card .exp-location,
-  [data-animations="disabled"] .experience-card .exp-highlight {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  [data-animations="disabled"] #timeline-line {
-    height: 100% !important;
-    transition: none !important;
-  }
-
-  [data-animations="disabled"] #timeline-eyes {
-    opacity: 1 !important;
+  [data-animations="disabled"] .exp-hscroll-marker-dot {
+    background: var(--color-neon-pink) !important;
+    border-color: var(--color-neon-pink) !important;
   }
 
   /* ============================================
@@ -462,498 +405,149 @@ import Icon from '../ui/Icon.astro';
 </style>
 
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { initSectionParallax } from '../../lib/parallax';
   import { initScrollWave } from '../../lib/scroll-wave';
 
-  // Lazy-loaded sounds — created on first play to avoid autoplay restrictions
-  let snapSound: HTMLAudioElement | null = null;
-  let exitSlideSound: HTMLAudioElement | null = null;
-  const SNAP_SOUND_URL = '/sounds/very-fast-cinematic-whoosh-327345.mp3';
-  const EXIT_SLIDE_SOUND_URL = '/sounds/paper-slide-102746.mp3';
-
-  function getSnapSound(): HTMLAudioElement | null {
-    if (!snapSound) {
-      try {
-        snapSound = new Audio(SNAP_SOUND_URL);
-        snapSound.volume = 0.3;
-      } catch (_) { return null; }
-    }
-    return snapSound;
-  }
-
-  function getExitSlideSound(): HTMLAudioElement | null {
-    if (!exitSlideSound) {
-      try {
-        exitSlideSound = new Audio(EXIT_SLIDE_SOUND_URL);
-        exitSlideSound.volume = 0.3;
-      } catch (_) { return null; }
-    }
-    return exitSlideSound;
-  }
-
-  let lastSoundTime = 0;
-  function playSnapSound() {
-    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
-    const now = Date.now();
-    if (now - lastSoundTime < 1000) return;
-    lastSoundTime = now;
-    const snd = getSnapSound();
-    if (!snd) return;
-    snd.currentTime = 0;
-    snd.play().catch(() => {});
-  }
-
-  function playExitSlideSound() {
-    if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
-    const snd = getExitSlideSound();
-    if (!snd) return;
-    snd.currentTime = 0;
-    snd.play().catch(() => {});
-  }
-
-  function isMobile(): boolean {
-    return false; // scroll panels now work on all screen sizes
-  }
+  gsap.registerPlugin(ScrollTrigger);
 
   // ============================================
-  // Timeline Eyes (independent element, JS-positioned)
-  // ============================================
-  let hoverAnimId: number | null = null;
-  let eyesBaseTop = 0; // the "rest" top position in px
-
-  function startEyesHover(eyesEl: HTMLElement) {
-    if (hoverAnimId !== null) return;
-    const startTime = performance.now();
-    function hover(now: number) {
-      const t = (now - startTime) / 1000;
-      const y = Math.sin(t * 2.5) * 4; // 4px bob
-      eyesEl.style.top = `${eyesBaseTop + y}px`;
-      hoverAnimId = requestAnimationFrame(hover);
-    }
-    hoverAnimId = requestAnimationFrame(hover);
-  }
-
-  function stopEyesHover() {
-    if (hoverAnimId !== null) {
-      cancelAnimationFrame(hoverAnimId);
-      hoverAnimId = null;
-    }
-  }
-
-  function setEyesDirection(eyesEl: HTMLElement, activeIndex: number) {
-    const isRightSide = window.innerWidth >= 768 && window.innerWidth < 1024;
-    if (isRightSide) {
-      eyesEl.classList.add('look-right');
-      eyesEl.classList.remove('look-left');
-    } else {
-      const cardOnRight = activeIndex % 2 === 0;
-      eyesEl.classList.toggle('look-left', cardOnRight);
-      eyesEl.classList.toggle('look-right', !cardOnRight);
-    }
-  }
-
-  function blinkEyes(eyesEl: HTMLElement) {
-    const eyesSpan = eyesEl.querySelector('.eyes-blink') as HTMLElement;
-    if (eyesSpan) {
-      eyesSpan.classList.add('blinking');
-      setTimeout(() => eyesSpan.classList.remove('blinking'), 200);
-    }
-  }
-
-  // ============================================
-  // Experience Vertical Scroll
+  // Experience Horizontal Scroll
   // ============================================
   let expCleanup: (() => void) | undefined;
 
-  function initExpVscroll() {
-    const section = document.querySelector('.exp-vscroll-section') as HTMLElement;
-    const container = document.querySelector('.exp-vscroll-container') as HTMLElement;
-    const track = document.querySelector('.exp-vscroll-track') as HTMLElement;
-    const dots = document.querySelectorAll('.exp-vscroll-dot') as NodeListOf<HTMLElement>;
-    const timelineLine = document.getElementById('timeline-line');
-    const timelineEyes = document.getElementById('timeline-eyes');
+  function initExpHscroll() {
+    const section = document.querySelector('.exp-hscroll-section') as HTMLElement;
+    const container = document.querySelector('.exp-hscroll-container') as HTMLElement;
+    const progressFill = document.querySelector('.exp-hscroll-progress-fill') as HTMLElement;
+    const panels = document.querySelectorAll('.exp-hscroll-panel') as NodeListOf<HTMLElement>;
+    const cards = document.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
+    const markerDots = document.querySelectorAll('.exp-hscroll-marker-dot') as NodeListOf<HTMLElement>;
 
-    if (!section || !container || !track) return () => {};
+    if (!section || !container) return () => {};
 
-    const panels = track.querySelectorAll('.exp-vscroll-panel') as NodeListOf<HTMLElement>;
-    const items = track.querySelectorAll('.experience-item') as NodeListOf<HTMLElement>;
-    const cards = track.querySelectorAll('.experience-card') as NodeListOf<HTMLElement>;
-    const panelCount = panels.length;
-
-    if (panelCount === 0) return () => {};
-
-    const animDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
-
-    if (animDisabled || isMobile()) {
-      items.forEach((item) => item.classList.add('slide-in'));
-      cards.forEach((c) => c.classList.add('content-in', 'highlights-in'));
-      if (timelineLine) timelineLine.style.height = '100%';
-      if (timelineEyes) timelineEyes.style.opacity = '1';
-      if (isMobile()) {
-        section.style.height = '';
-        return () => {};
-      }
-    }
-
-    // Reset timeline to initial state
-    if (timelineLine) {
-      timelineLine.style.height = '0px';
-      timelineLine.style.transition = 'height 0.5s ease-out';
-    }
-    if (timelineEyes) {
-      timelineEyes.style.opacity = '0';
-      timelineEyes.style.top = '0px';
-      timelineEyes.style.fontSize = '';
-    }
-    eyesBaseTop = 0;
-    stopEyesHover();
-
-    // Measure nav height
+    // Measure nav height so CSS calc(100vh - var(--nav-h)) works
     const nav = document.getElementById('main-nav');
     const navH = nav ? nav.offsetHeight : 60;
-    container.style.setProperty('--nav-h', `${navH}px`);
+    section.style.setProperty('--nav-h', `${navH}px`);
 
-    // Calculate viewport height deterministically:
-    // The sticky container is calc(100vh - navH), the header takes some of that,
-    // and the rest is the viewport area for panels.
-    const headerEl = container.querySelector('.exp-vscroll-header') as HTMLElement;
-    const headerH = headerEl ? headerEl.offsetHeight : 0;
-    const containerH = window.innerHeight - navH;
-    const viewportH = containerH - headerH;
+    const animDisabled = document.documentElement.getAttribute('data-animations') === 'disabled';
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Set each panel to fill the viewport height
-    panels.forEach((p) => { p.style.height = `${viewportH}px`; });
-
-
-
-    // Step = viewport height (each panel is one viewport tall)
-    const stepPx = viewportH;
-
-    // Section height — add extra scroll space after last panel for the exit animation
-    const scrollPerPanel = window.innerHeight * 0.7;
-    const exitScrollPx = window.innerHeight * 0.4;
-    section.style.height = `${window.innerHeight + (panelCount - 1) * scrollPerPanel + exitScrollPx}px`;
-
-    // Line extends to center of viewport minus 75px, eyes sit at the tip
-    const lineRestHeight = (viewportH / 2) - 75;
-
-    let ticking = false;
-    let snappedPanel = -1;
-    let activeTimers: ReturnType<typeof setTimeout>[] = [];
-    let hasExited = false;
-    let isRecovering = false;
-    let resetLock = false;
-
-    function showTimeline(panelIndex: number) {
-      if (!timelineLine) return;
-      // Draw line down to rest position
-      timelineLine.style.transition = 'height 0.5s ease-out';
-      timelineLine.style.height = `${lineRestHeight}px`;
-
-      if (timelineEyes && !isMobile()) {
-        // Eyes ride down with the line tip
-        eyesBaseTop = lineRestHeight;
-        timelineEyes.style.transition = 'top 0.5s ease-out';
-        timelineEyes.style.top = `${eyesBaseTop}px`;
-        timelineEyes.style.opacity = '1';
-        timelineEyes.style.fontSize = '';
-        setEyesDirection(timelineEyes, panelIndex);
-        // Start hovering after line finishes drawing
-        activeTimers.push(setTimeout(() => {
-          if (!timelineEyes) return;
-          timelineEyes.style.transition = '';
-          blinkEyes(timelineEyes);
-          startEyesHover(timelineEyes);
-        }, 520));
-      }
-    }
-
-    function hideTimeline() {
-      stopEyesHover();
-      if (timelineLine) {
-        timelineLine.style.transition = 'height 0.5s ease-out';
-        timelineLine.style.height = '0px';
-      }
-      if (timelineEyes) {
-        timelineEyes.style.transition = 'top 0.5s ease-out, opacity 0.3s ease-out';
-        timelineEyes.style.top = '0px';
-        timelineEyes.style.opacity = '0';
-        timelineEyes.style.fontSize = '';
-        eyesBaseTop = 0;
-      }
-    }
-
-    function exitTimeline() {
-      stopEyesHover();
-
-      // Phase 1 (0–0.6s): Eyes move to top of line + grow 50%, line extends full viewport
-      if (timelineEyes) {
-        eyesBaseTop = 0;
-        timelineEyes.style.transition = 'top 0.6s ease-in-out, font-size 0.6s ease-in-out';
-        timelineEyes.style.top = '0px';
-        timelineEyes.style.fontSize = '2.715rem';
-      }
-
-      if (timelineLine) {
-        timelineLine.style.transition = 'height 0.6s ease-in-out';
-        timelineLine.style.height = `${viewportH}px`;
-      }
-
-      // Phase 2 (0.6–2.5s): Eyes travel down the full line and fade out
-      activeTimers.push(setTimeout(() => {
-        if (!timelineEyes) return;
-        playExitSlideSound();
-        const travelDuration = 1.9; // remaining time: 2.5 - 0.6 = 1.9s
-        timelineEyes.style.transition = `top ${travelDuration}s ease-in, opacity ${travelDuration * 0.6}s ease-in ${travelDuration * 0.4}s`;
-        eyesBaseTop = viewportH + 50; // past the bottom edge
-        timelineEyes.style.top = `${eyesBaseTop}px`;
-        timelineEyes.style.opacity = '0';
-      }, 620));
-    }
-
-    function updateEyesForPanel(panelIndex: number) {
-      if (!timelineEyes || isMobile()) return;
-      setEyesDirection(timelineEyes, panelIndex);
-
-      // Peek up 75px quickly, then ease back to line tip, blink once settled, then hover
-      stopEyesHover();
-      const peekTop = eyesBaseTop - 75;
-      timelineEyes.style.transition = 'top 0.15s ease-out';
-      timelineEyes.style.top = `${peekTop}px`;
-      activeTimers.push(setTimeout(() => {
-        if (!timelineEyes) return;
-        timelineEyes.style.transition = 'top 0.35s ease-in-out';
-        timelineEyes.style.top = `${eyesBaseTop}px`;
-        activeTimers.push(setTimeout(() => {
-          if (!timelineEyes) return;
-          blinkEyes(timelineEyes);
-          timelineEyes.style.transition = '';
-          startEyesHover(timelineEyes);
-        }, 380));
-      }, 170));
-    }
-
-    function revealPanel(index: number) {
-      const item = items[index];
-      const card = cards[index];
-      if (!item || !card) return;
-
-      activeTimers.push(setTimeout(() => {
-        item.classList.add('slide-in');
-      }, 50));
-
-      activeTimers.push(setTimeout(() => {
-        card.classList.add('content-in');
-      }, 200));
-
-      const highlights = card.querySelectorAll('.exp-highlight');
-      highlights.forEach((h, i) => {
-        activeTimers.push(setTimeout(() => {
-          h.classList.add('visible');
-        }, 400 + i * 80));
-      });
-      activeTimers.push(setTimeout(() => {
-        card.classList.add('highlights-in');
-      }, 300));
-    }
-
-    function resetAllPanels() {
-      activeTimers.forEach((t) => clearTimeout(t));
-      activeTimers = [];
-      items.forEach((item) => {
-        item.classList.remove('slide-in');
-        item.style.transform = '';
-        item.style.transition = '';
-      });
+    // Animations disabled or reduced motion — show everything immediately
+    if (animDisabled || prefersReduced) {
       cards.forEach((c) => {
-        c.classList.remove('content-in', 'highlights-in');
+        c.style.opacity = '1';
+        c.style.transform = 'none';
       });
+      if (progressFill) progressFill.style.transform = 'scaleX(1)';
+      markerDots.forEach((d) => d.classList.add('active'));
+      return () => {};
     }
 
-    function updateDots(activeIndex: number) {
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === activeIndex);
+    // Match panel height to the Offer section's rendered panel height
+    const offerPanel = document.querySelector('.services-hscroll-track .service-panel') as HTMLElement;
+    if (offerPanel) {
+      const targetH = offerPanel.offsetHeight;
+      panels.forEach((p) => { p.style.minHeight = `${targetH}px`; });
+    } else {
+      // Fallback: equalize to tallest Experience card
+      let maxH = 0;
+      panels.forEach((p) => {
+        if (p.scrollHeight > maxH) maxH = p.scrollHeight;
       });
+      panels.forEach((p) => { p.style.minHeight = `${maxH}px`; });
     }
 
-    function snapTo(panelIndex: number) {
-      const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
-      if (clamped === snappedPanel) return;
+    // Desktop: GSAP ScrollTrigger horizontal scroll
+    const tweens: gsap.core.Tween[] = [];
+    const triggers: ScrollTrigger[] = [];
 
-      snappedPanel = clamped;
+    const panelCount = panels.length;
+    const snapIncrement = panelCount > 1 ? 1 / (panelCount - 1) : 1;
 
-      playSnapSound();
-      resetAllPanels();
-
-      const translatePx = clamped * stepPx;
-      track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      track.style.transform = `translateY(-${translatePx}px)`;
-
-      updateDots(clamped);
-      updateEyesForPanel(clamped);
-      revealPanel(clamped);
-    }
-
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-
-      requestAnimationFrame(() => {
-        if (resetLock) { ticking = false; return; }
-
-        const sectionRect = section.getBoundingClientRect();
-        const sectionTop = -sectionRect.top;
-        const totalScrollable = section.offsetHeight - window.innerHeight;
-        // Where the last panel snap ends (before exit zone)
-        const lastPanelEnd = (panelCount - 1) * scrollPerPanel;
-
-        if (sectionTop < 0) {
-          // Section hasn't scrolled to top yet
-          isRecovering = false; // cancel any in-flight recovery
-          if (sectionRect.top > window.innerHeight * 0.5) {
-            // Section is far away — hide everything
-            if (snappedPanel !== -1 || hasExited) {
-              snappedPanel = -1;
-              hasExited = false;
-              resetAllPanels();
-              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-              track.style.transform = 'translateY(0)';
-              updateDots(0);
-            }
-            hideTimeline();
-          } else {
-            // Section is entering view — show first panel with timeline draw
-            if (snappedPanel !== 0) {
-              snappedPanel = 0;
-              hasExited = false;
-              playSnapSound();
-              track.style.transition = 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-              track.style.transform = 'translateY(0)';
-              updateDots(0);
-              showTimeline(0);
-              resetAllPanels();
-              revealPanel(0);
-            }
+    // Main horizontal scroll tween — pins section, scrubs container left
+    const scrollTween = gsap.to(container, {
+      x: () => -(container.scrollWidth - window.innerWidth),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        end: () => '+=' + container.scrollWidth,
+        // Gentle snap to nearest card after scrolling stops
+        snap: {
+          snapTo: snapIncrement,
+          duration: { min: 0.3, max: 0.6 },
+          delay: 0.15,
+          ease: 'power1.inOut',
+        },
+        // Disable scroll-snap while pinned to prevent snap interference
+        onEnter: () => document.documentElement.classList.remove('snap-scroll'),
+        onLeave: () => document.documentElement.classList.add('snap-scroll'),
+        onEnterBack: () => document.documentElement.classList.remove('snap-scroll'),
+        onLeaveBack: () => document.documentElement.classList.add('snap-scroll'),
+        onUpdate: (self) => {
+          // Update progress bar fill
+          if (progressFill) {
+            progressFill.style.transform = `scaleX(${self.progress})`;
           }
-        } else if (sectionTop > lastPanelEnd) {
-          // We're past the last panel — enter exit zone
-          // Cancel any in-flight recovery animation
-          isRecovering = false;
-
-          // First snap to last panel if not already there
-          if (snappedPanel !== panelCount - 1) {
-            snapTo(panelCount - 1);
-          }
-
-          if (!hasExited) {
-            // Calculate exit progress (0 = just passed last panel, 1 = end of section)
-            const exitProgress = Math.min((sectionTop - lastPanelEnd) / exitScrollPx, 1);
-
-            if (exitProgress > 0.15) {
-              hasExited = true;
-              // Animate last card upward out of sight
-              const lastItem = items[panelCount - 1];
-              if (lastItem) {
-                lastItem.style.transition = 'transform 0.5s ease-in, opacity 0.5s ease-in';
-                lastItem.style.transform = 'translateY(-120%) translateX(0)';
-                lastItem.classList.remove('slide-in');
-              }
-              // After card exits, animate timeline down and out
-              activeTimers.push(setTimeout(() => {
-                if (!hasExited) return; // cancelled if we scrolled back
-                exitTimeline();
-              }, 300));
-            }
-          }
-        } else {
-          // Normal panel scrolling zone
-
-          // While recovery animation is playing, ignore normal scroll logic
-          if (isRecovering) {
-            ticking = false;
-            return;
-          }
-
-          if (hasExited) {
-            // Returning from exit — lock scroll, reset to panel 0
-            hasExited = false;
-            isRecovering = false;
-            resetLock = true;
-
-            // Cancel ALL pending timers
-            activeTimers.forEach((t) => clearTimeout(t));
-            activeTimers = [];
-            stopEyesHover();
-
-            // Instantly reset timeline
-            if (timelineEyes) {
-              timelineEyes.style.transition = 'none';
-              timelineEyes.style.top = '0px';
-              timelineEyes.style.opacity = '0';
-              timelineEyes.style.fontSize = '';
-              eyesBaseTop = 0;
-            }
-            if (timelineLine) {
-              timelineLine.style.transition = 'none';
-              timelineLine.style.height = '0px';
-            }
-
-            // Reset track to panel 0
-            snappedPanel = 0;
-            resetAllPanels();
-            track.style.transition = 'none';
-            track.style.transform = 'translateY(0)';
-            updateDots(0);
-            void container.offsetHeight;
-
-            // Replay entrance after snap settles
-            activeTimers.push(setTimeout(() => {
-              revealPanel(0);
-              showTimeline(0);
-              resetLock = false;
-            }, 600));
-
-            ticking = false;
-            return;
-          }
-          const progress = sectionTop / lastPanelEnd;
-          const targetPanel = Math.round(progress * (panelCount - 1));
-          snapTo(targetPanel);
-        }
-
-        ticking = false;
-      });
-    }
-
-    // Dot click handlers
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const panelIndex = parseInt(dot.dataset.panel || '0', 10);
-        const lastPanelEnd = (panelCount - 1) * scrollPerPanel;
-        const targetScroll = section.offsetTop + (panelIndex / (panelCount - 1)) * lastPanelEnd;
-        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-      });
+          // Update marker dot active states
+          markerDots.forEach((dot, i) => {
+            const threshold = panelCount > 1 ? i / (panelCount - 1) : 0;
+            dot.classList.toggle('active', self.progress >= threshold - 0.02);
+          });
+        },
+      },
     });
 
-    // Resize: full reinit
+    tweens.push(scrollTween);
+    if (scrollTween.scrollTrigger) triggers.push(scrollTween.scrollTrigger);
+
+    // Allow horizontal wheel/trackpad input to drive the scroll
+    function onWheel(e: WheelEvent) {
+      const st = scrollTween.scrollTrigger;
+      if (!st || !st.isActive) return;
+
+      // If horizontal scroll intent is stronger than vertical, convert it
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 5) {
+        e.preventDefault();
+        window.scrollBy(0, e.deltaX);
+      }
+    }
+
+    section.addEventListener('wheel', onWheel, { passive: false });
+
+    // Cards are visible immediately — no reveal animation
+    cards.forEach((c) => {
+      c.style.opacity = '1';
+    });
+
+    // Resize handler — refresh ScrollTrigger calculations
     let resizeTimer: ReturnType<typeof setTimeout>;
     function onResize() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        expCleanup?.();
-        expCleanup = initExpVscroll();
+        ScrollTrigger.refresh();
       }, 200);
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize, { passive: true });
-    onScroll();
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
       clearTimeout(resizeTimer);
-      stopEyesHover();
+      window.removeEventListener('resize', onResize);
+      section.removeEventListener('wheel', onWheel);
+      triggers.forEach((t) => t.kill());
+      tweens.forEach((t) => t.kill());
+      // Reset container transform
+      gsap.set(container, { clearProps: 'x' });
+      // Re-enable snap in case cleanup happens mid-pin
+      if (!document.documentElement.classList.contains('snap-scroll')) {
+        document.documentElement.classList.add('snap-scroll');
+      }
     };
   }
 
@@ -981,7 +575,6 @@ import Icon from '../ui/Icon.astro';
     if (document.documentElement.getAttribute('data-sounds') === 'disabled') return;
     const snd = getEduTapSound();
     if (!snd) return;
-    // Clone the audio so overlapping plays work
     const clone = snd.cloneNode() as HTMLAudioElement;
     clone.volume = snd.volume;
     clone.play().catch(() => {});
@@ -1005,7 +598,6 @@ import Icon from '../ui/Icon.astro';
     function playEduCardSounds() {
       if (eduSoundsPlayed) return;
       eduSoundsPlayed = true;
-      // Play a tap for each card, offset to match their CSS transition-delays
       const delays = [250, 350, 450, 550];
       delays.forEach((delay) => {
         eduSoundTimers.push(setTimeout(() => {
@@ -1021,15 +613,12 @@ import Icon from '../ui/Icon.astro';
       const titleTrigger = viewportHeight * 0.7;
       const cardsTrigger = viewportHeight * 0.5;
       const exitUpPoint = viewportHeight * 0.8;
-      // Fire exit while section is still mostly visible
       const exitDownPoint = viewportHeight * 0.65;
 
       const sectionRect = eduSection.getBoundingClientRect();
       const gridRect = eduGrid.getBoundingClientRect();
 
-      // Scrolled up past section — section top is below threshold
       const exitUp = sectionRect.top > exitUpPoint;
-      // Scrolled down past section — section top is above threshold (still visible)
       const exitDown = sectionRect.top < -sectionRect.height * 0.35;
 
       if (exitUp || exitDown) {
@@ -1043,7 +632,6 @@ import Icon from '../ui/Icon.astro';
           eduSoundTimers = [];
         }
       } else {
-        // Remove cards-out when re-entering
         if (!cardsVisible && eduGrid.classList.contains('cards-out')) {
           eduGrid.classList.remove('cards-out');
         }
@@ -1149,7 +737,7 @@ import Icon from '../ui/Icon.astro';
   // ============================================
   function initAll() {
     expCleanup?.();
-    expCleanup = initExpVscroll();
+    expCleanup = initExpHscroll();
     initSectionParallax('experience');
     waveCleanup?.();
     waveCleanup = initScrollWave({
@@ -1163,11 +751,20 @@ import Icon from '../ui/Icon.astro';
   }
 
   initAll();
-  document.addEventListener('astro:after-swap', initAll);
+  document.addEventListener('astro:after-swap', () => {
+    // Kill all experience-related ScrollTrigger instances before re-init
+    ScrollTrigger.getAll().forEach((t) => {
+      const trigger = t.vars?.trigger || t.trigger;
+      if (trigger && (trigger as HTMLElement).classList?.contains('exp-hscroll-section')) {
+        t.kill();
+      }
+    });
+    initAll();
+  });
 
   window.addEventListener('animations-change', () => {
     expCleanup?.();
-    expCleanup = initExpVscroll();
+    expCleanup = initExpHscroll();
     waveCleanup?.();
     waveCleanup = initScrollWave({
       selector: '.education-title',

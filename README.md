@@ -13,6 +13,7 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 
 ### Styling & Animation
 - **[Tailwind CSS 4](https://tailwindcss.com)** - Utility-first CSS with custom theme configuration
+- **[GSAP](https://gsap.com)** - ScrollTrigger-driven horizontal scroll for the Experience section
 - **Custom CSS Animations** - Floating geometric shapes, drift effects, wobble animations
 - **Arcade Carpet Theme** - 80s-inspired neon color palette with teal accent (#22CBCC) for headings, buttons, and highlights
 
@@ -81,21 +82,20 @@ A modern, performant single-page portfolio built with Astro, featuring an 80s ar
 - **Lightbox Modal**: Clicking a logo opens an in-card modal overlay with larger view
 - **High Contrast Support**: Shimmer disabled, logos display in grayscale, modal has solid background
 
-#### Experience Cards
-- **Slide Animations**: Cards slide in from alternating sides (left/right) as you scroll down
-- **Slide Out**: Cards slide back out when scrolling up past the exit threshold
-- **Dynamic Timeline**: Timeline line grows/shrinks based on visible cards
+#### Experience Cards (GSAP Horizontal Scroll)
+The Work Experience section uses GSAP ScrollTrigger to convert vertical scrolling into horizontal card navigation:
+- **Pin & Scrub**: Section pins in the viewport while vertical scroll drives horizontal movement
+- **Gentle Snap**: Cards snap to the nearest panel after scrolling stops, with configurable duration and easing
+- **Horizontal Input**: Trackpad/wheel horizontal gestures also drive the scroll
+- **Timeline Progress Bar**: Neon gradient progress bar at the bottom fills as you scroll through cards
+- **Marker Dots**: Timeline markers activate as each card comes into view
+- **Scroll-Snap Toggle**: Page-level scroll-snap is temporarily disabled during the pinned section to prevent conflicts
+- **Panel Height Matching**: Experience panels are equalized to match the Offer section's rendered panel height
+- **All Screen Sizes**: GSAP ScrollTrigger runs on both desktop and mobile
 
 #### Education Cards
 - **Diagonal Grow**: Cards grow diagonally from the center of all 4 cards
 - **Hidden Title**: "Education & Certifications" title hidden until scroll
-
-#### Timeline Eyes
-The Experience section features an animated eye emoji that travels down the timeline:
-- **Constrained Movement**: Eye travels only within the current timeline extent
-- **Responsive Timeline**: Hidden below 768px; right-aligned 768-1024px; centered 1024px+
-- **Direction Flip**: At 1024px+, eyes flip direction at the top of each experience container; at 768-1024px, eyes always look left toward content
-- **Slow & Blink**: Eyes slow to 50% speed starting 3% before each dot, blink just before reaching the dot, continue slowly for 3 seconds, then blink again and resume full speed
 
 #### Education Year Counters
 - **Count-Up Animation**: Years count up from 2000 to their target year (e.g., 2007, 2021, 2022, 2023)
@@ -240,7 +240,6 @@ src/
 │   ├── parallax.ts      # Section-based parallax for decorations
 │   ├── scroll-wave.ts   # Scroll-driven wave animation for titles
 │   ├── theme.ts         # Theme & animations state management
-│   ├── timeline-eyes.ts # Timeline eye direction & blink logic
 │   └── typewriter.ts    # Natural typing delay utilities
 ├── pages/
 │   ├── api/             # Server endpoints (contact form)
@@ -397,7 +396,6 @@ Features:
 - **No Flash**: Inline script in `<head>` applies theme before first paint
 - **Smooth Transitions**: 1-second loading overlay with spinner during theme changes for smoother UX
 - **Disabled Animations**: All decorative animations stopped for reduced distraction
-- **Timeline Eyes Exception**: Eyes continue animating in grayscale for visual interest
 - **Mobile Optimizations**: High contrast light mode adjusts hero section with gradient background
 - **Keyboard Accessible**: Dropdown supports keyboard navigation and Escape to close
 - **Menu Auto-Close**: Info menu and hamburger menu collapse when theme is changed
@@ -416,7 +414,6 @@ A toggle switch inside the contrast dropdown allows users to disable all animati
 - **Static Text**: Hero typewriter shows "Full Stack Software Developer" without typing animation
 - **Static Titles**: Hero name and section title wave animations are disabled
 - **Re-triggerable**: Turning animations back on restarts the typewriter effect
-- **Timeline Eyes Hidden**: Animated eye emojis are removed from the timeline
 - **Cursor Visibility**: Typewriter cursors are hidden when animations are disabled
 - **Persistence**: Setting saved to localStorage (`portfolio-animations`), applies immediately on page load
 

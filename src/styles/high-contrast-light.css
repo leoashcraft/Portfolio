@@ -38,7 +38,7 @@
 }
 
 /* Hide decorative bg-neon elements but not interactive ones */
-[data-theme="high-contrast-light"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot):not(.toggle-switch),
+[data-theme="high-contrast-light"] div[class*="bg-neon-"]:not(#back-to-top):not(.toggle-switch),
 [data-theme="high-contrast-light"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor):not(.subtitle-cursor) {
   display: none !important;
   visibility: hidden !important;
@@ -53,14 +53,6 @@
   box-shadow: none !important;
 }
 
-/* Timeline dots - make visible and black */
-[data-theme="high-contrast-light"] .timeline-dot {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: #000000 !important;
-  border-color: #ffffff !important;
-}
 
 /* Ensure back-to-top button is not hidden by decorative rules */
 [data-theme="high-contrast-light"] #back-to-top:not(.invisible) {
@@ -260,7 +252,6 @@
 [data-theme="high-contrast-light"] .text-glow-orange,
 [data-theme="high-contrast-light"] .glow-cyan,
 [data-theme="high-contrast-light"] .glow-purple,
-[data-theme="high-contrast-light"] .timeline-dot,
 [data-theme="high-contrast-light"] .heatmap-inactive {
   box-shadow: none !important;
   text-shadow: none !important;
@@ -394,10 +385,10 @@
   box-shadow: none !important;
 }
 
-/* Override inline style glow effects (except timeline traveler) */
-[data-theme="high-contrast-light"] [style*="box-shadow"]:not(.timeline-traveler),
-[data-theme="high-contrast-light"] [style*="filter"]:not(.timeline-traveler),
-[data-theme="high-contrast-light"] [style*="drop-shadow"]:not(.timeline-traveler) {
+/* Override inline style glow effects */
+[data-theme="high-contrast-light"] [style*="box-shadow"],
+[data-theme="high-contrast-light"] [style*="filter"],
+[data-theme="high-contrast-light"] [style*="drop-shadow"] {
   box-shadow: none !important;
   filter: none !important;
 }
@@ -405,12 +396,6 @@
 /* Skill bar glow */
 [data-theme="high-contrast-light"] .skill-progress {
   box-shadow: none !important;
-}
-
-/* Timeline traveler (eyes) - greyscale only */
-[data-theme="high-contrast-light"] .timeline-traveler,
-[data-theme="high-contrast-light"] .timeline-traveler .eyes-blink {
-  filter: grayscale(100%) !important;
 }
 
 /* Footer social link glow */
@@ -437,18 +422,7 @@
   color: #666666 !important;
 }
 
-/* Timeline line — black-to-white gradient */
-[data-theme="high-contrast-light"] .timeline-gradient {
-  background: transparent !important;
-  animation: none !important;
-}
 
-[data-theme="high-contrast-light"] .timeline-gradient::before {
-  background: linear-gradient(180deg, #000000 0%, #888888 50%, #ffffff 100%) !important;
-  background-size: 100% 100% !important;
-  animation: none !important;
-  box-shadow: none !important;
-}
 
 /* GitHub heatmap - greyscale tiles */
 [data-theme="high-contrast-light"] [class*="bg-neon-green"] {
@@ -557,24 +531,6 @@
   animation-timing-function: ease !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: forwards !important;
-}
-
-/* Re-enable timeline eyes — JS-driven positioning, not CSS animation.
-   The global * rule kills transitions (0.01ms). We must re-enable with !important
-   using a broad transition that covers all JS-manipulated properties. */
-[data-theme="high-contrast-light"] #timeline-eyes {
-  animation: none !important;
-  transition: top 0.5s ease-out, opacity 0.3s ease-out, font-size 0.6s ease-in-out !important;
-  z-index: 20 !important;
-}
-
-[data-theme="high-contrast-light"] .timeline-traveler .eyes-blink {
-  transition: clip-path 0.1s ease-in-out !important;
-}
-
-/* Timeline dots no longer exist in scroll panel layout, but keep for safety */
-[data-theme="high-contrast-light"] .timeline-dot {
-  animation: none !important;
 }
 
 /* Typewriter cursor blink animation - must be after animation disable rule */
@@ -986,46 +942,38 @@ html[data-theme="high-contrast-light"] {
   color: #ffffff !important;
 }
 
-/* Timeline line - remove all glow */
-[data-theme="high-contrast-light"] .timeline-line,
-[data-theme="high-contrast-light"] .timeline-gradient,
-[data-theme="high-contrast-light"] [class*="timeline"] {
-  box-shadow: none !important;
-  filter: none !important;
-  text-shadow: none !important;
-}
-
-/* Timeline line needs transitions for JS-driven height changes */
-[data-theme="high-contrast-light"] #timeline-line {
-  transition: height 0.5s ease-out !important;
-}
-
 /* ============================================
    Scroll Panel System — re-enable transitions
    ============================================ */
 
-/* Track slide transitions (horizontal & vertical) */
+/* Track slide transitions (horizontal) */
 [data-theme="high-contrast-light"] .services-hscroll-track,
-[data-theme="high-contrast-light"] .projects-hscroll-track,
-[data-theme="high-contrast-light"] .exp-vscroll-track {
+[data-theme="high-contrast-light"] .projects-hscroll-track {
   transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
-/* Experience card slide-in animations */
-[data-theme="high-contrast-light"] .experience-item {
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out !important;
+/* Experience horizontal scroll — black markers, no glow */
+[data-theme="high-contrast-light"] .exp-hscroll-marker-dot {
+  border-color: #000000 !important;
+  box-shadow: none !important;
 }
 
-/* Experience card content cascade */
-[data-theme="high-contrast-light"] .experience-card .exp-title,
-[data-theme="high-contrast-light"] .experience-card .exp-company,
-[data-theme="high-contrast-light"] .experience-card .exp-period,
-[data-theme="high-contrast-light"] .experience-card .exp-location {
-  transition: opacity 0.4s ease-out, transform 0.5s ease-out !important;
+[data-theme="high-contrast-light"] .exp-hscroll-marker-dot.active {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
 }
 
-[data-theme="high-contrast-light"] .experience-card .exp-highlight {
-  transition: opacity 0.3s ease-out, transform 0.4s ease-out !important;
+[data-theme="high-contrast-light"] .exp-hscroll-progress-fill {
+  background: linear-gradient(90deg, #000000, #666666) !important;
+}
+
+[data-theme="high-contrast-light"] .exp-hscroll-progress-track {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="high-contrast-light"] .exp-hscroll-marker-label {
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Service card entrance animation */
@@ -1082,16 +1030,14 @@ html[data-theme="high-contrast-light"] {
 
 /* Panel indicator dots — black */
 [data-theme="high-contrast-light"] .hscroll-dot,
-[data-theme="high-contrast-light"] .projects-hscroll-dot,
-[data-theme="high-contrast-light"] .exp-vscroll-dot {
+[data-theme="high-contrast-light"] .projects-hscroll-dot {
   border-color: #000000 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
 [data-theme="high-contrast-light"] .hscroll-dot.active,
-[data-theme="high-contrast-light"] .projects-hscroll-dot.active,
-[data-theme="high-contrast-light"] .exp-vscroll-dot.active {
+[data-theme="high-contrast-light"] .projects-hscroll-dot.active {
   background: #000000 !important;
   border-color: #000000 !important;
   box-shadow: none !important;

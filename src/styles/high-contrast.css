@@ -38,7 +38,7 @@
 }
 
 /* Hide decorative bg-neon elements but not interactive ones */
-[data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.timeline-dot):not(.toggle-switch),
+[data-theme="high-contrast"] div[class*="bg-neon-"]:not(#back-to-top):not(.toggle-switch),
 [data-theme="high-contrast"] span[class*="bg-neon-"]:not(.rounded-full):not(#typewriter-cursor):not(.subtitle-cursor) {
   display: none !important;
   visibility: hidden !important;
@@ -53,14 +53,6 @@
   box-shadow: none !important;
 }
 
-/* Timeline dots - make visible and white */
-[data-theme="high-contrast"] .timeline-dot {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: #ffffff !important;
-  border-color: #000000 !important;
-}
 
 /* Ensure back-to-top button is not hidden by decorative rules */
 [data-theme="high-contrast"] #back-to-top:not(.invisible) {
@@ -256,7 +248,6 @@
 [data-theme="high-contrast"] .text-glow-orange,
 [data-theme="high-contrast"] .glow-cyan,
 [data-theme="high-contrast"] .glow-purple,
-[data-theme="high-contrast"] .timeline-dot,
 [data-theme="high-contrast"] .heatmap-inactive {
   box-shadow: none !important;
   text-shadow: none !important;
@@ -390,10 +381,10 @@
   box-shadow: none !important;
 }
 
-/* Override inline style glow effects (except timeline traveler) */
-[data-theme="high-contrast"] [style*="box-shadow"]:not(.timeline-traveler),
-[data-theme="high-contrast"] [style*="filter"]:not(.timeline-traveler),
-[data-theme="high-contrast"] [style*="drop-shadow"]:not(.timeline-traveler) {
+/* Override inline style glow effects */
+[data-theme="high-contrast"] [style*="box-shadow"],
+[data-theme="high-contrast"] [style*="filter"],
+[data-theme="high-contrast"] [style*="drop-shadow"] {
   box-shadow: none !important;
   filter: none !important;
 }
@@ -401,12 +392,6 @@
 /* Skill bar glow */
 [data-theme="high-contrast"] .skill-progress {
   box-shadow: none !important;
-}
-
-/* Timeline traveler (eyes) - greyscale only */
-[data-theme="high-contrast"] .timeline-traveler,
-[data-theme="high-contrast"] .timeline-traveler .eyes-blink {
-  filter: grayscale(100%) !important;
 }
 
 /* Footer social link glow */
@@ -431,19 +416,6 @@
 [data-theme="high-contrast"] input::placeholder,
 [data-theme="high-contrast"] textarea::placeholder {
   color: #888888 !important;
-}
-
-/* Timeline line — white-to-black gradient */
-[data-theme="high-contrast"] .timeline-gradient {
-  background: transparent !important;
-  animation: none !important;
-}
-
-[data-theme="high-contrast"] .timeline-gradient::before {
-  background: linear-gradient(180deg, #ffffff 0%, #888888 50%, #000000 100%) !important;
-  background-size: 100% 100% !important;
-  animation: none !important;
-  box-shadow: none !important;
 }
 
 /* GitHub heatmap - greyscale tiles */
@@ -553,24 +525,6 @@
   animation-timing-function: ease !important;
   animation-iteration-count: 1 !important;
   animation-fill-mode: forwards !important;
-}
-
-/* Re-enable timeline eyes — JS-driven positioning, not CSS animation.
-   The global * rule kills transitions (0.01ms). We must re-enable with !important
-   using a broad transition that covers all JS-manipulated properties. */
-[data-theme="high-contrast"] #timeline-eyes {
-  animation: none !important;
-  transition: top 0.5s ease-out, opacity 0.3s ease-out, font-size 0.6s ease-in-out !important;
-  z-index: 20 !important;
-}
-
-[data-theme="high-contrast"] .timeline-traveler .eyes-blink {
-  transition: clip-path 0.1s ease-in-out !important;
-}
-
-/* Timeline dots no longer exist in scroll panel layout, but keep for safety */
-[data-theme="high-contrast"] .timeline-dot {
-  animation: none !important;
 }
 
 /* Typewriter cursor blink animation - must be after animation disable rule */
@@ -940,46 +894,38 @@ html[data-theme="high-contrast"] {
   color: #000000 !important;
 }
 
-/* Timeline line - remove all glow */
-[data-theme="high-contrast"] .timeline-line,
-[data-theme="high-contrast"] .timeline-gradient,
-[data-theme="high-contrast"] [class*="timeline"] {
-  box-shadow: none !important;
-  filter: none !important;
-  text-shadow: none !important;
-}
-
-/* Timeline line needs transitions for JS-driven height changes */
-[data-theme="high-contrast"] #timeline-line {
-  transition: height 0.5s ease-out !important;
-}
-
 /* ============================================
    Scroll Panel System — re-enable transitions
    ============================================ */
 
-/* Track slide transitions (horizontal & vertical) */
+/* Track slide transitions (horizontal) */
 [data-theme="high-contrast"] .services-hscroll-track,
-[data-theme="high-contrast"] .projects-hscroll-track,
-[data-theme="high-contrast"] .exp-vscroll-track {
+[data-theme="high-contrast"] .projects-hscroll-track {
   transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
-/* Experience card slide-in animations */
-[data-theme="high-contrast"] .experience-item {
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out !important;
+/* Experience horizontal scroll — white markers, no glow */
+[data-theme="high-contrast"] .exp-hscroll-marker-dot {
+  border-color: #ffffff !important;
+  box-shadow: none !important;
 }
 
-/* Experience card content cascade */
-[data-theme="high-contrast"] .experience-card .exp-title,
-[data-theme="high-contrast"] .experience-card .exp-company,
-[data-theme="high-contrast"] .experience-card .exp-period,
-[data-theme="high-contrast"] .experience-card .exp-location {
-  transition: opacity 0.4s ease-out, transform 0.5s ease-out !important;
+[data-theme="high-contrast"] .exp-hscroll-marker-dot.active {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: none !important;
 }
 
-[data-theme="high-contrast"] .experience-card .exp-highlight {
-  transition: opacity 0.3s ease-out, transform 0.4s ease-out !important;
+[data-theme="high-contrast"] .exp-hscroll-progress-fill {
+  background: linear-gradient(90deg, #ffffff, #888888) !important;
+}
+
+[data-theme="high-contrast"] .exp-hscroll-progress-track {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="high-contrast"] .exp-hscroll-marker-label {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* Service card entrance animation */
@@ -1036,16 +982,14 @@ html[data-theme="high-contrast"] {
 
 /* Panel indicator dots — white */
 [data-theme="high-contrast"] .hscroll-dot,
-[data-theme="high-contrast"] .projects-hscroll-dot,
-[data-theme="high-contrast"] .exp-vscroll-dot {
+[data-theme="high-contrast"] .projects-hscroll-dot {
   border-color: #ffffff !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
 [data-theme="high-contrast"] .hscroll-dot.active,
-[data-theme="high-contrast"] .projects-hscroll-dot.active,
-[data-theme="high-contrast"] .exp-vscroll-dot.active {
+[data-theme="high-contrast"] .projects-hscroll-dot.active {
   background: #ffffff !important;
   border-color: #ffffff !important;
   box-shadow: none !important;

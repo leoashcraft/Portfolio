@@ -1594,74 +1594,6 @@ code, pre, kbd {
   animation: sway 4s ease-in-out infinite;
 }
 
-/* Timeline traveler animation - just travels down, JS handles flipping */
-@keyframes travel-down {
-  0% {
-    top: 0;
-    opacity: 0;
-  }
-  3% {
-    opacity: 1;
-  }
-  97% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
-}
-
-.timeline-traveler {
-  animation: none;
-  transform: translateX(-50%);
-  transition: transform 0.15s ease-out;
-  z-index: 20;
-}
-
-.timeline-traveler.look-right {
-  transform: translateX(-50%) scaleX(1);
-}
-
-.timeline-traveler.look-left {
-  transform: translateX(-50%) scaleX(-1);
-}
-
-/* Force eyes to always look left between 768px and 1024px (timeline on right) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .timeline-traveler.look-right,
-  .timeline-traveler.look-left {
-    transform: translateX(-50%) scaleX(1) !important;
-  }
-}
-
-/* Timeline dot pulse animation */
-@keyframes timeline-dot-pulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
-    scale: 1;
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-    scale: 1.2;
-  }
-}
-
-.timeline-dot {
-  animation: timeline-dot-pulse 3s ease-in-out infinite;
-}
-
-/* Eyes blink - triggered via JS when crossing midpoint between dots */
-.eyes-blink {
-  display: inline-block;
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 0.1s ease-in-out;
-}
-
-.eyes-blink.blinking {
-  clip-path: inset(45% 0 45% 0);
-}
-
 /* Back to top arrow wiggle animation */
 @keyframes arrow-wiggle {
   0% { transform: rotate(0deg); }
@@ -1672,43 +1604,6 @@ code, pre, kbd {
 
 .arrow-wiggle svg {
   animation: arrow-wiggle 1.2s ease-in-out;
-}
-
-/* Timeline gradient animation */
-@keyframes timeline-gradient-shift {
-  0% {
-    background-position: 0% 0%;
-  }
-  50% {
-    background-position: 0% 100%;
-  }
-  100% {
-    background-position: 0% 0%;
-  }
-}
-
-.timeline-gradient {
-  /* No position: relative here — the element is already position: absolute
-     (set via Tailwind), which also serves as containing block for ::before. */
-}
-
-.timeline-gradient::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    #ff00ff 0%,
-    #6600ff 25%,
-    #00fff7 50%,
-    #ffff00 75%,
-    #00ff00 100%
-  );
-  background-size: 100% 200%;
-  animation: timeline-gradient-shift 8s ease-in-out infinite;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, white 30px, white calc(100% - 30px), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, white 30px, white calc(100% - 30px), transparent 100%);
 }
 
 /* ============================================
@@ -1982,8 +1877,7 @@ code, pre, kbd {
   .wobble,
   .float-rotate,
   .sway,
-  .arcade-float,
-  .timeline-traveler {
+  .arcade-float {
     animation: none !important;
   }
 
@@ -2072,11 +1966,6 @@ code, pre, kbd {
 [data-animations="disabled"] .spin-slow,
 [data-animations="disabled"] .wobble {
   animation: none !important;
-}
-
-/* Hide timeline traveler eyes when animations disabled */
-[data-animations="disabled"] .timeline-traveler {
-  display: none !important;
 }
 
 /* Disable gradient text animation */

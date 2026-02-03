@@ -10,7 +10,7 @@ export interface SwipeConfig {
 }
 
 export function initTouchSwipe(config: SwipeConfig): () => void {
-  const { element, onSwipeLeft, onSwipeRight, threshold = 50 } = config;
+  const { element, onSwipeLeft, onSwipeRight, threshold = 80 } = config;
 
   let startX = 0;
   let startY = 0;
@@ -30,8 +30,8 @@ export function initTouchSwipe(config: SwipeConfig): () => void {
     const diffX = startX - currentX;
     const diffY = startY - currentY;
 
-    // If horizontal movement is greater than vertical, prevent default scroll
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+    // If horizontal movement is significantly more than vertical, prevent default scroll
+    if (Math.abs(diffX) > Math.abs(diffY) * 1.5 && Math.abs(diffX) > 20) {
       e.preventDefault();
     }
   }
@@ -45,8 +45,10 @@ export function initTouchSwipe(config: SwipeConfig): () => void {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // Only trigger swipe if horizontal movement exceeds vertical
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+    // Only trigger swipe if horizontal movement is significantly more than vertical
+    // and exceeds the threshold
+    const isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY) * 1.5;
+    if (isHorizontalSwipe && Math.abs(diffX) > threshold) {
       if (diffX > 0) {
         onSwipeLeft(); // swipe left = go to next panel
       } else {

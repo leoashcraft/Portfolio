@@ -1307,14 +1307,15 @@ code, pre, kbd {
 }
 
 .section-title {
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 @media (min-width: 768px) {
   .section-title {
     font-size: 2.25rem;
+    margin-bottom: 1rem;
   }
 }
 
@@ -1326,7 +1327,7 @@ code, pre, kbd {
 
 .section-subtitle {
   color: #9ca3af;
-  font-size: 1.125rem;
+  font-size: 0.95rem;
   max-width: 42rem;
 }
 

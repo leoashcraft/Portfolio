@@ -21,6 +21,9 @@ interface PanelState {
 }
 
 function initExpHscroll() {
+  // Skip horizontal scroll on very small screens (374px and below)
+  if (window.innerWidth <= 374) return () => {};
+
   const expSection = document.querySelector('.exp-hscroll-section') as HTMLElement;
   const container = document.querySelector('.exp-hscroll-container') as HTMLElement;
   const track = document.querySelector('.exp-hscroll-track') as HTMLElement;

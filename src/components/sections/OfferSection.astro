@@ -370,11 +370,33 @@ import Icon from '../ui/Icon.astro';
   /* Mobile: tighter padding for scroll panels */
   @media (max-width: 767px) {
     .services-header {
-      padding: 1rem 1rem 0;
+      padding: 0.5rem 1rem 0;
     }
 
     .services-hscroll-track .service-panel {
-      padding: 0 1rem;
+      padding: 0 0.75rem;
+    }
+
+    .services-hscroll-track .service-panel > .card {
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .services-hscroll-track .service-card-title {
+      font-size: 1.125rem !important;
+    }
+
+    .services-hscroll-track .service-desc {
+      font-size: 0.9rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .services-hscroll-track .feature-item {
+      font-size: 0.9rem !important;
+    }
+
+    .hscroll-indicators {
+      padding: 0.75rem 0;
     }
   }
 
@@ -387,5 +409,49 @@ import Icon from '../ui/Icon.astro';
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  /* Very small screens (374px and below): disable horizontal scroll, show inline */
+  @media (max-width: 374px) {
+    .services-section {
+      height: auto !important;
+    }
+
+    .services-container.services-hscroll {
+      position: relative;
+      top: 0;
+      height: auto;
+      overflow: visible;
+    }
+
+    .services-hscroll-track {
+      flex-direction: column;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .services-hscroll-track .service-panel {
+      flex: none;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .service-card {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .service-icon-anim,
+    .service-desc,
+    .feature-item,
+    .logo-item {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .hscroll-indicators {
+      display: none;
+    }
   }
 </style>

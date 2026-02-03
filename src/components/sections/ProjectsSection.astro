@@ -654,11 +654,44 @@ import Icon from '../ui/Icon.astro';
   /* Mobile: tighter padding for scroll panels */
   @media (max-width: 767px) {
     .projects-hscroll-header {
-      padding: 1rem 1rem 0;
+      padding: 0.5rem 1rem 0;
     }
 
     .projects-hscroll-panel {
-      padding: 0 1rem;
+      padding: 0 0.75rem;
+    }
+
+    .projects-hscroll-panel .featured-project {
+      padding: 1rem;
+    }
+
+    /* Reduce project title and description sizes */
+    .projects-hscroll-panel .project-title-desc p.text-2xl {
+      font-size: 1.125rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .projects-hscroll-panel .project-title-desc .glass {
+      padding: 0.75rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .projects-hscroll-panel .project-title-desc .glass p {
+      font-size: 0.875rem !important;
+    }
+
+    .projects-hscroll-panel .project-metrics {
+      font-size: 0.8rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .projects-hscroll-panel .project-tags span {
+      font-size: 0.7rem !important;
+      padding: 0.25rem 0.5rem !important;
+    }
+
+    .projects-hscroll-indicators {
+      padding: 0.75rem 0;
     }
   }
 
@@ -725,6 +758,47 @@ import Icon from '../ui/Icon.astro';
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  /* Very small screens (374px and below): disable horizontal scroll, show inline */
+  @media (max-width: 374px) {
+    .projects-hscroll-section {
+      height: auto !important;
+    }
+
+    .projects-hscroll-container {
+      position: relative;
+      top: 0;
+      height: auto;
+      overflow: visible;
+    }
+
+    .projects-hscroll-track {
+      flex-direction: column;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .projects-hscroll-panel {
+      flex: none;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured-project,
+    .featured-project .project-image,
+    .featured-project .project-title-desc,
+    .featured-project .project-metrics,
+    .featured-project .project-tags,
+    .featured-project .project-links {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .projects-hscroll-indicators {
+      display: none;
+    }
   }
 
   /* ============================================

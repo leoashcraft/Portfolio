@@ -107,6 +107,9 @@ interface PanelState {
 }
 
 function initHorizontalScroll() {
+  // Skip horizontal scroll on very small screens (374px and below)
+  if (window.innerWidth <= 374) return () => {};
+
   const servicesSection = document.querySelector('.services-section') as HTMLElement;
   const container = document.querySelector('.services-container') as HTMLElement;
   const track = document.querySelector('.services-hscroll-track') as HTMLElement;

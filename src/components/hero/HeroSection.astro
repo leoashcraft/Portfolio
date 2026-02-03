@@ -213,7 +213,7 @@ import { schema } from '../../data/seo';
           <span class="gradient-text-animated">Lead the web with <span class="p-name">Leo</span></span><span class="p-job-title sr-only">Full-Stack Software Developer</span>
         </h1>
         <!-- About content -->
-        <p class="p-note text-gray-300 text-base sm:text-lg leading-relaxed mb-6 text-justify hyphens-auto" lang="en">{profile.bio}</p>
+        <p class="p-note text-gray-300 text-base sm:text-lg leading-relaxed mb-6 text-left" lang="en">{profile.bio}</p>
         <!-- CTA -->
         <div class="flex flex-wrap gap-3 justify-center">
           <a href={profile.resumeUrl} download class="btn btn-primary text-sm">
@@ -558,6 +558,22 @@ import { schema } from '../../data/seo';
     }
     50% {
       transform: translateY(2px);
+    }
+  }
+
+  /* Reduce hero text size on small screens */
+  @media (max-width: 424px) {
+    .hero-mobile .p-note {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+  }
+
+  /* Remove justify and hyphenation on tablet/smaller desktop */
+  @media (max-width: 1023px) {
+    .hero-desktop .p-note {
+      text-align: left;
+      hyphens: none;
     }
   }
 </style>

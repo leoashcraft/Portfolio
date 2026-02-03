@@ -162,6 +162,9 @@ function initExternalLinkModal() {
 let projectsHscrollCleanup: (() => void) | undefined;
 
 function initProjectsHscroll() {
+  // Skip horizontal scroll on very small screens (374px and below)
+  if (window.innerWidth <= 374) return () => {};
+
   const section = document.querySelector('.projects-hscroll-section') as HTMLElement;
   const container = document.querySelector('.projects-hscroll-container') as HTMLElement;
   const track = document.querySelector('.projects-hscroll-track') as HTMLElement;

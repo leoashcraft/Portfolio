@@ -363,11 +363,14 @@ function initHorizontalScroll() {
         if (targetPanel === snappedPanel && timeSinceSnap > 500) {
           const exactProgress = progress * (panelCount - 1);
           const subProgress = exactProgress - snappedPanel;
-          // subProgress: -0.5 to 0.5 range around current panel
-          const previewPx = subProgress * previewOffset * 2;
-          const basePx = snappedPanel * stepPx;
-          track.style.transition = 'none';
-          track.style.transform = `translateX(-${basePx + previewPx}px)`;
+          // Only apply preview when scrolling forward (positive subProgress)
+          // This prevents rightward shift when landing on a new panel
+          if (subProgress > 0.05) {
+            const previewPx = subProgress * previewOffset * 2;
+            const basePx = snappedPanel * stepPx;
+            track.style.transition = 'none';
+            track.style.transform = `translateX(-${basePx + previewPx}px)`;
+          }
         }
 
         snapTo(targetPanel);

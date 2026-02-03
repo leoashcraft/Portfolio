@@ -347,7 +347,8 @@ function initProjectsHscroll() {
   function goToPanel(panelIndex: number) {
     const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
     const totalScrollable = section.offsetHeight - window.innerHeight;
-    const targetScroll = section.offsetTop + (clamped / (panelCount - 1)) * totalScrollable;
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    const targetScroll = sectionTop + (clamped / (panelCount - 1)) * totalScrollable;
     window.scrollTo({ top: targetScroll, behavior: 'smooth' });
   }
 

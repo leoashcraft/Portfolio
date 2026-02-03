@@ -236,7 +236,8 @@ function initExpHscroll() {
   function goToPanel(panelIndex: number) {
     const clamped = Math.max(0, Math.min(panelIndex, panelCount - 1));
     const totalScrollable = expSection.offsetHeight - window.innerHeight;
-    const targetScroll = expSection.offsetTop + (clamped / (panelCount - 1)) * totalScrollable;
+    const sectionTop = expSection.getBoundingClientRect().top + window.scrollY;
+    const targetScroll = sectionTop + (clamped / (panelCount - 1)) * totalScrollable;
     window.scrollTo({ top: targetScroll, behavior: 'smooth' });
   }
 

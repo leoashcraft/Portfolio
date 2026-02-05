@@ -1,6 +1,6 @@
 /**
  * Experience section — CSS sticky horizontal scroll timeline (no GSAP)
- * Uses same scroll-hijack pattern as Offer section
+ * Uses same scroll-hijack pattern as About section
  */
 
 import { initSectionParallax } from './parallax';
@@ -66,10 +66,10 @@ function initExpHscroll() {
   // Measure nav height and set CSS variable so sticky offsets below it
   setNavHeightVar(container);
 
-  // Match panel height to the Offer section's rendered panel height
-  const offerPanel = document.querySelector('.services-hscroll-track .service-panel') as HTMLElement;
-  if (offerPanel) {
-    const targetH = offerPanel.offsetHeight;
+  // Match panel height to the About section's rendered panel height
+  const aboutPanel = document.querySelector('.services-hscroll-track .service-panel') as HTMLElement;
+  if (aboutPanel) {
+    const targetH = aboutPanel.offsetHeight;
     panels.forEach((p) => { p.style.minHeight = `${targetH}px`; });
   } else {
     // Fallback: equalize Experience panel heights among themselves

@@ -6,7 +6,7 @@
 let isInitialized = false;
 let isScrolling = false;
 
-function getCurrentOfferPanel(): number {
+function getCurrentAboutPanel(): number {
   const dots = document.querySelectorAll('.hscroll-dot');
   for (let i = 0; i < dots.length; i++) {
     if (dots[i].classList.contains('active')) return i;
@@ -40,7 +40,7 @@ function getCurrentExpPanel(): number {
   return Math.max(0, Math.min(currentPanel, panelCount - 1));
 }
 
-function scrollToOfferPanel(index: number) {
+function scrollToAboutPanel(index: number) {
   const section = document.querySelector('.services-section') as HTMLElement;
   if (!section) return;
   const panelCount = document.querySelectorAll('.service-panel').length;
@@ -89,16 +89,16 @@ function handleSpacebar(e: KeyboardEvent): boolean {
 
   const viewportHeight = window.innerHeight;
 
-  // Check if we're in the Offer section
-  const offerSection = document.querySelector('.services-section') as HTMLElement;
-  if (offerSection) {
-    const rect = offerSection.getBoundingClientRect();
+  // Check if we're in the About section
+  const aboutSection = document.querySelector('.services-section') as HTMLElement;
+  if (aboutSection) {
+    const rect = aboutSection.getBoundingClientRect();
     if (rect.top < viewportHeight * 0.5 && rect.bottom > viewportHeight * 0.5) {
-      const currentPanel = getCurrentOfferPanel();
+      const currentPanel = getCurrentAboutPanel();
       const panelCount = document.querySelectorAll('.service-panel').length;
       if (currentPanel < panelCount - 1) {
         isScrolling = true;
-        scrollToOfferPanel(currentPanel + 1);
+        scrollToAboutPanel(currentPanel + 1);
         setTimeout(() => { isScrolling = false; }, 600);
         return true;
       } else {
@@ -173,7 +173,7 @@ function handleSpacebar(e: KeyboardEvent): boolean {
   // For horizontal scroll sections, use the scroll container instead of the section ID
   const sectionTargets: { id: string; element: HTMLElement | null }[] = [
     { id: 'home', element: document.getElementById('home') },
-    { id: 'offer', element: document.querySelector('.services-section') as HTMLElement },
+    { id: 'about', element: document.querySelector('.services-section') as HTMLElement },
     { id: 'education', element: document.getElementById('education') },
     { id: 'projects', element: document.querySelector('.projects-hscroll-section') as HTMLElement },
     { id: 'more-work', element: document.getElementById('more-work') },

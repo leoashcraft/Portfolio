@@ -5,14 +5,14 @@
  */
 
 interface Props {
-  variant: 'offer' | 'projects' | 'experience' | 'contact';
+  variant: 'about' | 'projects' | 'experience' | 'contact';
 }
 
 const { variant } = Astro.props;
 ---
 
 <div class="absolute inset-0 pointer-events-none overflow-hidden arcade-decorations" aria-hidden="true" data-section={variant}>
-  {variant === 'offer' && (
+  {variant === 'about' && (
     <>
       {/* Glowing orbs with parallax */}
       <div class="absolute top-20 left-10 w-64 h-64 rounded-full bg-neon-pink/10 blur-3xl" data-parallax="0.3"></div>

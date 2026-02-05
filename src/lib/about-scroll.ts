@@ -1,5 +1,5 @@
 /**
- * Offer (services) section — horizontal scroll + logo modal + shimmer + icon flips
+ * About (services) section — horizontal scroll + logo modal + shimmer + icon flips
  */
 
 import { initIconFlips } from './icon-flip';
@@ -86,7 +86,7 @@ function initLogoShimmer() {
 // ── Static inits (icons, parallax, logo UI) ──────────────────────────
 function initAbout() {
   initServiceIconFlips();
-  initSectionParallax('offer');
+  initSectionParallax('about');
   initLogoModal();
   initLogoShimmer();
 }
@@ -441,7 +441,7 @@ function initHorizontalScroll() {
 
 // ── Public entry point ───────────────────────────────────────────────
 
-export function initOfferSection() {
+export function initAboutSection() {
   function initAll() {
     initAbout();
     hscrollCleanup?.();

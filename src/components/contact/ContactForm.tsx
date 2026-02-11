@@ -198,16 +198,6 @@ export default function ContactForm({ recaptchaSiteKey }: Props) {
         </div>
       )}
 
-      {/* reCAPTCHA attribution (required when badge is hidden) */}
-      {recaptchaSiteKey && (
-        <p className="text-xs text-gray-500 text-center">
-          Protected by reCAPTCHA.{' '}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">Privacy</a>
-          {' · '}
-          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">Terms</a>
-        </p>
-      )}
-
       {/* Submit Button */}
       <button
         type="submit"
@@ -256,6 +246,16 @@ export default function ContactForm({ recaptchaSiteKey }: Props) {
           </>
         )}
       </button>
+
+      {/* reCAPTCHA attribution (required when badge is hidden) */}
+      {recaptchaSiteKey && (
+        <p className="text-xs text-gray-500 text-center mt-4">
+          Protected by reCAPTCHA.{' '}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">Privacy</a>
+          {' · '}
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">Terms</a>
+        </p>
+      )}
     </form>
   );
 }

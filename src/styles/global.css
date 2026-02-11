@@ -99,6 +99,12 @@ body {
   min-height: 100vh;
 }
 
+/* reCAPTCHA badge - move to bottom left to avoid back-to-top button */
+.grecaptcha-badge {
+  left: 14px !important;
+  right: auto !important;
+}
+
 /* Clearfix utility for float layouts */
 .clearfix::after {
   content: "";

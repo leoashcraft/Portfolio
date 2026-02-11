@@ -99,10 +99,9 @@ body {
   min-height: 100vh;
 }
 
-/* reCAPTCHA badge - move to bottom left to avoid back-to-top button */
+/* reCAPTCHA badge - hide floating badge, attribution shown in form */
 .grecaptcha-badge {
-  left: 14px !important;
-  right: auto !important;
+  visibility: hidden !important;
 }
 
 /* Clearfix utility for float layouts */

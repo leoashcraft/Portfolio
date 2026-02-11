@@ -192,9 +192,15 @@ const phone = area.reverse() + ' ' + number.reverse();   // (999) 867-5309
 ```
 
 #### Contact Form Protection
-- Server-side reCAPTCHA v3 validation
-- Mailtrap integration for secure email delivery
-- Input sanitization and validation
+Multi-layered spam prevention:
+
+- **reCAPTCHA v3** - Invisible bot detection with score-based validation (≥0.5 threshold)
+- **IP Rate Limiting** - 5 submissions per hour per IP address (429 response with reset timer)
+- **Honeypot Field** - Hidden "website" field that bots fill but humans never see
+- **Timing Analysis** - Rejects submissions under 3 seconds (bots submit instantly)
+- **Silent Rejection** - Bot submissions return fake success to avoid tipping off attackers
+- **Input Validation** - Field length limits, email format validation, HTML escaping
+- **Mailtrap Integration** - Secure email delivery
 
 ### Responsive Navigation
 - Scroll-aware navbar with dynamic opacity
@@ -263,7 +269,7 @@ src/
 │   ├── experience-scroll.ts # Experience horizontal scroll controller
 │   ├── icon-flip.ts        # Shared icon flip animation logic
 │   ├── keyboard-nav.ts     # Spacebar keyboard navigation for sections
-│   ├── offer-scroll.ts     # Offer section horizontal scroll controller
+│   ├── about-scroll.ts     # Offer section horizontal scroll controller
 │   ├── parallax.ts         # Section-based parallax for decorations
 │   ├── projects-scroll.ts  # Projects horizontal scroll controller
 │   ├── scroll-reveal.ts    # Shared scroll-triggered reveal animations
@@ -567,7 +573,7 @@ This portfolio showcases:
 - Balanced visual polish with performance considerations
 
 ### Key Files to Review
-- `src/lib/offer-scroll.ts` - Core horizontal scroll implementation
+- `src/lib/about-scroll.ts` - Core horizontal scroll implementation
 - `src/lib/touch-swipe.ts` - Clean touch gesture detection
 - `src/lib/sounds.ts` - Audio utility with factory pattern
 - `src/components/sections/ProjectsSection.astro` - Complex component example

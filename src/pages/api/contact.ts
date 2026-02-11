@@ -2,12 +2,85 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+// ── Rate Limiting ─────────────────────────────────────────────────────
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const MAX_REQUESTS_PER_WINDOW = 5; // 5 submissions per hour per IP
+const MIN_SUBMISSION_TIME_MS = 3000; // Minimum 3 seconds to fill form
+
+interface RateLimitEntry {
+  count: number;
+  firstRequest: number;
+}
+
+const rateLimitMap = new Map<string, RateLimitEntry>();
+
+// Clean up old entries every 10 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitMap.entries()) {
+    if (now - entry.firstRequest > RATE_LIMIT_WINDOW_MS) {
+      rateLimitMap.delete(ip);
+    }
+  }
+}, 10 * 60 * 1000);
+
+function getClientIP(request: Request): string {
+  // Check common headers for real IP (behind proxies/load balancers)
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  const realIP = request.headers.get('x-real-ip');
+  if (realIP) {
+    return realIP;
+  }
+  // Fallback
+  return 'unknown';
+}
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number; resetIn: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry) {
+    rateLimitMap.set(ip, { count: 1, firstRequest: now });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1, resetIn: RATE_LIMIT_WINDOW_MS };
+  }
+
+  // Reset if window has passed
+  if (now - entry.firstRequest > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, firstRequest: now });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1, resetIn: RATE_LIMIT_WINDOW_MS };
+  }
+
+  // Check if under limit
+  if (entry.count < MAX_REQUESTS_PER_WINDOW) {
+    entry.count++;
+    return {
+      allowed: true,
+      remaining: MAX_REQUESTS_PER_WINDOW - entry.count,
+      resetIn: RATE_LIMIT_WINDOW_MS - (now - entry.firstRequest)
+    };
+  }
+
+  // Rate limited
+  return {
+    allowed: false,
+    remaining: 0,
+    resetIn: RATE_LIMIT_WINDOW_MS - (now - entry.firstRequest)
+  };
+}
+
+// ── Types ─────────────────────────────────────────────────────────────
 interface ContactFormData {
   name: string;
   email: string;
   subject: string;
   message: string;
   recaptchaToken?: string;
+  // Anti-spam fields
+  website?: string; // Honeypot field - should be empty
+  formLoadedAt?: number; // Timestamp when form was loaded
 }
 
 interface RecaptchaResponse {
@@ -121,8 +194,46 @@ function validateEmail(email: string): boolean {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // Check rate limit first
+    const clientIP = getClientIP(request);
+    const rateLimit = checkRateLimit(clientIP);
+
+    if (!rateLimit.allowed) {
+      const resetMinutes = Math.ceil(rateLimit.resetIn / 60000);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: `Too many submissions. Please try again in ${resetMinutes} minute${resetMinutes > 1 ? 's' : ''}.`
+        }),
+        { status: 429, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const body = await request.json();
-    const { name, email, subject, message, recaptchaToken } = body as ContactFormData;
+    const { name, email, subject, message, recaptchaToken, website, formLoadedAt } = body as ContactFormData;
+
+    // Honeypot check - if the hidden field has any value, it's a bot
+    if (website) {
+      // Silently reject but return success to not tip off the bot
+      console.log('Honeypot triggered from IP:', clientIP);
+      return new Response(
+        JSON.stringify({ success: true, message: 'Message sent successfully!' }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Minimum time check - reject if submitted too quickly (bots are instant)
+    if (formLoadedAt) {
+      const submissionTime = Date.now() - formLoadedAt;
+      if (submissionTime < MIN_SUBMISSION_TIME_MS) {
+        console.log('Submission too fast from IP:', clientIP, 'Time:', submissionTime, 'ms');
+        // Silently reject
+        return new Response(
+          JSON.stringify({ success: true, message: 'Message sent successfully!' }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+    }
 
     // Validate required fields
     if (!name || !email || !subject || !message) {

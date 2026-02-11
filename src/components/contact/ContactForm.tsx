@@ -20,6 +20,7 @@ export default function ContactForm({ recaptchaSiteKey }: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
   const scriptLoadedRef = useRef(false);
+  const formLoadedAtRef = useRef(Date.now());
 
   // Lazy-load reCAPTCHA v3 script when component mounts (already visible due to client:visible)
   useEffect(() => {
@@ -73,6 +74,9 @@ export default function ContactForm({ recaptchaSiteKey }: Props) {
       subject: formData.get('subject') as string,
       message: formData.get('message') as string,
       recaptchaToken,
+      // Anti-spam fields
+      website: formData.get('website') as string, // Honeypot - should be empty
+      formLoadedAt: formLoadedAtRef.current,
     };
 
     try {
@@ -102,6 +106,18 @@ export default function ContactForm({ recaptchaSiteKey }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot field - hidden from users, bots will fill it */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          type="text"
+          id="website"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       {/* Name Field */}
       <div>
         <label

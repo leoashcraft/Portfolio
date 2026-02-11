@@ -10,6 +10,9 @@ import { unscrambleEmail, unscramblePhone } from '../../lib/contact';
 // Unscramble email and phone for display
 const email = unscrambleEmail(profile);
 const phone = unscramblePhone(profile);
+
+// reCAPTCHA v3 site key (public, safe to expose in client)
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 ---
 
 <section
@@ -178,7 +181,7 @@ const phone = unscramblePhone(profile);
       <!-- Contact Form -->
       <div class="contact-form-container card">
         <h3 class="text-xl font-bold text-white mb-6">{site.sections.contact.formTitle}</h3>
-        <ContactForm client:visible />
+        <ContactForm client:visible recaptchaSiteKey={recaptchaSiteKey} />
       </div>
     </div>
 

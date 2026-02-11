@@ -1,10 +1,51 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function ContactForm() {
+interface Props {
+  recaptchaSiteKey?: string;
+}
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
+export default function ContactForm({ recaptchaSiteKey }: Props) {
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
+  const scriptLoadedRef = useRef(false);
+
+  // Lazy-load reCAPTCHA v3 script when component mounts (already visible due to client:visible)
+  useEffect(() => {
+    if (!recaptchaSiteKey || scriptLoadedRef.current) return;
+
+    // Check if script already exists
+    if (document.querySelector('script[src*="recaptcha"]')) {
+      scriptLoadedRef.current = true;
+      setRecaptchaLoaded(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      scriptLoadedRef.current = true;
+      setRecaptchaLoaded(true);
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      // Don't remove script on cleanup - it may be needed if user navigates back
+    };
+  }, [recaptchaSiteKey]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,11 +55,24 @@ export default function ContactForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Get reCAPTCHA token if available
+    let recaptchaToken: string | undefined;
+    if (recaptchaSiteKey && recaptchaLoaded && window.grecaptcha) {
+      try {
+        await new Promise<void>((resolve) => window.grecaptcha.ready(resolve));
+        recaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'contact' });
+      } catch (err) {
+        console.error('reCAPTCHA execution failed:', err);
+        // Continue without token - backend will handle gracefully
+      }
+    }
+
     const data = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       subject: formData.get('subject') as string,
       message: formData.get('message') as string,
+      recaptchaToken,
     };
 
     try {
